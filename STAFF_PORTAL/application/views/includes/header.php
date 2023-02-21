@@ -708,7 +708,7 @@
                         <span>Student Suggestion</span>
                     </a>
                 </li>
-                <!-- <li class="nav-item">
+                <li class="nav-item">
                     <a href="#sms_items" data-toggle="collapse" aria-expanded="false" class="nav-link  dropdown-toggle">
                         <i class="material-icons">chat</i>
                         <span>SMS</span>
@@ -727,7 +727,7 @@
                             </a>
                         </li>
                     </ul>
-                </li> -->
+                </li> 
                 <li class="nav-item">
                     <a href="#notification_items" data-toggle="collapse" aria-expanded="false" class="nav-link  dropdown-toggle">
                         <i class="material-icons">chat</i>
@@ -755,7 +755,37 @@
                     </ul>
                 </li>
                 <?php } ?>
-
+                <li class="nav-item">
+                    <a href="#leave" data-toggle="collapse" aria-expanded="false"
+                        class="nav-link  dropdown-toggle">
+                        <i class="material-icons">watch_later</i>
+                        <span>Leave</span>
+                    </a>
+                    <ul class="collapse list-unstyled ml-3" id="leave">
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?php echo base_url(); ?>viewApplyLeave">
+                                <i class="material-icons">watch_later</i>
+                                <span>Apply Leave</span>
+                            </a>
+                        </li>
+                        <?php if($role == ROLE_ADMIN || $role == ROLE_PRIMARY_ADMINISTRATOR || $role == ROLE_OFFICE ) { ?>
+                            <li class="nav-item">
+                                <a class="nav-link" href="<?php echo base_url(); ?>viewAdminApplyLeavePage">
+                                    <i class="material-icons">calendar_today</i>
+                                    <span>Apply Staff Leave</span>
+                                </a>
+                            </li>
+                        <?php } ?>
+                        <?php if($role == ROLE_ADMIN || $role == ROLE_PRINCIPAL || $role == ROLE_PRIMARY_ADMINISTRATOR || $role == ROLE_MANAGEMENT || $role == ROLE_SECURITY) { ?>
+                            <li class="nav-item">
+                                <a class="nav-link" href="<?php echo base_url(); ?>staffLeaveInfo">
+                                    <i class="material-icons">watch_later</i>
+                                    <span>Leave Info</span>
+                                </a>
+                            </li>
+                        <?php } ?>
+                    </ul>
+                </li>
 
                 <?php if ($role == ROLE_ADMIN || $role == ROLE_PRINCIPAL || $role == ROLE_PRIMARY_ADMINISTRATOR || $role == ROLE_ACCOUNT) { ?>
                 <li class="nav-item">

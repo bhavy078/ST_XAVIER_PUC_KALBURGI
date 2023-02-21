@@ -252,18 +252,18 @@ class Students extends BaseController
                 redirect('editStudent/'.$row_id);  
             } else {
                 $image_path="";
-                $config=['upload_path' => './upload/imageupload',
+                $config=['upload_path' => './upload/',
                 'allowed_types' => 'jpg|png|jpeg','max_size' => '2048','overwrite' => TRUE,'file_ext_tolower' => TRUE];
                 $this->load->library('upload', $config);
                 if($this->upload->do_upload())
                 {
                     $post=$this->input->post();
                     $data=$this->upload->data();
-                    $image_path=base_url("upload/imageupload".$data['raw_name'].$data['file_ext']);
+                    $image_path=base_url("upload/".$data['raw_name'].$data['file_ext']);
                     $post['image_path']=$image_path;
                     $imgdata = file_get_contents($image_path);
                 }
-              
+            
                 $student_name = ucwords(strtolower($this->security->xss_clean($this->input->post('student_name'))));
                 $gender = $this->security->xss_clean($this->input->post('gender'));
                 $nationality = $this->security->xss_clean($this->input->post('nationality'));
@@ -300,6 +300,10 @@ class Students extends BaseController
                 } else {
                     $dob = "";
                 }
+                if(!empty($image_path)){
+                    $studentInfo['photo_url'] = $image_path;
+
+                }
                
                 $studentInfo = array(
                     'student_name' => $student_name,
@@ -329,23 +333,23 @@ class Students extends BaseController
                     'mother_mobile' => $mother_mobile,
                     'mother_email' => $mother_email,
                     'updated_by'=>$this->staff_id, 
-                    'updated_date_time'=>date('Y-m-d H:i:s'));
+                    'updated_date_time'=>date('Y-m-d H:i:s'),
+                    'photo_url' => $image_path
+                );
 
-                    if(!empty($image_path)){
-                        $studentInfo['photo_url'] = $image_path;
-    
-                    }
+                    
+                     log_message('debug','as'.print_r($studentInfo,true));
                 $result = $this->student->updateStudentInfo($studentInfo,$row_id);
 
-                if(!empty($imgdata)){
-                    $studentImage = array(
-                        'document' => $imgdata,
-                        'name' => 'Photo',
-                        'is_photo' => 1,
-                        'modified_by'=>$this->staff_id, 'last_modified_date'=>date('Y-m-d H:i:s'));
-                    $result1 = $this->student->updateStudentImage($studentImage,$application_no);
+                // if(!empty($imgdata)){
+                //     $studentImage = array(
+                //         'document' => $imgdata,
+                //         'name' => 'Photo',
+                //         'is_photo' => 1,
+                //         'modified_by'=>$this->staff_id, 'last_modified_date'=>date('Y-m-d H:i:s'));
+                //     $result1 = $this->student->updateStudentImage($studentImage,$application_no);
 
-                }
+                // }
                 
 
                 if($result > 0) {

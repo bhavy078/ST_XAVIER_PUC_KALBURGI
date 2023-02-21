@@ -152,7 +152,11 @@ jQuery(document).ready(function() {
         if (title == '') {
             var displayStatus = false;
             var newClassupdate = 'disabled';
-        } else {
+        }else if (title == 'Action') {
+            var displayStatus = false;
+            var newClassupdate = 'disabled';
+        }
+         else {
             var displayStatus = true;
             var newClassupdate = '';
         }

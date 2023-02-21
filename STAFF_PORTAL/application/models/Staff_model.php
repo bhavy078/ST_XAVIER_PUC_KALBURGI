@@ -125,7 +125,7 @@ class Staff_model extends CI_Model
     public function getStaffInfoForProfile($staff_id)
     {
         $this->db->select('staff.doj, staff.gender, staff.dob, staff.type, staff.row_id,staff.blood_group, 
-        staff.staff_id, staff.email, staff.name,dept.name as department, staff.mobile_one, 
+        staff.staff_id, staff.email, staff.name,dept.name as department, staff.mobile_one,staff.mobile,
         Role.role, staff.role as role_id, staff.photo_url, staff.address, staff.department_id');
         $this->db->from('tbl_staff as staff');
         $this->db->join('tbl_roles as Role', 'Role.roleId = staff.role','left');

@@ -134,7 +134,8 @@ $route['get_single_staff_applied_leave_info'] = "leave/get_single_staff_applied_
 
 $route['viewAdminApplyLeavePage'] = "leave/viewAdminApplyLeavePage";
 $route['applyStaffLeaveByAdmin'] = "leave/applyStaffLeaveByAdmin";
-
+//download staff leave report
+$route['downloadStaffLeaveReport'] = "reports/downloadStaffLeaveReport";
 
 //holiday routes
 
@@ -938,3 +939,25 @@ $route['deleteBarcode'] = "libraryManagement/deleteBarcode";
 //library access code
 $route['getAccessCode'] = "libraryManagement/getAccessCode";
 $route['getAccessData'] = "libraryManagement/getAccessData";
+
+//leave routes
+$route['updateLeaveInfo'] = "staffs/updateLeaveInfo";
+$route['staffLeaveInfo'] = "leave/staffLeaveInfo";
+$route['viewApplyLeave'] = "leave/viewApplyLeave";
+
+$route['applyLeaveByStaff'] = "leave/applyLeaveByStaff";
+$route['get_applied_leave_info'] = "leave/get_applied_leave_info";
+
+$route['getStaffLeaveInfoById'] = "leave/getStaffLeaveInfoById";
+$route['updateStaffLeaveInfo'] = "leave/updateStaffLeaveInfo";
+$route['deleteAppliedLeave'] = "leave/deleteAppliedLeave";
+$route['editStaffLeaveInfo/(:any)'] = "leave/editStaffLeaveInfo/$1";
+$route['updateStaffLeaveInfoByAdmin'] = "leave/updateStaffLeaveInfoByAdmin";
+$route['get_single_staff_applied_leave_info'] = "leave/get_single_staff_applied_leave_info";
+$route['getLeaveInfoByStudentId'] = "leave/getLeaveInfoByStudentId";
+$route['getStudentLeaveNote'] = "leave/getStudentLeaveNote";
+
+$route['viewAdminApplyLeavePage'] = "leave/viewAdminApplyLeavePage";
+$route['applyStaffLeaveByAdmin'] = "leave/applyStaffLeaveByAdmin";
+//ajax call leave info 
+$route['getStaffLeaveInfoByStaffId'] = "leave/getStaffLeaveInfoByStaffId";

@@ -480,169 +480,76 @@ class Settings extends BaseController {
         $app_no = array();
         // $highestRow
 
-        for($i=4;$i<=$highestRow;$i++){
-            $student_id = $objWorksheet->getCellByColumnAndRow(2,$i)->getFormattedValue();
-            $application_number = $objWorksheet->getCellByColumnAndRow(3,$i)->getFormattedValue();
-            $name = $objWorksheet->getCellByColumnAndRow(4,$i)->getFormattedValue();
-            // $elective_sub = $objWorksheet->getCellByColumnAndRow(4,$i)->getFormattedValue();
-            $section = $objWorksheet->getCellByColumnAndRow(6,$i)->getFormattedValue();
-            // $application_number = '211022';
-            $studentInfo = $this->admission->getNewAdmittedStudentInfo($application_number);
-            
-            $permanent_add = $studentInfo->permanent_address_line_1.' '.$studentInfo->permanent_address_line_2.' '.$studentInfo->permanent_address_district.','.$studentInfo->permanent_address_state.','.$studentInfo->permanent_address_pincode;
-            $present_add = $studentInfo->residential_address_line_1.' '.$studentInfo->residential_address_line_2.' '.$studentInfo->residential_address_district.','.$studentInfo->residential_address_state.','.$studentInfo->residential_address_pincode;
-
-            
-          
-
-            // log_message('debug','Info = '.print_r($studentInfo,true));
-            if(!empty($studentInfo)){
-               
-                $isExists = $this->student->getStudentByStudentId($student_id);
-                // log_message('debug','isExists  = '.print_r($studentInfo,true));
-                if(empty($isExists)){
+        for($i=2;$i<=$highestRow;$i++){
+            $admission_no = $objWorksheet->getCellByColumnAndRow(0,$i)->getFormattedValue();
+            $student_name = $objWorksheet->getCellByColumnAndRow(1,$i)->getFormattedValue();
+            $program_name = $objWorksheet->getCellByColumnAndRow(2,$i)->getFormattedValue();
+            $stream_name = $objWorksheet->getCellByColumnAndRow(3,$i)->getFormattedValue();
+            $dob = $objWorksheet->getCellByColumnAndRow(4,$i)->getFormattedValue();
+            $gender = $objWorksheet->getCellByColumnAndRow(5,$i)->getFormattedValue();
+            $register_no = $objWorksheet->getCellByColumnAndRow(6,$i)->getFormattedValue();
+            $student_id  = $objWorksheet->getCellByColumnAndRow(7,$i)->getFormattedValue();
+            $sat_number  = $objWorksheet->getCellByColumnAndRow(8,$i)->getFormattedValue();
+            $aadhar_no  = $objWorksheet->getCellByColumnAndRow(9,$i)->getFormattedValue();
+            $religion = $objWorksheet->getCellByColumnAndRow(10,$i)->getFormattedValue();
+            $caste = $objWorksheet->getCellByColumnAndRow(11,$i)->getFormattedValue();
+            $mother_tongue = $objWorksheet->getCellByColumnAndRow(12,$i)->getFormattedValue();
+            $present_address = $objWorksheet->getCellByColumnAndRow(13,$i)->getFormattedValue();
+            $permanent_address = $objWorksheet->getCellByColumnAndRow(14,$i)->getFormattedValue();
+            $father_name = $objWorksheet->getCellByColumnAndRow(15,$i)->getFormattedValue();
+            $father_profession = $objWorksheet->getCellByColumnAndRow(16,$i)->getFormattedValue();
+            $mother_name = $objWorksheet->getCellByColumnAndRow(17,$i)->getFormattedValue();
+            $mother_profession = $objWorksheet->getCellByColumnAndRow(18,$i)->getFormattedValue();
+            $mobile = $objWorksheet->getCellByColumnAndRow(19,$i)->getFormattedValue();
+            $email = $objWorksheet->getCellByColumnAndRow(20,$i)->getFormattedValue();
+            $date_of_admission = $objWorksheet->getCellByColumnAndRow(21,$i)->getFormattedValue();
+            $intake_year = $objWorksheet->getCellByColumnAndRow(22,$i)->getFormattedValue();
+            $Is_physically_challenged = $objWorksheet->getCellByColumnAndRow(23,$i)->getFormattedValue();
+            $term_name = $objWorksheet->getCellByColumnAndRow(24,$i)->getFormattedValue();
+            $language_one = $objWorksheet->getCellByColumnAndRow(25,$i)->getFormattedValue();
+            $language_two = $objWorksheet->getCellByColumnAndRow(26,$i)->getFormattedValue();
+            $dobs = str_replace("/", "-", $dob); 
+            $doa = str_replace("/", "-", $date_of_admission); 
+            if(!empty($admission_no)){
                     $student_info = array(
-                    'student_name'=>$studentInfo->name,
-                    'blood_group' =>$studentInfo->blood_group,
-                    'student_no'=>$studentInfo->student_no,
-                    'application_no'=>$studentInfo->application_number,
+                    'admission_no'=>$admission_no,
+                    'student_name'=>$student_name,
+                    'program_name' => $program_name,
+                    'stream_name'=>$stream_name,
+                    'dob' => date('Y-m-d',strtotime($dobs)),
+                    'gender' => $gender,
+                    'register_no' => $register_no,
                     'student_id' => strtoupper($student_id),
-                    'mobile' => $studentInfo->student_mobile,
-                    'email' => $studentInfo->email,
-                    // 'date_of_admission'=>$studentInfo->date_of_admission,
-                    'roll_number' => $studentInfo->roll_number,
-                    'gender' => $studentInfo->gender,
-                    // 'student_status'=> 'ACTIVE',
-                    'tc_taken_status' => 0,
-                    'residential_address' => $permanent_add,
-                    // 'pu_board_number'=>$studentInfo->pu_board_number, 
-                    'category' => $studentInfo->student_category,
-                    'last_board_name' => $studentInfo->board_name,
-                    'last_percentage' => $studentInfo->sslc_percentage,
-                    'last_register_number' => $studentInfo->register_number,
-                    'is_physically_challenged' => $studentInfo->physically_challenged,
-                    'is_dyslexic' => $studentInfo->dyslexia_challenged,
-                    'present_address' => $present_add,
-                    'mother_tongue'=>$studentInfo->mother_tongue,
-                    'nationality'=>$studentInfo->nationality,  
-                    'religion'=>$studentInfo->religion, 
-                    'caste'=>$studentInfo->caste, 
-                    'sub_caste' => $studentInfo->sub_caste,
-                    'father_name'=>$studentInfo->father_name, 
-                    'father_email' => $studentInfo->father_email,
-                    'father_mobile' => $studentInfo->father_mobile,
-                    'father_educational_qualification' => $studentInfo->father_qualification,
-                    'father_age' => $studentInfo->father_age,
-                    'father_profession'=>$studentInfo->father_profession,
-                    'mother_name'=>$studentInfo->mother_name,
-                    'mother_email' => $studentInfo->mother_email,
-                    'mother_mobile' => $studentInfo->mother_mobile,
-                    'mother_educational_qualification' => $studentInfo->mother_qualification,
-                    'mother_age' => $studentInfo->mother_age,
-                    'mother_profession' => $studentInfo->mother_profession,
-                    'father_annual_income'=>$studentInfo->father_annual_income,
-                    'mother_annual_income'=>$studentInfo->mother_annual_income,
-                    'guardian_name' => $studentInfo->guardian_name,
-                    'guardian_mobile' => $studentInfo->guardian_mobile,
-                    'guardian_address' => $studentInfo->guardian_address,
-                    'native_place' => $studentInfo->native_place,
-                    'aadhar_no' => $studentInfo->aadhar_no,
-                    'program_name' => $studentInfo->program_name,
-                    'stream_name'=>$studentInfo->stream_name,
-                    'intake_year' => '2022-2023',
-                    'intake_year_id' => '2022',
-                    'term_name' => 'I PUC',
-                    'section_name' => $section,
-                    // 'hall_ticket_no'=>$studentInfo->hall_ticket_no,
-                    'dob' => $studentInfo->dob,
-                    'elective_sub' => $studentInfo->second_language,
+                    'sat_number'=>$sat_number,
+                    'aadhar_no' => $aadhar_no,
+                    'religion'=>$religion, 
+                    'caste'=>$caste, 
+                    'mother_tongue'=>$mother_tongue,
+                    'present_address' => $present_address,
+                    'permanent_address' => $permanent_address,
+                    'father_name'=>$father_name, 
+                    'father_profession'=>$father_profession,
+                    'mother_name'=>$mother_name,
+                    'mother_profession' => $mother_profession,
+                    'mobile' => $mobile,
+                    'email' => $email,
+                     'date_of_admission'=>date('Y-m-d',strtotime($doa)),
+                     'intake_year'=>$intake_year,  
+                     'Is_physically_challenged' => $Is_physically_challenged,
+                     'term_name' =>$term_name,
+                     'language_one' =>$language_one,
+                     'language_two' =>$language_two,
                     'is_active' => 1,
                     'created_by'=>$this->staff_id,
                     'created_date_time'=>date('Y-m-d H:i:s'));
-                      log_message('debug','student_id = '.$student_id);
-            log_message('debug','application_number = '.$application_number);
-            log_message('debug','name = '.$name);
-            log_message('debug','section = '.$section);
-                    // log_message('debug','student_info  = '.print_r($studentInfo,true));
-                    log_message('debug','addddd = '.$student_id);
-                    $student_count++;
+               
+                  
                     $return = $this->student->addstudentData($student_info);
-                    log_message('debug','addddd'.print_r($student_info,true));
-                // }else{
-
-
-                //     $studentInfosup = array(
-                //         'student_id' => strtoupper($student_id),
-                //         // 'blood_group' =>$studentInfo->blood_group,
-                //         // 'student_no'=>$studentInfo->student_no,
-                //         // 'application_no'=>$studentInfo->application_number,
-                //         // 'mobile' => $studentInfo->student_mobile,
-                //         // 'email' => $studentInfo->email,
-                //         // // 'date_of_admission'=>$studentInfo->date_of_admission,
-                //         // 'roll_number' => $studentInfo->roll_number,
-                //         // 'gender' => $studentInfo->gender,
-                //         // // 'student_status'=> 'ACTIVE',
-                //         // 'tc_taken_status' => 0,
-                //         // 'residential_address' => $permanent_add,
-                //         // // 'pu_board_number'=>$studentInfo->pu_board_number, 
-                //         // 'category' => $studentInfo->student_category,
-                //         // 'last_board_name' => $studentInfo->board_name,
-                //         // 'last_percentage' => $studentInfo->sslc_percentage,
-                //         // 'last_register_number' => $studentInfo->register_number,
-                //         // 'is_physically_challenged' => $studentInfo->physically_challenged,
-                //         // 'is_dyslexic' => $studentInfo->dyslexia_challenged,
-                //         // 'present_address' => $present_add,
-                //         // 'mother_tongue'=>$studentInfo->mother_tongue,
-                //         // 'nationality'=>$studentInfo->nationality,  
-                //         // 'religion'=>$studentInfo->religion, 
-                //         // 'caste'=>$studentInfo->caste, 
-                //         // 'sub_caste' => $studentInfo->sub_caste,
-                //         // 'father_name'=>$studentInfo->father_name, 
-                //         // 'father_email' => $studentInfo->father_email,
-                //         // 'father_mobile' => $studentInfo->father_mobile,
-                //         // 'father_educational_qualification' => $studentInfo->father_qualification,
-                //         // 'father_age' => $studentInfo->father_age,
-                //         // 'father_profession'=>$studentInfo->father_profession,
-                //         // 'mother_name'=>$studentInfo->mother_name,
-                //         // 'mother_email' => $studentInfo->mother_email,
-                //         // 'mother_mobile' => $studentInfo->mother_mobile,
-                //         // 'mother_educational_qualification' => $studentInfo->mother_qualification,
-                //         // 'mother_age' => $studentInfo->mother_age,
-                //         // 'mother_profession' => $studentInfo->mother_profession,
-                //         // 'father_annual_income'=>$studentInfo->father_annual_income,
-                //         // 'mother_annual_income'=>$studentInfo->mother_annual_income,
-                //         // 'guardian_name' => $studentInfo->guardian_name,
-                //         // 'guardian_mobile' => $studentInfo->guardian_mobile,
-                //         // 'guardian_address' => $studentInfo->guardian_address,
-                //         // 'native_place' => $studentInfo->native_place,
-                //         // 'aadhar_no' => $studentInfo->aadhar_no,
-                //         // 'program_name' => $studentInfo->program_name,
-                //         // 'stream_name'=>$studentInfo->stream_name,
-                //         // 'intake_year' => '2021-2022',
-                //         // 'term_name' => 'I PUC',
-                //         'section_name' => $section,
-                //         // // 'hall_ticket_no'=>$studentInfo->hall_ticket_no,
-                //         // 'dob' => $studentInfo->dob,
-                //         // 'elective_sub' => $elective_sub,
-                //         // 'is_active' => 1,
-                //         'updated_by'=>$this->staff_id,
-                //         'updated_date_time'=>date('Y-m-d H:i:s'));
-
-                //     $student_update_count++;
-                //     $result = $this->student->updateStudentInfoBStdId($studentInfosup,$student_id);
-                //      log_message('debug','studentInfosup'.print_r($studentInfosup,true));
-                //     log_message('debug','isExists  = '.$result);
-                // }
-            }else{
-                $studentNotExistCount++;
-                // array_push($app_no,$application_number);
-            }
+                 
+              log_message('debug','student=='.print_r($application_no,true));
         }
     }
-        log_message('debug','Student NOT Count= '.$studentNotExistCount.'x'.$student_id);
-        // log_message('debug','Application No = '.print_r($app_no,true));
-        log_message('debug','Total Count= '.$student_count);
-        log_message('debug','Update Count= '.$student_update_count);
+    $student_count++;
         redirect('viewSettings');
     }
 

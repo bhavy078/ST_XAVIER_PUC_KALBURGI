@@ -62,8 +62,8 @@
                             </div>
 
                             <div class="col-lg-2 col-sm-2 col-12 box-tools">
-                                <a onclick="showLoader();window.history.back();" class="btn primary_color float-right text-white pt-2"
-                                    value="Back"><i class="fa fa-arrow-circle-left"></i>Back </a>
+                            <a onclick="showLoader();window.history.back();" class="btn primary_color mobile-btn float-right text-white "
+                                    value="Back"><i class="fa fa-arrow-circle-left"></i> Back </a>
                             </div>
                         </div>
                     </div>
@@ -78,7 +78,7 @@
                     <div class="row">
                         <div class="col-12">
                             <form method="POST" action="<?php echo base_url().'applyStaffLeaveByAdmin'?>" enctype="multipart/form-data">
-
+                                
                                 <div class="row">
                                     <div class="col-lg-4 col-md-4 col-12">
                                         <label for="role">Select Applied Staff</label>
@@ -155,7 +155,26 @@
                                             <label for="leave_type">Leave Type</label>
                                             <select name="leave_type" class="form-control"
                                                 id="leave_type" required>
-                                                <option value="">Select One</option>
+                                             
+                                                <?php if(($leaveInfo->casual_leave_earned - $leaveInfo->casual_leave_used) != 0 ){ ?>
+                                                <option value="CL">Casual Leave(CL)</option>
+                                                <?php } ?>
+                                                <?php if(($leaveInfo->sick_leave_earned - $leaveInfo->sick_leave_used) != 0 ){ ?>
+                                                <option value="ML">Medical Leave(ML)</option>
+                                                <?php } ?>
+                                                <?php if(($leaveInfo->marriage_leave_earned - $leaveInfo->marriage_leave_used) != 0 ){ ?>
+                                                <option value="MARL">Marriage Leave(ML)</option>
+                                                <?php } ?>
+                                                <?php if(($leaveInfo->paternity_leave_earned - $leaveInfo->paternity_leave_used) != 0 ){ ?>
+
+                                                <option value="PL">Paternity Leave(PL)</option>
+                                                <?php } ?>
+                                                <?php if(($leaveInfo->maternity_leave_earned - $leaveInfo->maternity_leave_used) != 0 ){ ?>
+
+                                                <option value="MATL">Maternity Leave(ML)</option>
+                                                <?php } ?>
+                                                <option value='LOP'>Loss Of Pay(LOP)</option>
+                                                            
                                             </select>
                                         </div>
                                     </div>
@@ -204,6 +223,7 @@
                                                             <th>Date</th>
                                                             <th>Period</th>
                                                             <th>Class</th>
+                                                             <th>Stream</th>
                                                             <th>Section</th>
                                                             <th>Staff</th>
                                                             <th class="text-center">Actions</th>
@@ -281,20 +301,20 @@
                             <label for="role">Select Class</label>
                             <select class="form-control selectpicker" id="assignedClass" data-live-search="true">
                                 <option value="">Select Class</option>
-                                <option value="LKG">LKG</option>
-                                <option value="UKG">UKG</option>
-                                <option value="1">I Std</option>
-                                <option value="2">II Std</option>
-                                <option value="3">III Std</option>
-                                <option value="4">IV Std</option>
-                                <option value="5">V Std</option>
-                                <option value="6">VI Std</option>
-                                <option value="7">VII Std</option>
-                                <option value="8">VIII Std</option>
-                                <option value="9">IX Std</option>
-                                <option value="10">X Std</option>
-                                <option value="11">XI Std</option>
-                                <option value="12">XII Std</option>
+                                <option value="I PUC">I PUC</option>
+                                <option value="II PUC">II PUC</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-12">
+                            <label for="role">Select Stream</label>
+                            <select class="form-control selectpicker" id="assignedStream" data-live-search="true">
+                                <option value="">Select Stream</option>
+                              <?php if(!empty($streamInfo)){
+                                  foreach($streamInfo as $stream){ ?>
+                                    <option value="<?php echo $stream->stream_name ?>">
+                                      <?php echo $stream->stream_name ?>
+                                    </option>
+                                <?php }  } ?>
                             </select>
                         </div>
                         <div class="col-lg-6 col-md-6 col-12">
@@ -448,6 +468,8 @@ function productAddToTable() {
         alert('Please Select  Period to Assign');
     } else if ($("#assignedClass").val() == "") {
         alert('Please Select Class');
+    } else if ($("#assignedStream").val() == "") {
+        alert('Please Select Stream');
     } else if ($("#assigned_staff_id").val() == "") {
         alert('Please Select Staff');
     }else {
@@ -462,6 +484,8 @@ function productAddToTable() {
             .val() + ">" +
             "<input type='hidden' name='assignedClass[]' id='class_assigned' value=" + $("#assignedClass").val() +
             ">" +
+            "<input type='hidden' name='assignedStream[]' id='class_assigned' value=" + $("#assignedStream").val() +
+            ">" +
             "<input type='hidden' name='assignedSection[]' id='section_assigned' value=" + $("#assignedSection")
             .val() + ">" +
             "<input type='hidden' name='assigned_staff_id[]' id='staff_id_assigned' value=" + $(
@@ -470,6 +494,8 @@ function productAddToTable() {
             "<td>" + $("#assignedPeriod").val() +
             "</td>" +
             "<td>" + $("#assignedClass").val() +
+            "</td>" +
+             "<td>" + $("#assignedStream").val() +
             "</td>" +
             "<td>" + $("#assignedSection").val() +
             "</td>" +
@@ -550,6 +576,8 @@ function viewMoreInfo(row_id) {
                     "</td>" +
                     "<td >" + data.workAssign[i].assigned_class_name +
                     "</td>" +
+                    "<td >" + data.workAssign[i].assigned_stream_name +
+                    "</td>" +
                     "<td >" + data.workAssign[i].assigned_class_section +
                     "</td>" +
                     "<td >" + data.workAssign[i].assigned_staff_id +
@@ -560,7 +588,7 @@ function viewMoreInfo(row_id) {
             if (Object.keys(data.workAssign).length == 0) {
                 $("#staffAssignTable tbody").append(
                     "<tr>" +
-                    "<td class='text-center' colspan='5'> Work assign not found! </td>" +
+                    "<td class='text-center' colspan='6'> Work assign not found! </td>" +
                     "</tr>"
                 );
             }

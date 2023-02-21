@@ -46,9 +46,9 @@ if ($error) {
     </div>
 </div>
 <div class="main-content-container container-fluid px-4 pt-1">
-    <div class="content-wrapper">
+    <!-- <div class="content-wrapper"> -->
         <section class="content-header">
-            <div class="row mt-1">
+            <div class="row">
                 <div class="col-12">
                     <div class="card card-small p-0 card_heading_title">
                         <div class="card-body p-2 ml-2">
@@ -74,11 +74,11 @@ if ($error) {
         <!-- Default Light Table -->
         <div class="row form-employee">
             <div class="col-lg-12">
-                <div class="card card-small c-border mb-4 p-2">
+                <div class="card card-small c-border mb-4">
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item p-2">
-                            <div class="row column_padding_card">
-                                <div class="col column_padding_card profile-head">
+                            <div class="row">
+                                <div class="col profile-head">
                                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                                         <li class="nav-item">
                                             <a class="nav-link active" id="profile-tab" data-toggle="tab"
@@ -115,12 +115,14 @@ if ($error) {
                                                 action="<?php echo base_url() ?>updateStaff" method="post"
                                                 enctype="multipart/form-data">
                                                 <div class="row">
-                                                    <div class="col-lg-4 col-md-4 col-12">
+                                                    <div class="col-lg-4">
+
                                                         <div class="card card-small c-border mb-4 p-2">
                                                             <div class="card-header text-center">
+                                                            <label for="fname">Profile Image</label>
                                                                 <div class="text-center">
-                                                                    <label for="fname">Profile Image</label>
-                                                                </div>
+                                                                   
+                                                               
                                                                 
                                                                 <?php 
                                                                 $profileImg = $staffInfo->photo_url;
@@ -131,6 +133,8 @@ if ($error) {
                                                                 <img src="<?php echo base_url(); ?>assets/images/user.png" class="avatar rounded-circle img-thumbnail"
                                                                     width="130" height="130" id="uploadedImage" alt="Profile default">
                                                                 <?php } ?>
+                                                                </div>
+                                                                <div class="profileImg">
                                                                     <div class="file btn btn-sm btn-primary">
                                                                         Change
                                                                         <input type="file" class="form-control-sm" id="vImg" name="userfile">
@@ -189,9 +193,12 @@ if ($error) {
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-12 col-md-8 col-lg-8">
-                                                        <div class="form-row">
-                                                            <div class="form-group col-md-6">
+                                                    <div class="col-lg-8 col-12">
+                                                        <div class="card card-small c-border">
+                                                            <div class="card-header p-2">
+
+                                                                <div class="form-row">
+                                                                    <div class="form-group col-md-6">
                                                                 <label for="email ">Email (optional)</label>
                                                                 <input type="email" class="form-control required"
                                                                     id="email" value="<?php echo $staffInfo->email; ?>"
@@ -319,9 +326,12 @@ if ($error) {
                                                         <button type="submit" class="btn btn-success float-right">
                                                             Submit </button>
                                                     </div>
+                                                                    </div>
                                                 </div>
                                             </form> <!-- form end -->
                                         </div>
+                                        </div>
+                                       
                                         
                                         <div class="tab-pane fade" id="subject" role="tabpanel" aria-labelledby="subject-tab">
                                             <div class="row">

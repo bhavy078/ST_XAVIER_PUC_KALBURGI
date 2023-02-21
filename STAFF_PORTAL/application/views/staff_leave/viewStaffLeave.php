@@ -75,8 +75,8 @@ if ($error) {
                                         class="btn btn-info"><i class="material-icons">cloud_download</i>
                                         Report</button>
                                     <?php } ?> -->
-                                    <a onclick="showLoader();window.history.back();" type="button"
-                                        class="btn primary_color text-white"><i class="fa fa-arrow-circle-left"></i>Back</a>
+                                    <a onclick="showLoader();window.history.back();" class="btn primary_color mobile-btn float-right text-white "
+                                    value="Back"><i class="fa fa-arrow-circle-left"></i> Back </a>
                                 </div>
                             </div>
                         </div>
@@ -219,6 +219,7 @@ if ($error) {
                                         <th>Date</th>
                                         <th>Period</th>
                                         <th>Class</th>
+                                        <th>Stream</th>
                                         <th>Section</th>
                                         <th>Staff ID</th>
                                     </tr>
@@ -447,6 +448,7 @@ jQuery(document).ready(function() {
 </script>
 <script type="text/javascript">
 function viewMoreInfo(row_id) {
+  
     $("#staffAssignTable tbody").html("");
     $.ajax({
         url: '<?php echo base_url(); ?>/getStaffLeaveInfoById',
@@ -516,6 +518,8 @@ function viewMoreInfo(row_id) {
                     "</td>" +
                     "<td >" + data.workAssign[i].assigned_class_name +
                     "</td>" +
+                     "<td >" + data.workAssign[i].assigned_stream_name +
+                    "</td>" +
                     "<td >" + data.workAssign[i].assigned_class_section +
                     "</td>" +
                     "<td >" + data.workAssign[i].assigned_staff_id +
@@ -526,7 +530,7 @@ function viewMoreInfo(row_id) {
             if (Object.keys(data.workAssign).length == 0) {
                 $("#staffAssignTable tbody").append(
                     "<tr>" +
-                    "<td class='text-center' colspan='5'> Work assign not found! </td>" +
+                    "<td class='text-center' colspan='6'> Work assign not found! </td>" +
                     "</tr>"
                 );
             }

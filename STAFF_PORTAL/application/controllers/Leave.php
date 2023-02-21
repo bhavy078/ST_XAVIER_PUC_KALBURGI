@@ -11,6 +11,7 @@ class Leave extends BaseController {
         //$this->load->library('excel');
         $this->load->model('staff_model','staff');
         $this->load->model('leave_model','leave');
+        $this->load->model('settings_model','settings');
         $this->isLoggedIn();
     }
     function staffLeaveInfo() {
@@ -28,6 +29,7 @@ class Leave extends BaseController {
         } else {
             $data['staffInfo'] = $this->staff->getAllStaffInfo();
             $data['leaveInfo'] = $this->leave->getLeaveInfoByStaffId($this->staff_id);
+            $data['streamInfo'] = $this->settings->getStreamInfo();
             $data['active'] = '';
             $this->global['pageTitle'] = ''.TAB_TITLE.' : View Staff Details';
             $this->loadViews("staff_leave/apply_staff_leave", $this->global, $data, null);
@@ -56,6 +58,7 @@ class Leave extends BaseController {
             $assignedDate = $this->security->xss_clean($this->input->post('assignedDate'));
             $assignedPeriod = $this->security->xss_clean($this->input->post('assignedPeriod'));
             $assignedClass = $this->security->xss_clean($this->input->post('assignedClass'));
+            $assignedStream = $this->security->xss_clean($this->input->post('assignedStream'));
             $assignedSection = $this->security->xss_clean($this->input->post('assignedSection'));
             $assigned_staff_id = $this->security->xss_clean($this->input->post('assigned_staff_id'));
 
@@ -144,6 +147,7 @@ class Leave extends BaseController {
                             'assigned_period' => $assignedPeriod[$i],
                             'assigned_class_name' => $assignedClass[$i],
                             'assigned_class_section' => $assignedSection[$i],
+                            'assigned_stream_name' => $assignedStream[$i],
                             'assigned_staff_id' => $assigned_staff_id[$i],
                             'created_by' => $this->staff_id,
                             'created_date_time' => date('Y-m-d H:i:s'),
@@ -177,11 +181,12 @@ class Leave extends BaseController {
           $data_array_new = [];
          
           $leaveInfo = $this->leave->getAllStaffLeaveInfo();
+          log_message('debug',print_r($leaveInfo,true));
           foreach($leaveInfo as $staff) {
             $deleteButton = "";
             $editButton = "";
-              $staffViewMore = '<button class="btn btn-xs btn-primary" onclick="viewMoreInfo('.$staff->row_id.')"
-              title="View More"><i class="fa fa-eye"></i> View</button>';
+            $staffViewMore = '<button class="btn btn-xs btn-primary" onclick="viewMoreInfo('.$staff->row_id.')"
+            title="View More"><i class="fa fa-eye"></i> View</button>';
 
               if($this->role == ROLE_ADMIN || $this->role == ROLE_PRIMARY_ADMINISTRATOR){
                 $deleteButton = '<a class="btn btn-xs btn-danger deleteAppliedLeave" href="#"
@@ -528,7 +533,6 @@ public function updateStaffLeaveInfoByAdmin(){
                 redirect('editStaffLeaveInfo/'.$row_id);
             }
 
-
             if($result){
                 $this->session->set_flashdata('success', 'Leave Updated Successfully');
                 redirect('editStaffLeaveInfo/'.$row_id);
@@ -559,6 +563,7 @@ public function viewAdminApplyLeavePage(){
         $data['staffInfo'] = $this->staff->getAllStaffInfo();
         $data['leaveInfo'] = "";
         $data['active'] = '';
+        $data['streamInfo'] = $this->settings->getStreamInfo();
         $this->global['pageTitle'] = ''.TAB_TITLE.' : View Admin Staff Leave';
         $this->loadViews("staff_leave/apply_leave_by_admin", $this->global, $data, null);
     }
@@ -604,6 +609,7 @@ public function applyStaffLeaveByAdmin(){
             $assignedDate = $this->security->xss_clean($this->input->post('assignedDate'));
             $assignedPeriod = $this->security->xss_clean($this->input->post('assignedPeriod'));
             $assignedClass = $this->security->xss_clean($this->input->post('assignedClass'));
+            $assignedStream = $this->security->xss_clean($this->input->post('assignedStream'));
             $assignedSection = $this->security->xss_clean($this->input->post('assignedSection'));
             $assigned_staff_id = $this->security->xss_clean($this->input->post('assigned_staff_id'));
             $leaveInfo = array(
@@ -627,6 +633,7 @@ public function applyStaffLeaveByAdmin(){
                             'assigned_date' => date('Y-m-d',strtotime($assignedDate[$i])),
                             'assigned_period' => $assignedPeriod[$i],
                             'assigned_class_name' => $assignedClass[$i],
+                            'assigned_stream_name' => $assignedStream[$i],
                             'assigned_class_section' => $assignedSection[$i],
                             'assigned_staff_id' => $assigned_staff_id[$i],
                             'created_by' => $this->staff_id,
@@ -646,3 +653,4 @@ public function applyStaffLeaveByAdmin(){
    }
 
 }
+?>
