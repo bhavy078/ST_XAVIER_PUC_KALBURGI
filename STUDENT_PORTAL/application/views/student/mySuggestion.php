@@ -188,7 +188,7 @@
 
 
                         <div class="chat_box touchscroll chat_box_colors_a">
-
+                        <?php  if(!empty($suggestion->message)){?>
 
                             <div class="chat_message_wrapper chat_message_right">
 
@@ -196,7 +196,7 @@
                                 <div class="chat_user_avatar">
 
 
-                                    <img alt="Student Image" src="http://sjpuc.schoolphins.com/assets/images/PHOTOS_19_21_ALL/<?php echo $student_id; ?>.png" class="md-user-image">
+                                    <img alt="Student Image" src="http://localhost/Parrophins/ST_XAVIER_PUC_KALBURGI/STAFF_PORTAL/upload/<?php echo $student_id; ?>.jpg" class="md-user-image">
 
 
                                 </div>
@@ -224,7 +224,7 @@
 
 
                             </div>
-
+                            <?php } ?>
 
                             <?php if(!empty($suggestion->management_reply)){ ?>
 

@@ -98,7 +98,7 @@
                                             src="<?php echo base_url(); ?>assets/dist/img/dolphin_logo.png" alt="logo">
 
                                         <h5 class="d-none d-md-inline title_sidenav"><span
-                                                class="title_green">School</span><span class="title_blue">phins</span>
+                                                class="title_green">School</span><span class="title_blue">Phins</span>
 
                                         </h5>
 
@@ -240,7 +240,7 @@
 
                                 </li>
 
-                                <?php if($term_name == 'I PUC'){  ?>
+                              
 
                                 <!-- <li class="nav-item">
 
@@ -296,7 +296,7 @@
 
                                         </li> -->
 
-                                        <li class="nav-item">
+                                        <!-- <li class="nav-item">
 
                                             <a class="nav-link"
                                                 href="<?php echo base_url(); ?>studentNotificationReport">
@@ -307,7 +307,7 @@
 
                                             </a>
 
-                                        </li>
+                                        </li> -->
 
                                     </ul>
 
@@ -315,8 +315,7 @@
 
 
 
-                                <?php } ?>
-
+                               
                                 <li class="nav-item">
 
                                     <a href="#studyMet" data-toggle="collapse" aria-expanded="false"
@@ -447,7 +446,7 @@
 
                                 <ul class="navbar-nav border-left flex-row header-nav ">
 
-                                    <li class="nav-item border-right dropdown notifications">
+                                    <!-- <li class="nav-item border-right dropdown notifications">
 
                                         <a class="nav-link nav-link-icon text-center" href="#" role="button"
                                             id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
@@ -459,8 +458,8 @@
 
                                             </div>
 
-                                        </a>
-
+                                        </a> -->
+<!-- 
                                         <div class="dropdown-menu dropdown-menu-small"
                                             aria-labelledby="dropdownMenuLink">
 
@@ -486,11 +485,11 @@
 
                                                 </div>
 
-                                            </a>
+                                            </a> -->
 
-                                        </div>
+                                        <!-- </div> -->
 
-                                    </li>
+                                    <!-- </li> -->
 
 
 
@@ -612,7 +611,7 @@
 
                                                 <div class="notification__content mt-2">
 
-                                                    <b class="">Today No Announcement</b>
+                                                    <b class="">No New Notifications</b>
 
                                                 </div>
 
