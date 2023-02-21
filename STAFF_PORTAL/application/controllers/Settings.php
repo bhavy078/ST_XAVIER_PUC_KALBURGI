@@ -481,7 +481,7 @@ class Settings extends BaseController {
         // $highestRow
 
         for($i=2;$i<=$highestRow;$i++){
-            $application_no = $objWorksheet->getCellByColumnAndRow(0,$i)->getFormattedValue();
+            $admission_no = $objWorksheet->getCellByColumnAndRow(0,$i)->getFormattedValue();
             $student_name = $objWorksheet->getCellByColumnAndRow(1,$i)->getFormattedValue();
             $program_name = $objWorksheet->getCellByColumnAndRow(2,$i)->getFormattedValue();
             $stream_name = $objWorksheet->getCellByColumnAndRow(3,$i)->getFormattedValue();
@@ -506,10 +506,13 @@ class Settings extends BaseController {
             $intake_year = $objWorksheet->getCellByColumnAndRow(22,$i)->getFormattedValue();
             $Is_physically_challenged = $objWorksheet->getCellByColumnAndRow(23,$i)->getFormattedValue();
             $term_name = $objWorksheet->getCellByColumnAndRow(24,$i)->getFormattedValue();
+            $language_one = $objWorksheet->getCellByColumnAndRow(25,$i)->getFormattedValue();
+            $language_two = $objWorksheet->getCellByColumnAndRow(26,$i)->getFormattedValue();
             $dobs = str_replace("/", "-", $dob); 
-            if(!empty($application_no)){
+            $doa = str_replace("/", "-", $date_of_admission); 
+            if(!empty($admission_no)){
                     $student_info = array(
-                    'application_no'=>$application_no,
+                    'admission_no'=>$admission_no,
                     'student_name'=>$student_name,
                     'program_name' => $program_name,
                     'stream_name'=>$stream_name,
@@ -528,13 +531,14 @@ class Settings extends BaseController {
                     'father_profession'=>$father_profession,
                     'mother_name'=>$mother_name,
                     'mother_profession' => $mother_profession,
-                    'mobile' => $student_mobile,
+                    'mobile' => $mobile,
                     'email' => $email,
-                     'date_of_admission'=>$date_of_admission,
-                  
+                     'date_of_admission'=>date('Y-m-d',strtotime($doa)),
                      'intake_year'=>$intake_year,  
                      'Is_physically_challenged' => $Is_physically_challenged,
                      'term_name' =>$term_name,
+                     'language_one' =>$language_one,
+                     'language_two' =>$language_two,
                     'is_active' => 1,
                     'created_by'=>$this->staff_id,
                     'created_date_time'=>date('Y-m-d H:i:s'));
@@ -542,7 +546,7 @@ class Settings extends BaseController {
                   
                     $return = $this->student->addstudentData($student_info);
                  
-              
+              log_message('debug','student=='.print_r($application_no,true));
         }
     }
     $student_count++;
