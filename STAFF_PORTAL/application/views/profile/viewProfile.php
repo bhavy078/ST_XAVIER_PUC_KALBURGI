@@ -6,6 +6,7 @@ if(!empty($staffInfo)){
   $date_of_birth = $staffInfo->dob;
   $email = $staffInfo->email;
   $profileImg = $staffInfo->photo_url;
+  $mobile = $staffInfo->mobile;
 }
 if(empty($dob) || $date_of_birth == '0000-00-00'){
     $date_of_birth = '<span class="text-danger">Not Updated</span>';

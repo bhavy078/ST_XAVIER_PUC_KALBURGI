@@ -598,7 +598,7 @@
 
                                     </div>
 
-                                    <div class="tab-pane fade show active" id="preparatory" role="tabpanel" aria-labelledby="preparatory-tab">
+                                    <div class="tab-pane" id="preparatory" role="tabpanel" aria-labelledby="preparatory-tab">
 
 <div class="table-responsive">
 

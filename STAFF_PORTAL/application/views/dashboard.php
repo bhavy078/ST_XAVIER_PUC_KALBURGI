@@ -340,8 +340,8 @@ if ($warning) {
                                         <td>Father's Name</td>
                                         <th><?php echo $studentsRecords->father_name; ?></th>
                                     </tr>
-                                    <tr class="table-primary">
-                                        <td>Father's Mobile No.</td>
+                                    <!-- <tr class="table-primary"> -->
+                                        <!-- <td>Father's Mobile No.</td>
                                         <th>
                                             <?php if (!empty($studentsRecords->father_mobile)) {
                                                 if (strlen($studentsRecords->father_mobile) == 10) {
@@ -352,13 +352,13 @@ if ($warning) {
                                             ?>
                                                 <?php echo $father_mobile; ?> <a class="btn btn-primary btn-sm py-1 px-2" href="tel:<?php echo $father_mobile; ?>"><i class="fa fa-phone"></i> Call</a>
                                             <?php } ?>
-                                        </th>
-                                    </tr>
+                                        </th> -->
+                                    <!-- </tr> -->
                                     <tr class="table-success">
                                         <td>Mother's Name</td>
                                         <th><?php echo $studentsRecords->mother_name; ?></th>
                                     </tr>
-                                    <tr class="table-primary">
+                                    <!-- <tr class="table-primary">
                                         <td>Mother's Mobile No.</td>
 
                                         <th>
@@ -372,7 +372,7 @@ if ($warning) {
                                                 <?php echo $mother_mobile; ?> <a class="btn btn-primary btn-sm py-1 px-2" href="tel:<?php echo $mother_mobile; ?>"><i class="fa fa-phone"></i> Call</a>
                                             <?php } ?>
                                         </th>
-                                    </tr>
+                                    </tr> -->
 
                                 </table>
                             </div>
