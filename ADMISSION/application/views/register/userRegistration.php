@@ -139,7 +139,7 @@
               <div class="form-group">
                 <label class="mobile mdc-text-field mdc-text-field--filled ">
                     <span class="mdc-text-field__ripple"></span>
-                     <input type="tel" pattern="[0-9]*" maxlength="10" name="mobile" id="mobile" class="mdc-text-field__input" onkeypress="return isNumber(event)" aria-labelledby="my-label-id" autocomplete="off" required/>
+                     <input type="tel" pattern="[0-9]*" maxlength="10" minlength="10" name="mobile" id="mobile" class="mdc-text-field__input" onkeypress="return isNumber(event)" aria-labelledby="my-label-id" autocomplete="off" required/>
                     <span class="mdc-floating-label" id="my-label-id">Mobile Number</span>
                     <span class="mdc-line-ripple"></span>
                   </label>

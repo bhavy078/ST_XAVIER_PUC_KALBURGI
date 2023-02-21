@@ -218,11 +218,11 @@ $this->load->helper('form');
                                     </div>
                                     <div class="mdc-select__menu mdc-menu mdc-menu-surface demo-width-class">
                                         <ul class="mdc-list">
-                                            <li class="mdc-list-item" data-value="">
+                                            <!-- <li class="mdc-list-item" data-value="">
                                                 <span class="mdc-list-item__text">
                                                     Select Board Name
                                                 </span>
-                                            </li>
+                                            </li> -->
                                             <?php if (!empty($allBoardsInfo)) {
                                                 foreach ($allBoardsInfo as $board) {  ?>
                                                     <li class="mdc-list-item" data-value="<?php echo $board->row_id; ?>">
