@@ -390,6 +390,7 @@ class LibraryManagement extends BaseController
                     'fine'=>$fine,
                     'fine_id'=>$fine_id,
                     'remarks'=>$remarks,
+                    'is_issued'=>0,
                     'updated_by' => $this->staff_id,
                     'updated_date_time' => date('Y-m-d h:i:s'));
 
@@ -524,6 +525,7 @@ class LibraryManagement extends BaseController
                     'issue_date'=>date('Y-m-d',strtotime($issue_date)),
                     'return_date'=>date('Y-m-d',strtotime($return_date)),
                     'remarks'=>$remarks,
+                    'is_issued'=> 1,
                     'created_by'=>$this->staff_id,
                     'created_date_time'=>date('Y-m-d H:i:s'));
                
@@ -533,15 +535,14 @@ class LibraryManagement extends BaseController
                     'updated_date_time' => date('Y-m-d h:i:s'));
                 $returnId = $this->library->addLibraryMgmtIssueInfo($issedInfo);
                 //log_message('debug',print_r($issedInfo,true));
-                //log_message('debug',$returnId);
+         
                 if($returnId > 0 ){
-                    $this->library->updateIsAvailable($libraryInfo,$access_code);
+                    $this->library->updateIsAvailable($libraryInfo,$isbn);
                     $this->session->set_flashdata('success', 'Library Issue Info Added Successfully');
                 } else {
                     $this->session->set_flashdata('error', 'Library issued info Adding failed');
                 } 
                 redirect('libraryManagementSystem');  
-        
           }
         }
     }

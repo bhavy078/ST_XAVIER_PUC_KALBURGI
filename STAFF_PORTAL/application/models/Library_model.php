@@ -37,7 +37,6 @@ class Library_model extends CI_Model
 
     public function getAllLibraryMgmtInfo($filter, $page, $segment){
         $this->db->from('tbl_library_managemnt as library'); 
-      
         if(!empty($filter['access_no'])){
             $this->db->where('library.access_code', $filter['access_no']);
         }
@@ -222,8 +221,8 @@ class Library_model extends CI_Model
         return $insert_id;
     }
 
-    function updateIsAvailable($libraryInfo,$access_code){
-        $this->db->where('access_code', $access_code);
+    function updateIsAvailable($libraryInfo,$isbn){
+        $this->db->where('isbn', $isbn);
         $this->db->update('tbl_library_managemnt', $libraryInfo);
         return TRUE;
     }
@@ -251,7 +250,7 @@ class Library_model extends CI_Model
 
     public function getAllIssuedBookCount($filter=''){
         $this->db->from('tbl_library_issue_info as issue'); 
-        $this->db->join('tbl_library_managemnt as mgmt','mgmt.access_code = issue.access_code','left');
+        //$this->db->join('tbl_library_managemnt as mgmt','mgmt.access_code = issue.access_code','left');
         if(!empty($filter['isbn'])){
             $this->db->where('issue.isbn', $filter['isbn']);
         }
@@ -283,10 +282,12 @@ class Library_model extends CI_Model
     }
 
     public function getAllIssuedBookInfo($filter, $page, $segment){
-        $this->db->select('issue.access_code,issue.student_id,issue.issue_date,issue.return_date,issue.remarks,issue.actual_return_date,
-        issue.days_delayed,issue.row_id,issue.fine,issue.fine_id,mgmt.book_title,mgmt.is_available');
+        
         $this->db->from('tbl_library_issue_info as issue'); 
-        $this->db->join('tbl_library_managemnt as mgmt','mgmt.access_code = issue.access_code','left');
+       
+        if(!empty($filter['access_code'])){
+            $this->db->where('issue.access_code', $filter['access_code']);
+        }
         if(!empty($filter['isbn'])){
             $this->db->where('issue.isbn', $filter['isbn']);
         }
@@ -350,8 +351,8 @@ class Library_model extends CI_Model
         return $query->num_rows();
     }
     function getBowrrowedCount(){
-        $this->db->from('tbl_library_issue_info as library'); 
-        //$this->db->where('library.is_available', 0);
+        $this->db->from('tbl_library_managemnt as library'); 
+        $this->db->where('library.is_available', 0);
         $this->db->where('library.is_deleted', 0);
         $query = $this->db->get();
         return $query->num_rows();

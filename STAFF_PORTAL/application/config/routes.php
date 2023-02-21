@@ -899,6 +899,7 @@ $route['generatePreparatoryExamReportCard'] = "students/generatePreparatoryExamR
 
 ////Library mngmt
 $route['libraryManagementSystem'] = "libraryManagement/libraryManagementSystem";
+$route['libraryManagementSystem/(:any)'] = "libraryManagement/libraryManagementSystem/$1";
 $route['addLibraryInfo'] = "libraryManagement/addLibraryInfo";
 $route['addLibraryBookToDB'] = "libraryManagement/addLibraryBookToDB";
 $route['deleteLibraryDetails'] = "libraryManagement/deleteLibraryDetails";

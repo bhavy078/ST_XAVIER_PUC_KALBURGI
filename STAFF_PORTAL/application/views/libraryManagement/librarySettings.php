@@ -230,7 +230,7 @@ if ($warning) {
                             <div class="row form-contents">
                                 <div class="col-8">
                                     <div class="form-group mb-0">
-                                        <input type="text" class="form-control" id="shelf_no" name="shelf_no" placeholder="Enter Publisher" autocomplete="off" required>
+                                        <input type="text" class="form-control" id="shelf_no" name="shelf_no" placeholder="Enter Shelf No." autocomplete="off" required>
                                     </div>
                                 </div>
                                 <div class="col-4 mb-1">

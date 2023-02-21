@@ -167,7 +167,7 @@ if ($success) {
                                             <th class="text-left">
                                                 <!-- <span><a href="#" data-toggle="popover" data-content="Comment: <?php echo  $adm->comment; ?> <br/> "><span class="badge badge-primary"> <i class="fa fa-info-circle"></i></span></a></span> -->
                                                 <?php $status = $info->getAccessData($library->access_code);
-                                                if($status->is_issued == 0){ ?>
+                                                if($library->is_issued == 0){ ?>
                                                     <div class="btn btn-xs bg-success rounded">
                                                         <span style="font-weight: bold;color:white; font-size:13px;">Recevied</span>
                                                     </div>
