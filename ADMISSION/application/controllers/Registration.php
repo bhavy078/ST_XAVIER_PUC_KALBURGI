@@ -73,20 +73,20 @@ class Registration extends BaseController
      */
     function studentRegistrationToDB()
     {
-            $this->load->library('form_validation');
+            // $this->load->library('form_validation');
             
-            $this->form_validation->set_rules('name','Full Name','trim|required|max_length[128]|min_length[3]');
-            $this->form_validation->set_rules('email','Email','trim|required|valid_email');
-            $this->form_validation->set_rules('password','Password','required|max_length[30]');
-            $this->form_validation->set_rules('cpassword','Confirm Password','trim|required|matches[password]|max_length[30]');
-            $this->form_validation->set_rules('mobile','Mobile Number','required|numeric|min_length[10]');
-            $this->form_validation->set_rules('registration_number','SSLC Registration(Hall Ticket) Number','required|min_length[3]');
-            $this->form_validation->set_rules('sslc_board_name','SSLC Board Name','required');
-            $this->form_validation->set_rules('dob','Date of Birth','required');
+            // $this->form_validation->set_rules('name','Full Name','trim|required|max_length[128]|min_length[3]');
+            // $this->form_validation->set_rules('email','Email','trim|required|valid_email');
+            // $this->form_validation->set_rules('password','Password','required|max_length[30]');
+            // $this->form_validation->set_rules('cpassword','Confirm Password','trim|required|matches[password]|max_length[30]');
+            // $this->form_validation->set_rules('mobile','Mobile Number','required|numeric|min_length[10]');
+            // $this->form_validation->set_rules('registration_number','SSLC Registration(Hall Ticket) Number','required|min_length[3]');
+            // $this->form_validation->set_rules('sslc_board_name','SSLC Board Name','required');
+            // $this->form_validation->set_rules('dob','Date of Birth','required');
            
-            if($this->form_validation->run() == FALSE) {
-                $this->studentRegister();
-            } else {
+            // if($this->form_validation->run() == FALSE) {
+            //     $this->studentRegister();
+            // } else {
                 $row_id = $this->input->post('row_id');
                 $name = ucwords(strtoupper($this->security->xss_clean($this->input->post('name'))));
                 $email = strtolower($this->security->xss_clean($this->input->post('email')));
@@ -142,7 +142,7 @@ class Registration extends BaseController
 
                 }
                 
-            }
+            // }
     }
   
    
