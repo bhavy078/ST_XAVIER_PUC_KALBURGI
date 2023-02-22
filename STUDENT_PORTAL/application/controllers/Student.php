@@ -39,8 +39,11 @@ class Student extends BaseController
         $exam_mark_assignment_one = array();
         $exam_mark_assignment_two = array();
         $subjects = $this->getSubjectCodes($data['studentInfo']->stream_name);
+
         $subjects_code = array_merge($subjects_code,$subjects);
 
+        $filter['stream_name']= $data['studentInfo']->stream_name;
+        $filter['section_name']= $data['studentInfo']->section_name;
           
         // if($data['studentInfo']->term_name == 'I PUC'){
             $exam_year = '2021-22';
@@ -113,7 +116,10 @@ class Student extends BaseController
         $data['onlineClassInfo'] = $this->student_model->getOnlineClassCredentialsInfo($this->student_id);
         $date = date('Y-m-d');
         $data['studentMarkInfo'] = $this->performance_model->getStudentFinalExamMarkInfo($this->student_id);
-        $this->global['notificationMsg'] = $this->student_model->getStudentNotification($this->student_id,$date);
+        $this->global['notificationMsg'] = $this->student_model->getStudentNotifications($limit=75,$filter);
+    
+       // log_message('debug','as'.print_r($this->global['notificationMsg'],true));
+
         $this->global['studentStatusInfo'] = $this->student_model->getStudentAppInfoById($this->student_id,$this->term_name);
        // $data['paidStatus'] = $this->student_model->getWorldlinePaymentLogByStudentId($this->student_id);
        
@@ -465,6 +471,16 @@ class Student extends BaseController
         $this->global['pageTitle'] = ''.TAB_TITLE.' : Latercomer ' ;
         $this->loadViews("report/notification", $this->global, $data, NULL);
     }
+
+    public function myNotifications(){
+        $data['studentInfo'] = $this->student_model->getStudentInfoById($this->student_id,$this->term_name);
+        $filter['stream_name']= $data['studentInfo']->stream_name;
+        $filter['section_name']= $data['studentInfo']->section_name;
+        $data['notifications'] = $this->student_model->getStudentNotifications($limit=75,$filter);
+      
+        $this->global['pageTitle'] = ''.TAB_TITLE.' : My Notifications';
+        $this->loadViews("student/myNotifications", $this->global, $data , NULL);
+    } 
     
     
     public function myAttendance(){

@@ -215,11 +215,12 @@
                                                     <tr>
                                                         <th class="tbl-head" width="250">Physically Challenged</th>
                                                         <th class="tbl-head-content">
-                                                            <?php if($studentInfo->is_handicapped == 0){ echo "No"; } else { echo "Yes"; } ?> 
+                                                            <?php if($studentInfo->Is_physically_challenged == 0){ echo "No"; } else { echo "Yes"; } ?> 
                                                         </th>
-                                                        <th class="tbl-head" width="250">Any Disabilities</th>
+                                                        <th class="tbl-head" width="250">Dyslexia</th>
                                                         <th class="tbl-head-content">
-                                                            <?php echo $studentInfo->disability; ?>
+                                                        <?php echo $studentInfo->is_dyslexic; ?> 
+
                                                         </th>
                                                     </tr>
                                                 </table>

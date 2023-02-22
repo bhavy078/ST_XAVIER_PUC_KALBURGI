@@ -95,6 +95,7 @@ $route['studentLaterComer/(:num)'] = "student/studentLaterComer/$1";
 //this route for student Notification
 $route['studentNotificationReport'] = "student/studentNotificationReport";
 $route['studentNotificationReport/(:num)'] = "student/studentNotificationReport/$1";
+$route['myNotifications'] = "student/myNotifications";
 
 //this route for my attendance
 $route['myAttendance'] = "student/myAttendance";

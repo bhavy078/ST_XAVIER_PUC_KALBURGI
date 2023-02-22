@@ -14,7 +14,7 @@
 
 
 
-      <title>Schoolphins-SJPUCH : Forgot Password</title>
+      <title>SchoolPhins-STXPUC : Forgot Password</title>
 
 
 
@@ -150,7 +150,7 @@
 
 
 
-              <img src="<?php echo base_url(); ?>assets/dist/img/logoSJPUCH.jpg" height="80px">
+            <img src="<?php echo base_url(); ?><?php echo INSTITUTION_LOGO; ?>" height="80px">
 
 
 
@@ -162,7 +162,7 @@
 
 
 
-              <span><b style="font-size: 25px;"><span class="title_green">School</span><span class="title_blue">phins</span> - <span class="title_blue">SJPUCH</span></b></span>
+            <span><b style="font-size: 25px;"><span class="title_green">School</span><span class="title_blue">Phins</span> - <span class="title_blue"><?php echo SUB_TITLE; ?></span></b></span>
 
 
 
@@ -378,7 +378,7 @@
 
 
 
-              <span class="">&copy;<script>document.write(new Date().getFullYear())</script>-24 <a href="http://schoolphins.com/" target="_blank"><span class="title_green">School</span><span class="title_blue">phins</span></a> The Wings of an Education.</span>
+              <span class="">&copy;<script>document.write(new Date().getFullYear())</script>-24 <a href="http://schoolphins.com/" target="_blank"><span class="title_green">School</span><span class="title_blue">Phins</span></a> The Wings of an Education.</span>
 
 
 

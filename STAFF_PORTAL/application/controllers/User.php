@@ -158,6 +158,11 @@ class User extends BaseController
             $filter['role_one'] = 'ALL';
         }
         $this->load->library('pagination');
+        $newsCount = $this->staff->getNewsFeedCount($filter);
+        $returns = $this->paginationCompress("facultyDashboard/", $newsCount, 4);
+        $filter['page'] = $returns["page"];
+        $filter['segment'] = $returns["segment"];
+        $data['newsInfo'] = $this->staff->getNewsFeed($filter);
        // $newsCount = $this->staff->getNewsFeedCount($filter);
         $returns = $this->paginationCompress("facultyDashboard/", $newsCount, 4);
         $filter['page'] = $returns["page"];

@@ -708,7 +708,7 @@
                         <span>Student Suggestion</span>
                     </a>
                 </li>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a href="#sms_items" data-toggle="collapse" aria-expanded="false" class="nav-link  dropdown-toggle">
                         <i class="material-icons">chat</i>
                         <span>SMS</span>
@@ -727,7 +727,7 @@
                             </a>
                         </li>
                     </ul>
-                </li> 
+                </li> -->
                 <li class="nav-item">
                     <a href="#notification_items" data-toggle="collapse" aria-expanded="false" class="nav-link  dropdown-toggle">
                         <i class="material-icons">chat</i>

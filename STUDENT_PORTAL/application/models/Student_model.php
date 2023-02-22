@@ -75,6 +75,8 @@ class Student_model extends CI_Model
         return $result;
     }
 
+
+
      // function to get attendance info
      public function getAttendanceReport($filter){
         $this->db->select('attendance.absent_date,sub.name as sub_name,time.start_time,time.end_time');
@@ -564,29 +566,33 @@ public function updateCoursePaymentLogByRowId($paymentInfo,$order_id) {
           return $query->result();
         }
 
-        public function getStudentNotifications($term_name,$section_name,$stream_name){
+        public function getStudentNotifications($limit=75,$filter){
+            $term_name = $this->session->userdata('term_name'); 
+            // $course_name = $this->session->userdata('stream_name');
+          
             $this->db->from('tbl_student_notifications as notification');
             if(!empty($term_name)){
                 $this->db->where_in('notification.term_name',array($term_name,"ALL"));
             }else{
                 $this->db->where('notification.term_name',"ALL");
             }
-            if(!empty($stream_name)){
-                $this->db->where_in('notification.stream_name',array($stream_name,"ALL"));
+            if(!empty($filter['stream_name'])){
+                $this->db->where_in('notification.stream_name',array($filter['stream_name'],"ALL"));
             }else{
                 $this->db->where('notification.stream_name',"ALL");
             }
-            if(!empty($section_name)){
-                $this->db->where_in('notification.section_name',array($section_name,"ALL"));
+            if(!empty($filter['section_name'])){
+                $this->db->where_in('notification.section_name',array($filter['section_name'],"ALL"));
             }else{
                 $this->db->where('notification.section_name',"ALL");
             }
-            $this->db->where('notification.is_deleted', 0);
             $this->db->order_by("date_time","DESC");
-            $this->db->limit(50);
+            $this->db->limit($limit);
             $query = $this->db->get(); 
             return $query->result();
         }
+
+        
 
         public function getStudentInfoByRowId($row_id){
             $this->db->from('tbl_students_info as std');

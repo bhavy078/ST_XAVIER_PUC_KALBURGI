@@ -252,8 +252,8 @@ if ($error) {
                                                             <th class="tbl-head" width="250">Physically Challenged</th>
                                                             <th width="250">
                                                                 <select class="form-control mobile_input_width" id="is_handicapped" name="is_handicapped" data-live-search="true">
-                                                                    <option value="<?php echo $studentInfo->is_handicapped; ?>" >
-                                                                        Selected: <?php if($studentInfo->is_handicapped == 0){ echo "No"; }else{ echo "yes"; } ?>
+                                                                    <option value="<?php echo $studentInfo->Is_physically_challenged; ?>" >
+                                                                        Selected: <?php if($studentInfo->Is_physically_challenged == 0){ echo "No"; }else{ echo "Yes"; } ?>
                                                                     </option>
                                                                     <option value="0" >No</option>
                                                                     <option value="1" >Yes</option>

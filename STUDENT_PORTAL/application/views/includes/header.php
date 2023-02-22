@@ -56,6 +56,46 @@
     }
     </style>
 
+<script>      
+        function showLoader(){
+            $(".custom_loader").addClass('active');
+            $("#custom_loader_text").css('display','block');
+        }
+        function hideLoader(){
+            // $(".custom_loader").removeClass('active');
+            // $("#custom_loader_text").css('display','none');
+        }
+        $(document).ready(()=>{
+            $(".btn-backtrack").click((evt)=>{
+                showLoader();
+                if(document.referrer != "" && window.history.length > 1){
+                    window.history.go(-1);
+                }else{
+                    location.href = "<?=base_url()?>dashboard";
+                }
+            });
+
+            $("form").on('submit',(evt)=>{
+                if($(evt.target).data('download_form')){
+                    $.cookie('isDownloading', '1');
+                    showLoader();
+                    const intervalID = setInterval(() => {
+                        if($.cookie('isDownloading')==0){
+                            hideLoader();
+                            clearInterval(intervalID);
+                        }
+                    }, 2000);                    
+                }else{
+                    showLoader();
+                }
+            });
+
+            $("li.nav-item > .nav-link[href*='<?=base_url()?>']").on('click',function(){
+                showLoader();
+            });
+        });
+    </script>
+
     <script src="<?php echo base_url(); ?>assets/bower_components/jquery/dist/jquery.min.js"></script>
 
     <script type="text/javascript">
@@ -296,10 +336,10 @@
 
                                         </li> -->
 
-                                        <!-- <li class="nav-item">
+                                        <li class="nav-item">
 
                                             <a class="nav-link"
-                                                href="<?php echo base_url(); ?>studentNotificationReport">
+                                                href="<?php echo base_url(); ?>myNotifications">
 
                                                 <i class="material-icons">notifications</i>
 
@@ -307,7 +347,7 @@
 
                                             </a>
 
-                                        </li> -->
+                                        </li>
 
                                     </ul>
 
@@ -551,8 +591,9 @@
                                                 <?php 
 
                     $i = 1;
-
+               
                     if(!empty($notificationMsg)){
+                     
 
                       foreach($notificationMsg as $notification){ 
 
@@ -618,7 +659,11 @@
                                             </a>
 
                                             <?php } ?>
-
+                                            <a class="dropdown-item" onclick="showLoader();" href="<?=base_url()?>myNotifications">
+                          <div class="notification__content mt-2" style="width:100%">
+                              <b class=" float-right">View all <i class="fas fa-arrow-right"></i></b>
+                          </div>
+                        </a>
                                         </div>
 
                                     </li>
