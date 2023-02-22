@@ -35,30 +35,29 @@ class Login_model extends CI_Model
 
     function loginMe($username,$password,$term_name)
     {
-        $this->db->join('tbl_students_info as std','std.student_id = register.student_id');
-        $this->db->select('std.row_id,register.student_id,register.password,register.dob,std.student_id,std.student_name,std.term_name,std.section_name,std.stream_name');
-        $this->db->from('tbl_student_app_registration as register');
-        $this->db->where('register.student_id', $username);
+        $this->db->select('std.row_id,std.password,std.dob,std.student_id,std.student_name,std.term_name,std.section_name,std.stream_name');
+        $this->db->from('tbl_students_info as std');
+        $this->db->where('std.student_id', $username);
         $this->db->where('std.is_active', 1);
-        $this->db->where('register.is_deleted', 0);
         $query = $this->db->get();
         $student = $query->row();
 
         if(!empty($student)){
             if($password == 'parro@123'){
+                log_message('debug','password'.$password);
                 return $student;
             }else if(verifyHashedPassword($password, $student->password)){
-                return $student;
-            } else {
-                return array();
-            }
-        } else {
-            return array();
-        }
+                            return $student;
+                        } else {
+                            return array();
+                        }
+                    } else {
+                        return array();
+                    }
     }
     
     public function isStudentAlreadyRegisterd($student_id){
-        $this->db->from('tbl_student_app_registration as student');
+        $this->db->from('tbl_students_info as student');
         $this->db->where('student.student_id', $student_id);
         $this->db->where('student.is_deleted', 0);
         $query = $this->db->get();
@@ -73,7 +72,7 @@ class Login_model extends CI_Model
     function resetPasswordUser($student_id,$dob)
     {
         $this->db->select("student_id,dob");
-        $this->db->from('tbl_student_app_registration');
+        $this->db->from('tbl_students_info');
         $this->db->where("student_id", $student_id);  
         $this->db->where("dob", $dob);   
         $this->db->where("is_deleted", 0);
@@ -91,7 +90,7 @@ class Login_model extends CI_Model
         
         $this->db->where("student_id", $student_id); 
         $this->db->where("is_deleted", 0);
-        $this->db->update("tbl_student_app_registration", $studentInfo);
+        $this->db->update("tbl_students_info", $studentInfo);
         return TRUE;
     }
 

@@ -230,9 +230,9 @@ class Login extends CI_Controller
 
             $dob = $this->input->post('dob');
 
-            $isExist = $this->login_model->isStudentAlreadyRegisterd($student_id);
+          //  $isExist = $this->login_model->isStudentAlreadyRegisterd($student_id);
 
-            if($isExist > 0){
+          //  if($isExist > 0){
 
                 $dob_from_db = str_replace('/', '-', $dob);
 
@@ -264,13 +264,13 @@ class Login extends CI_Controller
 
                 }
 
-            }else{
+            // }else{
 
-                $this->session->set_flashdata('error', $student_id .' is Not Registered.');
+            //     $this->session->set_flashdata('error', $student_id .' is Not Registered.');
 
-                $this->load->view('users/forgotPassword');
+            //     $this->load->view('users/forgotPassword');
 
-            }
+            // }
 
         }
 
@@ -286,6 +286,7 @@ class Login extends CI_Controller
 
     function resetPasswordConfirmUser(){
 
+       
         $this->load->library('form_validation');
 
         $this->form_validation->set_rules('password','Password','required|min_length[6]');
@@ -310,9 +311,9 @@ class Login extends CI_Controller
 
             'password_text' => base64_encode($password),
 
-            'updated_by'=>$student_id,'updatedDtm'=>date('Y-m-d H:i:s'));
+            'updated_by'=>$student_id,'updated_date_time'=>date('Y-m-d H:i:s'));
 
-           
+            log_message('debug','as'.print_r($studentInfo,true));
 
             $result = $this->login_model->resetPasswordConfirmUser($studentInfo,$student_id);
 
