@@ -453,22 +453,22 @@ if(!empty($date_of_admission)){
                   </li>
 
 
-                  <!-- <li class="nav-item">
+                  <li class="nav-item">
 
 
                     <a class="nav-link" id="family-tab" data-toggle="tab" href="#family" role="tab" aria-controls="family" aria-selected="true">Family</a>
 
 
-                  </li> -->
+                  </li>
 
 
-                  <!-- <li class="nav-item">
+                  <li class="nav-item">
 
 
                     <a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Academic</a>
 
 
-                  </li> -->
+                  </li>
 
 
                   <li class="nav-item">
@@ -589,7 +589,7 @@ if(!empty($date_of_admission)){
 
 
                         </tr>  
-<!-- 
+
 
                         <tr>
 
@@ -597,10 +597,7 @@ if(!empty($date_of_admission)){
                           <th width="190">Physically Challenged<span class="float-right">:</span></th>
 
 
-                          <td><?php if(!empty($is_physically_challenged)){
-
-
-                            echo $is_physically_challenged;
+                          <td><?php if($studentInfo->Is_physically_challenged == 0){ echo "No"; }elseif($studentInfo->Is_physically_challenged == 1){ echo "Yes"; 
 
 
                           }else{
@@ -612,7 +609,7 @@ if(!empty($date_of_admission)){
                           } ?></td>
 
 
-                        </tr> -->
+                        </tr>
 
 
                         <tr>
@@ -729,7 +726,7 @@ if(!empty($date_of_admission)){
                         </tr>  
 
 
-                        <tr>
+                        <!-- <tr>
 
 
                           <th>Father's Age<span class="float-right">:</span></th>
@@ -750,10 +747,10 @@ if(!empty($date_of_admission)){
                           } ?> </td>
 
 
-                        </tr>  
+                        </tr>   -->
 
 
-                        <tr>
+                        <!-- <tr>
 
 
                           <th>Mother's Age<span class="float-right">:</span></th>
@@ -774,7 +771,7 @@ if(!empty($date_of_admission)){
                           } ?> </td>
 
 
-                        </tr>  
+                        </tr>   -->
 
 
                         <tr>
@@ -945,7 +942,7 @@ if(!empty($date_of_admission)){
                         </tr>
 
 
-                        <tr>
+                        <!-- <tr>
 
 
                           <th>Guardian's Name<span class="float-right">:</span></th>
@@ -954,9 +951,9 @@ if(!empty($date_of_admission)){
                           <td><?php echo $guardian_name?></td>
 
 
-                        </tr>
+                        </tr> -->
 
-
+<!-- 
                         <tr>
 
 
@@ -966,10 +963,10 @@ if(!empty($date_of_admission)){
                           <td><?php echo $guardian_mobile?></td>
 
 
-                        </tr>
+                        </tr> -->
 
 
-                        <tr>
+                        <!-- <tr>
 
 
                           <th>Guardian's Address<span class="float-right">:</span></th>
@@ -978,7 +975,7 @@ if(!empty($date_of_admission)){
                           <td><?php echo $guardian_address?></td>
 
 
-                        </tr>
+                        </tr> -->
 
 
                       </tbody>
@@ -1095,7 +1092,7 @@ if(!empty($date_of_admission)){
                         </tr>
 
 
-                        <tr>
+                        <!-- <tr>
 
 
                           <th width="200">Last Board Name<span class="float-right">:</span></th>
@@ -1116,10 +1113,10 @@ if(!empty($date_of_admission)){
                           } ?> </td>
 
 
-                        </tr>
+                        </tr> -->
 
 
-                        <tr>
+                        <!-- <tr>
 
 
                           <th>Last Board Percentage<span class="float-right">:</span></th>
@@ -1128,7 +1125,7 @@ if(!empty($date_of_admission)){
                           <td><?php echo $last_percentage?></td>
 
 
-                        </tr>
+                        </tr> -->
 
 
                       </tbody>

@@ -190,14 +190,14 @@ $this->load->helper('form');
                                                         echo date('d-m-Y',strtotime($staffInfo->doj));
                                                     } ?></td>
                                                 </tr>
-                                                <tr>
+                                                <!-- <tr>
                                                     <th>Blood Group<span class="float-right">:</span> </th>
                                                     <td><?php  if(empty($staffInfo->blood_group)){
                                                         echo '<span class="text-danger">Not Updated</span>';
                                                     } else{
                                                         echo $staffInfo->blood_group;
                                                     } ?></td>
-                                                </tr>
+                                                </tr> -->
                                                 <tr>
                                                     <th>Address<span class="float-right">:</span></th>
                                                     <td><?php echo $staffInfo->address; ?></td>

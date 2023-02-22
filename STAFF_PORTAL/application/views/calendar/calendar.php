@@ -88,7 +88,7 @@ if ($error) {
                             </div>    
                             <div class="col-5 text-right">
                              <a onclick="showLoader();window.history.back();"
-                                    class="btn primary_color mobile-btn float-right text-white"
+                                    class="btn btn-primary mobile-btn float-right text-white"
                                     value="Back"><i class="fa fa-arrow-circle-left"></i> Back </a>                     
                             </div>                                                   
                         </div>
@@ -306,6 +306,7 @@ if ($error) {
                     evt.allDay = +evt.allDay;
                     evt.start = new Date(evt.start);                
                     evt.end = new Date(evt.end);
+                    evt.end.setDate(evt.end.getDate() + 1);
                 });
                 loadCalendar(events);
             }catch($ex){

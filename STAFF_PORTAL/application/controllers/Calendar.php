@@ -13,7 +13,7 @@ class Calendar extends BaseController {
     }
 
     function index(){
-        $this->loadViews("calendar/calendar", $this->global, $data, NULL);
+        $this->loadViews("calendar/calendar", $this->global, NULL, NULL);
     }  
 
     function getCalendarEvents(){        

@@ -602,13 +602,8 @@ if ($error) {
             <form  id="addTcList">
                 <input type="hidden" id="student_id" name="student_id"  />
                 <div class="row">
-                    <div class="col-lg-6 col-md-6 col-xs-12">
-                        <div class="form-group">
-                            <label for="date_of_admission" class="col-form-label">Date of Admission:</label>
-                            <input type="text" placeholder="Enter Admission Date" class="form-control datepicker" name="date_of_admission" id="date_of_admission">
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-xs-12">
+                
+                    <div class="col-lg-4 col-md-4 col-xs-6">
                         <div class="form-group">
                             <label for="leaving_date" class="col-form-label">Date of Leaving:</label>
                             <input type="text" placeholder="Select Student Leaving Date" class="form-control " name="leaving_date" id="leaving_date">
@@ -616,22 +611,15 @@ if ($error) {
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="role">Whether the student is qualified for Promotion?</label>
+                    <label for="role">Whether Qualified for promotion to a higher class?</label>
                     <select class="form-control required" id="qualified_status" name="qualified_status">
                         <option value="YES" >YES</option>
                         <option value="NO">NO </option>
                     </select>
                 </div>
-                <div class="form-group reason_unqualified">
-                    <label for="role">Give reason for Unqualified Promotion?</label>
-                    <select class="form-control required" id="reason_unqualified_val" name="reason_unqualified">
-                        <option value="" >Select One Resaon</option>
-                        <option value="DISCONTINUED" >Discontinued</option>
-                        <option value="ATTENDAANCE SHORTAGE">Attendance Shortage </option>
-                    </select>
-                </div>
+               
                 <div class="form-group">
-                    <label for="role">Whether the student is belongs to SC/ST?</label>
+                    <label for="role">Whether the candidate belongs to Scheduled Caste or Tribe?</label>
                     <select class="form-control required" id="belong_sc_st" name="belong_sc_st">
                         <option value="NO">NO </option>
                         <option value="YES" >YES</option>
@@ -1434,10 +1422,10 @@ function openModel(student_id){
             $('#caste').val(studentInfo.caste);
             $('#languages').html(studentInfo.elective_sub);
 
-            $('#admission_date').html(appendLeadingZeroes(new Date(admissionDate).getDate()) 
-            + "-" + appendLeadingZeroes(new Date(admissionDate).getMonth() + 1) 
-            + "-" + appendLeadingZeroes(new Date(admissionDate).getFullYear()));
-            // $('#admission_date').html(studentInfo.date_of_admission);
+            // $('#admission_date').html(appendLeadingZeroes(new Date(admissionDate).getDate()) 
+            // + "-" + appendLeadingZeroes(new Date(admissionDate).getMonth() + 1) 
+            // + "-" + appendLeadingZeroes(new Date(admissionDate).getFullYear()));
+             $('#admission_date').html(studentInfo.date_of_admission);
 
 
             var admission = appendLeadingZeroes(new Date(admissionDate).getDate()) 
