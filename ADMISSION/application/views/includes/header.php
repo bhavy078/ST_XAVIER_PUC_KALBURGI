@@ -267,12 +267,12 @@
                   <span>Combination and Language</span>
                 </a>
               </li>
-              <li class="nav-item show-loader" id="paymentDetail">
+              <!-- <li class="nav-item show-loader" id="paymentDetail">
                 <a class="nav-link" href="<?php echo base_url(); ?>paymentDetail">
                   <i class="fa fa-check-circle-o fa-5x admission_icons" aria-hidden="true" id="payment"></i>
                   <span>Payment</span>
                 </a>
-              </li>
+              </li> -->
               
               <li class="nav-item show-loader">
                 <a class="nav-link " href="<?php echo base_url(); ?>profile">

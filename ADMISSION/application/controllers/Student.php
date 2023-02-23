@@ -965,8 +965,122 @@ class Student extends BaseController
             }
 
             if($retun_id > 0) {
-                $this->session->set_flashdata('success', 'Combination and Language Details Added Successfully<br>Please Pay the Fees');
-                redirect('paymentDetail');
+                // $this->session->set_flashdata('success', 'Combination and Language Details Added Successfully<br>Please Pay the Fees');
+                $boardData = $this->student_model->getStudentBoardInformation($this->student_row_id);                
+                     $sslc_id = $boardData->sslc_board_name_id;
+                    $boardInfo = $this->student_model->getBoardNameById($sslc_id);
+                    $studentMarkInfo = $this->student_model->getStudentMarkInfo($this->student_row_id);
+                    $total_max_mark = 0;
+                    $total_ninth_mark = 0;
+                    $total_mark = 0;
+                    $totalPercentage = 0; 
+                    if($boardInfo->board_name == "CBSE"){
+                        foreach($studentMarkInfo as $mark){
+                            $total_max_mark += $mark->max_mark;  
+                            $total_mark += $mark->obtnd_mark;
+                            // $total_ninth_mark += $mark->mark_obt_9_std;
+                            $totalPercentage = ($total_mark / $total_max_mark) * 100;
+                            // $totalNinthPercentage = ($total_ninth_mark / $total_max_mark) * 100;
+                        }
+                    } else if($boardInfo->board_name == "ICSE"){
+                        $markInfo = array_slice($studentMarkInfo, 0, 5, true);
+                        foreach($markInfo as $mark){
+                            $total_max_mark += $mark->max_mark;  
+                            $total_mark += $mark->obtnd_mark;
+                            // $total_ninth_mark += $mark->mark_obt_9_std;
+                            $totalPercentage = ($total_mark / $total_max_mark) * 100;
+                            // $totalNinthPercentage = ($total_ninth_mark / $total_max_mark) * 100;
+                        }
+                    } else {
+                        foreach($studentMarkInfo as $mark){
+                            if($mark->subject_name == 'EXEMPTED'){
+                                $max_mark = 0;  
+                            }else{
+                                $max_mark = $mark->max_mark;  
+                            }
+                            $total_mark += $mark->obtnd_mark;
+                            // $total_ninth_mark += $mark->mark_obt_9_std;
+                            $total_max_mark += $max_mark;  
+                            $totalPercentage = ($total_mark / $total_max_mark) * 100;
+                            // $totalNinthPercentage = ($total_ninth_mark / $total_max_mark) * 100;
+                        }
+                    }
+                    $total_percentage = round($totalPercentage,2);
+                    // $total_ninth_percentage = round($totalNinthPercentage,2);
+                    // $isApplied = $this->student_model->getStudentApplication_2021($this->student_row_id);
+                    // if(empty($isApplied)){
+                    //     $regInfo = array(
+                    //         'registered_row_id'=> $this->student_row_id,
+                    //     );
+                    //     $row_id = $this->student_model->saveStudentApplicationReg_2021($regInfo);
+                    //     $applicationNumber = '22'.sprintf('%04d', $row_id);
+                    // }else{
+                    //     $applicationNumber = '22'.sprintf('%04d', $isApplied->row_id);
+                    // }
+
+
+                    $existsApplicationStatus = $this->student_model->checkStudentAdmissionStatus($this->student_row_id);
+                    if(empty($existsApplicationStatus)){
+                        $isExistsApplicationNumber = $this->student_model->getPreviousStudentApplicationInfo();
+                        if(!empty($isExistsApplicationNumber)){
+                            $appNo = substr($isExistsApplicationNumber->application_number,2);
+
+                             $appliNo = $appNo + 1;
+                            $applicationNumber = '23'.sprintf('%04d', $appliNo);
+                        }else {
+                               $applicationNumber = '23'.sprintf('%04d', 1);
+
+                               }
+                            }else{
+                                $applicationNumber = $existsApplicationStatus->application_number;
+                            }
+
+
+                    $isExists = $this->student_model->checkStudentAdmissionStatus($this->student_row_id);
+                    if(!empty($isExists)){
+
+               
+                $applicationStatus = array(
+                    'adm_year' => 2023,
+                    'application_number'=> $applicationNumber,
+                    'registered_row_id' => $this->student_row_id,
+                    'sslc_percentage' => $total_percentage,
+                    // 'ninth_percentage' => $total_ninth_percentage,
+                    'application_fee_status' => 1,
+                    'admission_status'=> 0,
+                    'updated_by' => $this->student_row_id,
+                    'updated_date_time' => date('Y-m-d H:i:s'));
+
+                    $retun = $this->student_model->updateStudentApplicationStatus($this->student_row_id,$applicationStatus);
+                }else{
+
+                    $applicationStatus = array(
+                        'adm_year' => 2023,
+                        'registered_row_id' => $this->student_row_id,
+                        'application_number'=> $applicationNumber,
+                        'sslc_percentage' => $total_percentage,
+                        // 'ninth_percentage' => $total_ninth_percentage,
+                        'admission_status'=> 0,
+                        'updated_by' => $this->student_row_id,
+                        'updated_date_time' => date('Y-m-d H:i:s'));
+                        $retun = $this->student_model->saveStudentApplicationStatus($applicationStatus);
+                }
+
+               
+
+                    $studentPersonalInfo = array(
+                        'student_application_status'=> 0,
+                        'application_number'=> $applicationNumber,
+                        'sslc_percentage' => $total_percentage,
+                        // 'ninth_percentage' => $total_ninth_percentage,
+                        'updated_by' => $this->student_row_id,
+                        'updated_dtm' => date('Y-m-d H:i:s'));
+
+                      
+                $retun_id = $this->student_model->updateStudentPersonalInfo($this->student_row_id,$studentPersonalInfo);
+               
+                $this->session->set_flashdata('success', 'Application Successfully Submitted');
+                redirect('dashboard');
             } else {
                 $this->session->set_flashdata('error', 'Failed to Add Combination and Language Details');
             }
