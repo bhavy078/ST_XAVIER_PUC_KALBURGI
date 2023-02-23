@@ -196,7 +196,7 @@
                                 <div class="chat_user_avatar">
 
 
-                                    <img alt="Student Image" src="http://localhost/Parrophins/ST_XAVIER_PUC_KALBURGI/STAFF_PORTAL/upload/<?php echo $student_id; ?>.jpg" class="md-user-image">
+                                    <img alt="Student Image" src="<?php echo $studentInfo->photo_url; ?>" class="md-user-image">
 
 
                                 </div>

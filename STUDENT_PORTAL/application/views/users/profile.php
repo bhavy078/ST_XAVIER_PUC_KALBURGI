@@ -6,6 +6,7 @@ if(!empty($studentInfo)){
 
   $row_id = $studentInfo->row_id;
 
+  $profileImg= $studentInfo->photo_url;
 
   $student_id = $studentInfo->student_id;
 
@@ -343,7 +344,7 @@ if(!empty($date_of_admission)){
         <div class="card-header text-center profile-img">
 
 
-          <img  src="http://localhost/Parrophins/ST_XAVIER_PUC_KALBURGI/STAFF_PORTAL/upload/<?php echo $student_id; ?>.jpg"  class="avatar rounded-circle img-thumbnail" width="130" height="130" alt="User Image" >  
+          <img  src="<?php echo $profileImg ?>"  class="avatar rounded-circle img-thumbnail" width="130" height="130" alt="User Image" >  
 
 
         </div>

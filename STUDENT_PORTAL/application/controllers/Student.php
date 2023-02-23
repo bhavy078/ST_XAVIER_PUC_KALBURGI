@@ -306,6 +306,17 @@ class Student extends BaseController
        
         $data['regCourseInfo'] = $this->student_model->getAllCourseRegisterInfo($this->student_id);
 
+      //  $newsCount = $this->student_model->getNewsFeedCount($filter);
+        $returns = $this->paginationCompress("studentDashboard/", $newsCount, 4);
+        $filter['page'] = $returns["page"];
+        $filter['segment'] = $returns["segment"];
+        $data['newsInfo'] = $this->student_model->getNewsFeed($filter);
+        // foreach($data['newsInfo'] as $news){
+        //     $news->isLiked=$this->student_model->isLiked($news->row_id,$this->session->userdata('userId'));
+        //     $news->totalLikes=$this->student_model->totalLikes($news->row_id);
+        // }
+      
+
         $this->global['pageTitle'] = ''.TAB_TITLE.' : Dashboard';
         $this->loadViews("dashboard", $this->global, $data , NULL);
     }
@@ -315,6 +326,7 @@ class Student extends BaseController
      */
     function profile($active = "details"){
         $data['studentInfo'] = $this->student_model->getStudentInfoById($this->student_id,$this->term_name);
+         log_message('debug','as'.print_r($data['studentInfo'],true));
         $data["active"] = $active;
         $this->global['pageTitle'] = ''.TAB_TITLE.' : My Profile' ;
         $this->loadViews("users/profile", $this->global, $data, NULL);
@@ -491,6 +503,8 @@ class Student extends BaseController
 
     // view suggestion page
     public function mySuggestion(){
+        $data['studentInfo'] = $this->student_model->getStudentInfoById($this->student_id,$this->term_name);
+        $this->global['pageTitle'] = ''.TAB_TITLE.' : My Attendance' ;
         $data['suggestionInfo'] = $this->student_model->getSuggestionInfoById($this->student_id);
         $this->global['pageTitle'] = ''.TAB_TITLE.' : My Suggestion ' ;
         $this->loadViews("student/mySuggestion", $this->global, $data, NULL);

@@ -1547,6 +1547,85 @@ Orientation Program
     </div> -->
     <!-- End Top Notification Section -->
     <!-- New Feedback Component -->
+    <div class="col-lg-6 col-md-6 col-12 mt-1 mb-2 padding_left_right_null">
+        <div class="card card-small p-0">
+            <div class="card-header border-bottom card_head_dashboard">
+                <h6 class="m-0 text-dark">News Feed</h6>
+            </div>
+     <div class="card-body p-0">
+                <ul class="list-group list-group-small list-group-flush">
+                    <li class="list-group-item p-0" id="newsFeed_section">
+                        <!-- <span class="text-semibold text-dark" style="font-weight:500"></span> -->                        
+                        <?php if(!empty($newsInfo)){
+                            $segmentID = 0;
+                            foreach($newsInfo as $count=>$news){ 
+                            if(fmod($count,7) == 0){ 
+                                $segmentID++;
+                            }
+                            ?> 
+                            <div class="card news_card mb-2 p-1 newsFeedSegmentID_<?=$segmentID;?>">
+                                <div class="row px-1">
+                                    <div class="col-6">
+                                        <b class="float-left"><?php echo date('h:i A', strtotime($news->date)); ?></b>
+                                    </div>
+                                    <div class="col-6">
+                                        <b class="float-right"><?php echo date('d-m-Y', strtotime($news->date)); ?></b>
+                                    </div>
+                                </div>
+                                <hr class="mx-1 mt-1 mb-0">                                
+                                <?php if(!empty($news->photo_url)){
+                                        $tempImgs = ['png','jpeg','jpg'];
+                                        $ext = strtolower(pathinfo($news->photo_url, PATHINFO_EXTENSION));
+                                        if(in_array($ext,$tempImgs)){   ?>
+                                            <div class="news_header">
+                                                <img src="<?php echo ADMIN_PORTAL;?><?php echo $news->photo_url;?>" alt="News Feed" height="130" class="w-100" />
+                                            </div>
+                                            <div class="card-header px-2 py-1">
+                                                <h6 class="news_title mb-0"><?php echo  $news->subject; ?></h6>
+                                            </div>
+                                        <?php }else{?>
+                                            <div class="card-header px-2 py-1">
+                                                <h6 class="news_title mb-0"><?php echo  $news->subject; ?> <a style="font-size:15px;" class="pl-2" target="_blank" href="<?php echo ADMIN_PORTAL;?><?php echo $news->photo_url?>">view document</a></h6>
+                                            </div>
+                                       <?php }
+                                } ?>
+                                <div class="card-body news_body px-2 py-1">
+                                    <span><?php echo $news->description; ?></span>
+                                </div>
+                                
+                                <div class="card-footer px-2 py-1 float-right">
+                                    <span class="p-2">
+                                        <i data-toggle="tooltip" data-placement="top" title="<?php
+                                                echo ($news->isLiked == 0) ? "Like" : "Dislike";
+                                            ?>" class="fas fa-thumbs-up like_btn" style="color:<?php 
+                                        if($news->isLiked == 0){
+                                            echo 'grey;cursor: pointer;';
+                                        }else{
+                                            echo "blue;cursor: pointer;";
+                                        }                                            
+                                        ?>" onclick="like(this)" data-liked="<?=$news->isLiked;?>" data-row_id="<?=$news->row_id;?>"></i> 
+                                        <span class="pl-2" style="font-size:17px;font-weight:bold;"><span class='totalLikes'><?=$news->totalLikes;?></span></span> Likes
+                                    </span>
+                                </div>
+                                
+                            </div>
+                        <?php } }else{ ?>
+                            <div class="text-center">
+                                <span class="text-semibold text-dark text-center" style="font-weight:500">News Feed Not Updated</span>
+                            </div>
+                        <?php } ?>
+                        <div class="float-right">
+                            <?php echo $this->pagination->create_links(); ?>
+                        </div>
+                    </li>
+                </ul>
+                <span onclick="loadMoreNewsFeed();" style="user-select:none;font-size:17px;font-weight:bold;cursor:pointer;color:#007bff" class="float-left pt-2 pb-2 pl-2 nf_load_more">load more<i class="fas fa-arrow-circle-down pl-1"></i></span>
+                <span onclick="showLessNewsFeed();" style="user-select:none;font-size:17px;font-weight:bold;cursor:pointer;color:#007bff" class="float-right pt-2 pb-2 pr-2 nf_load_more">show less<i class="fas fa-arrow-circle-up pl-1"></i></span>    
+            </div>
+          
+        </div>
+    </div>
+
     <div class="col-lg-6 col-md-6 col-12 mb-4 padding_left_right_null">
       <!-- Quick Post -->
       <div class="card card-small">
@@ -1577,8 +1656,15 @@ Orientation Program
         </div>
       </div>
       <!-- End Quick Post -->
+
+      
     </div>
+    
   </div>
+  
+
+
+  
   <!-- End New Feedback Component -->
   <!-- Discussions Component -->
   <!-- <div class="col-lg-4 col-md-12 col-sm-12 mb-4 padding_left_right_null">
@@ -1936,6 +2022,27 @@ function getLabTotal($result, $subjects)
     }
   });
 
+  function showLessNewsFeed(){
+    if(localStorage.getItem("NFSID") !=null){
+        let curSegmentID = parseInt(localStorage.getItem("NFSID"));
+        if(curSegmentID != 1){
+        $(".newsFeedSegmentID_"+curSegmentID).hide();
+        localStorage.setItem("NFSID",curSegmentID-1);
+        }
+    }
+}
+function loadMoreNewsFeed(){
+    let nextSegmentID = 1;
+    if(localStorage.getItem("NFSID") !=null){
+        nextSegmentID = parseInt(localStorage.getItem("NFSID")) + 1;
+    }
+    if($(".newsFeedSegmentID_"+nextSegmentID).length ==0){
+        alert("There is no more news feeds to load..");
+    }else{
+        localStorage.setItem("NFSID",nextSegmentID);
+        $(".newsFeedSegmentID_"+nextSegmentID).show();
+    }
+}
   function sendMessage() {
     $('#msg').html('');
     var subject = $("#sel1 option:selected").val();

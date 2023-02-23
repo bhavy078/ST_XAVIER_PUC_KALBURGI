@@ -336,7 +336,7 @@
 
                                         </li> -->
 
-                                        <li class="nav-item">
+                                        <!-- <li class="nav-item">
 
                                             <a class="nav-link"
                                                 href="<?php echo base_url(); ?>myNotifications">
@@ -347,7 +347,7 @@
 
                                             </a>
 
-                                        </li>
+                                        </li> -->
 
                                     </ul>
 
@@ -577,7 +577,7 @@
                                         </div>
 
                                     </li>
-
+<!-- 
                                     <li class="nav-item border-right dropdown notifications">
 
                                         <a class="nav-link nav-link-icon text-center" href="#" role="button"
@@ -666,7 +666,7 @@
                         </a>
                                         </div>
 
-                                    </li>
+                                    </li> -->
 
                                     <li class="nav-item dropdown nav-profile">
 
@@ -674,7 +674,7 @@
                                             href="#" role="button" aria-haspopup="true" aria-expanded="false">
 
                                             <img class="user-avatar rounded-circle mr-2"
-                                                src="https://sjpuchassan.schoolphins.com/assets/images/PHOTOS_19_21_ALL/<?php echo $student_id; ?>.png"
+                                                src="<?php echo $studentInfo->photo_url; ?>"
                                                 alt="User Avatar" />
 
 
@@ -691,7 +691,7 @@
                                                 <div class="col-12 col-lg-12 ">
 
                                                     <img class=" rounded-circle text-center "
-                                                        src="https://sjpuchassan.schoolphins.com/assets/images/PHOTOS_19_21_ALL/<?php echo $student_id; ?>.png"
+                                                        src="<?php echo $studentInfo->photo_url; ?>"
                                                         alt="User Avatar" height="100" width="100">
 
 

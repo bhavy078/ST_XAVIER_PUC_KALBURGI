@@ -641,6 +641,47 @@ public function updateCoursePaymentLogByRowId($paymentInfo,$order_id) {
             $result = $query->result();
             return $result;
         }
+
+          
+    // dashboard news feed
+    public function getNewsFeed($filter) {
+        $this->db->select('news.row_id,news.subject,news.description,news.term_name,news.date,news.stream_name,
+        news.photo_url');
+        $this->db->from('tbl_news_feed as news'); 
+        $this->db->join('tbl_news_feed_role_mngt as role', 'role.rel_news_row_id = news.row_id','right');
+        if(!empty($filter['term_name'])){
+            $this->db->where_in('news.term_name',array($filter['term_name'], '','ALL'));
+        }
+        if(!empty($filter['role']) || !empty($filter['role_one'])){
+            $this->db->where_in('role.visible_type',array($filter['role'], $filter['role_one']));
+        }
+        $this->db->where('news.is_deleted', 0);
+        $this->db->where('role.is_deleted', 0);
+        $this->db->order_by('news.date', 'DESC');
+        $this->db->limit($filter['page'], $filter['segment']);
+        $query = $this->db->get();
+        //return $this->db->last_query();
+        return $query->result();
+    }
+    public function getNewsFeedApi($filter) {
+        $this->db->select('news.row_id,news.subject,news.description,news.term_name,news.date,news.stream_name,
+        news.photo_url');
+        $this->db->from('tbl_news_feed as news'); 
+        $this->db->join('tbl_news_feed_role_mngt as role', 'role.rel_news_row_id = news.row_id','right');
+        if(!empty($filter['term_name'])){
+            $this->db->where_in('news.term_name',array($filter['term_name'], '','ALL'));
+        }
+        if(!empty($filter['role']) || !empty($filter['role_one'])){
+            $this->db->where_in('role.visible_type',array($filter['role'], $filter['role_one']));
+        }
+        $this->db->where('news.is_deleted', 0);
+        $this->db->where('role.is_deleted', 0);
+        $this->db->order_by('news.date', 'DESC');
+        // $this->db->limit($filter['page'], $filter['segment']);
+        $query = $this->db->get();
+        //return $this->db->last_query();
+        return $query->result();
+    }
  
 }
 ?>
