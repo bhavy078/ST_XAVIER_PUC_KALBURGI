@@ -92,7 +92,7 @@ define('ROLE_MANAGER',                         	'2');
 define('ROLE_EMPLOYEE',                         '3');
 
 define('SEGMENT',								2);
-
+define('ADMIN_PORTAL',                         'http://localhost/Parrophins/ST_XAVIER_PUC_KALBURGI/STAFF_PORTAL/');
 
 define('TITLE','ST. XAVIER\'S PRE–UNIVERSITY COLLEGE, KALABURAGI');
 define('SUB_TITLE','STXPUC');

@@ -352,12 +352,19 @@
                                 <span>Alumni</span>
                             </a>
                         </li>
+                     
                         <li class="nav-item">
                             <a class="nav-link" href="<?php echo base_url(); ?>getStudentAppliedForTc">
                                 <i class="material-icons">group</i>
                                 <span>Applied For Tc</span>
                             </a>
                         </li>
+                        <li class="nav-item">
+                                <a class="nav-link " href="<?php echo base_url(); ?>getCertificate">
+                                    <i class="material-icons">chat</i>
+                                    <span>Issue Certificate</span>
+                                </a>
+                            </li>
                         <li class="nav-item">
                             <a class="nav-link" href="<?php echo base_url(); ?>getAlumniStudentTc">
                                 <i class="material-icons">group</i>
@@ -728,7 +735,7 @@
                         </li>
                     </ul>
                 </li> -->
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a href="#notification_items" data-toggle="collapse" aria-expanded="false" class="nav-link  dropdown-toggle">
                         <i class="material-icons">chat</i>
                         <span>Notification</span>
@@ -746,14 +753,14 @@
                                 <span>Staff</span>
                             </a>
                         </li> -->
-                        <li class="nav-item">
+                      <!--  <li class="nav-item">
                             <a class="nav-link" href="<?php echo base_url(); ?>studentNotifications">
                                 <i class="material-icons">supervisor_account</i>
                                 <span>Student</span>
                             </a>
                         </li>
                     </ul>
-                </li>
+                </li> -->
                 <?php } ?>
                 <li class="nav-item">
                     <a href="#leave" data-toggle="collapse" aria-expanded="false"
@@ -1163,14 +1170,14 @@
                         </a>
                     </li> -->
                     <li class="nav-item border-right dropdown notifications">
-                        <a class="nav-link nav-link-icon text-center" href="#" role="button" id="dropdownMenuLink"
+                        <!-- <a class="nav-link nav-link-icon text-center" href="#" role="button" id="dropdownMenuLink"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <div class="nav-link-icon__wrapper"
                                 onclick="clearNotificationCounter('<?= $this->session->userdata('staff_id') ?>')">
                                 <i class="material-icons">notifications</i><span class="badge badge-pill badge-danger"
                                     id="notificationCounter">0</span>
                             </div>
-                        </a>
+                        </a> -->
                         <div class="dropdown-menu dropdown-menu-small" aria-labelledby="dropdownMenuLink">
                             <span id="new_notification_list">
 
