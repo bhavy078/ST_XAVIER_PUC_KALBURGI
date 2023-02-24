@@ -835,6 +835,8 @@ class students_model extends CI_Model
         std.date_of_admission,
         std.elective_sub,
         std.hall_ticket_no,
+        std.student_no,
+        std.application_no,
        ');
         $this->db->from('tbl_students_info as std');
         $this->db->join('tbl_applied_students_tc_info as tc','tc.student_id = std.student_id','left');
@@ -1284,5 +1286,126 @@ class students_model extends CI_Model
             $query = $this->db->get();
             return $query->row();
         }
-    
+
+        public function getCertificateInfo($row_id){
+            $this->db->from('tbl_certificate_name as name'); 
+            $this->db->where('name.row_id', $row_id);
+            $this->db->where('name.is_deleted', 0);
+            $query = $this->db->get();
+            $result = $query->row();        
+            return $result;
+        }
+        function getAllRequestFormInfoCount($filter){
+            $this->db->from('tbl_request_form as request'); 
+            $this->db->join('tbl_students_info as std', 'std.row_id = request.student_row_id','left');
+            $this->db->join('tbl_certificate_name as name', 'name.row_id = request.certificate_Id','left');
+            if(!empty($filter['student_row_id'])) {
+                $this->db->where('request.student_row_id', $filter['student_row_id']);
+            }
+            // if(!empty($filter['enrolment_no'])) {
+            //     $this->db->where('std.enrolment_no', $filter['enrolment_no']);
+            // }
+            if(!empty($filter['student_name'])){
+                $this->db->where('std.student_name', $filter['student_name']);
+            }
+            if(!empty($filter['request_sub'])){
+                $this->db->where('request.request_sub', $filter['request_sub']);
+            }
+            if(!empty($filter['request_issue'])) {
+                $this->db->where('request.issue', $filter['request_issue']);
+            }
+            if(!empty($filter['request_certificate'])) {
+                $this->db->where('request.certificate_Id', $filter['request_certificate']);
+            }
+            if(!empty($filter['student_name'])){
+                $likeCriteria = "(std.student_name  LIKE '%" . $filter['student_name'] . "%')";
+                $this->db->where($likeCriteria);
+            }
+            $this->db->where('request.is_deleted', 0);
+            $query = $this->db->get();
+            return $query->num_rows();
+        } 
+        function getAllRequestFormInfo($filter, $page, $segment){
+            $this->db->select('request.row_id,request.issue,request.certificate_Id,request.request_sub,name.row_id as nameid,
+            name.certificate_name,std.student_name,std.student_id');
+            $this->db->from('tbl_request_form as request'); 
+            $this->db->join('tbl_students_info as std', 'std.row_id = request.student_row_id','left');
+            $this->db->join('tbl_certificate_name as name', 'name.row_id = request.certificate_Id','left');
+            if(!empty($filter['student_row_id'])) {
+                $this->db->where('request.student_row_id', $filter['student_row_id']);
+            }
+            if(!empty($filter['student_id'])) {
+                $this->db->where('std.student_id', $filter['student_id']);
+            }
+            if(!empty($filter['student_name'])){
+                $this->db->where('std.student_name', $filter['student_name']);
+            }
+            if(!empty($filter['request_sub'])){
+                $this->db->where('request.request_sub', $filter['request_sub']);
+            }
+            if(!empty($filter['request_issue'])) {
+                $this->db->where('request.issue', $filter['request_issue']);
+            }
+            if(!empty($filter['request_certificate'])) {
+                $this->db->where('request.certificate_Id', $filter['request_certificate']);
+            }
+            $this->db->where('request.is_deleted', 0);
+            $this->db->order_by('request.row_id', 'DESC');
+            $this->db->limit($page, $segment);
+            $query = $this->db->get();
+            return $query->result();        
+        }
+
+        function certificateNames(){
+            $this->db->from('tbl_certificate_name as name'); 
+            $this->db->where('name.is_deleted', 0);
+            $query = $this->db->get();
+            $result = $query->result();        
+            return $result;
+        }
+
+        function studentData(){
+            $this->db->from('tbl_students_info as std'); 
+            $this->db->where('std.is_deleted', 0);
+            $query = $this->db->get();
+            $result = $query->result();        
+            return $result;
+        }
+
+        function addStudentRequestForm($requestInfo){
+            $this->db->trans_start();
+            $this->db->insert('tbl_request_form', $requestInfo);
+            $insert_id = $this->db->insert_id();
+            $this->db->trans_complete();
+            return $insert_id;
+        }
+
+        public function getInfoForStudyCertificate($row_id){
+            $this->db->select('std.intake_year,request.row_id as receipt_id,std.student_name,std.section_name,std.student_id,std.mother_tongue,
+            std.mother_name,request.row_id as receipt_no,std.father_name,request.classes_from,request.classes_to,request.college_from,request.college_to');
+            $this->db->from('tbl_students_info as std');
+            $this->db->join('tbl_request_form as request', 'request.student_row_id = std.row_id','left');
+            $this->db->where_in('request.row_id', $row_id);
+            $this->db->where('request.certificate_Id ', 2);
+            $this->db->where('std.is_active', 1);
+            $this->db->where('std.is_deleted', 0);
+            $this->db->where('request.is_deleted', 0);
+            $query = $this->db->get();
+            return $query->result();
+        }
+
+        public function getInfoForCertificate($enrolment_id){
+            $this->db->select('name.certificate_name');
+            $this->db->distinct();
+            $this->db->from('tbl_certificate_name as name');
+            $this->db->join('tbl_request_form as request', 'request.certificate_Id = name.row_id','left');
+            $this->db->where_in('request.row_id', $enrolment_id);
+            $this->db->where('request.is_deleted', 0);
+            $this->db->where('name.is_deleted', 0);
+            $query = $this->db->get();
+            return $query->result();
+        }
+
+
+
 }

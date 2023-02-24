@@ -1578,14 +1578,14 @@ Orientation Program
                                         $ext = strtolower(pathinfo($news->photo_url, PATHINFO_EXTENSION));
                                         if(in_array($ext,$tempImgs)){   ?>
                                             <div class="news_header">
-                                                <img src="<?php echo ADMIN_PORTAL; ?><?php echo $news->photo_url;?>" alt="News Feed" height="130" class="w-100" />
+                                                <img src="<?php echo ADMIN_PATH; ?><?php echo $news->photo_url;?>" alt="News Feed" height="130" class="w-100" />
                                             </div>
                                             <div class="card-header px-2 py-1">
                                                 <h6 class="news_title mb-0"><?php echo  $news->subject; ?></h6>
                                             </div>
                                         <?php }else{?>
                                             <div class="card-header px-2 py-1">
-                                                <h6 class="news_title mb-0"><?php echo  $news->subject; ?> <a style="font-size:15px;" class="pl-2" target="_blank" href="<?php echo ADMIN_PORTAL; ?><?php echo $news->photo_url?>">view document</a></h6>
+                                                <h6 class="news_title mb-0"><?php echo  $news->subject; ?> <a style="font-size:15px;" class="pl-2" target="_blank" href="<?php echo ADMIN_PATH; ?><?php echo $news->photo_url?>">view document</a></h6>
                                             </div>
                                        <?php }
                                 } ?>

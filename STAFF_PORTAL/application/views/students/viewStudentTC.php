@@ -4,6 +4,7 @@
     .main-footer {
         display: none !important;
     }
+
     .wizard-inner, .card-header, .card-footer {
         display: none;
     }
@@ -158,7 +159,6 @@ tr {
     height: 175px;
     width: 165px;
     text-align: center;
-    margin-left: 20px;
 }
 
 .border_bottom_dashed {
@@ -170,6 +170,9 @@ tr {
 .table_declaration{
     margin-bottom: 10px;
 }
+
+
+
 .table_declaration>tbody>tr>th, .table_declaration>tfoot>tr>td, .table_declaration>tfoot>tr>th, 
 .table_declaration>thead>tr>td, .table_declaration>thead>tr>th {
     padding: 3px 4px !important;
@@ -183,7 +186,7 @@ tr {
 .table_data>tbody>tr>th, .table_data>tfoot>tr>td, .table_data>tfoot>tr>th, 
 .table_data>thead>tr>td, .table_data>thead>tr>th {
     padding: 3px 4px !important;
-    font-size: 17px;
+    font-size: 20px;
 }
 .content_list{
     list-style-type: lower-alpha;
@@ -212,10 +215,29 @@ h4{
 .spacing_left{
     margin-left: 10px;
 }
+
+.watermarked {
+  position: relative;
+}
+
+.watermarked:after {
+  content: "";
+ 
+  width: 100%;
+  height: 70%;
+  position: absolute;
+  top: -2px;
+  left: 0px;
+  background-image: url("<?php echo base_url(); ?>assets/dist/img/logo_stxpuc.jpg");
+  background-size: 100% 100%;
+  background-position: -10px -20px;
+  background-repeat: no-repeat;
+  opacity: 0.08;
+}
 </style>
 
 
-<div class="main-content-container container-fluid px-4 pt-2">
+<div class="main-content-container container-fluid px-4 pt-2 a">
     <div class="content-wrapper">
         <div class="row noprint">
             <div class="col-12">
@@ -234,7 +256,8 @@ h4{
                 </div>
             </div>
         </div>
-        
+      
+
         <?php //if(empty($studentInfo)){ ?>
         <!-- <div class="row form-employee">
             <div class="col-lg-12 col-md-12 col-12 pr-0 text-center">
@@ -258,55 +281,70 @@ h4{
                         <div class="A4 enable-print">
                             <div style="mb-0">
                                 <br/>
-                                <div class="row" style="margin-top: -38px;">
+                                <div class="row">
                                     <div class="col-lg-12 col-sm-12 col-12">
-                                        <div class="header-heading text-center" style="margin-bottom: 10px;">
-                                            <b class="mb-1" style="font-size: 30px;font-weight: 400; text-transform: uppercase;font-family: serif;">ST. XAVIER'S PRE–UNIVERSITY COLLEGE, KALABURAGI</b>
-                                            <p class="mb-1" style="font-size: 18px;font-weight: 600;">Address</p>
-                                            <b style="font-size: 25px;"><b>TRANSFER CERTIFICATE</b></b>
+                                        <div class="header-heading text-center">
+                                        <p style="font-size: 16px;text-align:right;"><b>ORIGINAL</b></p>
+                                        <table class="table table_data" style="margin-top: -30px;">
+                                            <tr>
+                                   
+                                            <th width="220">     
+                                            <img id="main-logo" class="d-inline-block logo_mobile_view mr-0 rounded"
+                            style="width: 200px;height: 120px" src="<?php echo base_url(); ?><?php echo INSTITUTION_LOGO; ?>"
+                            alt="logo"></th>
+                                              <th colspan="2">  <b class="mb-1" style="font-size: 30px;font-weight: 400; text-transform: uppercase;font-family: serif;"><strong>ST. XAVIER'S PRE–UNIVERSITY COLLEGE</strong></b>
+                                            <p class="mb-1" style="font-size: 18px;font-weight: 600;">NH 50, FARHATABAD POST SIRNOOR, KALABURAGI - 585308</p>
+                                            <p class="mb-1" style="font-size: 18px;font-weight: 600;">KARNATAKA, INDIA</p></th></tr>
+                                         <tr> <th style="border-right: 4px solid white;" height="50" style="border-left: 4px solid white;"><b class="border_full" style="font-size: 16px;padding-left:10px;"><b>TC No:<?php echo $record->tc_number; ?></b></b></th>  
+                                            <th style="border-right: 4px solid white;"><b class="border_full" style="font-size: 18px;padding-left: 150px;padding-right:150px;"><b>TRANSFER CERTIFICATE</b></b></th>
+                                            <th><b class="border_full" style="font-size: 18px;padding-left: 20px;padding-right:20px;"><b>Date:<?php echo date('d/m/Y',strtotime($record->created_date_time)); ?></b></b></th>
+                                        </tr>
+                        </table>
                                         </div>
                                     </div>
                                 </div>
                                 
-                                <div class="row boredr_only_top boredr_left_right">
+                                <!-- <div class="row boredr_only_top boredr_left_right">
                                     <div class="col-6" style="margin-top: -13px;">
                                         <b style="font-size: 18px;">Roll No. :&nbsp;</b>
                                         <span class="border_full" style="font-size: 18px;padding-left: 85px;padding-right:85px;"><b> <?php echo $record->student_id; ?></b></span>
                                     </div>
+                                
                                     <div class="col-6" style="margin-top: -13px;">
                                         <b style="font-size: 18px;">T.C. No. :&nbsp;</b>
-                                        <span class="border_full" style="font-size: 18px;padding-left: 50px;padding-right:50px;"><b><?php echo $record->tc_number; ?></b></span>
+                                        <span class="border_full" style="font-size: 18px;padding-left: 10px;padding-right:50px;"><b><?php echo $record->tc_number; ?></b></span>
                                     </div>
-                                </div>
-                                <div class="row">
+                                </div> -->
+                                <div class="row watermarked">   
+                                     <div class="col-lg-12 col-sm-12 col-12" style="margin-top: -13px;">
                                     <table class="table table_data">
                                         <tr>
-                                            <th width="480"><b>1. <span class="spacing_left">Name of the Student</span></b>
-                                                <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="spacing_left">(as in the Admission Register)</span>
+                                            <th width="480"><b>01. <span class="spacing_left">Name of the Student</span></b>
+                                              
                                             </th>
                                             <th><?php echo strtoupper($record->student_name); ?></th>
                                         </tr>
                                         <tr>
-                                            <th>2. <span class="spacing_left">Date of Birth as in the Admission Register</span>
-                                                <ul class="content_list" style="margin-left: 8px;">
+                                            <th>02. <span class="spacing_left">Date of Birth</span>
+                                                <!-- <ul class="content_list" style="margin-left: 8px;">
                                                     <li> In Figures</li>
                                                     <li> In words</li>
-                                                </ul>
+                                                </ul> -->
                                             </th>
-                                            <th>
-                                                <br><ul class="content_list" style="list-style-type: none;">
+                                            <th><?php echo date('d/m/Y',strtotime($record->dob)); ?>
+                                                <!-- <br><ul class="content_list" style="list-style-type: none;">
                                                     <li style="margin-left: -40px;"><?php echo date('d/m/Y',strtotime($record->dob)); ?></li>
-                                                    <li style="margin-left: -40px;"><?php echo strtoupper($date.' '.date('F',strtotime($record->dob)).' '.$year); ?></li>
-                                                </ul>
+                                                    <!-- <li style="margin-left: -40px;"><?php echo strtoupper($date.' '.date('F',strtotime($record->dob)).' '.$year); ?></li> -->
+                                                <!-- </ul> -->
                                             </th>
                                         </tr>
                                         <tr>
-                                            <th>3. <span class="spacing_left">Nationality / Religion</span></th>
-                                            <th><?php echo $record->nationality; ?> <?php echo $record->religion; ?> <?php echo $record->caste; ?></th>
+                                            <th>03. <span class="spacing_left">Nationality</span></th>
+                                            <th><?php echo $record->nationality; ?> <!--<?php echo $record->religion; ?> <?php echo $record->caste; ?>--></th>
                                         </tr>
                                         <tr>
-                                            <th>4. <span class="spacing_left">Parent's name</span> <span style="margin-left: 40px;">a. Father's</span>
-                                                <br><span style="margin-left: 182px;line-height: 2;">b. Mother's</span>
+                                            <th>04. <span style="margin-left: 10px;">a. Father's Name</span>
+                                                <br><span style="margin-left: 40px;line-height: 2;">b. Mother's Name</span>
                                             </th>
                                             <th>
                                                 <?php echo strtoupper($record->father_name); ?>
@@ -314,24 +352,29 @@ h4{
                                             </th>
                                         </tr>
                                         <tr>
-                                            <th>5. <span class="spacing_left">Date of Admission</span></th>
+                                            <th>05. <span class="spacing_left">Religion</span></th>
+                                            <th><?php echo $record->religion; ?></th>
+                                        </tr>
+                                        <tr>
+                                            <th>06. <span class="spacing_left">Whether the candidate belongs to Scheduled Caste or Tribe</span>
+                                            </th>
+                                            <th><?php echo $record->is_belongs_sc_st; ?></th>
+                                        </tr>
+                                        <tr>
+                                            <th>07. <span class="spacing_left">Date of Admission to the College</span></th>
                                             <th><?php echo date('d/m/Y',strtotime($record->date_of_admission)); ?></th>
                                         </tr>
                                         <tr>
-                                            <th>6. <span class="spacing_left">Date of Leaving</span></th>
+                                            <th>08. <span class="spacing_left">Date of leaving the College</span></th>
                                             <th><?php echo date('d/m/Y',strtotime($record->leaving_date)); ?></th>
                                         </tr>
                                         <tr>
-                                            <th>7. <span class="spacing_left">Class at the time of Leaving</span></th>
+                                            <th>09. <span class="spacing_left">Class in which the student was studying at the time of leaving</span></th>
                                             <th><?php echo $record->term_name; ?></th>
                                         </tr>
                                         <tr>
-                                            <th>8. <span class="spacing_left">Medium of Instruction</span></th>
-                                            <th>ENGLISH</th>
-                                        </tr>
-                                        <tr>
-                                            <th>9. <span class="spacing_left">Subjects Studied :</span><span style="margin-left: 6px;">a. Languages</span>
-                                                <br><span style="margin-left: 186px;">b. Optionals</span>
+                                            <th>10. <span class="spacing_left">Subjects studied at the time of leaving</span><span style="margin-left: 6px;"><br/><span style="margin-left: 50px;">a. Languages</span>
+                                                <br><span style="margin-left: 50px;">b. Optionals</span>
                                             </th>
                                             <th>
                                                 <span>ENGLISH,<?php echo strtoupper($record->elective_sub); ?></span>
@@ -339,95 +382,69 @@ h4{
                                             </th>
                                         </tr>
                                         <tr>
-                                            <th>10. <span class="spacing_left">Whether the student is qualified for Promotion</span></th>
-                                            <th><?php echo $record->is_promoted.' '.$record->reason_unqualified; ?></th>
+                                            <th>11. <span class="spacing_left">Medium</span></th>
+                                            <th>ENGLISH</th>
                                         </tr>
+                                    
                                         <tr>
+                                            <th>12. <span class="spacing_left">Whether Qualified for promotion to a higher class</span></th>
+                                            <th><?php echo $record->is_promoted; ?>
+                                        <!--.' '.$record->reason_unqualified-->
+                                        </th>
+                                        </tr>
+                                        <!-- <tr>
                                             <th>11. <span class="spacing_left">Register Number(Exam No.)</span></th>
                                             <th><?php echo $record->hall_ticket_no; ?></th>
-                                        </tr>
+                                        </tr> -->
+                                      
                                         <tr>
-                                            <th>12. <span class="spacing_left">Whether the student belongs to SC/ST</span>
-                                                <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(as per the College Records)
-                                            </th>
-                                            <th><?php echo $record->is_belongs_sc_st; ?></th>
-                                        </tr>
-                                        <tr>
-                                            <th>13. <span class="spacing_left">whether the student has cleared all the College dues</span></th>
+                                            <th>13. <span class="spacing_left">Whether the student has paid all the fees due to the college</span></th>
                                             <th><?php echo $record->is_cleared_college_due; ?></th>
                                         </tr>
                                         <tr>
                                             <th>14. <span class="spacing_left">Character and Conduct</span></th>
                                             <th><?php echo $record->character_conduct; ?></th>
                                         </tr>
+
                                         <tr>
+                                                <th colspan='2' rowspan='5'><br/>College DISE Code :
+                                                <!-- <th><?php echo date('d/m/Y',strtotime($record->dob)); ?></th> -->
+                                            
+                                              <br/>  Student No. &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : &nbsp; &nbsp; &nbsp;  <?php echo $record->student_no; ?> 
+                                               <br/>   Admission No.  &nbsp; &nbsp; &nbsp; : &nbsp; &nbsp; &nbsp; <?php echo $record->application_no; ?>
+                                               <br/> Class Reg No. &nbsp; &nbsp; &nbsp; &nbsp; : &nbsp; &nbsp; &nbsp; <?php echo $record->student_id; ?>
+                                               <div class="col-12">
+                                                <h6 class="place_date" style="font-size: 16px;"> <span class="footer_sign"><br/><br/><br/><br/><br/><br/>PRINCIPAL</span></h6>
+                                            </div>
+                                            </th>
+                                            </tr>
+                                        <!-- <tr>
                                             <th colspan="2">
                                                 <span style="font-size: 17px;">Certified that the student was not debarred, rusticated or otherwise disqualified from continuing his studies by the 
                                             Pre-University Board for any malpractice at any Pre-University Examination or for any other kind of misbehaviour.</span>
                                             </th>
-                                        </tr>
+                                        </tr> -->
                                     </table>
-                                </div>
+                                </div></div>
                                 
-                                <div class="row" style="margin-top: 0px;margin-bottom: 5px;">
+                                <!-- <div class="row" style="margin-top: 0px;margin-bottom: 5px;">
                                     <div class="col-12">
                                         <h6 class="place_date">Date &nbsp;&nbsp;: <?php echo date('d/m/Y',strtotime($record->created_date_time)); ?></h6>
                                     </div>
                                     <div class="col-12">
                                         <h6 class="place_date">Place&nbsp; : Kalaburgi</h6>
                                     </div>
-                                </div><br><br><br><br>
-                                <div class="row" style="margin-top:12px;">
+                                </div><br><br><br><br> -->
+                                 <div class="row" style="margin-top:10px;font-size: 20px;">
                                     <div class="col-12">
-                                        <h4 class="text-center" style="font-size: 25px;margin-bottom: 0px;"> <b>ST. XAVIER'S PRE–UNIVERSITY COLLEGE, KALABURAGI</b></h4>
-                                        <p class="text-center sub_title">Address</p>
-                                        <table class="table table_declaration">
-                                            <tr>
-                                                <th width="300">T.C. No. <span class="pull-right">:</span></th>
-                                                <th width="550"><?php echo $record->tc_number; ?></th>
-                                                <th><?php echo $record->student_id; ?></th>
-                                            </tr>
-                                            <tr>
-                                                <th>1. Date of Birth <span class="pull-right">:</span></th>
-                                                <th><?php echo date('d/m/Y',strtotime($record->dob)); ?></th>
-                                            </tr>
-                                            <tr>
-                                                <th>2. Date of Admission <span class="pull-right">:</span></th>
-                                                <th><?php echo date('d/m/Y',strtotime($record->date_of_admission)); ?></th>
-                                            </tr>
-                                            <tr>
-                                                <th>3. Date of Leaving <span class="pull-right">:</span></th>
-                                                <th><?php echo date('d/m/Y',strtotime($record->leaving_date)); ?></th>
-                                            </tr>
-                                            <tr>
-                                                <th>4. Class at the time of leaving <span class="pull-right">:</span>
-                                                <th><?php echo $record->term_name; ?></th>
-                                                    <tr>
-                                                        <th class="listing_bottom">a. Second Language <span class="pull-right">:</span></th>
-                                                        <th>ENGLISH,<?php echo $record->elective_sub; ?></th>
-                                                    </tr>
-                                                    <tr>
-                                                        <th class="listing_bottom">b. Optionals <span class="pull-right">:</span></th>
-                                                        <th><?php echo strtoupper($subject); ?></th>
-                                                    </tr>
-                                                </th>
-                                            </tr>
-                                            <tr>
-                                                <th>5. Promoted <span class="pull-right">:</span></th>
-                                                <th><?php echo $record->is_promoted.' '.$record->reason_unqualified; ?></th>
-                                            </tr>
-                                            <tr>
-                                                <th>6. Any fees due ? <span class="pull-right">:</span></th>
-                                                <th>NO</th>
-                                            </tr>
-                                        </table>
+                                        <!-- <h4 class="text-center" style="font-size: 25px;margin-bottom: 0px;"> <b>ST. XAVIER'S PRE–UNIVERSITY COLLEGE, KALABURAGI</b></h4> -->
+                                        <!-- <p class="text-center sub_title">Address</p> -->
+                                     
                                         <div class="row mt-1">
-                                            <div class="col-12">
+                                            <!-- <div class="col-12">
                                                 <h6 class="place_date" style="font-size: 16px;">Date &nbsp;&nbsp;: <?php echo date('d/m/Y',strtotime($record->created_date_time)); ?></h6>
-                                            </div>
-                                            <div class="col-12">
-                                                <h6 class="place_date" style="font-size: 16px;">Place&nbsp;: Kalaburgi <span class="footer_sign">PRINCIPAL</span></h6>
-                                            </div>
+                                            </div> -->
+                                           
                                         </div>
                                     </div>
                                 </div>

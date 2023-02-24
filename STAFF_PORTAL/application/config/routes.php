@@ -650,6 +650,9 @@ $route['downloadAssignmentExamMarkReport'] = "reports/downloadAssignmentExamMark
 
 // study certificate
 $route['generateStudyCertificate'] = "students/generateStudyCertificate";
+$route['getCertificate'] = "students/getCertificate";
+$route['addStudentRequestForm'] = "students/addStudentRequestForm";
+$route['checkCertificateName'] = "students/checkCertificateName";
 
 // conduct certificate
 $route['generateConductCertificate'] = "students/generateConductCertificate";
