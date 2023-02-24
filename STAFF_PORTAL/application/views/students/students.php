@@ -626,7 +626,15 @@ if ($error) {
                         
                     </select>
                 </div>
-                
+                            <div class="form-group">
+                                <label for="fee_due" class="col-form-label pb-0">Fee Due<span>*</span></label>
+                                <select class="form-control required pendingFee" id="fee_due" name="fee_due" required>
+                                    <option value="" disabled>Select Fee Due</option>
+                                    <option  value="YES">YES</option>
+                                    <option value="NO">NO </option>
+                                </select>
+                            </div>
+                        
                 <div class="form-group">
                     <label for="role">Character and Conduct?</label>
                     <select class="form-control required" id="character" name="character">
@@ -915,6 +923,15 @@ jQuery(document).ready(function() {
             $('.singleSelect').prop('checked', true);
         } else {
             $('.singleSelect').prop('checked', false);
+        }
+    });
+
+    $(".pendingFee").change(function(){
+        if(this.value == "NO"){
+            $("#saveTcInfo").show();
+        }else{
+            alert('Sorry! Fee is due. So, you cannot apply for TC!')
+            $("#saveTcInfo").hide();
         }
     });
 
@@ -1304,11 +1321,18 @@ jQuery(document).ready(function() {
         /// var college_due_status = $('#college_due_status :selected').val();
         var character = $('#character :selected').val();
         var leaving_date = $('#leaving_date').val();
+        var fee_due = $('#fee_due').val();
         var admission_date = $('#date_of_admission').val();
         var student_id = $('#student_id').val();
         var caste = $('#caste').val();
         if(leaving_date == ""){ 
             $(".alertMessage").html('<div class="alert alert-warning alert-dismissable">Sorry! Leaving date Empty!</div>');
+            $(".alertMessage").show();
+        } else if(fee_due == ""){ 
+            $(".alertMessage").html('<div class="alert alert-warning alert-dismissable">Sorry! fee due is empty! <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button></div>');
+            $(".alertMessage").show();
+        } else if(fee_due == "YES"){ 
+            $(".alertMessage").html('<div class="alert alert-danger alert-dismissable">Sorry! Fee is due. So, you cannot apply for TC! <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button></div>');
             $(".alertMessage").show();
         }else{
             $.ajax({
@@ -1323,6 +1347,7 @@ jQuery(document).ready(function() {
                     student_id : student_id,
                     admission_date : admission_date,
                     caste : caste,
+                    fee_due : fee_due,
                 },
 
                 success: function(data) {
@@ -1334,6 +1359,7 @@ jQuery(document).ready(function() {
                     $(".alertMessage").html('<div class="alert alert-danger alert-dismissable">Error! Something Went Wrong</div>');
                     $(".alertMessage").show();
                 },
+                
                 fail:(function(status) {
                     $(".alertMessage").html('<div class="alert alert-danger alert-dismissable">Error! Something Went Wrong</div>');
                     $(".alertMessage").show();

@@ -57,6 +57,7 @@ class Students extends BaseController
             $count = $this->student->getAllstudentInfoCount($filter);
             $returns = $this->paginationCompress("studentDetails/", $count, 100);
             $data['totalCount'] = $count;
+            log_message('debug','as'.print_r( $data['totalCount'],true));
             $filter['page'] = $returns["page"];
             $filter['segment'] = $returns["segment"];
             $data['studentInfo'] = $this->student->getAllstudentInfo($filter);
@@ -560,11 +561,11 @@ class Students extends BaseController
                 if(empty($appliedID)){
                     $tc_id = 0;
                     $tcNumber = sprintf("%04d", ++$tc_id);
-                    $tc_number = 'SJPUC/'.$appliedYear.'/'.$tcNumber;
+                    $tc_number = 'STXPUC/'.$appliedYear.'/'.$tcNumber;
                 }else{
                     $tc_id = array_pop(explode('/', $appliedID->tc_number));
                     $tcNumber = sprintf("%04d", ++$tc_id);
-                    $tc_number = 'SJPUC/'.$appliedYear.'/'.$tcNumber;
+                    $tc_number = 'STXPUC/'.$appliedYear.'/'.$tcNumber;
                 }
             }else{
                 $tc_number = $isExists->tc_number;
@@ -722,14 +723,39 @@ class Students extends BaseController
         if($this->isAdmin() == TRUE){
             $this->loadThis();
         }else{
+            error_reporting(0);
+            $filter = array();
             if($student_id == null){
                 $student_id = $this->security->xss_clean($this->input->get('student_id'));
                 $student_id = base64_decode(urldecode($student_id));
                 $student_id = json_decode(stripslashes($student_id));
+                $filter['student_id'] = $student_id;
             }
-            $this->global['pageTitle'] = ''.TAB_TITLE.' : Student Study Certificate';
-            $data['studentsRecords'] = $this->student->getStudentMarksSheetByStudentId($student_id);
-            $this->loadViews("students/generateStudyCertificate", $this->global, $data, null);
+            $data['streamInfo'] = $this->student->getAllStreamName();
+          
+            $this->global['pageTitle'] = ''.TAB_TITLE.' : Study Certificate';
+            $data['studentInfo'] = $this->student->getInfoForStudyCertificate($student_id);
+            $mpdf = new \Mpdf\Mpdf(['tempDir' => sys_get_temp_dir().DIRECTORY_SEPARATOR.'mpdf','default_font' => 'timesnewroman', 'format' => 'A5-P']);
+           
+            $mpdf->AddPage('P','','','','',4,4,8,8,8,8);
+            $mpdf->SetTitle('Study Certificate');
+            $html = $this->load->view('students/studyCertificate',$data,true);
+            $mpdf->WriteHTML($html);
+            $mpdf->Output('Study_Certificate.pdf', 'I');
+        }
+    }
+
+    public function checkCertificateName(){
+        if($this->isAdmin() == TRUE) {
+            $this->loadThis();
+        }else{        
+            $student_id = json_decode(stripslashes($this->input->post('student_id')));
+            $data['certificateName'] = $this->student->getInfoForCertificate($student_id);
+            header('Content-type: text/plain'); 
+            // set json non IE
+            header('Content-type: application/json'); 
+            echo json_encode($data);
+            exit(0);
         }
     }
 
@@ -1134,7 +1160,7 @@ class Students extends BaseController
             $data['studentsRecords'] = $students;
             // $data['studentExamInfo'] = $studentExamInfo;
             // $data['stdImageInfo'] = $stdImageInfo;
-            $this->global['pageTitle'] = 'SchoolPhins-SJPUC : Hall Ticket';
+            $this->global['pageTitle'] = 'SchoolPhins-STXPUC : Hall Ticket';
             $this->loadViews("office/firstYearHallTicket", $this->global, $data, null);
         }
     }
@@ -1153,7 +1179,7 @@ class Students extends BaseController
             $subjects = $this->getSubjectCodes($students[0]->stream_name);
             $data['studentsRecords'] = $students;
             $data['labSubjects'] = $this->student->getSubjectsForHallTicketPrint($subjects);
-            $this->global['pageTitle'] = 'SchoolPhins-SJPUC : Hall Ticket';
+            $this->global['pageTitle'] = 'SchoolPhins-STXPUC : Hall Ticket';
             $this->loadViews("office/secondYearHallTicket", $this->global, $data, null);
         }
     }
@@ -1168,8 +1194,101 @@ class Students extends BaseController
                 $student_id = json_decode(stripslashes($student_id));
             }
             $data['studentsRecords'] = $this->student->getStudentMarksSheetByStudentId($student_id);
-            $this->global['pageTitle'] = 'SchoolPhins-SJPUC : Students Excellence Certificate To Print';
+            $this->global['pageTitle'] = 'SchoolPhins-STXPUC : Students Excellence Certificate To Print';
             $this->loadViews("students/generateExcellenciaCertificate", $this->global, $data, null);
+        }
+    }
+
+    //study certificate
+    function getCertificate()
+    {
+        if($this->isAdmin() == TRUE){
+            $this->loadThis();
+        } else {
+            $filter = array();
+           
+            $request_sub = $this->security->xss_clean($this->input->post('request_sub'));
+            $request_issue = $this->security->xss_clean($this->input->post('request_issue'));
+            $request_certificate = $this->security->xss_clean($this->input->post('request_certificate'));
+            $student_row_id = $this->security->xss_clean($this->input->post('student_row_id'));
+            $student_id = $this->security->xss_clean($this->input->post('student_id'));
+            $student_name = $this->security->xss_clean($this->input->post('student_name'));
+            
+            $data['student_row_id'] = $filter['student_row_id'] = $student_row_id;
+            $data['student_name'] = $filter['student_name'] = $student_name;
+            $data['student_id'] = $filter['student_id'] = $student_id;
+            $data['request_sub']  = $filter['request_sub'] = $request_sub;
+            $data['request_issue']  = $filter['request_issue'] = $request_issue;
+            $data['request_certificate']  = $filter['request_certificate'] = $request_certificate;
+            $data['certificateData'] = $this->student->getCertificateInfo($request_certificate);
+            
+            $count = $this->student->getAllRequestFormInfoCount($filter);
+            $returns = $this->paginationCompress("getCertificate/", $count, 100);
+            $data['RecordsCount'] = $count;
+            $data['studentRecords'] = $this->student->getAllRequestFormInfo($filter,$returns["page"], $returns["segment"]);
+            $data['studentInfo'] = $this->student->studentData();
+           $data['certificateInfo'] = $this->student->certificateNames();
+            $this->global['pageTitle'] = ''.TAB_TITLE.' : Request Form Details';
+            $this->loadViews("students/requestCertificate", $this->global,$data, NULL);
+
+        }
+    }
+
+    public function addStudentRequestForm(){
+        if ($this->isAdmin() == true) {
+            $this->loadThis();
+        } else {
+            $this->load->library('form_validation');
+            $this->form_validation->set_rules('request_sub','Request Subject','trim|required');
+            $this->form_validation->set_rules('request_certificate','Request Certificate Number','trim|required');
+            $this->form_validation->set_rules('request_issue','Request Issue','trim|required');
+            $this->form_validation->set_rules('student_row_id','student row id','trim|required');
+            if($this->form_validation->run() == FALSE) {
+                $this->getCertificate();
+            } else {
+                $request_sub = $this->security->xss_clean($this->input->post('request_sub'));
+                $request_certificate = $this->security->xss_clean($this->input->post('request_certificate'));
+                $request_issue = $this->security->xss_clean($this->input->post('request_issue'));
+                $student_row_id = $this->security->xss_clean($this->input->post('student_row_id'));
+                $college_from = $this->security->xss_clean($this->input->post('college_from'));
+                $college_to = $this->security->xss_clean($this->input->post('college_to'));
+                $classes_from = $this->security->xss_clean($this->input->post('classes_from'));
+                $classes_to = $this->security->xss_clean($this->input->post('classes_to'));
+                $progress = $this->security->xss_clean($this->input->post('progress'));
+                if($request_certificate == 2){
+                    $requestInfo = array(
+                        'student_row_id' => $student_row_id,
+                        'request_sub' => $request_sub,
+                        'certificate_Id' => $request_certificate,
+                        'issue' => $request_issue,
+                        'college_from' => $college_from,
+                        'college_to' => $college_to,
+                        'classes_from' => $classes_from,
+                        'classes_to' => $classes_to,
+                        'progress' => $progress,
+                        'created_by' => $this->staff_id,
+                        'created_date_time' =>date('Y-m-d H:i:s')
+                    );
+                    $return_id = $this->student->addStudentRequestForm($requestInfo);
+                }else{
+                    $requestInfo = array(
+                        'student_row_id' => $student_row_id,
+                        'request_sub' => $request_sub,
+                        'certificate_Id' => $request_certificate,
+                        'issue' => $request_issue,
+                        'created_by' => $this->staff_id,
+                        'created_date_time' =>date('Y-m-d H:i:s')
+                    );
+                    $return_id = $this->student->addStudentRequestForm($requestInfo);
+                }
+                
+                if($return_id > 0){
+                    $this->session->set_flashdata('success', 'New Request Data Added Successfully');
+                }else{
+                    $this->session->set_flashdata('error', 'New Request Data failed to add');
+                }
+                redirect('getCertificate');
+            }
         }
     }
 
@@ -1182,7 +1301,7 @@ class Students extends BaseController
             $student_id = base64_decode(urldecode($student_id));
             $student_id = json_decode(stripslashes($student_id));
             
-            $this->global['pageTitle'] = 'SchoolPhins-SJPUC : Students Bio-Data To Print';
+            $this->global['pageTitle'] = 'SchoolPhins-STXPUC : Students Bio-Data To Print';
             $data['studentsRecords'] = $this->student->getStudentMarksSheetByStudentId($student_id);
             $this->loadViews("students/getStudentBiodata", $this->global, $data, null);
         }
@@ -1504,6 +1623,8 @@ class Students extends BaseController
             exit(0);
         }
     }
+
+
     
 }
 
