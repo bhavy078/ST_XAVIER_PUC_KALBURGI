@@ -86,7 +86,10 @@ foreach($studentMarkInfo as $mark){
     <td style="vertical-align:middle;text-align: center;font-size: 12px;border-top: 1px solid black;border-right: 1px solid black;"><b>' .$obtained_mark.'</b></td>
     </tr>';
 
-    
+    $table9th .= '<tr>
+    <td style="vertical-align:middle;font-size: 12px;border-left: 1px solid black;border-top: 1px solid black;border-right: 1px solid black;"><b>' .$mark->subject_name.'</b></td>
+    <td style="text-align: center;font-size: 12px;border-top: 1px solid black;border-right: 1px solid black;"><b>' .$max_mark.'</b></td>
+    </tr>';
 } 
 
     if($boardInfo->board_name == "KARNATAKA STATE BOARD"){
@@ -96,7 +99,6 @@ foreach($studentMarkInfo as $mark){
     }
     $total_max_mark = 0;
     $total_mark = 0;
-    $totalPercentage = 0; 
     if($boardInfo->board_name == "CBSE"){
         foreach($studentMarkInfo as $mark){
             $total_max_mark += $mark->max_mark;  
@@ -127,7 +129,7 @@ foreach($studentMarkInfo as $mark){
 
 $set_html=<<<EOD
 <tr nobr="true">
-    <td style="font-size: 15px;">Application No.: <b style="color: red;">$studentApplicationInfo->application_number</b></td>
+    <td style="font-size: 15px;">Application No.: <b style="color: red;">$appInfo->application_number</b></td>
 </tr>
 <table cellpadding="3" cellspacing="1">
     <tr nobr="true">
@@ -142,7 +144,7 @@ $set_html=<<<EOD
                 <td style="font-size:14px;">(Department of Pre-University Education, Government of Karnataka)</td>
             </tr>
             <tr>
-                <td style="font-size: 13px">sirnur farhatabad road</td>
+                <td style="font-size: 13px">N.H 50, SIRNOOR KALABURAGI - 585308</td>
             </tr>
             <tr>
                 <td style="font-size:18px;font-weight: bold;">Admission Form for I PUC 2023-24</td>
@@ -160,50 +162,67 @@ $set_html=<<<EOD
                 <tr>
                     <td style="width: 530px">
                         <table cellpadding="0">
+                        <tr>
+                        <td style="font-size: 2px;"></td>
+                    </tr>
+
+                    <tr>
+                    <td style="font-size: 2px;"></td>
+                </tr>
+                
+                <tr>
+                <td style="font-size: 2px;"></td>
+            </tr>
+            
+            <tr>
+            <td style="font-size: 2px;"></td>
+        </tr>
+        
+        <tr>
+        <td style="font-size: 2px;"></td>
+    </tr>
+    
+    <tr>
+    <td style="font-size: 2px;"></td>
+</tr>
+<tr>
+<td style="font-size: 2px;"></td>
+</tr>
+<tr>
+<td style="font-size: 2px;"></td>
+</tr>
+<tr>
+<td style="font-size: 2px;"></td>
+</tr>
+
+
+                <tr nobr="true">
+                <td style="font-size: 12px;width: 90px;"><i>Application No: </b></td>
+                <td style="font-size: 12px;width: 180px;"><b>$studentApplicationInfo->application_number</b></td>
+                <td style="font-size: 12px;width: 130px;"><i>Admission No:</i></td>
+            </tr>
+            <tr>
+<td style="font-size: 2px;"></td>
+</tr>
+<tr>
+<td style="font-size: 2px;"></td>
+</tr>
+                           
                             <tr nobr="true">
-                                <td style="text-align: center;font-size: 17px;width: 150px;border-left: 1px solid black;border-top: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;"><b>$board_name</b></td>
-                                <td style="text-align: center;font-size: 17px;width: 100px;border-top: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;"><b>$studentAdmissionInfo->stream_name</b></td>
-                                <td style="text-align: center;font-size: 17px;width: 100px;border-top: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;"><b>$total_percentage %</b></td>
-                                <td style="text-align: center;color: red;font-size: 17px;width: 150px;border-top: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;"><b>$studentApplicationInfo->application_number</b></td>
-                            </tr>
-                            <tr nobr="true">
-                                <td style="font-size: 5px;width: 100px;"></td>
-                                <td style="font-size: 5px;width: 100px;"></td>
-                            </tr>
-                            <tr nobr="true">
-                                <td style="text-align: center;font-size: 13px;width: 200px;border-left: 1px solid black;border-top: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;"><b>PH</b></td>
-                                <td style="text-align: center;font-size: 13px;width: 70px;border-top: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;"><b>$studentApplicationInfo->physically_challenged</b></td>
-                                <td style="text-align: center;font-size: 13px;width: 50px;"></td>
-                                <td style="text-align: center;font-size: 13px;width: 110px;border-left: 1px solid black;border-top: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;"><b>Dyslexic</b></td>
-                                <td style="text-align: center;font-size: 13px;width: 70px;border-top: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;"><b>$studentApplicationInfo->dyslexia_challenged</b></td>
-                            </tr>
-                            <tr>
-                                <td style="text-align: center;font-size: 13px;width: 100px;"><b>Sports Quota</b></td>
-                                <td style="text-align: center;font-size: 13px;width: 100px;"><b>NCC Quota</b></td>
-                            </tr>
-                            <tr nobr="true">
-                                <td style="text-align: center;font-size: 13px;width: 100px;border-left: 1px solid black;border-top: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;"><b>$studentAdmissionInfo->national_level_sports_status</b></td>
-                                <td style="text-align: center;font-size: 13px;width: 100px;border-top: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;"><b>$studentAdmissionInfo->ncc_certificate_status</b></td>
-                                <td style="text-align: center;font-size: 13px;width: 150px;border-top: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;"><b>$studentApplicationInfo->religion</b></td>
-                                <td style="text-align: center;font-size: 13px;width: 150px;border-top: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;"><b>$studentApplicationInfo->caste</b></td>
-                            </tr>
-                            <tr nobr="true">
-                                <td style="font-size: 12px;width: 140px;"><i>Admit to:</b></td>
-                                <td style="font-size: 12px;width: 150px;"><i>Date:</i></td>
-                                <td style="font-size: 12px;width: 130px;"><i>Reg No:</i></td>
+                                <td style="font-size: 12px;width: 270px;"><i>Registration No:</b></td>
+                                <td style="font-size: 12px;width: 150px;"><i>Reciept No:</i></td>
                             </tr>
                             <tr>
                                 <td style="font-size: 2px;"></td>
                             </tr>
                             <tr nobr="true">
-                                <td style="font-size: 12px;width: 60px;"><i>Language:</b></td>
+                                <td style="font-size: 12px;width: 267px;"><i>Date:</i></td>
+                                <td style="font-size: 12px;width: 80px;"><i>Admitted To:</b></td>
                                 <td style="font-size: 12px;width: 80px;"><b>$studentAdmissionInfo->second_language</b></td>
-                                <td style="font-size: 12px;width: 150px;"><i>Verified by:</i></td>
-                                <td style="font-size: 12px;width: 200px;"><i>Principal's Signature:</i></td>
                             </tr>
                         </table>
                     </td>
-                    <td><img style="vertical-align:middle;" height="140" width="150" src="http://localhost/ST_XAVIER_PUC_KALBURGI//ADMISSION/$photoInfo->doc_path" alt="Student Image"></td>
+                    <td><img style="vertical-align:middle;" height="120" width="150" src="http://localhost/ST_XAVIER_PUC_KALBURGI//ADMISSION/$photoInfo->doc_path" alt="Student Image"></td>
                 </tr>
             </table>
         </td>
@@ -213,18 +232,53 @@ $set_html=<<<EOD
             <table cellpadding="1">
                 <tr nobr="true">
                     <td style="font-size: 12px;width: 40px;"><i>Name:</b></td>
-                    <td style="font-size: 12px;width: 320px;"><b>$studentApplicationInfo->name</b></td>
+                    <td style="font-size: 12px;width: 240px;"><b>$studentApplicationInfo->name</b></td>
                     <td style="font-size: 12px;width: 76px;"><i>Date of Birth:</i></td>
-                    <td style="font-size: 12px;"><b>$date_of_birth</b></td>
+                    <td style="font-size: 12px;width: 122px;"><b>$date_of_birth</b></td>
+                    <td style="font-size: 12px;width: 50px;"><i>Gender:</i></td>
+                    <td style="font-size: 12px;"><b>$studentApplicationInfo->gender</b></td>
                 </tr>
                 <tr nobr="true">
-                    <td style="font-size: 12px;width: 70px;"><i>Nationality:</b></td>
-                    <td style="font-size: 12px;width: 140px;"><b>$studentApplicationInfo->nationality</b></td>
-                    <td style="font-size: 12px;width: 80px;"><i>Native Place:</i></td>
-                    <td style="font-size: 12px;width: 140px;"><b>$studentApplicationInfo->native_place</b></td>
-                    <td style="font-size: 12px;width: 55px;"><i>Religion:</i></td>
-                    <td style="font-size: 12px;width: 165px;"><b>$studentApplicationInfo->religion</b></td>
+                    <td style="font-size: 12px;width: 75px;"><i>Native Place:</i></td>
+                    <td style="font-size: 12px;width: 204px;"><b>$studentApplicationInfo->native_place</b></td>
+                    <td style="font-size: 12px;width: 45px;"><i>District:</b></td>
+                    <td style="font-size: 12px;width: 154px;"><b>$studentApplicationInfo->permanent_address_district</b></td>
+                    <td style="font-size: 12px;width: 35px;"><i>State:</i></td>
+                    <td style="font-size: 12px;width: 158px;"><b>$studentApplicationInfo->permanent_address_state</b></td>
+                   
+                  
                 </tr>
+                <tr nobr="true">
+                <td style="font-size: 12px;width: 70px;"><i>Nationality:</b></td>
+                <td style="font-size: 12px;width: 100px;"><b>$studentApplicationInfo->nationality</b></td>
+                <td style="font-size: 12px;width: 55px;"><i>Religion:</i></td>
+                <td style="font-size: 12px;width: 110px;"><b>$studentApplicationInfo->religion</b></td>
+                <td style="font-size: 12px;width: 40px;"><i>Caste:</i></td>
+                <td style="font-size: 12px;width: 100px;"><b>$studentApplicationInfo->caste</b></td>       
+                <td style="font-size: 12px;width: 62px;"><i>Sub Caste:</i></td>
+                <td style="font-size: 12px;width: 125px;"><b>$studentApplicationInfo->sub_caste</b></td>   
+               
+            </tr>
+            <tr nobr="true">
+             
+                <td style="font-size: 12px;width: 120px;"><i>Caste Certificate No:</i></td>
+                <td style="font-size: 12px;width: 220px;"><b>$studentApplicationInfo->caste_no</b></td>
+                <td style="font-size: 12px;width: 125px;"><i>Income Certificate No:</i></td>
+                <td style="font-size: 12px;width: 200px;"><b>$studentApplicationInfo->income_no</b></td>          
+               
+            </tr>
+
+            <tr nobr="true">
+            <td style="font-size: 12px;width: 75px;"><i>Aadhaar No:</i></td>
+            <td style="font-size: 12px;width: 120px;"><b>$studentApplicationInfo->aadhar_no</b></td>
+            <td style="font-size: 12px;width: 40px;"><i>Email:</i></td>
+            <td style="font-size: 12px;width: 255px;"><b>$studentApplicationInfo->student_email</b></td>
+            <td style="font-size: 12px;width: 60px;"><i>Mobile No:</i></td>
+            <td style="font-size: 12px;width: 100px;"><b>$studentApplicationInfo->student_mobile</b></td>       
+       
+           
+        </tr>
+
                 <tr nobr="true">
                     <td style="font-size: 12px;width: 90px;"><i>Father's Name:</b></td>
                     <td style="font-size: 12px;width: 450px;"><b>$studentApplicationInfo->father_name</b></td>
@@ -246,9 +300,23 @@ $set_html=<<<EOD
                     <td style="font-size: 12px;width: 250px;"><b>$studentApplicationInfo->mother_profession</b></td>
                 </tr>
                 <tr nobr="true">
+                <td style="font-size: 12px;width: 150px;"><i>Monthly Income Of Family:</b></td>
+                <td style="font-size: 12px;width: 450px;"><b>$studentApplicationInfo->monthly_income</b></td>
+            </tr>
+                <tr nobr="true">
                     <td style="font-size: 12px;width: 100px;"><i>Guardian's Name:</b></td>
-                    <td style="font-size: 12px;width: 450px;"><b>$studentApplicationInfo->guardian_name</b></td>
+                    <td style="font-size: 12px;width: 260px;"><b>$studentApplicationInfo->guardian_name</b></td>
+                    <td style="font-size: 12px;width: 110px;"><i>Guardian's mobile:</b></td>
+                    <td style="font-size: 12px;width: 450px;"><b>$studentApplicationInfo->guardian_mobile</b></td>
                 </tr>
+                <tr nobr="true">
+                <td style="font-size: 12px;width: 115px;"><i>Guardian's Relation:</b></td>
+                <td style="font-size: 12px;width: 450px;"><b>$studentApplicationInfo->guardian_relation</b></td>
+            </tr>
+            <tr nobr="true">
+            <td style="font-size: 12px;width: 115px;"><i>Guardian's Address:</b></td>
+            <td style="font-size: 12px;width: 450px;"><b>$studentApplicationInfo->guardian_address</b></td>
+        </tr>
                 <tr nobr="true">
                     <td style="font-size: 12px;width: 180px;"><i>Medium of Instruction in School:</b></td>
                     <td style="font-size: 12px;width: 180px;"><b>$studentSchoolInfo->medium_instruction</b></td>
@@ -261,6 +329,14 @@ $set_html=<<<EOD
                 </tr>
                 <tr nobr="true"><td style="font-size: 12px;width: 654px;"><b>$studentSchoolInfo->school_address</b></td>
                 </tr>
+                <tr nobr="true">
+                <td style="font-size: 12px;width: 85px;"><i>Hostel Facility:</b></td>
+                <td style="font-size: 12px;width: 120px;"><b>$studentApplicationInfo->hostel_facility</b></td>
+                <td style="font-size: 12px;width: 70px;"><i>Bus Facility:</b></td>
+                <td style="font-size: 12px;width: 50px;"><b>$studentApplicationInfo->bus_facility</b></td>
+                <td style="font-size: 12px;width: 90px;"><i>Boarding Point:</b></td>
+                <td style="font-size: 12px;width: 240px;"><b>$studentApplicationInfo->boarding_point</b></td>
+            </tr>
             </table>
         </td>
     </tr>
@@ -270,7 +346,7 @@ $set_html=<<<EOD
         <tr nobr="true">
             <td style="width: 400px">
                 <tr nobr="true">
-                    <td style="font-size: 12px;width: 250px"><b>Marks Scored in Class IX & X :</b></td>
+                    <td style="font-size: 12px;width: 250px"><b>Marks Scored in Class X :</b></td>
                     <td style="font-size: 12px;"><b>$studentInfo->registration_number</b></td>
                 </tr>
                 <tr>
@@ -283,7 +359,7 @@ $set_html=<<<EOD
                 <td style="text-align: center;width: 90px;font-size: 12px;border-top: 1px solid black;border-right: 1px solid black;"><b>Marks Scored</b></td>
 
             </tr>
-                    
+                
                     $table
                     <tr nobr="true">
                         <td style="font-size: 12px;border-left: 1px solid black;border-top: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;"><b>TOTAL</b></td>
@@ -295,6 +371,16 @@ $set_html=<<<EOD
                         <td style="font-size: 12px;width: 110px"><b>10th Percentage:</b></td>
                         <td style="font-size: 12px;width: 90px"><b>$total_percentage %</b></td>
                     </tr>
+
+                <tr nobr="true">
+                <td style="font-size: 12px;width: 170px">Month and Year of Passing:</td>
+                <td style="font-size: 12px;width: 300px"><b>$studentSchoolInfo->month_of_passed , $studentSchoolInfo->year_of_passed</b></td>
+            </tr>
+
+            <tr nobr="true">
+            <td style="font-size: 12px;width: 100px">No. of Attempts:</td>
+            <td style="font-size: 12px;width: 90px"><b>$studentSchoolInfo->no_of_attempt</b></td>
+        </tr>
                   
                 </table>
             </td>
@@ -339,52 +425,7 @@ $set_html=<<<EOD
     <td style="font-size: 6px"></td>
 </tr>
 
-<table width="675" border="1" cellpadding="4" cellspacin="1">
-    <tr nobr="true">
-        <td width="130" style="font-size:5px;">
-        </td>
-        <td width="400" style="text-align:center;border-top: 1px solid black;border-bottom: 1px solid black;">
-            <tr>
-                <td style="font-size:18px;text-transform: uppercase;"><b>ST. XAVIER'S PRE–UNIVERSITY COLLEGE</b></td>
-            </tr>
-            <tr>
-                <td style="font-size:12px;"><span>(Department of Pre-University Education, Government of Karnataka)</span></td>
-            </tr>
-            <tr>
-                <td style="font-size: 10px"><span>sirnur farhatabad road</span></td>
-            </tr>
-        </td>
-        <td width="140">
-            <span style="font-size: 12px;text-align: right;">Acknowledgement (For Office use only</span>
-        </td>
-    </tr>
-    <tr border="1">
-        <td style="font-size: 12px;width: 180px"><i>Physically Handicapped: </i> <b>$studentApplicationInfo->physically_challenged</b></td>
-        <td style="font-size: 12px;width: 180px"><i>Dyslexic: </i> <b>$studentApplicationInfo->dyslexia_challenged</b></td>
-        <td style="font-size: 12px;width: 150px"><i>Sports Quota: </i> <b>$studentAdmissionInfo->national_level_sports_status</b></td>
-        <td style="font-size: 12px;width: 200px"><i>NCC Quota: </i> <b>$studentAdmissionInfo->ncc_certificate_status</b></td>
-    </tr>
-    <tr>
-        <table cellpadding="1">  
-            <tr nobr="true">
-                <td style="font-size: 12px;text-align:center;width: 90px;border-left: 1px solid black;border-top: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;"><b>$board_name</b></td>
-                <td style="font-size: 12px;text-align:center;width: 125px;border-top: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;"><b>$studentApplicationInfo->religion</b></td>
-                <td style="font-size: 12px;text-align:center;width: 200px;border-top: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;"><b>$studentApplicationInfo->caste</b></td>
-                <td style="font-size: 12px;text-align:center;width: 70px;border-top: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;"><b>$studentAdmissionInfo->stream_name</b></td>
-                <td style="font-size: 12px;text-align:center;width: 80px;border-top: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;"><b>$total_percentage %</b></td>
-                <td style="font-size: 12px;text-align:center;width: 90px;border-top: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;"><b>Pending</b></td>
-            </tr>
-        </table>
-    </tr>
-    <tr>
-        <td style="width: 500px;font-size: 12px;"><b><i>Name of the student: </i> $studentApplicationInfo->name</b></td>
-    </tr>
-    <tr>
-        <td width="675"><p style="font-size: 12px;"><i>Place: Kalaburagi</i></p>
-            <p style="font-size: 12px;"><i><b>Date: $current_date</b> &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;</i> 
-            <i>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; Signature of the Receiver</i></p>
-        </td>
-    </tr>
+
     </br>
   
     
@@ -401,31 +442,20 @@ $set_html=<<<EOD
         </td>
     </tr>
     <tr>
-        <td style="text-align: justify;font-size: 14px;"><span>1. I here by accept that I will abide by the Administrative/Academic/Examination rules of the Department during my son’s/ward’s study in the College.</span><br/><br/>
-            <span>2. I here by accept that, I will ascertain the Academic/Attendance progress of my son/ward from time to time from the College and also pay the damages if any caused by the student.</span><br/><br/>
-            <span>3. I Understand, that minimum of 85% attendance in each subject is mandatory to make me/my son/ward eligible to take the board examinations.</span><br/><br/>
+        <td style="text-align: justify;font-size: 14px;"><span>I hereby declare that:</span><br/>
+            <span> - I will not reclaim the fees and contribution paid by me to the college if I leave the college.</span><br/>
+            <span> - If I do not maintain 75% of attendance in each subject at the end of the academic year as per the P.U.E</span><br/>
+            <span>&nbsp;&nbsp;&nbsp;department regulation.</span><br/>
+            <span> - If I do not get minimum pass marks in the examination conducted by the college as per the norms of the<br/></span>
+            <span>&nbsp;&nbsp;&nbsp; college, and.</span><br/>
+            <span> - If I do not keep up with ideas of the college and my conduct is not good.
+            The Principal has the rights to <br/></span>
+            <span>&nbsp;&nbsp;&nbsp;detain me from proceeding to the Annual Examination conducted by the P.U.E
+            Department.</span><br/>
+            <span>&nbsp;&nbsp;&nbsp;I promise to abide by the rules and regulations of the college.</span>
         </td>
     </tr>
-    <tr>
-        <td><p style="text-align:justify;font-size: 14px;font-weight: bold; line-height: 20px;"><i>I give the assurance that my son/ward will observe the rules and regulation of the college and of the
-        PU department faithfully. I will monitor my son’s / Ward’s conduct, attendance and academic
-        progress. I will ensure that my son/ward will strictly follow the dress code and attendance regulation
-        and take full responsibility for his behaviour.</i></p></td><br/>
-    </tr>
-  
-    <tr>
-    <td></td>
-</tr>
-<tr>
-    <td></td>
-</tr>
-<tr>
-    <td></td>
-</tr>
-   
-    <tr>
-        <td></td>
-    </tr>
+
     <tr>
         <td></td>
     </tr>
@@ -437,25 +467,7 @@ $set_html=<<<EOD
         </td>
     </tr>
 </table>
-<table border="1" cellpadding="8" cellspacing="1">
-    <tr nobr="true">
-        <td style="text-align:center;font-size: 17px;">
-            <b>For office use only</b>
-        </td>
-    </tr>
-    <tr nobr="true">
-        <td style="text-align:justify;font-size: 13px;line-height: 26px;"><b><i>Admission No : ________________Fee Paid____________________ Receipt No Date_________________ Reservation
-            Category ________________________</i></b>
-        </td>
-    </tr>
-    <tr>
-        <td><p style="font-size: 14px;"><i>Place: Kalaburagi</i></p>
-            <p style="font-size: 14px;"><i>Date: $current_date &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;</i> 
-            <i>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; Signature of the Selection Committee Member</i></p>
-        </td>
-    </tr>
-    </br>
-</table>
+
 
 
 

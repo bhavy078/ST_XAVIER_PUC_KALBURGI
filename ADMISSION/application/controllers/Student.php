@@ -20,7 +20,7 @@ class Student extends BaseController
         $this->global['pageTitle'] = ''.TAB_TITLE.' : Dashboard';
         $student = $this->student_model->getStudentApplicationInfo($this->student_row_id);
         $data['studentApplicationStatus'] = $this->student_model->getStudentApplicationStatus($this->student_row_id);
-        $data['microsoftTeamInfo'] = $this->student_model->getStudentMicrosoftTeamInfo($data['studentApplicationStatus']->application_number);
+        // $data['microsoftTeamInfo'] = $this->student_model->getStudentMicrosoftTeamInfo($data['studentApplicationStatus']->application_number);
         $data['studentApplicationInfo'] = $student;
         $data['sslcRegisterNumber'] = $this->registration_number;
         $_SESSION['application_status'] = false;
@@ -356,23 +356,36 @@ class Student extends BaseController
             $permanent_address_district = $this->security->xss_clean($this->input->post('permanent_address_district'));
             $permanent_address_state = $this->security->xss_clean($this->input->post('permanent_address_state'));
             $permanent_address_pincode = $this->security->xss_clean($this->input->post('permanent_address_pincode'));
+            $permanent_address_taluk = $this->security->xss_clean($this->input->post('permanent_address_taluk'));
+
             $residence_address_line_1 = $this->security->xss_clean($this->input->post('residence_address_line_1'));
             $residence_address_line_2 = $this->security->xss_clean($this->input->post('residence_address_line_2'));
             $residence_address_district = $this->security->xss_clean($this->input->post('residence_address_district'));
             $residence_address_state = $this->security->xss_clean($this->input->post('residence_address_state'));
             $residence_address_pincode = $this->security->xss_clean($this->input->post('residence_address_pincode'));
+            $residence_address_taluk = $this->security->xss_clean($this->input->post('residence_address_taluk'));
             
             $priest_name = $this->security->xss_clean($this->input->post('priest_name'));
             $priest_mobile = $this->security->xss_clean($this->input->post('priest_mobile'));
+            $monthly_income = $this->security->xss_clean($this->input->post('monthly_income'));
             
             $pastor_name = $this->security->xss_clean($this->input->post('pastor_name'));
             $pastor_mobile = $this->security->xss_clean($this->input->post('pastor_mobile'));
 
             $dyslexia_challenged = $this->security->xss_clean($this->input->post('dyslexia_challenged'));
             $physically_challenged = $this->security->xss_clean($this->input->post('physically_challenged'));
+
+            $hostel_facility = $this->security->xss_clean($this->input->post('hostel_facility'));
+            $bus_facility = $this->security->xss_clean($this->input->post('bus_facility'));
+            $boarding_point = $this->security->xss_clean($this->input->post('boarding_point'));
             
             
             $documentName = $this->security->xss_clean($this->input->post('documentName'));
+            $caste_no = $this->security->xss_clean($this->input->post('caste_no'));
+            $income_no = $this->security->xss_clean($this->input->post('income_no'));
+            $guardian_relation = $this->security->xss_clean($this->input->post('guardian_relation'));
+
+
 
             $uploadPath = 'upload/document/'.$this->student_row_id.'/';
             if (!file_exists($uploadPath)) {
@@ -466,6 +479,15 @@ class Student extends BaseController
             'nationality'=> $nationality,
             'religion'=> $religion,
             'caste'=> $caste,
+            'caste_no'=> $caste_no, 
+            'income_no'=> $income_no, 
+            'monthly_income'=> $monthly_income, 
+            'residence_address_taluk' => $residence_address_taluk,
+            'permanent_address_taluk' => $permanent_address_taluk,
+            'guardian_relation' => $guardian_relation,
+            'bus_facility' => $bus_facility,
+            'hostel_facility' => $hostel_facility,
+            'boarding_point' => $boarding_point,
             'sub_caste'=> $sub_caste,
             'mother_name'=> $mother_name,
             'mother_qualification'=> $mother_qualification,
@@ -624,6 +646,7 @@ class Student extends BaseController
             $medium = $this->security->xss_clean($this->input->post('medium'));
             $school_address = $this->security->xss_clean($this->input->post('school_address'));
             $year_of_passed = $this->security->xss_clean($this->input->post('year_of_passed'));
+            $month_of_passed = $this->security->xss_clean($this->input->post('month_of_passed'));
             // $board_name = $this->security->xss_clean($this->input->post('board_name'));
             $other_medium_instruction = $this->security->xss_clean($this->input->post('other_medium_instruction'));
             $doc_name = $this->security->xss_clean($this->input->post('doc_name'));
@@ -632,7 +655,7 @@ class Student extends BaseController
 
             $other_board_name = $this->security->xss_clean($this->input->post('other_board_name'));
 
-            log_message('debug','boardname='.$sslc_board_name);
+            $no_of_attempt = $this->security->xss_clean($this->input->post('no_of_attempt'));
             
             $boardInfo = $this->student_model->getBoardNameById($this->sslc_board_name_id);
 
@@ -692,9 +715,11 @@ class Student extends BaseController
                     'name_of_the_school' => $name_of_the_school,
                     'medium_instruction' => $medium_instruction,
                     'sslc_board_name_id' => $board_name->row_id,
+                    'no_of_attempt'      => $no_of_attempt,
                     'other_state_board_name'=>$other_board_name,
                     'school_address' => $school_address,
                     'year_of_passed' => $year_of_passed,
+                    'month_of_passed' => $month_of_passed,
                     'register_number' => $this->registration_number,
                     'registred_row_id' => $this->student_row_id,
                     'created_by' => $this->student_row_id,

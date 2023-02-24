@@ -144,7 +144,7 @@ $set_html=<<<EOD
                 <td style="font-size:14px;">(Department of Pre-University Education, Government of Karnataka)</td>
             </tr>
             <tr>
-                <td style="font-size: 13px">N.H 50, SIRNOOR KALABURAGI - 585308</td>
+                <td style="font-size: 13px">sirnur farhatabad road</td>
             </tr>
             <tr>
                 <td style="font-size:18px;font-weight: bold;">Admission Form for I PUC 2023-24</td>
@@ -455,7 +455,26 @@ $set_html=<<<EOD
             <span>&nbsp;&nbsp;&nbsp;I promise to abide by the rules and regulations of the college.</span>
         </td>
     </tr>
-
+    <tr>
+        <td><p style="text-align:justify;font-size: 14px;font-weight: bold; line-height: 20px;"><i>I give the assurance that my son/ward will observe the rules and regulation of the college and of the
+        PU department faithfully. I will monitor my son’s / Ward’s conduct, attendance and academic
+        progress. I will ensure that my son/ward will strictly follow the dress code and attendance regulation
+        and take full responsibility for his behaviour.</i></p></td><br/>
+    </tr>
+  
+    <tr>
+    <td></td>
+</tr>
+<tr>
+    <td></td>
+</tr>
+<tr>
+    <td></td>
+</tr>
+   
+    <tr>
+        <td></td>
+    </tr>
     <tr>
         <td></td>
     </tr>
@@ -467,7 +486,25 @@ $set_html=<<<EOD
         </td>
     </tr>
 </table>
-
+<table border="1" cellpadding="8" cellspacing="1">
+    <tr nobr="true">
+        <td style="text-align:center;font-size: 17px;">
+            <b>For office use only</b>
+        </td>
+    </tr>
+    <tr nobr="true">
+        <td style="text-align:justify;font-size: 13px;line-height: 26px;"><b><i>Admission No : ________________Fee Paid____________________ Receipt No Date_________________ Reservation
+            Category ________________________</i></b>
+        </td>
+    </tr>
+    <tr>
+        <td><p style="font-size: 14px;"><i>Place: Kalaburagi</i></p>
+            <p style="font-size: 14px;"><i>Date: $current_date &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;</i> 
+            <i>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; Signature of the Selection Committee Member</i></p>
+        </td>
+    </tr>
+    </br>
+</table>
 
 
 

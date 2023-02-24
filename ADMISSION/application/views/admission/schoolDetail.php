@@ -27,6 +27,9 @@ $medium_instruction = "";
 $board_name = "";
 $year_of_passed = "";
 $other_board_name = "";
+$no_of_attempt = "";
+$month_of_passed = "";
+
 $register_number = $sslcRegisterNumber;
 $other_board_name = $boardData->other_board_name;
 
@@ -39,8 +42,10 @@ if (!empty($studentSchoolInfo)) {
     $name_of_the_school = $studentSchoolInfo->name_of_the_school;
     $school_address = $studentSchoolInfo->school_address;
     $medium_instruction = $studentSchoolInfo->medium_instruction;
+    $no_of_attempt = $studentSchoolInfo->no_of_attempt;
     // $board_name = $studentSchoolInfo->board_name;
     $year_of_passed = $studentSchoolInfo->year_of_passed;
+    $month_of_passed = $studentSchoolInfo->month_of_passed;
 }
 
 $course_row_id = "";
@@ -140,6 +145,54 @@ $this->load->helper('form');
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4 mb-1">
                                 <div class="form-group">
+                                    <div class="mdc-select mdc-select-month mdc-select--required">
+                                        <div class="mdc-select__anchor demo-width-class" aria-required="true">
+                                            <span class="mdc-select__ripple"></span>
+                                            <input type="text" class="mdc-select__selected-text" name="month_of_passed" value="" data-live-search="true" id="month_of_passed" required>
+                                            <i class="mdc-select__dropdown-icon"></i>
+                                            <span class="mdc-floating-label">Month of Passing</span>
+                                            <span class="mdc-line-ripple"></span>
+                                        </div>
+                                        <div class="mdc-select__menu mdc-menu mdc-menu-surface demo-width-class">
+                                            <ul class="mdc-list">
+                                                <?php if (!empty($month_of_passed)) { ?>
+                                                    <li class="mdc-list-item mdc-list-item--selected" data-value="<?php echo $month_of_passed; ?>" aria-selected="true"><?php echo $month_of_passed; ?></li>
+                                                <?php } ?>
+                                                <li class="mdc-list-item" data-value="" selected hidden>
+                                                    <span class="mdc-list-item__text">
+                                                        Select Month
+                                                    </span>
+                                                </li>
+                                                <li class="mdc-list-item" data-value="OCTOBER">
+                                                    <span class="mdc-list-item__text">
+                                                        OCTOBER
+                                                    </span>
+                                                </li>
+                                                <li class="mdc-list-item" data-value="NOVEMBER">
+                                                    <span class="mdc-list-item__text">
+                                                        NOVEMBER
+                                                    </span>
+                                                </li>
+                                                <li class="mdc-list-item" data-value="DECEMBER">
+                                                    <span class="mdc-list-item__text">
+                                                        DECEMBER
+                                                    </span>
+                                                </li>
+                                                <!-- <li class="mdc-list-item" data-value="2019">
+                                                <span class="mdc-list-item__text">
+                                                2019
+                                                </span>
+                                            </li> -->
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                           
+                        </div>
+                        <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 mb-1">
+                                <div class="form-group">
                                     <div class="mdc-select mdc-select-year mdc-select--required">
                                         <div class="mdc-select__anchor demo-width-class" aria-required="true">
                                             <span class="mdc-select__ripple"></span>
@@ -183,8 +236,6 @@ $this->load->helper('form');
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
                             <div class="col-lg-4 col-md-4 col-sm-4 mb-1 other_medium_instruction_text">
                                 <div class="form-group">
                                     <label class="other_medium_instruction mdc-text-field mdc-text-field--filled ">
@@ -242,6 +293,41 @@ $this->load->helper('form');
                                 </div>
                             </div>
                         </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 mb-1">
+                                <div class="form-group">
+                                    <div class="mdc-select mdc-select-attempts mdc-select--required">
+                                        <div class="mdc-select__anchor demo-width-class" aria-required="true">
+                                            <span class="mdc-select__ripple"></span>
+                                            <input type="text" class="mdc-select__selected-text" name="no_of_attempt" value="" data-live-search="true" id="no_of_attempt" required>
+                                            <i class="mdc-select__dropdown-icon"></i>
+                                            <span class="mdc-floating-label">No of Attempts</span>
+                                            <span class="mdc-line-ripple"></span>
+                                        </div>
+                                        <div class="mdc-select__menu mdc-menu mdc-menu-surface demo-width-class">
+                                            <ul class="mdc-list">
+                                                <?php if (!empty($no_of_attempt)) { ?>
+                                                    <li class="mdc-list-item mdc-list-item--selected" data-value="<?php echo $no_of_attempt; ?>" aria-selected="true"><?php echo $no_of_attempt; ?></li>
+                                                <?php } ?>
+                                                <li class="mdc-list-item" data-value="" selected hidden>
+                                                    <span class="mdc-list-item__text">
+                                                        Select
+                                                    </span>
+                                                </li>
+                                                <li class="mdc-list-item" data-value="FIRST">
+                                                    <span class="mdc-list-item__text">
+                                                        FIRST
+                                                    </span>
+                                                </li>
+                                                <li class="mdc-list-item" data-value="REPEATER">
+                                                    <span class="mdc-list-item__text">
+                                                        REPEATER
+                                                    </span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 mb-1">
                         <div id="secondLanguage" class="">
                                     <span class="text-danger" style= "font-size : 13px;">Note :(CBSE candidates who have not received the provisional copy of the first term marks, are requested to upload the first term mark list ( announced in school)  duly signed by the Principal of the institution.)</span>
@@ -600,6 +686,8 @@ $this->load->helper('form');
     mdc.textField.MDCTextField.attachTo(document.querySelector('.school_address'))
     const medium = mdc.select.MDCSelect.attachTo(document.querySelector('.mdc-select-medium'));
     mdc.select.MDCSelect.attachTo(document.querySelector('.mdc-select-year'));
+    mdc.select.MDCSelect.attachTo(document.querySelector('.mdc-select-month'));
+    mdc.select.MDCSelect.attachTo(document.querySelector('.mdc-select-attempts'));
     const role = new mdc.select.MDCSelect(document.querySelector('.mdc-select'));
 
     medium.listen('MDCSelect:change', () => {
