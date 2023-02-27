@@ -207,7 +207,7 @@ input[type=number]::-webkit-outer-spin-button {
                                                     </div>
                                                 </div>
 
-                                                <div class="card">
+                                                <!-- <div class="card">
                                                     <div class="card-header">
                                                         <h6 class="mb-1 pull-left">Work Assign during my absence.</h6>
                                                         <button type="button" class="btn btn-danger pull-right"
@@ -234,9 +234,9 @@ input[type=number]::-webkit-outer-spin-button {
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-
-                                                <hr class="mt-0 mb-1">
+                                                </div> -->
+<!-- 
+                                                <hr class="mt-0 mb-1"> -->
                                                 <div class="row">
                                                     <div class="col-lg-12 col-md-12 col-12">
                                                         <button type="submit"
@@ -382,18 +382,18 @@ input[type=number]::-webkit-outer-spin-button {
 
 
 <!-- The Modal -->
-<div class="modal" id="assignClassModel">
+<!-- <div class="modal" id="assignClassModel">
     <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content"> -->
 
             <!-- Modal Header -->
-            <div class="modal-header ">
+            <!-- <div class="modal-header ">
                 <h4 class="modal-title">Work Assign during my absence.</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
+            </div> -->
 
             <!-- Modal body -->
-            <div class="modal-body" style="padding:0px;">
+            <!-- <div class="modal-body" style="padding:0px;">
                 <div class="card-body contents-body">
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-12">
@@ -480,10 +480,10 @@ input[type=number]::-webkit-outer-spin-button {
                     </div>
 
 
-                    <hr class="mt-1 mb-1">
+                    <hr class="mt-1 mb-1"> -->
                     <!-- Modal footer -->
 
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-lg-12 col-md-12 col-12">
                             <button type="button" class="btn pull-right btn-primary text-white" id="add" name="add"
                                 onClick="productAddToTable();">ADD</button>
@@ -494,7 +494,7 @@ input[type=number]::-webkit-outer-spin-button {
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
 
 
@@ -553,6 +553,18 @@ input[type=number]::-webkit-outer-spin-button {
                                         <td>Medical Leave</td>
                                         <td id="medical_pending"></td>
                                     </tr>
+                                    <tr class="table-primary">
+                                        <td>Marriage Leave</td>
+                                        <td id="marriage_pending"></td>
+                                    </tr>
+                                    <tr class="table-success">
+                                        <td>Paternity Leave</td>
+                                        <td id="paternity_pending"></td>
+                                    </tr>
+                                    <tr class="table-primary">
+                                        <td>Maternity Leave</td>
+                                        <td id="maternity_pending"></td>
+                                    </tr>
                                     <tr class="table-success">
                                         <td>Loss Of Pay Used</td>
                                         <td id="loss_of_pay_used"></td>
@@ -564,7 +576,7 @@ input[type=number]::-webkit-outer-spin-button {
                     </div>
                     <hr class="mt-1 mb-1">
 
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-lg-12 col-md-12 col-12">
                             <h6 class="mb-1 text-center">Work Assign during absence time.</h6>
                             <hr class="mt-0 mb-0" />
@@ -585,9 +597,9 @@ input[type=number]::-webkit-outer-spin-button {
                                 </tbody>
                             </table>
                         </div>
-                    </div>
-
-                    <hr class="mt-1 mb-1">
+                    </div> -->
+<!-- 
+                    <hr class="mt-1 mb-1"> -->
                     <!-- Modal footer -->
                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-12">
@@ -794,6 +806,12 @@ function viewMoreInfo(row_id) {
                 .casual_leave_used);
             $("#medical_pending").html(data.leavePending.sick_leave_earned - data.leavePending
                 .sick_leave_used);
+                $("#marriage_pending").html(data.leavePending.marriage_leave_earned - data.leavePending
+                .marriage_leave_used);
+            $("#paternity_pending").html(data.leavePending.paternity_leave_earned - data.leavePending
+                .paternity_leave_used);
+            $("#maternity_pending").html(data.leavePending.maternity_leave_earned - data.leavePending
+                .maternity_leave_used);
             $("#loss_of_pay_used").html(data.leavePending.lop_leave);
 
 

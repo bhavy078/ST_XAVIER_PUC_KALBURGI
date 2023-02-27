@@ -2,6 +2,10 @@
 label {
     font-weight: 500 !important;
 }
+
+.profile-img img{
+    width:130px;
+}
 </style>
 <?php
 $this->load->helper('form');
@@ -97,10 +101,9 @@ if ($error) {
                                                 aria-selected="false">Section</a>
                                         </li>
                                         <?php } ?>
-                                        <!-- <li class="nav-item">
-                                            <a class="nav-link" id="leaveIn-tab" data-toggle="tab" href="#leaveIn" 
-                                            role="tab" aria-controls="leaveIn" aria-selected="false">Leave Info</a>
-                                        </li> -->
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="leaveIn-tab" data-toggle="tab" href="#leaveIn" role="tab" aria-controls="leaveIn" aria-selected="false">Leave Info</a>
+                                        </li>
                                         <li class="nav-item">
                                             <a class="nav-link" id="password-tab" data-toggle="tab"
                                                 href="#changePassword" role="tab" aria-controls="password"
@@ -121,9 +124,7 @@ if ($error) {
                                                             <div class="card-header text-center">
                                                             <label for="fname">Profile Image</label>
                                                                 <div class="text-center">
-                                                                   
-                                                               
-                                                                
+                                                                                                                                  
                                                                 <?php 
                                                                 $profileImg = $staffInfo->photo_url;
                                                                     if(!empty($profileImg)){ ?>
@@ -419,21 +420,19 @@ if ($error) {
                                             <div class="row">
                                                 <div class="col-lg-4 col-md-4 pr-0 ">
                                                     <div class="card card-small c-border mb-4 p-1">
-                                                        <div class="card-header text-center profile-img">
-                                                            <?php if(!empty($profileImg)){ ?>
-                                                            <img src="<?php echo $profileImg; ?>"
-                                                                class="avatar rounded-circle img-thumbnail" width="130"
-                                                                height="130" alt="Profile Image">
-                                                            <?php } else { ?>
-                                                            <img src="<?php echo base_url(); ?>assets/images/user.png"
-                                                                class="avatar rounded-circle img-thumbnail" width="130"
-                                                                height="130" src="#" id="uploadedImage" name="userfile"
-                                                                width="130" height="130" alt="Profile default">
-                                                            <?php } ?>
-
-                                                        </div>
-                                                        <div
-                                                            class="card-body text-center profile_sidebar pt-0 pl-0 pr-0 mt-1">
+                                                    <div class="card-header text-center profile-img">
+                                                        <?php if(!empty($profileImg)){ ?>
+                                                        <img src="<?php echo $profileImg; ?>"
+                                                            class="avatar rounded-circle img-thumbnail" width="130"
+                                                            height="130" alt="Profile Image">
+                                                        <?php } else { ?>
+                                                        <img src="<?php echo base_url(); ?>assets/images/user.png"
+                                                            class="avatar rounded-circle img-thumbnail" width="130"
+                                                            height="130" src="#" id="uploadedImage" name="userfile"
+                                                           alt="Profile default">
+                                                        <?php } ?>
+                                                    </div>
+                                                    <div class="card-body text-center profile_sidebar pt-0 pl-0 pr-0 mt-1">
                                                             <div class="p-1">
                                                                 <i class="fa fa-id-card"></i>
                                                                 <span
@@ -470,7 +469,7 @@ if ($error) {
                                                     </div>
                                                 </div>
                                             
-                                                <div class="col-lg-8 col-md-8 col-12 p-1 ">
+                                                <div class="col-lg-8 col-md-8 col-12 ">
                                                     <div class="card card-small c-border">
                                                         <div class="card-header p-2">
                                                     <form role="form" action="<?php echo base_url() ?>updateLeaveInfo"
@@ -485,7 +484,7 @@ if ($error) {
                                                                 <label for="cl">Casual Leave</label>
                                                                 <input type="text" class="form-control required digits"
                                                                     id="casual_leave"
-                                                                    value="<?php if(empty($leaveInfo->casual_leave_earned)){ echo "0";}else{echo $leaveInfo->casual_leave_earned;} ?>"
+                                                                    value="<?php if(empty($staffInfo->casual_leave_earned)){ echo "0";}else{echo $staffInfo->casual_leave_earned;} ?>"
                                                                     name="casual_leave" maxlength="5"
                                                                     placeholder="Add Casual Leave"
                                                                     onkeypress="return isNumberKey(event)" required
@@ -495,7 +494,7 @@ if ($error) {
                                                                 <label for="cl">Medical Leave</label>
                                                                 <input type="text" class="form-control required digits"
                                                                     id="sick_leave"
-                                                                    value="<?php if(empty($leaveInfo->sick_leave_earned)){ echo "0";}else{echo $leaveInfo->sick_leave_earned;} ?>"
+                                                                    value="<?php if(empty($staffInfo->sick_leave_earned)){ echo "0";}else{echo $staffInfo->sick_leave_earned;} ?>"
                                                                     name="sick_leave" maxlength="5"
                                                                     placeholder="Add Medical Leave"
                                                                     onkeypress="return isNumberKey(event)"
@@ -508,7 +507,7 @@ if ($error) {
                                                                 <label for="cl">Paternity Leave</label>
                                                                 <input type="text" class="form-control required digits"
                                                                     id="paternity_leave"
-                                                                    value="<?php if(empty($leaveInfo->paternity_leave_earned)){ echo "0";}else{echo $leaveInfo->paternity_leave_earned;} ?>"
+                                                                    value="<?php if(empty($staffInfo->paternity_leave_earned)){ echo "0";}else{echo $staffInfo->paternity_leave_earned;} ?>"
                                                                     name="paternity_leave" maxlength="5"
                                                                     placeholder="Add Paternity Leave"
                                                                     onkeypress="return isNumberKey(event)"
@@ -518,7 +517,7 @@ if ($error) {
                                                                 <label for="marriage_leave">Marriage Leave</label>
                                                                 <input type="text" class="form-control required digits"
                                                                     id="marriage_leave"
-                                                                    value="<?php if(empty($leaveInfo->marriage_leave_earned)){ echo "0";}else{echo $leaveInfo->marriage_leave_earned;} ?>"
+                                                                    value="<?php if(empty($staffInfo->marriage_leave_earned)){ echo "0";}else{echo $staffInfo->marriage_leave_earned;} ?>"
                                                                     name="marriage_leave" maxlength="5"
                                                                     placeholder="Add Marriage Leave"
                                                                     onkeypress="return isNumberKey(event)"
@@ -530,7 +529,7 @@ if ($error) {
                                                                 <label for="cl">Maternity Leave</label>
                                                                 <input type="text" class="form-control required digits"
                                                                     id="maternity_leave"
-                                                                    value="<?php if(empty($leaveInfo->maternity_leave_earned)){ echo "0";}else{echo $leaveInfo->maternity_leave_earned;} ?>"
+                                                                    value="<?php if(empty($staffInfo->maternity_leave_earned)){ echo "0";}else{echo $staffInfo->maternity_leave_earned;} ?>"
                                                                     name="maternity_leave" maxlength="5"
                                                                     placeholder="Add Maternity Leave"
                                                                     onkeypress="return isNumberKey(event)"
@@ -540,7 +539,7 @@ if ($error) {
                                                                 <label for="cl">Loss of Pay</label>
                                                                 <input type="text" class="form-control required digits"
                                                                     id="lop"
-                                                                    value="<?php if(empty($leaveInfo->lop_leave)){ echo "0";}else{echo $leaveInfo->lop_leave;} ?>"
+                                                                    value="<?php if(empty($staffInfo->lop_leave)){ echo "0";}else{echo $staffInfo->lop_leave;} ?>"
                                                                     name="lop" maxlength="5"
                                                                     placeholder="Add Loss of Pay"
                                                                     onkeypress="return isNumberKey(event)"
@@ -563,7 +562,7 @@ if ($error) {
 
                                             </div>
                                         </div>
-                                        <div class="<?= ($active == "changepass")? "active" : "" ?> tab-pane fade mx-auto"
+                                        <div class="tab-pane fade"
                                             id="changePassword" role="tabpanel" aria-labelledby="password-tab">
                                             <div class="row">
                                                 <div class="col-lg-4 col-md-4 pr-0 ">

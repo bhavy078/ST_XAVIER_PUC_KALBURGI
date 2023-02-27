@@ -258,7 +258,7 @@ class Staffs extends BaseController
             $data['sectionInfo'] = $this->settings->getSectionInfo();
             $data['staffSectionInfo'] = $this->staff->getSectionByStaffId($staff->staff_id);
             $data['staffSubjectInfo'] = $this->staff->getAllSubjectByStaffId($staff->staff_id);
-            // $data['leaveInfo'] = $this->leave->getLeaveInfoByStaffId($staff_id);
+            $data['leaveInfo'] = $this->leave->getLeaveInfoByStaffId($staff_id);
          
             $this->global['pageTitle'] = ''.TAB_TITLE.' : Edit Staff Details';
             $this->loadViews("staffs/editStaffInfo", $this->global, $data, null);
@@ -858,5 +858,63 @@ public function addNewStaffAttendance(){
             // $result = $this->staff->deleteStaffById($row_id);
             if ($result == true) {echo (json_encode(array('status' => true)));} else {echo (json_encode(array('status' => false)));}
         } 
+    }
+
+    public function updateLeaveInfo(){
+        if ($this->isAdmin() == true) {
+            $this->loadThis();
+        } else {
+            $this->active_status = 'leave_info';
+            $row_id =$this->security->xss_clean($this->input->post('row_id_leave')); 
+            $staff_id = $this->security->xss_clean($this->input->post('staff_id_leave')); 
+            $casual_leave =$this->security->xss_clean($this->input->post('casual_leave')); 
+            $sick_leave =$this->security->xss_clean($this->input->post('sick_leave')); 
+            $paternity_leave =$this->security->xss_clean($this->input->post('paternity_leave'));
+            $maternity_leave =$this->security->xss_clean($this->input->post('maternity_leave')); 
+            $marriage_leave =$this->security->xss_clean($this->input->post('marriage_leave')); 
+            $lop =$this->security->xss_clean($this->input->post('lop')); 
+            $leaveInfo = $this->leave->getLeaveInfoByStaffId($staff_id);
+            if($leaveInfo == NULL){
+                $leaveInfo = array(
+                    'staff_id' => $staff_id,
+                    'casual_leave_earned' => $casual_leave,
+                    'sick_leave_earned' => $sick_leave,
+                    'marriage_leave_earned' => $marriage_leave,
+                    'paternity_leave_earned' => $paternity_leave,
+                    'maternity_leave_earned' => $maternity_leave,
+                    'lop_leave' => $lop,
+                    'created_by' => $this->staff_id,
+                    'created_date_time' => date('Y-m-d H:i:s')
+                );
+                log_message('debug','test'.print_r('$leaveInfo',true));
+                $return = $this->leave->addStaffLeaveInfo($leaveInfo);
+                if($return > 0) {
+                    $this->session->set_flashdata('success', 'Leave details Added Successfully');
+                } else {
+                    $this->session->set_flashdata('error', 'Leave Details Update failed');
+                }
+                redirect('editStaff/'.$row_id);
+            }else{
+                $leaveInfo = array(
+                    'staff_id' => $staff_id,
+                    'casual_leave_earned' => $casual_leave,
+                    'sick_leave_earned' => $sick_leave,
+                    'marriage_leave_earned' => $marriage_leave,
+                    'paternity_leave_earned' => $paternity_leave,
+                    'maternity_leave_earned' => $maternity_leave,
+                    'lop_leave' => $lop,
+                    'created_by' => $this->staff_id,
+                    'updated_date_time' => date('Y-m-d H:i:s')
+                );
+                $return = $this->leave->updateStaffLeaveInfo($leaveInfo, $staff_id);
+                if($return) {
+                    $this->session->set_flashdata('success', 'Leave details Updated Successfully');
+                } else {
+                    $this->session->set_flashdata('error', 'Leave Details Update failed');
+                }
+                redirect('editStaff/'.$row_id);
+            }
+            
+        }
     }
 }

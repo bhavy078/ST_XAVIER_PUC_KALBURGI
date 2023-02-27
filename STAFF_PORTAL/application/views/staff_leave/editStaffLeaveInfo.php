@@ -166,7 +166,7 @@ if ($error) {
                                 <span id="certificate_msg" class="text-danger font-weight-bold"></span>
                             </div>
                         </div>
-                        <div class="card">
+                        <!-- <div class="card">
                             <div class="card-header">
                                 <h6 class="mb-1 pull-left">Work Assign during my absence.</h6>
                                 <button type="button" class="btn btn-danger pull-right" data-toggle="modal"
@@ -210,9 +210,9 @@ if ($error) {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
-                        <hr class="mt-0 mb-1">
+                        <!-- <hr class="mt-0 mb-1"> -->
                         <div class="row">
                             <div class="col-lg-12 col-md-12 col-12">
                                 <button type="submit" class="btn btn-success btn-md float-right">Update
@@ -240,13 +240,13 @@ if ($error) {
         <div class="modal-content">
 
             <!-- Modal Header -->
-            <div class="modal-header ">
+            <!-- <div class="modal-header ">
                 <h4 class="modal-title">Work Assign during my absence.</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
+            </div> -->
 
             <!-- Modal body -->
-            <div class="modal-body" style="padding:0px;">
+            <!-- <div class="modal-body" style="padding:0px;">
                 <div class="card-body contents-body">
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-12">
@@ -333,10 +333,10 @@ if ($error) {
                     </div>
 
 
-                    <hr class="mt-1 mb-1">
+                    <hr class="mt-1 mb-1"> -->
                     <!-- Modal footer -->
 
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-lg-12 col-md-12 col-12">
                             <button type="button" class="btn pull-right btn-primary text-white" id="add" name="add"
                                 onClick="productAddToTable();">ADD</button>
@@ -348,7 +348,7 @@ if ($error) {
             </div>
         </div>
     </div>
-</div>
+</div> -->
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/staff.js" charset="utf-8"></script>
 <script>
 jQuery(document).ready(function() {

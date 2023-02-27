@@ -206,7 +206,7 @@
                                         <span id="certificate_msg" class="text-danger font-weight-bold"></span>
                                     </div>
                                 </div>
-
+<!-- 
                                 <div class="card">
                                     <div class="card-header" style="padding: 6px;">
                                         <h6 class="mb-1 pull-left">Work assign during staff absence.</h6>
@@ -233,9 +233,9 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
 
-                                <hr class="mt-0 mb-1">
+                                <!-- <hr class="mt-0 mb-1"> -->
                                 <div class="row">
                                     <div class="col-lg-12 col-md-12 col-12">
                                         <button type="submit" class="btn btn-success btn-md float-right">Apply

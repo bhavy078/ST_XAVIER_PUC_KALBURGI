@@ -198,6 +198,18 @@ if ($error) {
                                         <td>Medical Leave</td>
                                         <td id="medical_pending"></td>
                                     </tr>
+                                    <tr class="table-primary">
+                                        <td>Marriage Leave</td>
+                                        <td id="marriage_pending"></td>
+                                    </tr>
+                                    <tr class="table-success">
+                                        <td>Paternity Leave</td>
+                                        <td id="paternity_pending"></td>
+                                    </tr>
+                                    <tr class="table-primary">
+                                        <td>Maternity Leave</td>
+                                        <td id="maternity_pending"></td>
+                                    </tr>
                                     <tr class="table-success">
                                         <td>Loss Of Pay Used</td>
                                         <td id="loss_of_pay_used"></td>
@@ -207,7 +219,7 @@ if ($error) {
                         </div>
 
                     </div>
-                    <hr class="mt-1 mb-1">
+                    <!-- <hr class="mt-1 mb-1">
 
                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-12">
@@ -230,7 +242,7 @@ if ($error) {
                                 </tbody>
                             </table>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="col-12 text-center">
                         <div id="medicalCertificate"></div>
                     </div>
@@ -494,6 +506,12 @@ function viewMoreInfo(row_id) {
                 .casual_leave_used);
             $("#medical_pending").html(data.leavePending.sick_leave_earned - data.leavePending
                 .sick_leave_used);
+                $("#marriage_pending").html(data.leavePending.marriage_leave_earned - data.leavePending
+                .marriage_leave_used);
+            $("#paternity_pending").html(data.leavePending.paternity_leave_earned - data.leavePending
+                .paternity_leave_used);
+            $("#maternity_pending").html(data.leavePending.maternity_leave_earned - data.leavePending
+                .maternity_leave_used);
             $("#loss_of_pay_used").html(data.leavePending.lop_leave);
             $("#approved_by").html(data.leaveInfo.approved_by);
             $("#rejected_by").html(data.leaveInfo.rejected_by); 
