@@ -1381,7 +1381,7 @@ class students_model extends CI_Model
         }
 
         public function getInfoForStudyCertificate($row_id){
-            $this->db->select('std.intake_year,request.row_id as receipt_id,std.student_name,std.section_name,std.student_id,std.mother_tongue,
+            $this->db->select('std.intake_year,request.row_id as receipt_id,std.student_name,std.section_name,std.student_id,std.mother_tongue,std.gender,
             std.mother_name,request.row_id as receipt_no,std.father_name,request.classes_from,request.classes_to,request.college_from,request.college_to');
             $this->db->from('tbl_students_info as std');
             $this->db->join('tbl_request_form as request', 'request.student_row_id = std.row_id','left');

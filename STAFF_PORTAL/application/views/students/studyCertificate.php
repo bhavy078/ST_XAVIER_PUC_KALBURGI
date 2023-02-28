@@ -79,7 +79,7 @@
 
 $totalCount = count($studentInfo);
 foreach ($studentInfo as $std) {
-
+   
     $totalCount--;
 
 ?>
@@ -111,8 +111,11 @@ foreach ($studentInfo as $std) {
         </div>
         <div class="row">
         <p style="font-size: 12px;text-align:right;">Date:<?php echo date('d-m-Y')?> </p>
-            <p width="100%" style="text-align: justify;font-size: 14pt; font-family: times new roman;">This is to certify that Sri / Kum <u>
-                <?php echo strtoupper($std->student_name) ?>&nbsp;</u> S /o/ D/o <u>&nbsp;<?php if(!empty($std->father_name)){ echo strtoupper($std->father_name); } else{ echo strtoupper($std->mother_name);}?>&nbsp;</u> 
+            <p width="100%" style="text-align: justify;font-size: 14pt; font-family: times new roman;">This is to certify that 
+            <?php if(!empty($std->gender == "MALE")){ echo Sri; } else{ echo Kum;} ?><u>
+                <?php echo strtoupper($std->student_name) ?>&nbsp;</u> 
+                <?php if(!empty($std->gender == "MALE")){ echo "S/o"; } else{ echo "D/o";} ?>
+                  <u>&nbsp;<?php if(!empty($std->father_name)){ echo strtoupper($std->father_name); } else{ echo strtoupper($std->mother_name);}?>&nbsp;</u> 
                 has Studied from <u>&nbsp;<?php echo strtoupper($std->classes_from)?>&nbsp;</u> to <u>&nbsp;<?php echo strtoupper($std->classes_to)?>&nbsp;</u> <b>SCIENCE</b> in our institution from 
             <u>&nbsp;<?php echo $std->college_from?>&nbsp;</u> To <u>&nbsp;<?php echo $std->college_to?>&nbsp;</u> academic years.
                 
