@@ -114,6 +114,10 @@ if($_SESSION['application_number_status']==true) {
     
     $student_profile ="";
     $caste_certificate = "";
+
+    $native_district = "";
+    $native_state = "";
+    $native_taluk = "";
     
 if(!empty($studentApplicationInfo)){
     $application_number=$studentApplicationInfo->application_number;
@@ -171,6 +175,10 @@ if(!empty($studentApplicationInfo)){
     $hostel_facility = $studentApplicationInfo->hostel_facility;
     $bus_facility = $studentApplicationInfo->bus_facility;
     $boarding_point = $studentApplicationInfo->boarding_point;
+
+    $native_district = $studentApplicationInfo->native_district;
+    $native_state = $studentApplicationInfo->native_state;
+    $native_taluk = $studentApplicationInfo->native_taluk;
 
 }
 
@@ -318,7 +326,7 @@ if(!empty($documentInfo)){
                                              <label class="std_name mdc-text-field mdc-text-field--filled ">
                                                  <span class="mdc-text-field__ripple"></span>
                                                  <input name="fname" id="fname" value="<?php echo $name; ?>"
-                                                     class="mdc-text-field__input text-uppercase" type="text"
+                                                     class="mdc-text-field__input text-uppercase" type="text" placeholder="Full Name"
                                                      aria-labelledby="my-label-id" maxlength="128" autocomplete="off"
                                                      required>
                                                  <span class="mdc-floating-label" id="my-label-id">Full Name (As per
@@ -346,13 +354,14 @@ if(!empty($documentInfo)){
                                                  <input name="native_place" id="native_place"
                                                      onkeydown="return alphaOnly(event)"
                                                      value="<?php echo $native_place; ?>" class="mdc-text-field__input"
-                                                     type="text" aria-labelledby="my-label-id" autocomplete="off"
+                                                     type="text" aria-labelledby="my-label-id" autocomplete="off" placeholder="Native Place"
                                                      required>
-                                                 <span class="mdc-floating-label" id="my-label-id">Native place</span>
+                                                 <span class="mdc-floating-label" id="my-label-id">Native Place</span>
                                                  <span class="mdc-line-ripple"></span>
                                              </label>
                                          </div>
                                      </div>
+                                     
                                      <!-- <div class="col-lg-4 col-md-6 col-sm-6">
                                         <div class="form-group">
                                             <label class="gender mdc-text-field mdc-text-field--filled">
@@ -399,7 +408,7 @@ if(!empty($documentInfo)){
                                                  <span class="mdc-text-field__ripple"></span>
                                                  <input name="student_email" id="student_email"
                                                      value="<?php echo $student_email; ?>" class="mdc-text-field__input"
-                                                     type="text" aria-labelledby="my-label-id" autocomplete="off"
+                                                     type="text" aria-labelledby="my-label-id" autocomplete="off" placeholder="Student Email"
                                                      required>
                                                  <span class="mdc-floating-label" id="my-label-id">Student Email</span>
                                                  <span class="mdc-line-ripple"></span>
@@ -413,9 +422,9 @@ if(!empty($documentInfo)){
                                                  <input name="student_mobile" id="student_mobile" pattern="[0-9]*"
                                                      value="<?php echo $student_mobile; ?>"
                                                      class="mdc-text-field__input" type="tel"
-                                                     aria-labelledby="my-label-id" maxlength="10" minlength="10"
+                                                     aria-labelledby="my-label-id" maxlength="10" minlength="10" placeholder="Whatsap Number"
                                                      autocomplete="off" onkeypress="return isNumber(event)">
-                                                 <span class="mdc-floating-label" id="my-label-id">Student Mobile
+                                                 <span class="mdc-floating-label" id="my-label-id">Whatsap
                                                      Number</span>
                                                  <span class="mdc-line-ripple"></span>
                                              </label>
@@ -426,6 +435,53 @@ if(!empty($documentInfo)){
                          </div>
 
                          <div class="row">
+
+                         <div class="col-lg-4 col-md-6 col-sm-6">
+                                         <div class="form-group">
+                                             <label class="native_taluk mdc-text-field mdc-text-field--filled ">
+                                                 <span class="mdc-text-field__ripple"></span>
+                                                 <input name="native_taluk" id="native_taluk"
+                                                     onkeydown="return alphaOnly(event)"
+                                                     value="<?php echo $native_taluk; ?>" class="mdc-text-field__input"
+                                                     type="text" aria-labelledby="my-label-id" autocomplete="off" placeholder="Place of birth (Taluk)"
+                                                     required>
+                                                 <span class="mdc-floating-label" id="my-label-id">Place of birth (Taluk)</span>
+                                                 <span class="mdc-line-ripple"></span>
+                                             </label>
+                                         </div>
+                                     </div>
+
+                                     <div class="col-lg-4 col-md-6 col-sm-6">
+                                         <div class="form-group">
+                                             <label class="native_district mdc-text-field mdc-text-field--filled ">
+                                                 <span class="mdc-text-field__ripple"></span>
+                                                 <input name="native_district" id="native_district"
+                                                     onkeydown="return alphaOnly(event)"
+                                                     value="<?php echo $native_district; ?>" class="mdc-text-field__input"
+                                                     type="text" aria-labelledby="my-label-id" autocomplete="off" placeholder="Place of birth (District)"
+                                                     required>
+                                                 <span class="mdc-floating-label" id="my-label-id">Place of birth (District)</span>
+                                                 <span class="mdc-line-ripple"></span>
+                                             </label>
+                                         </div>
+                                     </div>
+
+
+                                     <div class="col-lg-4 col-md-6 col-sm-6">
+                                         <div class="form-group">
+                                             <label class="native_state mdc-text-field mdc-text-field--filled ">
+                                                 <span class="mdc-text-field__ripple"></span>
+                                                 <input name="native_state" id="native_state"
+                                                     onkeydown="return alphaOnly(event)"
+                                                     value="<?php echo $native_state; ?>" class="mdc-text-field__input"
+                                                     type="text" aria-labelledby="my-label-id" autocomplete="off" placeholder="Place of birth (State)"
+                                                     required>
+                                                 <span class="mdc-floating-label" id="my-label-id">Place of birth (State)</span>
+                                                 <span class="mdc-line-ripple"></span>
+                                             </label>
+                                         </div>
+                                     </div>
+
                              <div class="col-lg-3 col-md-6 col-sm-6">
                                  <div class="form-group">
                                      <div class="mdc-select mdc-select-nationality mdc-select--required">
@@ -527,7 +583,7 @@ if(!empty($documentInfo)){
                                      <label class="sub_caste mdc-text-field mdc-text-field--filled ">
                                          <span class="mdc-text-field__ripple"></span>
                                          <input name="sub_caste" id="sub_caste" onkeydown="return alphaOnly(event)"
-                                             value="<?php echo $sub_caste; ?>" class="mdc-text-field__input" type="text"
+                                             value="<?php echo $sub_caste; ?>" class="mdc-text-field__input" type="text" placeholder="Sub Caste"
                                              aria-labelledby="my-label-id" autocomplete="off">
                                          <span class="mdc-floating-label" id="my-label-id">Sub Caste</span>
                                          <span class="mdc-line-ripple"></span>
@@ -539,7 +595,7 @@ if(!empty($documentInfo)){
                                      <label class="other_nationality mdc-text-field mdc-text-field--filled ">
                                          <span class="mdc-text-field__ripple"></span>
                                          <input type="text" name="other_nationality" onkeydown="return alphaOnly(event)"
-                                             id="other_nationality" class="mdc-text-field__input" maxlength="128"
+                                             id="other_nationality" class="mdc-text-field__input" maxlength="128" placeholder="TYPE YOUR NATIONALITY"
                                              aria-labelledby="my-label-id" autocomplete="off">
                                          <span class="mdc-floating-label" id="my-label-id">TYPE YOUR NATIONALITY</span>
                                          <span class="mdc-line-ripple"></span>
@@ -551,7 +607,7 @@ if(!empty($documentInfo)){
                                      <label class="other_religion_text mdc-text-field mdc-text-field--filled ">
                                          <span class="mdc-text-field__ripple"></span>
                                          <input type="text" name="other_religion_text"
-                                             onkeydown="return alphaOnly(event)" id="other_religion_text"
+                                             onkeydown="return alphaOnly(event)" id="other_religion_text" placeholder="TYPE YOUR RELIGION"
                                              class="mdc-text-field__input" maxlength="128" aria-labelledby="my-label-id"
                                              autocomplete="off">
                                          <span class="mdc-floating-label" id="my-label-id">TYPE YOUR RELIGION</span>
@@ -564,7 +620,7 @@ if(!empty($documentInfo)){
                                      <label class="other_caste_text mdc-text-field mdc-text-field--filled ">
                                          <span class="mdc-text-field__ripple"></span>
                                          <input type="text" name="other_caste_text" onkeydown="return alphaOnly(event)"
-                                             id="other_caste_text" class="mdc-text-field__input" maxlength="128"
+                                             id="other_caste_text" class="mdc-text-field__input" maxlength="128" placeholder="TYPE YOUR CASTE"
                                              aria-labelledby="my-label-id" autocomplete="off">
                                          <span class="mdc-floating-label" id="my-label-id">TYPE YOUR CASTE</span>
                                          <span class="mdc-line-ripple"></span>
@@ -600,6 +656,11 @@ if(!empty($documentInfo)){
                                                  <li class="mdc-list-item" data-value="A+">
                                                      <span class="mdc-list-item__text">
                                                          A+
+                                                     </span>
+                                                 </li>
+                                                 <li class="mdc-list-item" data-value="A-">
+                                                     <span class="mdc-list-item__text">
+                                                         A-
                                                      </span>
                                                  </li>
                                                  <li class="mdc-list-item" data-value="B+">
@@ -643,7 +704,7 @@ if(!empty($documentInfo)){
                                          <span class="mdc-text-field__ripple"></span>
                                          <input name="mother_tongue" id="mother_tongue"
                                              onkeydown="return alphaOnly(event)" value="<?php echo $mother_tongue;?>"
-                                             class="mdc-text-field__input" type="text" aria-labelledby="my-label-id"
+                                             class="mdc-text-field__input" type="text" aria-labelledby="my-label-id" placeholder="Mother Tongue"
                                              autocomplete="off" required>
                                          <span class="mdc-floating-label" id="my-label-id">Mother Tongue</span>
                                          <span class="mdc-line-ripple"></span>
@@ -656,7 +717,7 @@ if(!empty($documentInfo)){
                                          <span class="mdc-text-field__ripple"></span>
                                          <input name="aadhar_no" id="aadhar_no" pattern="[0-9]*"
                                              value="<?php echo $aadhar_no; ?>" class="mdc-text-field__input" type="tel"
-                                             aria-labelledby="my-label-id" maxlength="12" minlength="12"
+                                             aria-labelledby="my-label-id" maxlength="12" minlength="12" placeholder="Aadhaar Number"
                                              autocomplete="off" onkeypress="return isNumber(event)">
                                          <span class="mdc-floating-label" id="my-label-id">Aadhaar Number</span>
                                          <span class="mdc-line-ripple"></span>
@@ -738,7 +799,7 @@ if(!empty($documentInfo)){
                                          <span class="mdc-text-field__ripple"></span>
                                          <input name="caste_no" id="caste_no"
                                              value="<?php echo $caste_no; ?>"
-                                             class="mdc-text-field__input" type="text" aria-labelledby="my-label-id"
+                                             class="mdc-text-field__input" type="text" aria-labelledby="my-label-id" placeholder="Caste Certificate No."
                                              autocomplete="off" required>
                                          <span class="mdc-floating-label" id="my-label-id">Caste Certificate No.</span>
                                          <span class="mdc-line-ripple"></span>
@@ -751,7 +812,7 @@ if(!empty($documentInfo)){
                                          <span class="mdc-text-field__ripple"></span>
                                          <input name="income_no" id="income_no"
                                               value="<?php echo $income_no; ?>"
-                                             class="mdc-text-field__input" type="text" aria-labelledby="my-label-id"
+                                             class="mdc-text-field__input" type="text" aria-labelledby="my-label-id" placeholder="Income Certificate No."
                                              autocomplete="off" required>
                                          <span class="mdc-floating-label" id="my-label-id">Income Certificate No.</span>
                                          <span class="mdc-line-ripple"></span>
@@ -833,7 +894,7 @@ if(!empty($documentInfo)){
                                  <div class="form-group">
                                      <label class="boarding_points mdc-text-field mdc-text-field--filled ">
                                          <span class="mdc-text-field__ripple"></span>
-                                         <input name="boarding_point" id="boarding_point"
+                                         <input name="boarding_point" id="boarding_point" placeholder="Boarding Point"
                                               value="<?php echo $boarding_point; ?>"
                                              class="mdc-text-field__input" type="text" aria-labelledby="my-label-id"
                                              autocomplete="off">
@@ -1092,7 +1153,7 @@ if(!empty($documentInfo)){
                                          <span class="mdc-text-field__ripple"></span>
                                          <input type="text" name="father_name" id="father_name"
                                              value="<?php echo $father_name; ?>"
-                                             class="mdc-text-field__input text-uppercase" maxlength="128"
+                                             class="mdc-text-field__input text-uppercase" maxlength="128" placeholder="Father's Name"
                                              aria-labelledby="my-label-id" autocomplete="off" required>
                                          <span class="mdc-floating-label" id="my-label-id">Father's Name</span>
                                          <span class="mdc-line-ripple"></span>
@@ -1103,7 +1164,7 @@ if(!empty($documentInfo)){
                                  <div class="form-group">
                                      <label class="father_qualification mdc-text-field mdc-text-field--filled ">
                                          <span class="mdc-text-field__ripple"></span>
-                                         <input type="text" name="father_qualification" id="father_qualification"
+                                         <input type="text" name="father_qualification" id="father_qualification" placeholder="Father's Qualification"
                                              value="<?php echo $father_qualification; ?>"
                                              class="mdc-text-field__input text-uppercase"
                                              onkeydown="return alphaOnly(event)" aria-labelledby="my-label-id"
@@ -1119,7 +1180,7 @@ if(!empty($documentInfo)){
                                      <label class="father_profession mdc-text-field mdc-text-field--filled ">
                                          <span class="mdc-text-field__ripple"></span>
                                          <input type="text" name="father_profession" id="father_profession"
-                                             value="<?php echo $father_profession; ?>" class="mdc-text-field__input"
+                                             value="<?php echo $father_profession; ?>" class="mdc-text-field__input" placeholder="Father's Occupation"
                                              aria-labelledby="my-label-id" onkeydown="return alphaOnly(event)"
                                              autocomplete="off" required>
                                          <span class="mdc-floating-label" id="my-label-id">Father's Occupation</span>
@@ -1131,7 +1192,7 @@ if(!empty($documentInfo)){
                                  <div class="form-group">
                                      <label class="father_age mdc-text-field mdc-text-field--filled ">
                                          <span class="mdc-text-field__ripple"></span>
-                                         <input type="tel" pattern="[0-9]*" name="father_age" id="father_age"
+                                         <input type="tel" pattern="[0-9]*" name="father_age" id="father_age" placeholder="Father's Age"
                                              value="<?php echo $father_age; ?>" class="mdc-text-field__input"
                                              maxlength="3" aria-labelledby="my-label-id"
                                              onkeypress="return isNumber(event)" autocomplete="off" required>
@@ -1146,7 +1207,7 @@ if(!empty($documentInfo)){
                                  <div class="form-group">
                                      <label class="mother_name mdc-text-field mdc-text-field--filled ">
                                          <span class="mdc-text-field__ripple"></span>
-                                         <input type="text" name="mother_name" id="mother_name"
+                                         <input type="text" name="mother_name" id="mother_name" placeholder="Mother's Name"
                                              value="<?php echo $mother_name; ?>"
                                              class="mdc-text-field__input text-uppercase" maxlength="128"
                                              aria-labelledby="my-label-id" autocomplete="off" required>
@@ -1159,7 +1220,7 @@ if(!empty($documentInfo)){
                                  <div class="form-group">
                                      <label class="mother_qualification mdc-text-field mdc-text-field--filled ">
                                          <span class="mdc-text-field__ripple"></span>
-                                         <input type="text" name="mother_qualification" id="mother_qualification"
+                                         <input type="text" name="mother_qualification" id="mother_qualification" placeholder="Mother's Qualification"
                                              value="<?php echo $mother_qualification; ?>"
                                              class="mdc-text-field__input text-uppercase" aria-labelledby="my-label-id"
                                              onkeydown="return alphaOnly(event)" autocomplete="off" required>
@@ -1172,7 +1233,7 @@ if(!empty($documentInfo)){
                                  <div class="form-group">
                                      <label class="mother_profession mdc-text-field mdc-text-field--filled ">
                                          <span class="mdc-text-field__ripple"></span>
-                                         <input type="text" name="mother_profession" id="mother_profession"
+                                         <input type="text" name="mother_profession" id="mother_profession" placeholder="Mother's Occupation"
                                              value="<?php echo $mother_profession; ?>" class="mdc-text-field__input"
                                              aria-labelledby="my-label-id" onkeydown="return alphaOnly(event)"
                                              autocomplete="off" required>
@@ -1185,7 +1246,7 @@ if(!empty($documentInfo)){
                                  <div class="form-group">
                                      <label class="mother_age mdc-text-field mdc-text-field--filled ">
                                          <span class="mdc-text-field__ripple"></span>
-                                         <input type="tel" pattern="[0-9]*" name="mother_age" id="mother_age"
+                                         <input type="tel" pattern="[0-9]*" name="mother_age" id="mother_age" placeholder="Mother's Age"
                                              value="<?php echo $mother_age; ?>" class="mdc-text-field__input"
                                              maxlength="3" aria-labelledby="my-label-id"
                                              onkeypress="return isNumber(event)" autocomplete="off" required>
@@ -1201,7 +1262,7 @@ if(!empty($documentInfo)){
                                  <div class="form-group">
                                      <label class="father_mobile mdc-text-field mdc-text-field--filled ">
                                          <span class="mdc-text-field__ripple"></span>
-                                         <input type="tel" pattern="[0-9]*" name="father_mobile" id="father_mobile"
+                                         <input type="tel" pattern="[0-9]*" name="father_mobile" id="father_mobile" placeholder="Father's Mobile Number"
                                              value="<?php echo $father_mobile; ?>" class="mdc-text-field__input"
                                              maxlength="10" minlength="10" aria-labelledby="my-label-id"
                                              onkeypress="return isNumber(event)" autocomplete="off" required>
@@ -1214,7 +1275,7 @@ if(!empty($documentInfo)){
                                  <div class="form-group">
                                      <label class="mother_mobile mdc-text-field mdc-text-field--filled ">
                                          <span class="mdc-text-field__ripple"></span>
-                                         <input type="tel" pattern="[0-9]*" name="mother_mobile" id="mother_mobile"
+                                         <input type="tel" pattern="[0-9]*" name="mother_mobile" id="mother_mobile" placeholder="Mother's Mobile Number"
                                              value="<?php echo $mother_mobile; ?>" class="mdc-text-field__input"
                                              maxlength="10" minlength="10" aria-labelledby="my-label-id"
                                              onkeypress="return isNumber(event)" autocomplete="off" required>
@@ -1227,7 +1288,7 @@ if(!empty($documentInfo)){
                                  <div class="form-group">
                                      <label class="father_email mdc-text-field mdc-text-field--filled ">
                                          <span class="mdc-text-field__ripple"></span>
-                                         <input type="email" name="father_email" id="father_email"
+                                         <input type="email" name="father_email" id="father_email" placeholder="Father's Email Id"
                                              value="<?php echo $father_email; ?>" class="mdc-text-field__input"
                                              maxlength="125" aria-labelledby="my-label-id" autocomplete="off">
                                          <span class="mdc-floating-label" id="my-label-id">Father's Email Id</span>
@@ -1239,7 +1300,7 @@ if(!empty($documentInfo)){
                                  <div class="form-group">
                                      <label class="mother_email mdc-text-field mdc-text-field--filled ">
                                          <span class="mdc-text-field__ripple"></span>
-                                         <input type="email" name="mother_email" id="mother_email"
+                                         <input type="email" name="mother_email" id="mother_email" placeholder="Mother's Email Id"
                                              value="<?php echo $mother_email; ?>" class="mdc-text-field__input"
                                              maxlength="125" aria-labelledby="my-label-id" autocomplete="off">
                                          <span class="mdc-floating-label" id="my-label-id">Mother's Email Id</span>
@@ -1254,7 +1315,7 @@ if(!empty($documentInfo)){
                                  <div class="form-group">
                                      <label class="father_annual_income mdc-text-field mdc-text-field--filled ">
                                          <span class="mdc-text-field__ripple"></span>
-                                         <input type="text" name="father_annual_income" id="father_annual_income"
+                                         <input type="text" name="father_annual_income" id="father_annual_income" placeholder="Father's Annual Income"
                                              onkeypress="return isNumber(event)"
                                              value="<?php echo $father_annual_income; ?>" class="mdc-text-field__input"
                                              aria-labelledby="my-label-id" autocomplete="off" required>
@@ -1267,7 +1328,7 @@ if(!empty($documentInfo)){
                                  <div class="form-group">
                                      <label class="mother_annual_income mdc-text-field mdc-text-field--filled ">
                                          <span class="mdc-text-field__ripple"></span>
-                                         <input type="text" name="mother_annual_income" id="mother_annual_income"
+                                         <input type="text" name="mother_annual_income" id="mother_annual_income" placeholder="Mother's Annual Income"
                                              onkeypress="return isNumber(event)"
                                              value="<?php echo $mother_annual_income; ?>" class="mdc-text-field__input"
                                              aria-labelledby="my-label-id" autocomplete="off" required>
@@ -1280,7 +1341,7 @@ if(!empty($documentInfo)){
                                  <div class="form-group">
                                      <label class="monthly_income mdc-text-field mdc-text-field--filled ">
                                          <span class="mdc-text-field__ripple"></span>
-                                         <input type="text" name="monthly_income" id="monthly_income"
+                                         <input type="text" name="monthly_income" id="monthly_income" placeholder="Monthly Income of Family"
                                              onkeypress="return isNumber(event)"
                                              value="<?php echo $monthly_income; ?>" class="mdc-text-field__input"
                                              aria-labelledby="my-label-id" autocomplete="off" required>
@@ -1549,7 +1610,7 @@ if(!empty($documentInfo)){
                                  <div class="form-group">
                                      <label class="guardian_name mdc-text-field mdc-text-field--filled ">
                                          <span class="mdc-text-field__ripple"></span>
-                                         <input type="text" name="guardian_name" onkeydown="return alphaOnly(event)"
+                                         <input type="text" name="guardian_name" onkeydown="return alphaOnly(event)" placeholder="Guardian's Name"
                                              id="guardian_name" value="<?php echo $guardian_name; ?>"
                                              class="mdc-text-field__input" maxlength="128" aria-labelledby="my-label-id"
                                              autocomplete="off">
@@ -1562,7 +1623,7 @@ if(!empty($documentInfo)){
                                  <div class="form-group">
                                      <label class="guardian_mobile mdc-text-field mdc-text-field--filled ">
                                          <span class="mdc-text-field__ripple"></span>
-                                         <input type="tel" pattern="[0-9]*" name="guardian_mobile" id="guardian_mobile"
+                                         <input type="tel" pattern="[0-9]*" name="guardian_mobile" id="guardian_mobile" placeholder="Guardian's Mobile"
                                              value="<?php echo $guardian_mobile; ?>" class="mdc-text-field__input"
                                              maxlength="10" minlength="10" aria-labelledby="my-label-id"
                                              onkeypress="return isNumber(event)" autocomplete="off">
@@ -1576,7 +1637,7 @@ if(!empty($documentInfo)){
                                  <div class="form-group">
                                      <label class="guardian_relation mdc-text-field mdc-text-field--filled ">
                                          <span class="mdc-text-field__ripple"></span>
-                                         <input type="text" name="guardian_relation" onkeydown="return alphaOnly(event)"
+                                         <input type="text" name="guardian_relation" onkeydown="return alphaOnly(event)" placeholder="Relationship with Guardian"
                                              id="guardian_relation" value="<?php echo $guardian_relation; ?>"
                                              class="mdc-text-field__input" maxlength="128" aria-labelledby="my-label-id"
                                              autocomplete="off">
@@ -1590,7 +1651,7 @@ if(!empty($documentInfo)){
                                      <label
                                          class="guardian_address mdc-text-field mdc-text-field--filled mdc-textfield--multiline">
                                          <span class="mdc-text-field__ripple"></span>
-                                         <textarea id="guardian_address" title="Guardian's Address"
+                                         <textarea id="guardian_address" title="Guardian's Address" placeholder="Guardian's Address"
                                              class="mdc-text-field__input" rows="6" cols="10" name="guardian_address"
                                              autocomplete="off"><?php echo $guardian_address; ?></textarea>
                                          <span class="mdc-floating-label" id="my-label-id">Guardian's Address</span>
@@ -1690,6 +1751,9 @@ bus_facility.listen('MDCSelect:change', () => {
 mdc.textField.MDCTextField.attachTo(document.querySelector('.std_name'));
 mdc.textField.MDCTextField.attachTo(document.querySelector('.dob'));
 mdc.textField.MDCTextField.attachTo(document.querySelector('.native_place'));
+mdc.textField.MDCTextField.attachTo(document.querySelector('.native_taluk'));
+mdc.textField.MDCTextField.attachTo(document.querySelector('.native_state'));
+mdc.textField.MDCTextField.attachTo(document.querySelector('.native_district'));
 mdc.textField.MDCTextField.attachTo(document.querySelector('.caste_no'));
 mdc.textField.MDCTextField.attachTo(document.querySelector('.income_no'));
 mdc.textField.MDCTextField.attachTo(document.querySelector('.boarding_points'));

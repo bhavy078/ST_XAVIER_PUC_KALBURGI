@@ -108,7 +108,7 @@ $this->load->helper('form');
                                 <div class="form-group">
                                     <label class="name_of_the_school mdc-text-field mdc-text-field--filled ">
                                         <span class="mdc-text-field__ripple"></span>
-                                        <input type="text" onkeydown="return alphaOnly(event)" name="name_of_the_school" id="name_of_the_school" value="<?php echo $name_of_the_school; ?>" class="mdc-text-field__input" style="text-transform: uppercase;" maxlength="128" aria-labelledby="my-label-id" autocomplete="off" required>
+                                        <input type="text" onkeydown="return alphaOnly(event)" placeholder="Name of the School" name="name_of_the_school" id="name_of_the_school" value="<?php echo $name_of_the_school; ?>" class="mdc-text-field__input" style="text-transform: uppercase;" maxlength="128" aria-labelledby="my-label-id" autocomplete="off" required>
                                         <span class="mdc-floating-label" id="my-label-id">Name of the School</span>
                                         <span class="mdc-line-ripple"></span>
                                     </label>
@@ -163,19 +163,19 @@ $this->load->helper('form');
                                                         Select Month
                                                     </span>
                                                 </li>
-                                                <li class="mdc-list-item" data-value="OCTOBER">
+                                                <li class="mdc-list-item" data-value="MARCH">
                                                     <span class="mdc-list-item__text">
-                                                        OCTOBER
+                                                    MARCH
                                                     </span>
                                                 </li>
-                                                <li class="mdc-list-item" data-value="NOVEMBER">
+                                                <li class="mdc-list-item" data-value="APRIL">
                                                     <span class="mdc-list-item__text">
-                                                        NOVEMBER
+                                                    APRIL
                                                     </span>
                                                 </li>
-                                                <li class="mdc-list-item" data-value="DECEMBER">
+                                                <li class="mdc-list-item" data-value="MAY">
                                                     <span class="mdc-list-item__text">
-                                                        DECEMBER
+                                                        MAY
                                                     </span>
                                                 </li>
                                                 <!-- <li class="mdc-list-item" data-value="2019">
@@ -211,6 +211,11 @@ $this->load->helper('form');
                                                         Select Year
                                                     </span>
                                                 </li>
+                                                <li class="mdc-list-item" data-value="2023">
+                                                    <span class="mdc-list-item__text">
+                                                        2023
+                                                    </span>
+                                                </li>
                                                 <li class="mdc-list-item" data-value="2022">
                                                     <span class="mdc-list-item__text">
                                                         2022
@@ -221,11 +226,11 @@ $this->load->helper('form');
                                                         2021
                                                     </span>
                                                 </li>
-                                                <li class="mdc-list-item" data-value="2020">
+                                                <!-- <li class="mdc-list-item" data-value="2020">
                                                     <span class="mdc-list-item__text">
                                                         2020
                                                     </span>
-                                                </li>
+                                                </li> -->
                                                 <!-- <li class="mdc-list-item" data-value="2019">
                                                 <span class="mdc-list-item__text">
                                                 2019
@@ -240,7 +245,7 @@ $this->load->helper('form');
                                 <div class="form-group">
                                     <label class="other_medium_instruction mdc-text-field mdc-text-field--filled ">
                                         <span class="mdc-text-field__ripple"></span>
-                                        <input type="text" name="other_medium_instruction" id="other_medium_instruction" value="" class="mdc-text-field__input" style="text-transform: uppercase;" maxlength="128" aria-labelledby="my-label-id" autocomplete="off">
+                                        <input type="text" placeholder="Other Medium of Instruction" name="other_medium_instruction" id="other_medium_instruction" value="" class="mdc-text-field__input" style="text-transform: uppercase;" maxlength="128" aria-labelledby="my-label-id" autocomplete="off">
                                         <span class="mdc-floating-label" id="my-label-id">Other Medium of Instruction</span>
                                         <span class="mdc-line-ripple"></span>
                                     </label>
@@ -250,7 +255,7 @@ $this->load->helper('form');
                                 <div class="form-group">
                                     <label class="school_address mdc-text-field mdc-text-field--filled mdc-textfield--multiline">
                                         <span class="mdc-text-field__ripple"></span>
-                                        <textarea id="school_address" name="school_address" type="text" style="text-transform: uppercase" class="mdc-text-field__input" rows="6" cols="10" maxlength="550" autocomplete="off" required><?php echo $school_address; ?></textarea>
+                                        <textarea id="school_address" placeholder="Address of the School" name="school_address" type="text" style="text-transform: uppercase" class="mdc-text-field__input" rows="6" cols="10" maxlength="550" autocomplete="off" required><?php echo $school_address; ?></textarea>
                                         <span class="mdc-floating-label" id="my-label-id">Address of the School</span>
                                         <span class="mdc-line-ripple"></span>
                                     </label>
@@ -337,7 +342,7 @@ $this->load->helper('form');
                             <div class="form-group other_board_name_text">
                                 <label class="other_board_name mdc-text-field mdc-text-field--filled ">
                                     <span class="mdc-text-field__ripple"></span>
-                                    <input type="text" name="other_board_name" id="other_board_name" value="<?php echo $other_board_name?>" class="mdc-text-field__input" maxlength="10" style="text-transform: uppercase;" aria-labelledby="my-label-id" autocomplete="off">
+                                    <input type="text" placeholder="Other Board Name" name="other_board_name" id="other_board_name" value="<?php echo $other_board_name?>" class="mdc-text-field__input" maxlength="10" style="text-transform: uppercase;" aria-labelledby="my-label-id" autocomplete="off">
                                     <span class="mdc-floating-label" id="my-label-id">Other Board Name</span>
                                     <span class="mdc-line-ripple"></span>
                                 </label>

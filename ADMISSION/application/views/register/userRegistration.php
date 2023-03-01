@@ -284,8 +284,10 @@ const board_name = mdc.select.MDCSelect.attachTo(document.querySelector('.mdc-se
 board_name.listen('MDCSelect:change', () => {
   if(board_name.value == 4){
     $('.other_board_name_text').show();
+    $('#other_board_name').prop('required',true);
   }else{
     $('.other_board_name_text').hide();  
+    $('#other_board_name').prop('required',false);
   }
 });
 

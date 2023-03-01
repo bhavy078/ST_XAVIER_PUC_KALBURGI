@@ -273,7 +273,7 @@ $set_html=<<<EOD
             <td style="font-size: 12px;width: 120px;"><b>$studentApplicationInfo->aadhar_no</b></td>
             <td style="font-size: 12px;width: 40px;"><i>Email:</i></td>
             <td style="font-size: 12px;width: 255px;"><b>$studentApplicationInfo->student_email</b></td>
-            <td style="font-size: 12px;width: 60px;"><i>Mobile No:</i></td>
+            <td style="font-size: 12px;width: 72px;"><i>Whatsap No:</i></td>
             <td style="font-size: 12px;width: 100px;"><b>$studentApplicationInfo->student_mobile</b></td>       
        
            
@@ -281,7 +281,9 @@ $set_html=<<<EOD
 
                 <tr nobr="true">
                     <td style="font-size: 12px;width: 90px;"><i>Father's Name:</b></td>
-                    <td style="font-size: 12px;width: 450px;"><b>$studentApplicationInfo->father_name</b></td>
+                    <td style="font-size: 12px;width: 270px;"><b>$studentApplicationInfo->father_name</b></td>
+                    <td style="font-size: 12px;width: 70px;"><i>Mobile No:</b></td>
+                    <td style="font-size: 12px;width: 250px;"><b>$studentApplicationInfo->father_mobile</b></td>
                 </tr>
                 <tr nobr="true">
                     <td style="font-size: 12px;width: 80px;"><i>Qualification:</b></td>
@@ -291,7 +293,9 @@ $set_html=<<<EOD
                 </tr>
                 <tr nobr="true">
                     <td style="font-size: 12px;width: 90px;"><i>Mother's Name:</b></td>
-                    <td style="font-size: 12px;width: 450px;"><b>$studentApplicationInfo->mother_name</b></td>
+                    <td style="font-size: 12px;width: 270px;"><b>$studentApplicationInfo->mother_name</b></td>
+                    <td style="font-size: 12px;width: 70px;"><i>Mobile No:</b></td>
+                    <td style="font-size: 12px;width: 250px;"><b>$studentApplicationInfo->mother_mobile</b></td>
                 </tr>
                 <tr nobr="true">
                     <td style="font-size: 12px;width: 80px;"><i>Qualification:</b></td>
@@ -337,6 +341,23 @@ $set_html=<<<EOD
                 <td style="font-size: 12px;width: 90px;"><i>Boarding Point:</b></td>
                 <td style="font-size: 12px;width: 240px;"><b>$studentApplicationInfo->boarding_point</b></td>
             </tr>
+            <tr nobr="true">
+            <td style="width: 260px">
+            <table cellpadding="1" cellspacing="3" border="0">
+                <tr nobr="true">
+                    <td style="font-size: 12px;">
+                        <b>Permanent Address</b>
+                    </td>
+                </tr>
+                <tr nobr="true" cellpaddimg="2">
+                    <td style="border:1px solid black;font-size: 12px;height: 40px"><b>$studentApplicationInfo->permanent_address_line_1<br>$studentApplicationInfo->permanent_address_line_2<br>$studentApplicationInfo->permanent_address_district<br>$studentApplicationInfo->permanent_address_state - $studentApplicationInfo->permanent_address_pincode</b></td>
+                </tr>
+                <tr nobr="true">
+                    <td style="font-size: 1px;"></td>
+                </tr>             
+            </table>
+        </td>
+            </tr>
             </table>
         </td>
     </tr>
@@ -372,6 +393,11 @@ $set_html=<<<EOD
                         <td style="font-size: 12px;width: 90px"><b>$total_percentage %</b></td>
                     </tr>
 
+                    <tr nobr="true">
+                    <td style="font-size: 12px;width: 100px">Board Name:</td>
+                    <td style="font-size: 12px;width: 190px"><b>$boardInfo->board_name</b></td>
+                </tr>
+
                 <tr nobr="true">
                 <td style="font-size: 12px;width: 170px">Month and Year of Passing:</td>
                 <td style="font-size: 12px;width: 300px"><b>$studentSchoolInfo->month_of_passed , $studentSchoolInfo->year_of_passed</b></td>
@@ -387,14 +413,6 @@ $set_html=<<<EOD
             <td style="width: 260px">
                 <table cellpadding="1" cellspacing="3" border="0">
                     <tr nobr="true">
-                        <td style="text-align: center;font-size: 12px;">
-                            <b>Permanent Address</b>
-                        </td>
-                    </tr>
-                    <tr nobr="true" cellpaddimg="2">
-                        <td style="border:1px solid black;font-size: 12px;height: 40px"><b>$studentApplicationInfo->permanent_address_line_1<br>$studentApplicationInfo->permanent_address_line_2<br>$studentApplicationInfo->permanent_address_district<br>$studentApplicationInfo->permanent_address_state - $studentApplicationInfo->permanent_address_pincode</b></td>
-                    </tr>
-                    <tr nobr="true">
                         <td style="font-size: 1px;"></td>
                     </tr>
                     <tr nobr="true">
@@ -409,21 +427,14 @@ $set_html=<<<EOD
                     <td style="border:1px solid black;font-size: 12px;"><b>Integrated Batch : $studentAdmissionInfo->integrated_batch</b>
                     </td>
                 </tr>
-                    <tr nobr="true">
-                        <td style="font-size: 12px;"><b>Name of the Receiver:</b></td>
-                    </tr>
-                    <tr nobr="true">
-                        <td style="font-size: 12px;"><b>Signature of the Receiver:</b></td>
-                    </tr>
+                  
                 </table>
             </td>
         </tr>
     </td>
     </tr>
     </table>
-    <tr> 
-    <td style="font-size: 6px"></td>
-</tr>
+
 
 
     </br>

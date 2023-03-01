@@ -59,7 +59,7 @@
                 <div class="row font_color">
                     <div class="col-12">
                         <i class="fa fa-phone"></i> Grievance (Only For technical issues)    
-                        <span class="float-right text-dark"><a href="#" title="Help Guide" data-toggle="popover" data-trigger="focus" data-content="Some content"><i class="far fa-question-circle"></i></a></span>
+                     <!-- <span class="float-right text-dark"><a href="#" title="Help Guide" data-toggle="popover" data-trigger="focus" data-content="Some content"><i class="far fa-question-circle"></i></a></span> -->
                     </div>
                 </div>
             </span>

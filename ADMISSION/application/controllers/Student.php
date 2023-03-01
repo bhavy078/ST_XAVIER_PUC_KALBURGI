@@ -385,6 +385,10 @@ class Student extends BaseController
             $income_no = $this->security->xss_clean($this->input->post('income_no'));
             $guardian_relation = $this->security->xss_clean($this->input->post('guardian_relation'));
 
+            $native_taluk = $this->security->xss_clean($this->input->post('native_taluk'));
+            $native_state = $this->security->xss_clean($this->input->post('native_state'));
+            $native_district = $this->security->xss_clean($this->input->post('native_district'));
+
 
 
             $uploadPath = 'upload/document/'.$this->student_row_id.'/';
@@ -476,6 +480,9 @@ class Student extends BaseController
             'dob'=> $date_of_birth,
             'gender'=> $gender,
             'native_place'=> $native_place, 
+            'native_taluk'=> $native_taluk, 
+            'native_district'=> $native_district, 
+            'native_state'=> $native_state, 
             'nationality'=> $nationality,
             'religion'=> $religion,
             'caste'=> $caste,
@@ -774,7 +781,7 @@ class Student extends BaseController
 
                 if($sslc_board_name == "CBSE"){
                     for($i=0; $i<5;$i++){
-                        if(!empty($subject_name[$i])){
+                        // if(!empty($subject_name[$i])){
                             $obtained_mark = ($subject_obtained[$i]*100)/40;
                             $markInfo = array(
                             'registred_row_id'=>$this->student_row_id,
@@ -801,11 +808,11 @@ class Student extends BaseController
                             }else{ 
                                 $mark_id = $this->student_model->saveStudentSSLC_MarkInfo($markInfo);
                             }
-                        }
+                        // }
                     }
                 }else if($sslc_board_name == "ICSE"){
                     for($i=0; $i<5;$i++){
-                        if(!empty($subject_name[$i])){
+                        // if(!empty($subject_name[$i])){
                             $obtained_mark = ($subject_obtained[$i]*100)/40;
                             $markInfo = array(
                             'registred_row_id'=>$this->student_row_id,
@@ -832,7 +839,7 @@ class Student extends BaseController
                             }else{ 
                                 $mark_id = $this->student_model->saveStudentSSLC_MarkInfo($markInfo);
                             }
-                        }
+                        // }
                     }
                 }else{
                     for($i=0; $i<6;$i++){
@@ -1084,10 +1091,11 @@ class Student extends BaseController
                         'registered_row_id' => $this->student_row_id,
                         'application_number'=> $applicationNumber,
                         'sslc_percentage' => $total_percentage,
+                        'application_fee_status' => 1,
                         // 'ninth_percentage' => $total_ninth_percentage,
                         'admission_status'=> 0,
-                        'updated_by' => $this->student_row_id,
-                        'updated_date_time' => date('Y-m-d H:i:s'));
+                        'created_by' => $this->student_row_id,
+                        'created_date_time' => date('Y-m-d H:i:s'));
                         $retun = $this->student_model->saveStudentApplicationStatus($applicationStatus);
                 }
 
