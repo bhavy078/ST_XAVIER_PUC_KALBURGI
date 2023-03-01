@@ -355,7 +355,7 @@
                     </a>
                   </div>
                 </li> 
-                <li class="nav-item border-right dropdown notifications">
+                <!-- <li class="nav-item border-right dropdown notifications">
                   <a class="nav-link nav-link-icon text-center" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <div class="nav-link-icon__wrapper">
                     <i class="material-icons">notifications</i>
@@ -395,7 +395,7 @@
                       </a>
                     <?php } ?>
                   </div>
-                </li>
+                </li> -->
                 <li class="nav-item dropdown nav-profile">
                   <a class="nav-link dropdown-toggle text-nowrap px-3" data-toggle="dropdown"
                       href="#" role="button" aria-haspopup="true" aria-expanded="false">

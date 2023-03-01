@@ -239,12 +239,12 @@ $set_html=<<<EOD
                     <td style="font-size: 12px;"><b>$studentApplicationInfo->gender</b></td>
                 </tr>
                 <tr nobr="true">
-                    <td style="font-size: 12px;width: 75px;"><i>Native Place:</i></td>
-                    <td style="font-size: 12px;width: 204px;"><b>$studentApplicationInfo->native_place</b></td>
+                    <td style="font-size: 12px;width: 112px;"><i>Place of Birth:Taluk:</i></td>
+                    <td style="font-size: 12px;width: 167px;"><b>$studentApplicationInfo->native_taluk</b></td>
                     <td style="font-size: 12px;width: 45px;"><i>District:</b></td>
-                    <td style="font-size: 12px;width: 154px;"><b>$studentApplicationInfo->permanent_address_district</b></td>
+                    <td style="font-size: 12px;width: 154px;"><b>$studentApplicationInfo->native_district</b></td>
                     <td style="font-size: 12px;width: 35px;"><i>State:</i></td>
-                    <td style="font-size: 12px;width: 158px;"><b>$studentApplicationInfo->permanent_address_state</b></td>
+                    <td style="font-size: 12px;width: 158px;"><b>$studentApplicationInfo->native_state</b></td>
                    
                   
                 </tr>

@@ -422,9 +422,9 @@ if(!empty($documentInfo)){
                                                  <input name="student_mobile" id="student_mobile" pattern="[0-9]*"
                                                      value="<?php echo $student_mobile; ?>"
                                                      class="mdc-text-field__input" type="tel"
-                                                     aria-labelledby="my-label-id" maxlength="10" minlength="10" placeholder="Whatsap Number"
+                                                     aria-labelledby="my-label-id" maxlength="10" minlength="10" placeholder="Whatsapp Number"
                                                      autocomplete="off" onkeypress="return isNumber(event)">
-                                                 <span class="mdc-floating-label" id="my-label-id">Whatsap
+                                                 <span class="mdc-floating-label" id="my-label-id">Whatsapp
                                                      Number</span>
                                                  <span class="mdc-line-ripple"></span>
                                              </label>
@@ -466,8 +466,43 @@ if(!empty($documentInfo)){
                                          </div>
                                      </div>
 
-
                                      <div class="col-lg-4 col-md-6 col-sm-6">
+                                         <div class="form-group">
+                                             <div
+                                                 class="mdc-select mdc-select-nativeState mdc-select--required">
+                                                 <div class="mdc-select__anchor" aria-required="true">
+                                                     <span class="mdc-select__ripple"></span>
+                                                     <input type="text" class="mdc-select__selected-text"
+                                                         name="native_state" id="native_state"
+                                                         value="" required>
+                                                     <i class="mdc-select__dropdown-icon"></i>
+                                                     <span class="mdc-floating-label">Place of Birth (State)</span>
+                                                     <span class="mdc-line-ripple"></span>
+                                                 </div>
+                                                 <div class="mdc-select__menu mdc-menu mdc-menu-surface">
+                                                     <ul class="mdc-list">
+                                                         <?php if(!empty($native_state)){ ?>
+                                                         <li class="mdc-list-item mdc-list-item--selected"
+                                                             data-value="<?php echo $native_state; ?>">
+                                                             <?php echo $native_state; ?></li>
+                                                         <?php } ?>
+                                                         <?php if(!empty($stateInfo)){
+                                                        foreach($stateInfo as $state){ ?>
+                                                         <li class="mdc-list-item"
+                                                             data-value="<?php echo $state->state; ?>">
+                                                             <span class="mdc-list-item__text" selected>
+                                                                 <?php echo $state->state; ?>
+                                                             </span>
+                                                         </li>
+                                                         <?php } } ?>
+                                                     </ul>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     </div>
+
+
+                                     <!-- <div class="col-lg-4 col-md-6 col-sm-6">
                                          <div class="form-group">
                                              <label class="native_state mdc-text-field mdc-text-field--filled ">
                                                  <span class="mdc-text-field__ripple"></span>
@@ -480,7 +515,7 @@ if(!empty($documentInfo)){
                                                  <span class="mdc-line-ripple"></span>
                                              </label>
                                          </div>
-                                     </div>
+                                     </div> -->
 
                              <div class="col-lg-3 col-md-6 col-sm-6">
                                  <div class="form-group">
@@ -1752,7 +1787,7 @@ mdc.textField.MDCTextField.attachTo(document.querySelector('.std_name'));
 mdc.textField.MDCTextField.attachTo(document.querySelector('.dob'));
 mdc.textField.MDCTextField.attachTo(document.querySelector('.native_place'));
 mdc.textField.MDCTextField.attachTo(document.querySelector('.native_taluk'));
-mdc.textField.MDCTextField.attachTo(document.querySelector('.native_state'));
+// mdc.textField.MDCTextField.attachTo(document.querySelector('.native_state'));
 mdc.textField.MDCTextField.attachTo(document.querySelector('.native_district'));
 mdc.textField.MDCTextField.attachTo(document.querySelector('.caste_no'));
 mdc.textField.MDCTextField.attachTo(document.querySelector('.income_no'));
@@ -1820,6 +1855,7 @@ mdc.select.MDCSelect.attachTo(document.querySelector('.mdc-select-gender'));
 mdc.select.MDCSelect.attachTo(document.querySelector('.mdc-select-blood'));
 mdc.select.MDCSelect.attachTo(document.querySelector('.mdc-select-permanentAddressState'));
 mdc.select.MDCSelect.attachTo(document.querySelector('.mdc-select-residenceAddressState'));
+mdc.select.MDCSelect.attachTo(document.querySelector('.mdc-select-nativeState'));
 
 nation.listen('MDCSelect:change', () => {
     if (nation.value == "OTHER") {

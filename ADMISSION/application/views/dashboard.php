@@ -20,20 +20,20 @@ input[type=number]::-webkit-outer-spin-button {
     if($error)
     {
 ?>
-<div class="alert alert-danger alert-dismissable">
+<!-- <div class="alert alert-danger alert-dismissable">
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
     <?php echo $this->session->flashdata('error'); ?>                    
-</div>
+</div> -->
 <?php } ?>
 <?php  
     $success = $this->session->flashdata('success');
     if($success)
     {
 ?>
-<div class="alert alert-success alert-dismissable">
+<!-- <div class="alert alert-success alert-dismissable">
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
     <?php echo $this->session->flashdata('success'); ?>
-</div>
+</div> -->
 <?php } ?>
 
 <?php  
@@ -41,17 +41,17 @@ input[type=number]::-webkit-outer-spin-button {
     if($noMatch)
     {
 ?>
-<div class="alert alert-warning alert-dismissable">
+<!-- <div class="alert alert-warning alert-dismissable">
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
     <?php echo $this->session->flashdata('nomatch'); ?>
-</div>
+</div> -->
 <?php } ?>
 
-<div class="row ">
+<!-- <div class="row ">
   <div class="col-md-12 col-lg-12 col-12">
       <?php echo validation_errors('<div class="alert alert-danger alert-dismissable">', ' <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button></div>'); ?>
   </div>
-</div>
+</div> -->
 <div class="main-content-container container-fluid px-4 ">
   <div class="row mt-1 mb-2">
     <div class="col padding_left_right_null">
@@ -313,3 +313,8 @@ function isNumber(evt) {
   return true;
 }
 </script>
+<script>
+  $(document).ready(() => {
+    checkForReply("<?=$this->session->flashdata('success')?>", "<?=$this->session->flashdata('error')?>");
+});
+  </script>
