@@ -638,7 +638,7 @@ jQuery(document).ready(function() {
 
     jQuery('#transaction_date, .dateSearch, #tran_date, #dd_date').datepicker({
         autoclose: true,
-        orientation: "bottom",
+        orientation: "top",
         format: "dd-mm-yyyy"
 
     });

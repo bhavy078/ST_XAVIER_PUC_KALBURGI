@@ -375,8 +375,9 @@
                             <div class="form-group">
                                 <label>Select Year</label>
                                 <select class="form-control" name="year" id="year" required>
+                                <option value="2023">2023</option>
                                     <option value="2022">2022</option>
-                                    <option value="2021">2021</option>
+                                 
                                 </select>
                             </div>
                         </div>
@@ -499,15 +500,16 @@
                                 <option value="">Select One Preference</option>
                                 <option value="PCMB">PCMB</option>
                                 <option value="PCMC">PCMC</option>
-                                <option value="PCME">PCME</option>
-                                <option value="PCMS" >PCMS</option>
+                                <!-- <option value="PCME">PCME</option>
+                                <option value="PCMS" >PCMS</option> -->
                                 <option value="CEBA">CEBA</option>
-                                <option value="CSBA">CSBA</option>
+                                <option value="HEPE">HEPE</option>
+                                <!-- <option value="CSBA">CSBA</option>
                                 <option value="MEBA">MEBA</option>
                                 <option value="MSBA">MSBA</option>
                                 <option value="PEBA">PEBA</option>
                                 <option value="SEBA">SEBA</option>
-                                <option value="HEPS">HEPS</option>
+                                <option value="HEPS">HEPS</option> -->
                             </select>
                         </div>
                     </div>

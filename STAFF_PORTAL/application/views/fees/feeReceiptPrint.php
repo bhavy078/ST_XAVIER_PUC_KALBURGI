@@ -68,11 +68,12 @@ table{
                     <td>Application/Register no. : <?php if(!empty($studentInfo->register_number) && $studentInfo->term_name == 'II PUC'){ echo $studentInfo->register_number; }else{ echo $studentInfo->application_no; } ?></td>
                 </tr>
                 <tr>
-                    <td>Name of the father : <?php echo $studentInfo->father_name; ?></td>
+                    <!-- <td>Name of the father : <?php echo $studentInfo->father_name; ?></td> -->
+                    <td>Receipt no.: <?php echo $feeInfo->receipt_number; ?></td>
                     <td>Payment Received Date : <?php echo date('d-m-Y',strtotime($feeInfo->payment_date)); ?></td>
                 </tr>
                 <tr>
-                    <td>Receipt no.: <?php echo $feeInfo->receipt_number; ?></td>
+      
                     <!-- <td>Transaction Id : <?php echo $feeInfo->order_id; ?></td> -->
                 </tr>
                 <tr>
@@ -123,7 +124,7 @@ table{
                     <th class="border_right_none" style="text-align: right;"><?php echo number_format($total_fee_amt - $paidFeeSum - $concession_amount,2); ?></th>
                 </tr>
                 <tr>
-                    <td colspan="2"><br><b>Paid total amount in word: <span style="text-transform: capitalize;"><?php echo strtoupper(getIndianCurrency($feeInfo->paid_amount)).' ONLY'; ?></span></b></td>
+                    <td colspan="2"><b>Paid total amount in word: <span style="text-transform: capitalize;"><?php echo strtoupper(getIndianCurrency($feeInfo->paid_amount)).' ONLY'; ?></span></b></td>
                 </tr>   
             </table>
 
@@ -131,7 +132,7 @@ table{
     </div>
   
 </div>
-<b style="font-size: 8px;">All fees paid are not transferable or refundable.</b><br/>
+<b style="font-size: 8px;">All fees paid are not transferable or refundable.</b>
 <b style="font-size: 8px;">This is an online generated fee Receipt no seal and signature is required.</b>
 
 <?php 

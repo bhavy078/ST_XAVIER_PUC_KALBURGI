@@ -69,12 +69,12 @@ if ($error) {
                     <div class="card-body p-2">
                         <form action="<?php echo base_url(); ?>getAllFeePaymentInfo" method="POST" id="byFilterMethod">
                             <div class="row c-m-b">
-                                <div class="col-lg-2 col-12 col-md-5 box-tools">
+                                <div class="col-lg-3 col-12 col-md-5 box-tools">
                                     <span class="page-title">
                                         <i class="material-icons">book</i> Fee Paid Info
                                     </span>
                                 </div>
-                                <div class="col-lg-2 col-12 col-md-3 box-tools ">
+                                <div class="col-lg-3 col-12 col-md-3 box-tools ">
                                     <span class="page-title float-right">
                                         Total Receipt: <b><?php echo $online_pay_count; ?></b>
                                     </span>
@@ -85,25 +85,26 @@ if ($error) {
                                         <option value="<?php echo $year; ?>" selected><b><?php echo $year; ?></b>
                                         </option>
                                         <?php } ?>
+                                        <option value="2023">2023</option>
                                         <option value="2022">2022</option>
-                                        <option value="2021">2021</option>
+                              
                                     </select>
                                     <div class="form-group">
                                         <button class="btn btn-success" type="submit">Search</button>
                                     </div>
                                 </div>
-                                <div class="col-lg-6 col-md-5 col-12">
+                                <div class="col-lg-4 col-md-5 col-12">
 
 
 
-                                    <a class="btn btn-danger mobile-btn float-right border_right_radius" href="#"
+                                    <!-- <a class="btn btn-danger mobile-btn float-right border_right_radius" href="#"
                                         data-toggle="modal" data-target="#orderIDProcesse" id="orderID"><i
                                             class="fas fa-university"></i>
                                         Re-Adm Order ID Process</a>
                                         <a class="btn btn-danger mobile-btn float-right border_right_radius" href="#"
                                         data-toggle="modal" data-target="#neworderIDProcesse" id="orderID"><i
                                             class="fas fa-university"></i>
-                                        New-Adm Order ID Process</a>
+                                        New-Adm Order ID Process</a> -->
 
                                     <a class="btn btn-success mobile-btn float-right border_right_radius" href="#"
                                         id="addBankSettlement"><i class="fa fa-university"></i>
@@ -284,7 +285,7 @@ if ($error) {
                                     ?></td>
                                     <td>
                                         <?php if($online->term_name == 'I PUC'){ ?>
-                                        <a href="<?php echo base_url(); ?>feePaymentReceiptPrintNewAdmIPUC/<?php echo $online->row_id; ?>"
+                                        <a href="<?php echo base_url(); ?>feePaymentReceiptPrint/<?php echo $online->row_id; ?>"
                                             target="_blank">Receipt</a>
                                         <?php }else{ ?>
                                         <a href="<?php echo base_url(); ?>feePaymentReceiptPrintNewAdm/<?php echo $online->row_id; ?>"
