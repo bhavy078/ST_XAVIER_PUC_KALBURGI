@@ -209,12 +209,12 @@ if ($error) {
                                                             <?php echo $studentInfo->stream_name; ?>
                                                         </th>
                                                     </tr>
-                                                    <tr class="table-primary">
+                                                    <!-- <tr class="table-primary">
                                                         <th class="text-left" scope="col">Category</th>
                                                         <th class="text-left" scope="col">
                                                             <?php echo $studentInfo->category; ?>
                                                         </th>
-                                                    </tr>
+                                                    </tr> -->
 
                                                     <?php if(!empty($board_id)){ ?>
                                                     <tr class="bg-info text-white">
@@ -233,12 +233,12 @@ if ($error) {
                                                         </th>
                                                     </tr>
                                                     <?php } ?>
-                                                    <tr class="bg-primary text-white">
+                                                    <!-- <tr class="bg-primary text-white">
                                                         <th class="text-left" scope="col">Elective Sub</th>
                                                         <th class="text-left" scope="col">
                                                             <?php echo $studentInfo->elective_sub; ?>
                                                         </th>
-                                                    </tr>
+                                                    </tr> -->
 
                                                     <tr class="bg-primary text-white">
                                                         <th class="text-left" scope="col">Total Amount</th>
@@ -373,10 +373,10 @@ if ($error) {
                                                     <td><?php echo $fee->payment_type; ?></td>
                                                     <td>
                                                         <?php if(trim($studentInfo->intake_year_id) == '2020'){ ?>
-                                                            <a href="<?php echo base_url(); ?>feePaymentReceiptPrintOld/<?php echo $fee->receipt_number; ?>"
+                                                            <a href="<?php echo base_url(); ?>feePaymentReceiptPrint/<?php echo $fee->receipt_number; ?>"
                                                             target="_blank">Receipt</a>
                                                         <?php }else{ ?>   
-                                                            <a href="<?php echo base_url(); ?>feePaymentReceiptPrintNewAdm/<?php echo $fee->row_id; ?>"
+                                                            <a href="<?php echo base_url(); ?>feePaymentReceiptPrint/<?php echo $fee->row_id; ?>"
                                                                 target="_blank">Receipt</a>
                                                         <?php } ?>       
                                                     </td>
@@ -459,10 +459,10 @@ if ($error) {
                                                     <td><?php echo $fee->payment_type; ?></td>
                                                     <td>
                                                         <?php if(trim($studentInfo->intake_year_id) == '2020'){ ?>
-                                                            <a href="<?php echo base_url(); ?>feePaymentReceiptPrint_old/<?php echo $fee->receipt_number; ?>"
+                                                            <a href="<?php echo base_url(); ?>feePaymentReceiptPrint/<?php echo $fee->receipt_number; ?>"
                                                             target="_blank">Receipt</a>
                                                         <?php }else{ ?>   
-                                                            <a href="<?php echo base_url(); ?>feePaymentReceiptPrintNewAdmIPUC/<?php echo $fee->row_id; ?>"
+                                                            <a href="<?php echo base_url(); ?>feePaymentReceiptPrint/<?php echo $fee->row_id; ?>"
                                                             target="_blank">Receipt</a>
                                                         <?php } ?>    
                                                     </td>
