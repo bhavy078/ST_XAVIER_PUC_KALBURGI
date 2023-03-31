@@ -207,7 +207,7 @@
                   <span class="mdc-text-field__ripple"></span>
                    <input type="password"  name="password" id="password" class="mdc-text-field__input" aria-labelledby="my-label-id" onkeyup="checkPass(); return false;" autocomplete="off" required/>
                   <span class="mdc-floating-label" id="my-label-id">New Password</span>
-                  <span class="mdc-line-ripple"></span>
+                  <span class="mdc-line-ripple"><i class="fa fa-eye-slash" id="togglePassword" style="margin-left: -30px; cursor: pointer;color:black;"></i></span>
                 </label>
               </div>
             
@@ -217,7 +217,7 @@
                   <span class="mdc-text-field__ripple"></span>
                    <input type="password"  name="cpassword" id="cpassword" class="mdc-text-field__input equalTo" aria-labelledby="my-label-id" autocomplete="off" required/>
                   <span class="mdc-floating-label" id="my-label-id">Confirm Password</span>
-                  <span class="mdc-line-ripple"></span>
+                  <span class="mdc-line-ripple"><i class=" fa fa-eye-slash" id="togglePasswordc" style="margin-left: -30px; cursor: pointer; color:black;"></i></span>
                 </label>
               </div>
               <div class="row mt-2">
@@ -352,4 +352,35 @@ function alphaOnly(event) {
     var key = event.keyCode;
     return ((key >= 65 && key <= 90) || key == 8 || key == 32);
 };
+const togglePassword = document.querySelector('#togglePassword');
+  const password = document.querySelector('#password');
+ 
+  togglePassword.addEventListener('click', function (e) {
+    // toggle the type attribute
+    const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+    password.setAttribute('type', type);
+    // toggle the eye slash icon
+    // this.classList.toggle('fa fa-eye');
+    var className = $("#togglePassword").attr('class');
+    className = className.indexOf('slash') !== -1 ? 'fa fa-eye' : 'fa fa-eye-slash'
+
+    $("#togglePassword").attr('class', className);
+});
+
+
+const togglePasswordc = document.querySelector('#togglePasswordc');
+  const passwordc = document.querySelector('#cpassword');
+ 
+  togglePasswordc.addEventListener('click', function (e) {
+    // toggle the type attribute
+    const typec = passwordc.getAttribute('type') === 'password' ? 'text' : 'password';
+    passwordc.setAttribute('type', typec);
+    // toggle the eye slash icon
+    // this.classList.toggle('fa fa-eye');
+
+    var className = $("#togglePasswordc").attr('class');
+    className = className.indexOf('slash') !== -1 ? 'fa fa-eye' : 'fa fa-eye-slash'
+
+    $("#togglePasswordc").attr('class', className);
+});
 </script>   

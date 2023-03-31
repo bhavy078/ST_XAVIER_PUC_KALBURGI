@@ -29,7 +29,7 @@
           <div class="card-header pb-0 pt-2 card_background">
             <div class="col-xs-12">
               
-              <h5 class="mb-2 font_color text-center"><b class="title_blue">Admission- <?php echo ADMISSION_YEAR?> Sign In</b></h5>
+              <h5 class="mb-2 font_color text-center"><b class="title_blue">Admission 2023 - 2024 Sign In</b></h5>
             </div>
           </div>
           <div class="card-body">
@@ -69,9 +69,9 @@
               <div class="form-group mb-2"> 
                 <label class="student_password mdc-text-field mdc-text-field--filled ">
                   <span class="mdc-text-field__ripple"></span>
-                  <input name="password" class="mdc-text-field__input" type="password" aria-labelledby="my-label-id" autocomplete="off" required>
+                  <input name="password" id="password" class="mdc-text-field__input" type="password" aria-labelledby="my-label-id" autocomplete="off" required>
                   <span class="mdc-floating-label" id="my-label-id">Password</span>
-                  <span class="mdc-line-ripple"></span>
+                  <span class="mdc-line-ripple"><i class="fa fa-eye-slash" id="togglePassword" style="margin-left: -30px; cursor: pointer;"></i></span>
                 </label>
               </div>    
               
@@ -276,4 +276,19 @@
     $(document).ready(()=>{
         checkForReply("<?=$this->session->flashdata('success')?>","<?=$this->session->flashdata('error')?>");        
     });
+    const togglePassword = document.querySelector('#togglePassword');
+  const password = document.querySelector('#password');
+ 
+  togglePassword.addEventListener('click', function (e) {
+      // toggle the type attribute
+      const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+      password.setAttribute('type', type);
+      // toggle the eye slash icon
+      // this.classList.toggle('fa-eye');
+      
+      var className = $("#togglePassword").attr('class');
+      className = className.indexOf('slash') !== -1 ? 'fa fa-eye' : 'fa fa-eye-slash'
+
+      $("#togglePassword").attr('class', className);
+  });
 </script>  
