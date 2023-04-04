@@ -17,7 +17,7 @@
     let year = "<?=date('Y')."-"; ?>";
     year += ''+"<?=date('y')+1; ?>"
     Swal.fire({
-        title: '<b class="title_blue" style="margin-top: -15px !important;">STXPUC<b>',
+        title: '<b class="title_blue" style="margin-top: -15px !important;">SXPUC<b>',
         html: '<h4>Thank You</h4><b><span style="color:black;font-size:26px">Successfully Registered <br>Please Login and fill the Application Form</span></b<',
         imageUrl: '<?=base_url().INSTITUTION_LOGO; ?>',
         imageHeight: 120,

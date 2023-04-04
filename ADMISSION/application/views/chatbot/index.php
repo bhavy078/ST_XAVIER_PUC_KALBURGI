@@ -52,7 +52,7 @@
             const userIMG = "<?=$this->session->userdata('photo_url');?>" || "<?=base_url()?>assets/chatbot/chat-default-user.png";
             const name= "<?=$this->session->userdata('name');?>";
             //ChatBot.initiateChatBot("Name of Responder, Image of Responder, Name of Sender, Image of Sender, Base URL");
-            ChatBot.initiateChatBot("STXPUC",botIMG,name,userIMG,"<?=base_url()?>");
+            ChatBot.initiateChatBot("SXPUC",botIMG,name,userIMG,"<?=base_url()?>");
         });
     </script>
 </html>

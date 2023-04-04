@@ -98,7 +98,7 @@ define('SUB_TITLE','SXPUC');
 define('INSTITUTION_LOGO','assets/dist/img/logo_stxpuc.jpg');
 define('ADMISSION_YEAR', '2023');
 define('CARD_TITLE','Admission Registration - '.ADMISSION_YEAR);
-define('TAB_TITLE','Schoolphins-STXPUC');
+define('TAB_TITLE','Schoolphins-SXPUC');
 define('LOADER_IMG','assets/dist/img/load.gif');
 
 
