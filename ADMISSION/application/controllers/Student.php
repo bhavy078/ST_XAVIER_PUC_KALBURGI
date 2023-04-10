@@ -109,8 +109,8 @@ class Student extends BaseController
         $data['sslcRegisterNumber'] = $this->registration_number;
         $student = $this->student_model->getStudentApplicationInfo($this->student_row_id);
         $data['studentSchoolInfo'] = $this->student_model->getStudentSchoolInfo($this->student_row_id);
-        $data['studentMarkInfo'] = $this->student_model->getStudentMarkInfo($this->student_row_id);
-        $data['marksDetail'] = $this->student_model->getMarksDetail($this->student_row_id);
+        $data['studentMarkInfo'] = $this->student_model->getStudentMarkInfoforDisplay($this->student_row_id);
+        $data['marksDetail'] = $this->student_model->getMarksDetailforDisplay($this->student_row_id);
         $data['boardInfo'] = $this->student_model->getBoardNameById($sslc_id); //$this->sslc_board_name_id
         $data['allBoardsInfo'] = $this->registration_model->getBoardName();
         $data['documentInfo'] = $this->student_model->getDocumnetDetails($this->student_row_id);
@@ -252,10 +252,16 @@ class Student extends BaseController
             $result= $this->student_model->updateBoardName($this->student_row_id,$boardArray);
             $this->student_model->updateBoardInfo($this->student_row_id,$boardArray);
             $sslcMarkInfo = $this->student_model->checkAllSSLCMarkExists($this->student_row_id);
+            // if($sslcMarkInfo > 0 && $result > 0){
+            //    $this->student_model->deleteMarkInfo($this->student_row_id);
+            // }
+
             if($sslcMarkInfo > 0 && $result > 0){
-               $this->student_model->deleteMarkInfo($this->student_row_id);
+                $MarksInfo =array(
+                    'is_deleted'=>1,
+                );
+            $this->student_model->UpdateMarkInfo($this->student_row_id,$MarksInfo);
             }
-            
         }
     
 
@@ -782,13 +788,14 @@ class Student extends BaseController
                 if($sslc_board_name == "CBSE"){
                     for($i=0; $i<5;$i++){
                         // if(!empty($subject_name[$i])){
-                            $obtained_mark = ($subject_obtained[$i]*100)/40;
+                            $obtained_mark = ($subject_obtained[$i]);
                             $markInfo = array(
                             'registred_row_id'=>$this->student_row_id,
                             'register_number'=> $this->registration_number,
                             'subject_name'=> $subject_name[$i],
                             'max_mark'=> 100,
                             'obtnd_mark'=> $obtained_mark,
+                            'is_deleted'=>0,
                             // 'mark_obt_9_std'=> $obt_mark_9_std[$i],
                             'created_by'=>$this->student_row_id,
                             'created_date_time'=>date('Y-m-d H:i:s'));
@@ -813,12 +820,13 @@ class Student extends BaseController
                 }else if($sslc_board_name == "ICSE"){
                     for($i=0; $i<5;$i++){
                         // if(!empty($subject_name[$i])){
-                            $obtained_mark = ($subject_obtained[$i]*100)/40;
+                            $obtained_mark = ($subject_obtained[$i]);
                             $markInfo = array(
                             'registred_row_id'=>$this->student_row_id,
                             'register_number'=> $this->registration_number,
                             'subject_name'=> $subject_name[$i],
                             'max_mark'=> 100,
+                            'is_deleted'=>0,
                             'obtnd_mark'=> $obtained_mark,
                             // 'mark_obt_9_std'=> $obt_mark_9_std[$i],
                             'created_by'=>$this->student_row_id,
@@ -850,6 +858,7 @@ class Student extends BaseController
                             'subject_name'=> $subject_name[$i],
                             'max_mark'=> $subject_max_mark[$i],
                             'obtnd_mark'=> $subject_obtained[$i],
+                            'is_deleted'=>0,
                             // 'mark_obt_9_std'=> $obt_mark_9_std[$i],
                             'created_by'=>$this->student_row_id,
                             'created_date_time'=>date('Y-m-d H:i:s'));
@@ -1078,7 +1087,7 @@ class Student extends BaseController
                     'registered_row_id' => $this->student_row_id,
                     'sslc_percentage' => $total_percentage,
                     // 'ninth_percentage' => $total_ninth_percentage,
-                    'application_fee_status' => 1,
+                    // 'application_fee_status' => 1,
                     'admission_status'=> 0,
                     'updated_by' => $this->student_row_id,
                     'updated_date_time' => date('Y-m-d H:i:s'));
@@ -1091,7 +1100,7 @@ class Student extends BaseController
                         'registered_row_id' => $this->student_row_id,
                         'application_number'=> $applicationNumber,
                         'sslc_percentage' => $total_percentage,
-                        'application_fee_status' => 1,
+                        // 'application_fee_status' => 1,
                         // 'ninth_percentage' => $total_ninth_percentage,
                         'admission_status'=> 0,
                         'created_by' => $this->student_row_id,
@@ -1332,7 +1341,7 @@ class Student extends BaseController
                     'registered_row_id' => $this->student_row_id,
                     'sslc_percentage' => $total_percentage,
                     // 'ninth_percentage' => $total_ninth_percentage,
-                    'application_fee_status' => 1,
+                    // 'application_fee_status' => 1,
                     'admission_status'=> 0,
                     'updated_by' => $this->student_row_id,
                     'updated_date_time' => date('Y-m-d H:i:s'));
@@ -1581,7 +1590,7 @@ class Student extends BaseController
                     'registered_row_id' => $this->student_row_id,
                     'sslc_percentage' => $total_percentage,
                     // 'ninth_percentage' => $total_ninth_percentage,
-                    'application_fee_status' => 1,
+                    // 'application_fee_status' => 1,
                     'admission_status'=> 0,
                     'updated_by' => $this->student_row_id,
                     'updated_date_time' => date('Y-m-d H:i:s'));
@@ -1652,7 +1661,7 @@ class Student extends BaseController
                 
                 $paymentStatus = array(
                     'registered_row_id' => $this->student_row_id,
-                    'application_fee_status' => 1,
+                    // 'application_fee_status' => 1,
                     'updated_by' => $this->student_row_id,
                     'updated_date_time' => date('Y-m-d H:i:s'));
                     

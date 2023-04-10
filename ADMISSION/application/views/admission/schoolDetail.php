@@ -279,6 +279,11 @@ $this->load->helper('form');
                                                     Select Board Name
                                                 </span>
                                             </li> -->
+                                            <li class="mdc-list-item mdc-list-item--selected" data-value="<?php echo $boardInfo->row_id ?>">
+                                                <span class="mdc-list-item__text">
+                                                    <?= $boardInfo->board_name ?>
+                                                </span>
+                                            </li>
                                             <?php if (!empty($allBoardsInfo)) {
                                                 foreach ($allBoardsInfo as $board) {  ?>
                                                     <li class="mdc-list-item" data-value="<?php echo $board->row_id; ?>">
@@ -288,11 +293,7 @@ $this->load->helper('form');
                                                     </li>
                                             <?php }
                                             } ?>
-                                            <li class="mdc-list-item mdc-list-item--selected" data-value="<?php echo $boardInfo->row_id ?>">
-                                                <span class="mdc-list-item__text">
-                                                    <?= $boardInfo->board_name ?>
-                                                </span>
-                                            </li>
+                                           
                                         </ul>
                                     </div>
                                 </div>
@@ -441,10 +442,10 @@ $this->load->helper('form');
                                                 <?php } else { ?>
                                                     <th><input id="<?php echo $i + 1; ?>_subject_name" type="text" name="subject_name[]" class="form-control required input-sm" value="<?php echo $studentMarkInfo[$i]->subject_name; ?>" autocomplete="off" /></th>
                                                 <?php } ?>
-                                                <?php $obtained_mark = ($studentMarkInfo[$i]->obtnd_mark*40)/100;?>
+                                                <?php $obtained_mark = ($studentMarkInfo[$i]->obtnd_mark);?>
 
-                                                <th><input id="<?php echo $i + 1; ?>_subject_max_mark" type="text" name="subject_max_mark[]" class="form-control required input-sm" value="40" readonly /></th>
-                                                <td><input type="number" min="0" max="40" onkeypress="return isNumber(event)" id="<?php echo $i + 1; ?>_subject_obtained" type="text" name="subject_obtained[]" class="form-control required input-sm" value="<?php echo round($obtained_mark); ?>" placeholder="Enter 10th Standard Mark" autocomplete="off"  /></td>
+                                                <th><input id="<?php echo $i + 1; ?>_subject_max_mark" type="text" name="subject_max_mark[]" class="form-control required input-sm" value="100" readonly /></th>
+                                                <td><input type="number" min="0" onkeypress="return isNumber(event)" id="<?php echo $i + 1; ?>_subject_obtained" type="text" name="subject_obtained[]" class="form-control required input-sm" value="<?php echo round($obtained_mark); ?>" placeholder="Enter 10th Standard Mark" autocomplete="off"  /></td>
                                                 <!-- <td><input maxlength="3" onkeypress="return isNumber(event)" id="<?php echo $i + 1; ?>_mark_obt_9_std" type="text" name="obt_mark_9_std[]" class="form-control required input-sm" value="<?php echo $studentMarkInfo[$i]->mark_obt_9_std; ?>" placeholder="Enter 9th Standard Mark" autocomplete="off" /></td> -->
                                             </tr>
 
@@ -488,9 +489,9 @@ $this->load->helper('form');
                                                         </select>
                                                     </th>
                                                 <?php } ?>
-                                                <?php $obtained_mark = ($studentMarkInfo[$i]->obtnd_mark*40)/100;?>
-                                                <th><input id="<?php echo $i + 1; ?>_subject_max_mark" type="text" name="subject_max_mark[]" class="form-control required input-sm" value="40" readonly /></th>
-                                                <td><input type="number" min="0" max="40"  onkeypress="return isNumber(event)" id="<?php echo $i + 1; ?>_subject_obtained" type="text" name="subject_obtained[]" class="form-control required input-sm" value="<?php echo round($obtained_mark); ?>" placeholder="Enter 10th Standard Mark" autocomplete="off" /></td>
+                                                <?php $obtained_mark = ($studentMarkInfo[$i]->obtnd_mark);?>
+                                                <th><input id="<?php echo $i + 1; ?>_subject_max_mark" type="text" name="subject_max_mark[]" class="form-control required input-sm" value="100" readonly /></th>
+                                                <td><input type="number" min="0" onkeypress="return isNumber(event)" id="<?php echo $i + 1; ?>_subject_obtained" type="text" name="subject_obtained[]" class="form-control required input-sm" value="<?php echo round($obtained_mark); ?>" placeholder="Enter 10th Standard Mark" autocomplete="off" /></td>
                                                 <!-- <td><input maxlength="3" onkeypress="return isNumber(event)" id="<?php echo $i + 1; ?>_mark_obt_9_std" type="text" name="obt_mark_9_std[]" class="form-control required input-sm" value="<?php echo $studentMarkInfo[$i]->mark_obt_9_std; ?>" placeholder="Enter 9th Standard Mark" autocomplete="off" /></td> -->
                                             </tr>
                                         <?php }
@@ -781,6 +782,8 @@ $this->load->helper('form');
         // }else{
         //     $('#secondLanguage').hide();
         // }
+        showLoader();
+
         var boardName = board_name.value;
         other_board_name.value = "";
         if (board_name.value == 4) {
@@ -791,7 +794,6 @@ $this->load->helper('form');
             $('.other_board_name_text').hide();
             $('#other_board_name').prop('required', false);
         }
-
         $.ajax({
             url: baseURL + '/getStudentMarkSheet',
             type: 'POST',
@@ -799,9 +801,10 @@ $this->load->helper('form');
             success: function(data) {
                 $(".studentMarkInfo").html(data);
                 $("#coverScreen").hide();
-
+                hideLoader();
                 if(board_name_id!= ''){
                     location.reload();
+                    showLoader();
                 }
             },
             error: function(result) {

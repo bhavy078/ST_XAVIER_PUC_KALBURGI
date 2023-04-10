@@ -222,7 +222,23 @@ class Student_model extends CI_Model
         return $result;
     }
 
-
+     //get a student mark info
+     function getStudentMarkInfoforDisplay($registered_row_id){
+        $this->db->from('tbl_admission_student_sslc_mark_info_temp as school');
+        $this->db->where('school.registred_row_id', $registered_row_id);
+        $this->db->where('is_deleted', 0);
+        $query = $this->db->get();
+        $result = $query->result();        
+        return $result;
+    }
+    function getMarksDetailforDisplay($registered_row_id){
+        $this->db->select('SUM(obtnd_mark) as obtnd_mark');
+        $this->db->from('tbl_admission_student_sslc_mark_info_temp as school');
+        $this->db->where('school.registred_row_id', $registered_row_id);
+        $this->db->where('is_deleted', 0);
+        $query = $this->db->get();
+        return $query->row();   
+    }
     function getMarksDetail($registered_row_id){
         $this->db->select('SUM(obtnd_mark) as obtnd_mark');
         $this->db->from('tbl_admission_student_sslc_mark_info_temp as school');
@@ -543,7 +559,11 @@ class Student_model extends CI_Model
         return $this->db->affected_rows();
     }
 
-
+    function UpdateMarkInfo($registered_row_id,$boardInfo){
+        $this->db->where('registred_row_id', $registered_row_id);
+        $this->db->update('tbl_admission_student_sslc_mark_info_temp', $boardInfo);
+        return $this->db->affected_rows();
+    }
 
 
     function getBoardNameByName($sslc_board_name){

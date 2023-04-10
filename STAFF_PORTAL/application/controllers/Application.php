@@ -1371,9 +1371,9 @@ St. Joseph's Pre-University College HASSAN";
             }else{
                 $data['subjectInfo'] = $this->subject->getAllSubjectInfo();
             }
-            $data['streamInfo'] = $this->application->getStreamNames();
+            $data['streamInfo'] = $this->application->getStreamInfo();
             $this->global['pageTitle'] = ''.TAB_TITLE.' : Admission Report';
-            $this->loadViews("admission/admissionReportDashboard", $this->global, $data, NULL);
+            $this->loadViews("application/reportDashboard", $this->global, $data, NULL);
         }
     }
 
@@ -1704,6 +1704,531 @@ St. Joseph's Pre-University College HASSAN";
 
     }
 
+    function viewApplicationFeePending(){
+        $filter = array();
+        $by_name = $this->security->xss_clean($this->input->post('by_name'));
+        $stream_name = $this->security->xss_clean($this->input->post('stream_name'));
+        $by_dob = $this->security->xss_clean($this->input->post('by_dob'));
+        $program_name = $this->security->xss_clean($this->input->post('program_name'));
+        $religion = $this->security->xss_clean($this->input->post('religion'));
+        $admission_year = $this->security->xss_clean($this->input->post('admission_year'));
+        $application_no = $this->security->xss_clean($this->input->post('application_no'));
+        $data['admission_year'] = $admission_year;
+
+        if($admission_year == '') {
+            $filter['admission_year'] = 2023;
+        }else {
+            $filter['admission_year']  = $admission_year;
+        }
+        
+        $data['by_name'] = $by_name;
+        $data['religion'] = $religion;
+        $data['stream_name'] = $stream_name;
+        $data['program_name'] = $program_name;
+        $data['religion'] = $religion;
+        $data['application_no'] = $application_no;
+     
+        $filter['application_no'] = $application_no;
+        $filter['by_name'] = $by_name;
+        $filter['religion'] = $religion;
+        $filter['stream_name'] = $stream_name;
+        $filter['program_name'] = $program_name;
+        $filter['religion'] = $religion;
+        
+        if(!empty($by_dob)){
+            $filter['by_dob'] = date('Y-m-d',strtotime($by_dob));
+            $data['by_dob'] = date('d-m-Y',strtotime($by_dob));
+        }else{
+            $data['by_dob'] = '';
+        }
+
+        $data['religionInfo'] = $this->application->getReligionInfo();
+        $data['StreamInfo'] = $this->application->getStreamInfo();
+        $this->load->library('pagination');
+        $filter['page'] = $returns["page"];
+        $filter['segment'] = $returns["segment"];
+        $count = $this->application->getFeePendingApplicationCount($filter);
+        $applicationInfo = $this->application->getFeePendingApplication($filter);
+
+        $returns = $this->paginationCompress("viewApplicationFeePending/", $count, 100);
+        $data['applicationCount'] = $count;
+        $data['applicationInfo'] = $this->application->getFeePendingApplication($filter);
+        $data['markInfo'] = $this->application;
+        $this->global['pageTitle'] = ''.TAB_TITLE.' : Application Stack';
+        $this->loadViews("application/feePendingApplication", $this->global, $data, NULL);
+    }
+    public function applicationPendingPaymentComplete(){
+        if($this->isAdmin() == TRUE){
+            $this->loadThis();
+        } else {   
+            $reg_row_id = $this->input->post('row_id');
+            
+                
+          
+            // $existsApplicationStatus = $this->admission->checkStudentAdmissionStatus($reg_row_id);
+            // if(empty($existsApplicationStatus->application_number)){
+            //     $isExistsApplicationNumber = $this->admission->getPreviousStudentApplicationInfo();
+            //     if(!empty($isExistsApplicationNumber)){
+            //         $appNo = substr($isExistsApplicationNumber->application_number,3);
+
+            //          $appliNo = $appNo + 1;
+            //         $applicationNumber = '23H'.sprintf('%04d', $appliNo);
+            //     }else {
+            //            $applicationNumber = '23H'.sprintf('%04d', 1);
+
+            //            }
+            //         }else{
+            //             $applicationNumber = $existsApplicationStatus->application_number;
+            //         }
+
+                  
+                $applicationStatus = array(
+                    'registered_row_id' => $reg_row_id,
+                    'admission_status'=> 0,
+                    'application_fee_status'=>'1',
+                    'payment_type'=>'CASH',
+                    'cash_paid_date'=>date('Y-m-d'),
+                    'updated_by' => $this->staff_id,
+                    'updated_date_time' => date('Y-m-d H:i:s'));
+         
+                // $studentPersonalInfo = array(
+                //         'application_number'=> $applicationNumber,
+                //         'student_application_status'=> 0,
+                //         'updated_by' => $this->staff_id,
+                //         'updated_dtm' => date('Y-m-d H:i:s'));
+
+                
+                        $isExists = $this->application->checkStudentAdmissionStatus($reg_row_id);
+                        if(!empty($isExists)){
+                            $retun = $this->application->updateStudentApplicationInfoStatus($reg_row_id,$applicationStatus);
+                        }else{
+                            $retun = $this->application->saveStudentApplicationStatus($applicationStatus);
+                        }
+                        // $result = $this->admission->updateStudentPersonalInfo($reg_row_id,$studentPersonalInfo);
+
+               
+            if ($result == true) {echo (json_encode(array('status' => true)));} else {echo (json_encode(array('status' => false)));}
+        } 
+    }
+
+       // Grievance list
+   function viewGrievance(){
+    $filter = array();
+    $application_no = $this->security->xss_clean($this->input->post('application_no'));
+   
+    $subject = $this->security->xss_clean($this->input->post('subject'));
+    $message = $this->security->xss_clean($this->input->post('message'));
+    $admission_year = $this->security->xss_clean($this->input->post('admission_year'));
+    $mobile = $this->security->xss_clean($this->input->post('mobile'));
+    $date = $this->security->xss_clean($this->input->post('date'));
+    $by_name = $this->security->xss_clean($this->input->post('by_name'));
+    log_message('debug','dataa'.$by_name);
+    $data['admission_year'] = $admission_year;
+
+    if($admission_year == '') {
+        $filter['admission_year'] = 2023;
+    }else {
+        $filter['admission_year']  = $admission_year;
+    }
+
+    if(!empty($date)){
+        $filter['date'] = date('Y-m-d',strtotime($date));
+        $data['date'] = date('d-m-Y',strtotime($date));
+    }else{
+        $data['date'] = '';
+    }
+
+    $data['application_no'] = $application_no;
+    $data['by_name'] = $by_name;
+    $data['subject'] = $subject;
+    $data['message'] = $message;
+    $data['mobile'] = $mobile;
+    
+   
+    $filter['mobile'] = $mobile;
+    $filter['application_no'] = $application_no;
+    $filter['by_name'] = $by_name;
+    $filter['message'] = $message;
+    $filter['subject'] = $subject;
+    
+   
+    $this->load->library('pagination');
+    $data['religionInfo'] = $this->application->getReligionInfo();
+    $count = $this->application->getviewGrievanceCount($filter);
+    $returns = $this->paginationCompress("viewRejectedApplication/", $count, 100);
+    $data['applicationCount'] = $count;  
+    $filter['page'] = $returns["page"];
+    $filter['segment'] = $returns["segment"];
+    $data['applicationInfo'] = $this->application->getviewGrievance($filter);
+    $this->global['pageTitle'] = ''.TAB_TITLE.' : Rejected Applications';
+    $this->loadViews("application/viewGrievance", $this->global, $data, NULL);
+}
+
+public function grievanceSolved(){
+    if($this->isAdmin() == TRUE){
+        $this->loadThis();
+    } else {   
+        $row_id = $this->input->post('row_id');
+        $studentInfo = array('active_status' => 1,'updated_by'=>$this->staff_id,'updated_date_time' => date('Y-m-d H:i:s'));
+        $result = $this->application->updateGrievanceInfo($studentInfo, $row_id);
+        if ($result == true) {echo (json_encode(array('status' => true)));} else {echo (json_encode(array('status' => false)));}
+       
+    } 
+}
+
+    public function grievanceInactive(){
+        if($this->isAdmin() == TRUE){
+            $this->loadThis();
+        } else {   
+            $row_id = $this->input->post('row_id');
+            $studentInfo = array('active_status' => 0,'updated_by'=>$this->staff_id,'updated_date_time' => date('Y-m-d H:i:s'));
+            $result = $this->application->updateGrievanceInfo($studentInfo, $row_id);
+            if ($result == true) {echo (json_encode(array('status' => true)));} else {echo (json_encode(array('status' => false)));}
+        
+        } 
+    }
+
+    public function downloadApplicationStack(){
+        if ($this->isAdmin() == true ) {
+            setcookie('isDownloading',0); 
+            $this->loadThis();
+        } else {
+            $filter = array();
+            $student = $this->security->xss_clean($this->input->post('by_student'));
+            $percentage_to = $this->security->xss_clean($this->input->post('percentage_to'));
+            $percentage_from = $this->security->xss_clean($this->input->post('percentage_from'));
+            $report_type = $this->security->xss_clean($this->input->post('report_type'));
+            $by_class = $this->security->xss_clean($this->input->post('by_class'));
+            $by_year = $this->security->xss_clean($this->input->post('by_year'));
+            $by_gedner = $this->security->xss_clean($this->input->post('by_gedner'));
+            $by_stream = $this->security->xss_clean($this->input->post('by_stream'));
+            $elective_sub = $this->security->xss_clean($this->input->post('elective_sub'));
+           
+            $std_class = $by_class;
+    
+            $cellNameByStudentReport = array('G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z');
+            // $filter['bank_settlement'] = $bank_settlement;
+            for($sheet = 0; $sheet < 1;  $sheet++){
+                $this->excel->setActiveSheetIndex($sheet);
+                //name the worksheet
+                $this->excel->getActiveSheet()->setTitle($report_type);
+                $this->excel->getActiveSheet()->getPageSetup()->setPrintArea('A1:N500');
+                //set Title content with some text
+                $this->excel->getActiveSheet()->setCellValue('A1', EXCEL_TITLE);
+                $this->excel->getActiveSheet()->setCellValue('A2', $report_type." Admission Report");
+                $this->excel->getActiveSheet()->getStyle('A1')->getFont()->setSize(18);
+                $this->excel->getActiveSheet()->getStyle('A2')->getFont()->setSize(14);
+                $this->excel->getActiveSheet()->mergeCells('A1:M1');
+                $this->excel->getActiveSheet()->mergeCells('A2:M2');
+                $this->excel->getActiveSheet()->getStyle('A1:M1')->getFont()->setBold(true);
+                $this->excel->getActiveSheet()->getStyle('A2:M2')->getFont()->setBold(true);
+                $this->excel->getActiveSheet()->getStyle('A1:M1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $this->excel->getActiveSheet()->getStyle('A1:M2')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                
+                $excel_row = 3;
+                $this->excel->getActiveSheet()->getColumnDimension('A')->setWidth(10);
+                $this->excel->getActiveSheet()->getColumnDimension('B')->setWidth(18);
+                $this->excel->getActiveSheet()->getColumnDimension('C')->setWidth(28);
+                $this->excel->getActiveSheet()->getColumnDimension('D')->setWidth(14);
+                $this->excel->getActiveSheet()->getColumnDimension('E')->setWidth(20);
+                $this->excel->getActiveSheet()->getColumnDimension('F')->setWidth(28);
+                
+                $this->excel->getActiveSheet()->getColumnDimension('G')->setWidth(28);
+                $this->excel->getActiveSheet()->getColumnDimension('H')->setWidth(28);
+                $this->excel->getActiveSheet()->getColumnDimension('I')->setWidth(15);
+                $this->excel->getActiveSheet()->getColumnDimension('J')->setWidth(15);
+                $this->excel->getActiveSheet()->getColumnDimension('K')->setWidth(14);
+                
+                $this->excel->getActiveSheet()->getColumnDimension('L')->setWidth(25);
+                $this->excel->getActiveSheet()->getColumnDimension('M')->setWidth(20);
+                // $this->excel->getActiveSheet()->getColumnDimension('N')->setWidth(18);
+                $this->excel->getActiveSheet()->getStyle('A3:M3')->getFont()->setBold(true);
+                $this->excel->getActiveSheet()->getStyle('A3:M3')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('A'.$excel_row, 'SL No.');
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('B'.$excel_row, 'Application No.');
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('C'.$excel_row, 'Name');
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('D'.$excel_row, 'Gender');
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('E'.$excel_row, 'Religion');
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('F'.$excel_row, 'Category');
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('G'.$excel_row, 'Father Name');
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('H'.$excel_row, 'Mother Name');
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('I'.$excel_row, 'Father Mobile');
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('J'.$excel_row, 'Mother Mobile');
+    
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('K'.$excel_row, 'DOB');
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('L'.$excel_row, 'Course');
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('M'.$excel_row, 'Stream');
+                // $this->excel->setActiveSheetIndex($sheet)->setCellValue('N'.$excel_row, 'SSLC Percentage');
+                $filter['report_type']= $report_type;
+                $filter['by_stream']= $by_stream;
+                $filter['by_class']= $by_class;
+                $filter['by_year']= $by_year;
+                $filter['by_gedner']= $by_gedner;
+                // $styleBorderArray = array('borders' => array('allborders' => array('style' => PHPExcel_Style_Border::BORDER_THIN)));
+                // $this->excel->getActiveSheet()->getStyle('A1:K4')->applyFromArray($styleBorderArray);
+    
+                $styleBorderArray = array('borders' => array('allborders' => array('style' => PHPExcel_Style_Border::BORDER_THIN)));
+                $this->excel->getActiveSheet()->getStyle('A1:M3')->applyFromArray($styleBorderArray);
+                $sl = 1;
+                $excel_row = 4;
+    
+                $studentInfo = $this->application->getApplicationInfoForReport($filter);
+               
+                    foreach($studentInfo as $std){
+                        $this->excel->setActiveSheetIndex($sheet)->setCellValue('A'.$excel_row, $sl++);
+                        
+                        $this->excel->setActiveSheetIndex($sheet)->setCellValue('B'.$excel_row, $std->application_number);
+                        $this->excel->setActiveSheetIndex($sheet)->setCellValue('C'.$excel_row, $std->name);
+                        $this->excel->setActiveSheetIndex($sheet)->setCellValue('D'.$excel_row, $std->gender);
+                        $this->excel->setActiveSheetIndex($sheet)->setCellValue('E'.$excel_row, $std->religion);
+                        $this->excel->setActiveSheetIndex($sheet)->setCellValue('F'.$excel_row, $std->caste);
+                        // $this->excel->setActiveSheetIndex($sheet)->setCellValue('F'.$excel_row, $std->category);
+                        $this->excel->setActiveSheetIndex($sheet)->setCellValue('G'.$excel_row, $std->father_name);
+                        $this->excel->setActiveSheetIndex($sheet)->setCellValue('H'.$excel_row, $std->mother_name);
+                        $this->excel->setActiveSheetIndex($sheet)->setCellValue('I'.$excel_row, $std->father_mobile);
+                        $this->excel->setActiveSheetIndex($sheet)->setCellValue('J'.$excel_row, $std->mother_mobile);
+                        $this->excel->setActiveSheetIndex($sheet)->setCellValue('K'.$excel_row, date('d-m-Y',strtotime($std->dob)));
+                        $this->excel->setActiveSheetIndex($sheet)->setCellValue('L'.$excel_row, $std->program_name);
+                        $this->excel->setActiveSheetIndex($sheet)->setCellValue('M'.$excel_row, $std->stream_name);
+                        // $this->excel->setActiveSheetIndex($sheet)->setCellValue('N'.$excel_row, $std->sslc_percentage);
+                        $this->excel->getActiveSheet()->getStyle('A'.$excel_row.':B'.$excel_row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                        $this->excel->getActiveSheet()->getStyle('D'.$excel_row.':F'.$excel_row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                        $this->excel->getActiveSheet()->getStyle('G'.$excel_row.':H'.$excel_row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+                        $this->excel->getActiveSheet()->getStyle('I'.$excel_row.':M'.$excel_row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                        // $this->excel->getActiveSheet()->getStyle('L'.$excel_row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+                        // $styleBorderArray = array('borders' => array('allborders' => array('style' => PHPExcel_Style_Border::BORDER_THIN)));
+                        // $this->excel->getActiveSheet()->getStyle('A'.$excel_row.':K4'.$excel_row)->applyFromArray($styleBorderArray);
+                        $styleBorderArray = array('borders' => array('allborders' => array('style' => PHPExcel_Style_Border::BORDER_THIN)));
+                        $this->excel->getActiveSheet()->getStyle('A4:M'.$excel_row)->applyFromArray($styleBorderArray);
+    
+                        $excel_row++;
+                        
+                    }
+                    $this->excel->createSheet(); 
+                    
+                }
+                
+            }
+            
+            $filename =  $report_type.'_Application_Report_-'.date('d-m-Y').'.xls'; //save our workbook as this file name
+            header('Content-Type: application/vnd.ms-excel'); //mime type
+            header('Content-Disposition: attachment;filename="'.$filename.'"'); //tell browser what's the file name
+            header('Cache-Control: max-age=0'); //no cache
+                        
+            //save it to Excel5 format (excel 2003 .XLS file), change this to 'Excel2007' (and adjust the filename extension, also the header mime type)
+            //if you want to save it as .XLSX Excel 2007 format
+            $objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel5');  
+            ob_start();
+            setcookie('isDownloading',0); 
+            $objWriter->save("php://output");
+            
+        }
+    
+        public function downloadApplicationFeepaidReport(){
+            if ($this->isAdmin() == true ) {
+                setcookie('isDownloading',0);
+                $this->loadThis();
+            } else {
+                set_time_limit(0);
+                ini_set('memory_limit', '256M');
+    
+                $filter = array();
+                $date_from = $this->security->xss_clean($this->input->post('date_from'));
+                $date_to = $this->security->xss_clean($this->input->post('date_to'));
+                $year = $this->security->xss_clean($this->input->post('year'));
+                $type = $this->security->xss_clean($this->input->post('type'));
+                $by_stream = $this->security->xss_clean($this->input->post('by_stream'));
+                $by_class = $this->security->xss_clean($this->input->post('by_class'));
+                $cellNameByStudentReport = array('K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z');
+                $sheet = 0;
+                // for($sheet = 0; $sheet < count($stream);  $sheet++){
+                $this->excel->setActiveSheetIndex($sheet);
+                //name the worksheet
+                $this->excel->getActiveSheet()->setTitle("APPLICATION FEE PAID REPORT");
+                $this->excel->getActiveSheet()->getPageSetup()->setPrintArea('A1:H500');
+                //set Title content with some text
+                $this->excel->getActiveSheet()->setCellValue('A1', EXCEL_TITLE);
+                $this->excel->getActiveSheet()->setCellValue('A2', "APPLICATION FEE PAID REPORT - ".$year);
+                $this->excel->getActiveSheet()->getStyle('A1')->getFont()->setSize(18);
+                $this->excel->getActiveSheet()->getStyle('A2')->getFont()->setSize(14);
+                $this->excel->getActiveSheet()->mergeCells('A1:G1');
+                $this->excel->getActiveSheet()->mergeCells('A2:G2');
+                $this->excel->getActiveSheet()->getStyle('A1:A2')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                
+                $excel_row = 3;
+                $this->excel->getActiveSheet()->getColumnDimension('A')->setWidth(8);
+                $this->excel->getActiveSheet()->getColumnDimension('B')->setWidth(12);
+                $this->excel->getActiveSheet()->getColumnDimension('C')->setWidth(18);
+                $this->excel->getActiveSheet()->getColumnDimension('D')->setWidth(35);
+                $this->excel->getActiveSheet()->getColumnDimension('E')->setWidth(13);
+                $this->excel->getActiveSheet()->getColumnDimension('F')->setWidth(30);
+                $this->excel->getActiveSheet()->getColumnDimension('G')->setWidth(25);
+                // $this->excel->getActiveSheet()->getColumnDimension('H')->setWidth(20);
+    
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('A'.$excel_row, 'SL No.');
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('B'.$excel_row, 'Date');
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('C'.$excel_row, 'Application No.');
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('D'.$excel_row, 'Name');
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('E'.$excel_row, 'Course');
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('F'.$excel_row, 'Stream');
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('G'.$excel_row, 'Fee');
+                // $this->excel->setActiveSheetIndex($sheet)->setCellValue('H'.$excel_row, 'Order ID');
+    
+                
+                $this->excel->getActiveSheet()->getStyle('A3:G3')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                if(!empty($date_from)){
+                    $date_from = date('Y-m-d',strtotime($date_from));
+                }
+                if(!empty($date_to)){
+                    $date_to = date('Y-m-d',strtotime($date_to));
+                }
+                
+                $filter['date_from']= $date_from;
+                $filter['date_to']= $date_to;
+                $filter['year']= $year;
+                $filter['type']= $type;
+                $filter['by_class']= $by_class;
+                $filter['by_stream']= $by_stream;
+                $sl = 1;
+                $excel_row = 4;
+              
+                $studentInfo = $this->application->getAdmissionApplicationFeePaidReport($filter);
+                
+                    
+                $this->excel->getActiveSheet()->getStyle('A1:G3')->getFont()->setBold(true);
+                $styleBorderArray = array('borders' => array('allborders' => array('style' => PHPExcel_Style_Border::BORDER_THIN)));
+                $this->excel->getActiveSheet()->getStyle('A3:G3')->applyFromArray($styleBorderArray);
+                foreach($studentInfo as $std){
+                    // $std->amount
+                    
+                    $this->excel->setActiveSheetIndex($sheet)->setCellValue('A'.$excel_row, $sl++);
+                    $this->excel->setActiveSheetIndex($sheet)->setCellValue('B'.$excel_row, date('d-m-Y',strtotime($std->cash_paid_date)));
+                    $this->excel->setActiveSheetIndex($sheet)->setCellValue('C'.$excel_row, $std->application_number);
+                    $this->excel->setActiveSheetIndex($sheet)->setCellValue('D'.$excel_row, strtoupper($std->name));
+                    $this->excel->setActiveSheetIndex($sheet)->setCellValue('E'.$excel_row, $std->program_name);
+                    $this->excel->setActiveSheetIndex($sheet)->setCellValue('F'.$excel_row, $std->stream_name);
+                    $this->excel->setActiveSheetIndex($sheet)->setCellValue('G'.$excel_row, '100');
+                    // $this->excel->setActiveSheetIndex($sheet)->setCellValue('H'.$excel_row, $std->order_id);
+    
+                    
+    
+                    $this->excel->getActiveSheet()->getStyle('A4:G'.$excel_row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $this->excel->getActiveSheet()->getStyle('E'.$excel_row.':G'.$excel_row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    
+                    $styleBorderArray = array('borders' => array('allborders' => array('style' => PHPExcel_Style_Border::BORDER_THIN)));
+                    $this->excel->getActiveSheet()->getStyle('A4:G'.$excel_row)->applyFromArray($styleBorderArray);
+                    $excel_row++;
+                }
+                $this->excel->createSheet(); 
+                
+            }
+            
+            $filename =  'Application_Fee_Paid_-'.date('d-m-Y').'.xls'; //save our workbook as this file name
+            header('Content-Type: application/vnd.ms-excel'); //mime type
+            header('Content-Disposition: attachment;filename="'.$filename.'"'); //tell browser what's the file name
+            header('Cache-Control: max-age=0'); //no cache
+                        
+            //save it to Excel5 format (excel 2003 .XLS file), change this to 'Excel2007' (and adjust the filename extension, also the header mime type)
+            //if you want to save it as .XLSX Excel 2007 format
+            $objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel5');  
+            ob_start();
+            setcookie('isDownloading',0);
+            $objWriter->save("php://output");        
+                
+            }
+    
+            public function downloadAdmissionRegisteredStudent(){
+                if ($this->isAdmin() == true ) {
+                    setcookie('isDownloading',0);
+                    $this->loadThis();
+                } else {
+                    $filter = array();
+                   
+                    $year = $this->security->xss_clean($this->input->post('year'));
+                    
+        
+                    
+                    $cellNameByStudentReport = array('G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z');
+                    $sheet = 0;
+                        $this->excel->setActiveSheetIndex($sheet);
+                        $this->excel->getActiveSheet()->setTitle($sheet);
+                        $this->excel->getActiveSheet()->getPageSetup()->setPrintArea('A1:N500');
+                        $this->excel->getActiveSheet()->setCellValue('A1', EXCEL_TITLE);
+                        $this->excel->getActiveSheet()->setCellValue('A2', "Registered Students Report - ".$year);
+                        $this->excel->getActiveSheet()->getStyle('A1')->getFont()->setSize(18);
+                        $this->excel->getActiveSheet()->getStyle('A2')->getFont()->setSize(14);
+                        $this->excel->getActiveSheet()->mergeCells('A1:E1');
+                        $this->excel->getActiveSheet()->mergeCells('A2:E2');
+                        $this->excel->getActiveSheet()->getStyle('A1:E1')->getFont()->setBold(true);
+                        $this->excel->getActiveSheet()->getStyle('A2:E2')->getFont()->setBold(true);
+                        $this->excel->getActiveSheet()->getStyle('A1:E1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                        $this->excel->getActiveSheet()->getStyle('A1:E2')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                        
+                        $excel_row = 3;
+                        $this->excel->getActiveSheet()->getColumnDimension('A')->setWidth(15);
+                        $this->excel->getActiveSheet()->getColumnDimension('B')->setWidth(27);
+                        $this->excel->getActiveSheet()->getColumnDimension('C')->setWidth(27);
+                        $this->excel->getActiveSheet()->getColumnDimension('D')->setWidth(15);
+                        $this->excel->getActiveSheet()->getColumnDimension('E')->setWidth(28);
+                        
+                        // $this->excel->getActiveSheet()->getColumnDimension('C')->setWidth(35);
+                        $this->excel->getActiveSheet()->getStyle('A3:E3')->getFont()->setBold(true);
+                        $this->excel->getActiveSheet()->getStyle('A3:E3')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                        $this->excel->setActiveSheetIndex($sheet)->setCellValue('A'.$excel_row, 'SL No.');
+                        $this->excel->setActiveSheetIndex($sheet)->setCellValue('B'.$excel_row, 'Name');
+                        $this->excel->setActiveSheetIndex($sheet)->setCellValue('C'.$excel_row, 'Email');
+                        $this->excel->setActiveSheetIndex($sheet)->setCellValue('D'.$excel_row, 'Mobile');
+                        $this->excel->setActiveSheetIndex($sheet)->setCellValue('E'.$excel_row, 'Registered Date');
+                        // $this->excel->setActiveSheetIndex($sheet)->setCellValue('D'.$excel_row, 'Mobile');
+                        // $filter['stream_name']= $stream[$sheet];
+                        $filter['by_sslc_board']= $by_sslc_board;
+        
+                        $filter['year']= $year;
+                        $styleBorderArray = array('borders' => array('allborders' => array('style' => PHPExcel_Style_Border::BORDER_THIN)));
+                        $this->excel->getActiveSheet()->getStyle('A1:E3')->applyFromArray($styleBorderArray);
+                        $sl = 1;
+                        $excel_row = 4;
+                        $studentInfo = $this->application->getAllRegisteredStdInfo($filter);
+                            foreach($studentInfo as $std){
+                                $this->excel->setActiveSheetIndex($sheet)->setCellValue('A'.$excel_row, $sl++);
+                                $this->excel->setActiveSheetIndex($sheet)->setCellValue('B'.$excel_row, $std->name);
+                                $this->excel->setActiveSheetIndex($sheet)->setCellValue('C'.$excel_row, $std->email);
+                                $this->excel->setActiveSheetIndex($sheet)->setCellValue('D'.$excel_row, $std->mobile);
+                                $this->excel->setActiveSheetIndex($sheet)->setCellValue('E'.$excel_row, date('d-m-Y',strtotime($std->created_date)));
+                                // $this->excel->setActiveSheetIndex($sheet)->setCellValue('D'.$excel_row, $std->mobile);
+                                $this->excel->getActiveSheet()->getStyle('A'.$excel_row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                                $this->excel->getActiveSheet()->getStyle('B'.$excel_row.':C'.$excel_row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+                                $this->excel->getActiveSheet()->getStyle('D'.$excel_row.':E'.$excel_row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                                $styleBorderArray = array('borders' => array('allborders' => array('style' => PHPExcel_Style_Border::BORDER_THIN)));
+                                $this->excel->getActiveSheet()->getStyle('A4:E'.$excel_row)->applyFromArray($styleBorderArray);
+                                
+                                $excel_row++;
+                            }
+                            $this->excel->createSheet(); 
+                        // }
+                        
+                    }
+                    
+                    $filename = 'Registered_Report_-'.date('d-m-Y').'.xls'; //save our workbook as this file name
+                    header('Content-Type: admission/vnd.ms-excel'); //mime type
+                    header('Content-Disposition: attachment;filename="'.$filename.'"'); //tell browser what's the file name
+                    header('Cache-Control: max-age=0'); //no cache
+                    $objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel5');  
+                    ob_start();
+                    setcookie('isDownloading',0);
+                    $objWriter->save("php://output");
+                    
+            }
+
+    // public function AdmissionReportDashboard(){
+    //     if($this->isAdmin() == TRUE ){
+    //         $this->loadThis();
+    //     } else {
+
+    //         $this->global['pageTitle'] = ''.TAB_TITLE.' : Report';
+    //         $this->loadViews("admission_22/reportDashboard", $this->global, $data, NULL);
+    //     }
+    // }
     public function getSubjectCodes($stream_name){
         //science
         $PCMB = array("33", "34", "35", '36');

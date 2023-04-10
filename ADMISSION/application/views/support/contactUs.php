@@ -94,6 +94,31 @@
                 </button>
             </form>
         </div>
+
+        <div class="card-body p-1 pb-1 table-responsive">
+                        <table style="width:100%" class="display table  table-bordered table-striped table-hover mb-0">
+                            <thead>
+                                <tr class="table_row_backgrond text-center">
+                                    <th width="200">Date</th>
+                                    <th>Subject</th>
+                                    <th>Message</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php if(!empty($grievanceInfo)) {
+                                    foreach($grievanceInfo as $griev){ ?>
+                                 <tr>
+                                 <th class="text-center"><?php echo date('d-m-Y',strtotime($griev->created_date_time)) ?> </th>
+                                    <th class="text-center"><?php echo $griev->subject ?> </th>
+                                    <th class="text-center"><?php echo $griev->message ?> </th>
+                                    <th class="text-center text-success">Sent </th>
+                                </tr>
+                                <?php }} ?>
+                            </tbody>
+                        </table>
+                    </div>
+
             
     </div>
 </div>

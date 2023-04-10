@@ -490,8 +490,6 @@ $route['checkMobileNumberOrEmailExists'] = "enquiry/checkMobileNumberOrEmailExis
 $route['reportDashboard'] = "reports/reportDashboard";
 $route['downloadAdmissionEnquiryExcelReport'] = "reports/downloadAdmissionEnquiryExcelReport";
 $route['download_fee_structure_excel'] = "reports/download_fee_structure_excel";
-$route['downloadApplicationStack'] = "reports/downloadApplicationStack";
-$route['downloadAdmissionRegisteredStudent'] = "reports/downloadAdmissionRegisteredStudent";
 
 $route['shorlitedStudentPDF_PRINT'] = "reports/shorlitedStudentPDF_PRINT";
 
@@ -535,18 +533,32 @@ $route['admissionGrievance/(:any)'] = "application/admissionGrievance/$1";
 
 $route['sendSMSForNewAdm'] = "application/sendSMSForNewAdm";
 
-
+$route['viewApplicationFeePending'] = "application/viewApplicationFeePending";
+$route['viewApplicationFeePending/(:any)'] = "application/viewApplicationFeePending/$1";
+$route['downloadApplicationStack'] = "application/downloadApplicationStack";
+$route['downloadAdmissionRegisteredStudent'] = "application/downloadAdmissionRegisteredStudent";
 
 // new admission routes 
 $route['getAdmissionPaymentPeningApplication'] = "application/getAdmissionPaymentPeningApplication";
 $route['getAdmissionPaymentPeningApplication/(:any)'] = "application/getAdmissionPaymentPeningApplication/$1";
 $route['applicationPaymentComplete'] = "application/applicationPaymentComplete";
 
+$route['applicationPendingPaymentComplete'] = "application/applicationPendingPaymentComplete";
+
 $route['newAdmission'] = "application/newAdmission";
 $route['newAdmission/(:any)'] = "application/newAdmission/$1";
 $route['getRejectedApplicationInfo'] = "application/getRejectedApplicationInfo";
 $route['getRejectedApplicationInfo/(:any)'] = "application/getRejectedApplicationInfo/$1";
+$route['viewGrievance'] = "application/viewGrievance";
+$route['viewGrievance/(:any)'] = "application/viewGrievance/$1";
 
+$route['grievanceSolved'] = "application/grievanceSolved";
+
+$route['grievanceInactive'] = "application/grievanceInactive";
+$route['AdmissionReportDashboard'] = "application/AdmissionReportDashboard";
+$route['downloadApplicationFeepaidReport'] = "application/downloadApplicationFeepaidReport";
+// //admission reports
+// $route['downloadApplicationStack'] = "application/downloadApplicationStack";
 // shortlisted
 $route['getShortlistedApplication'] = "application/getShortlistedApplication";
 $route['getShortlistedApplication/(:any)'] = "application/getShortlistedApplication/$1";

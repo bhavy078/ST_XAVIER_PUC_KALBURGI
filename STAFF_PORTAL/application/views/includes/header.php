@@ -39,6 +39,8 @@
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+   
     <style>
     .error {
         color: red;
@@ -61,7 +63,30 @@
     </style>
     <script src="<?php echo base_url(); ?>assets/bower_components/jquery/dist/jquery.min.js"></script>
     <script src="https://unpkg.com/material-components-web@6.0.0/dist/material-components-web.min.js"></script>
+    <script>
+        $(document).ready(()=>{
+            $("form").on('submit',(evt)=>{
+                if($(evt.target).data('download_form')){
+                    $.cookie('isDownloading', '1');
+                    showLoader();
+                    const intervalID = setInterval(() => {
+                        if($.cookie('isDownloading')==0){
+                            hideLoader();
+                            clearInterval(intervalID);
+                        }
+                    }, 2000);                    
+                }else if($(evt.target).data('no_loader')){
 
+                }else{
+                    showLoader();
+                }
+            });
+
+            $("li.nav-item > .nav-link[href*='<?=base_url()?>']").on('click',function(){
+                showLoader();
+            });
+        });
+    </script>
     <script type="text/javascript">
     var baseURL = "<?php echo base_url(); ?>";
 
@@ -75,7 +100,7 @@
         $("#custom_loader_text").css('display', 'none');
     }
     </script>
-    <script>
+    <!-- <script>
     $(document).ready(() => {
         $("form").submit(() => {
             showLoader();
@@ -84,7 +109,7 @@
             showLoader();
         });
     });
-    </script>
+    </script> -->
     <style>
     /* Absolute Center Spinner */
     .custom_loader {
@@ -410,7 +435,12 @@
                                 <span> Registered</span>
                             </a>
                         </li>
-
+                        <li class="nav-item">
+                                <a class="nav-link " href="<?php echo base_url(); ?>viewApplicationFeePending">
+                                    <i class="material-icons">description</i>
+                                    <span>App Fee Pending</span>
+                                </a>
+                            </li>
 
                         <li class="nav-item">
                             <a class="nav-link " href="<?php echo base_url(); ?>getAllApplicationInfo">
@@ -418,6 +448,7 @@
                                 <span>Application Stack</span>
                             </a>
                         </li>
+                     
                         <li class="nav-item">
                             <a class="nav-link " href="<?php echo base_url(); ?>newAdmission">
                                 <i class="material-icons">description</i>
@@ -436,6 +467,18 @@
                                 <span>Rejected Application</span>
                             </a>
                         </li>
+                        <li class="nav-item">
+                                <a class="nav-link " href="<?php echo base_url(); ?>viewGrievance">
+                                    <i class="material-icons">group</i>
+                                    <span>Grievance</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link " href="<?php echo base_url(); ?>AdmissionReportDashboard">
+                                    <i class="material-icons">group</i>
+                                    <span>Report</span>
+                                </a>
+                            </li>
                         <?php 
                     if ($role == ROLE_ADMIN || $role == ROLE_PRINCIPAL || $role == ROLE_PRIMARY_ADMINISTRATOR) { ?>
                         <!-- <li class="nav-item">

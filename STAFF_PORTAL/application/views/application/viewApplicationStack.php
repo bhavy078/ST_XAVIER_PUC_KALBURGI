@@ -315,7 +315,7 @@ if ($error) {
                                     <th>Application Number</th>
                                     <th>Name</th>
                                     <th>Percentage(%)</th>
-                                    <th>9TH STD(%)</th>
+                                    <th>Integrated Batch</th>
                                     <th>Category</th>
                                     <th>Pref-1</th>
                                     <th>Pref-2</th>

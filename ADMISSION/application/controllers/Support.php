@@ -14,8 +14,9 @@ class Support extends BaseController
     }
 
     public function contactUs(){
+        $data['grievanceInfo'] = $this->support_model->getGrievanceInfo($this->student_row_id);
         $this->global['pageTitle'] = ''.TAB_TITLE.' : Support';
-        $this->loadViews("support/contactUs", $this->global , NULL ,NULL);
+        $this->loadViews("support/contactUs", $this->global , $data ,NULL);
     }
     
     public function helpGuide(){

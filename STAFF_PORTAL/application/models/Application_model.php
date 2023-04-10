@@ -449,7 +449,13 @@ class Application_model extends CI_Model {
         $result = $query->result();        
         return $result;
     }
-    
+    function getStreamInfo(){
+        $this->db->from('tbl_program_stream_info as stream');
+        $this->db->where('stream.is_deleted',0);
+        $query = $this->db->get();
+        $result = $query->result();        
+        return $result;
+    }
     // personal
     function getStudentApplicationInfo($registered_row_id){
         $this->db->from('tbl_admission_student_personal_details_temp as stud');
@@ -1160,6 +1166,118 @@ class Application_model extends CI_Model {
         $result = $query->result();
         return $result;
     }
+
+    public function getFeePendingApplication($filter=''){
+        $this->db->select('std.resgisted_tbl_row_id,std.row_id,std.application_number,std.name,std.gender,std.student_email,
+        std.dob,std.blood_group,std.father_name,std.mother_name,std.father_mobile,std.mother_mobile,sjpuc.program_name,sjpuc.stream_name,
+        std.nationality,std.religion,std.caste');
+        $this->db->from('tbl_admission_student_personal_details_temp as std');
+        $this->db->join('tbl_admission_students_status_temp as status', 'status.registered_row_id = std.resgisted_tbl_row_id','left');
+        $this->db->join('tbl_admission_combination_language_opted_temp as sjpuc', 'sjpuc.registred_row_id = std.resgisted_tbl_row_id','left');
+
+        if(!empty($filter['application_no'])){
+            $likeCriteria = "(std.application_number  LIKE '%" . $filter['application_no'] . "%')";
+            $this->db->where($likeCriteria);
+        }
+        if(!empty($filter['by_name'])){
+            $likeCriteria = "(std.name  LIKE '%" . $filter['by_name'] . "%')";
+            $this->db->where($likeCriteria);
+        }
+        if(!empty($filter['by_gender'])){
+            $this->db->where('std.gender', $filter['by_gender']);
+        }
+        if(!empty($filter['by_dob'])){
+            $this->db->where('std.dob', $filter['by_dob']);
+        }
+        if(!empty($filter['by_class'])){
+            $this->db->where('std.admission_for', $filter['by_class']);
+        }
+        if(!empty($filter['program_name'])){
+            $this->db->where('sjpuc.program_name', $filter['program_name']);
+        }
+        
+        if(!empty($filter['stream_name'])){
+            $this->db->where('sjpuc.stream_name', $filter['stream_name']);
+        }
+        if(!empty($filter['religion'])){
+            $this->db->where('std.religion', $filter['religion']);
+        }
+        if(!empty($filter['admission_year'])){
+            $this->db->where('std.admission_year', $filter['admission_year']);
+        }
+        
+        $this->db->where('std.is_deleted', 0);
+        $this->db->where('status.application_number !=', '');
+        $this->db->where('status.application_fee_status', 0);
+        $this->db->order_by('std.row_id', 'DESC');
+        $this->db->limit($filter['page'], $filter['segment']);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    public function getFeePendingApplicationCount($filter='') {
+            $this->db->from('tbl_admission_student_personal_details_temp as std');
+            $this->db->join('tbl_admission_students_status_temp as status', 'status.registered_row_id = std.resgisted_tbl_row_id','left');
+            $this->db->join('tbl_admission_combination_language_opted_temp as sjpuc', 'sjpuc.registred_row_id = std.resgisted_tbl_row_id','left');
+    
+            if(!empty($filter['application_no'])){
+                $likeCriteria = "(std.application_number  LIKE '%" . $filter['application_no'] . "%')";
+                $this->db->where($likeCriteria);
+            }
+            if(!empty($filter['by_name'])){
+                $likeCriteria = "(std.name  LIKE '%" . $filter['by_name'] . "%')";
+                $this->db->where($likeCriteria);
+            }
+            if(!empty($filter['by_gender'])){
+                $this->db->where('std.gender', $filter['by_gender']);
+            }
+            if(!empty($filter['by_dob'])){
+                $this->db->where('std.dob', $filter['by_dob']);
+            }
+            if(!empty($filter['by_class'])){
+                $this->db->where('std.admission_for', $filter['by_class']);
+            }
+            if(!empty($filter['program_name'])){
+                $this->db->where('sjpuc.program_name', $filter['program_name']);
+            }
+            
+            if(!empty($filter['stream_name'])){
+                $this->db->where('sjpuc.stream_name', $filter['stream_name']);
+            }
+            if(!empty($filter['religion'])){
+                $this->db->where('std.religion', $filter['religion']);
+            }
+            if(!empty($filter['admission_year'])){
+                $this->db->where('std.admission_year', $filter['admission_year']);
+            }
+            
+            $this->db->where('std.is_deleted', 0);
+            $this->db->where('status.application_number !=', '');
+            $this->db->where('status.application_fee_status', 0);
+            $query = $this->db->get();
+            return $query->num_rows();
+        }
+        // check admission status
+        public function checkStudentAdmissionStatus($registered_row_id){
+            $this->db->from('tbl_admission_students_status_temp as std');
+            $this->db->where('std.registered_row_id', $registered_row_id);
+            $this->db->where('std.is_deleted', 0);
+            $query = $this->db->get();
+            return $query->row();
+        }
+        function updateStudentApplicationInfoStatus($registered_row_id,$applicationStatus){
+            $this->db->where('registered_row_id', $registered_row_id);
+            $this->db->update('tbl_admission_students_status_temp', $applicationStatus);
+            return $this->db->affected_rows();
+        }
+
+        function saveStudentApplicationStatus($applicationStatus){
+            $this->db->trans_start();
+            $this->db->insert('tbl_admission_students_status_temp', $applicationStatus);
+            $insert_id = $this->db->insert_id(); 
+            $this->db->trans_complete();
+            return $insert_id;
+        }
 
     // update application status
     function updatedStudentApplicationStatus($shortlistedStstus,$application_number){
@@ -1885,7 +2003,113 @@ public function getAllAdmittedListInfo()
     $result = $query->result();
     return $result;
 }
+         //get students fetails lates update
+         public function getApplicationInfoForReport($filter){ 
+            $this->db->select('personal.row_id,
+            personal.application_number,
+            personal.gender,
+            personal.student_mobile,
+            personal.resgisted_tbl_row_id,
+            personal.name,
+            personal.religion,
+            personal.caste,
+            personal.sub_caste,
+            personal.gender,
+            personal.blood_group,
+            personal.student_email,
+          
+           
+            personal.father_name,
+            personal.mother_name,
+            personal.father_mobile,
+            personal.mother_mobile,
+            personal.student_application_status,
+            personal.dob,
+            course.program_name ,
+            course.stream_name ,
+            personal.guardian_mobile,
+           
+            ');
+            $this->db->from('tbl_admission_student_personal_details_temp as personal');
+            $this->db->join('tbl_admission_registered_student_temp as reg', 'reg.row_id = personal.resgisted_tbl_row_id','left');
+            $this->db->join('tbl_admission_students_status_temp as std', 'std.registered_row_id = personal.resgisted_tbl_row_id','left');
+            $this->db->join('tbl_admission_combination_language_opted_temp as course', 'course.registred_row_id = personal.resgisted_tbl_row_id','left');
 
+                     
+            if($filter['by_class']!='ALL'){
+                $this->db->where('course.program_name', $filter['by_class']);
+            }
+            if($filter['by_stream']!='ALL'){
+                $this->db->where('course.stream_name', $filter['by_stream']);
+            }
+            if(!empty($filter['by_year'])){
+                $this->db->where('std.adm_year', $filter['by_year']);
+            }
+            if(!empty($filter['by_gedner'])){
+                $this->db->where('personal.gender', $filter['by_gedner']);
+            }
+           
+            // $this->db->where('personal.application_number !=', "");
+            if($filter['report_type'] == 'ALL_MERIT'){
+                //$this->db->where('std.application_status', 1);
+               // $this->db->where('std.fee_payment_status', 0);
+            }else if($filter['report_type'] == 'APPLICATION_STACK'){
+                $this->db->where('std.admission_status', 0);
+                $this->db->where('std.shortlisted_status', 0);
+                $this->db->where('std.application_fee_status',1); 
+            }else if($filter['report_type'] == 'APPLICATION_FEE_PENDING'){
+                $this->db->where('std.admission_status', 0);
+                $this->db->where('std.application_fee_status', 0);
+            }else if($filter['report_type'] == 'APPLICATION_APPROVED'){
+                $this->db->where('std.admission_status', 1);
+                $this->db->where('std.shortlisted_status', 0);
+            }else if($filter['report_type'] == 'APPLICATION_SHORTLISTED'){
+                
+                $this->db->where('std.shortlisted_status', 1);
+            }else if($filter['report_type'] == 'APPLICATION_REJECTED'){
+                $this->db->where('std.admission_status', 2);
+                $this->db->where('std.shortlisted_status', 0);
+            }
+            
+            $this->db->where('std.is_deleted', 0);
+            $this->db->where('personal.is_deleted', 0);
+            $this->db->group_by('personal.row_id'); 
+           
+            $query = $this->db->get();
+            $result = $query->result();
+            return $result;
+        }
+
+        public function getAdmissionApplicationFeePaidReport($filter){ 
+            $this->db->select('student.application_number,student.name,course.program_name,course.stream_name,std.cash_paid_date,
+            student.admission_year');
+            $this->db->from('tbl_admission_student_personal_details_temp as student');
+            $this->db->join('tbl_admission_students_status_temp as std', 'std.registered_row_id = student.resgisted_tbl_row_id','left');
+            $this->db->join('tbl_admission_application_payment_temp as fee', 'fee.registered_tbl_row_id = student.resgisted_tbl_row_id','left');
+            $this->db->join('tbl_admission_combination_language_opted_temp as course', 'course.registred_row_id = student.resgisted_tbl_row_id','left');
+    
+        //     if(!empty($filter['type'])){
+        //     if($filter['type']=='ONLINE' ){
+        //         $this->db->where('std.payment_type', $filter['type']);
+        //     }
+        //     if($filter['type']=='CASH' ){
+        //         $this->db->where('std.payment_type', $filter['type']);
+        //     }
+        // }
+            if($filter['by_class']!='ALL'){
+                $this->db->where('course.program_name', $filter['by_class']);
+            }
+            if($filter['by_stream']!='ALL'){
+                $this->db->where('course.stream_name', $filter['by_stream']);
+            }
+            $this->db->where('std.application_fee_status', 1);  
+            // $this->db->where('fee.payment_status','captured');  
+                  
+            $this->db->where('std.adm_year', $filter['year']);
+            $query = $this->db->get();
+            $result = $query->result();
+            return $result;
+        }
   // student registration info
   function getAllmicrosoftInfo(){
     $this->db->from('tbl_student_microsoft_credentials_info as stud');
@@ -1906,6 +2130,94 @@ public function getAllAdmittedListInfo()
         $this->db->where('approved.joined_status', 1);
         $query = $this->db->get();
         return $query->result();
+    }
+    public function getAllRegisteredStdInfo($filter){
+        $this->db->from('tbl_admission_registered_student_temp as reg');
+        
+        if(!empty($filter['year'])){
+            $this->db->where('reg.reg_year', $filter['year']);
+        }
+        $this->db->where('reg.is_deleted', 0);
+        $this->db->order_by('reg.row_id','DESC'); 
+        $query = $this->db->get();
+        $result = $query->result();
+        return $result;
+    }
+    public function getviewGrievance($filter=''){
+        $this->db->select('reg.name,
+       contact.subject,contact.message,
+        reg.mobile,contact.created_date_time');
+        // $this->db->from('tbl_admission_student_info as std');
+        // $this->db->join('tbl_admission_students_status as status', 'status.application_number = std.application_number','left');
+        $this->db->select('contact.subject,contact.message,contact.active_status,reg.mobile,contact.row_id,contact.created_date_time');
+        $this->db->from('tbl_admission_contact_us as contact');
+        $this->db->join('tbl_admission_registered_student_temp as reg', 'reg.row_id = contact.registered_row_id ','left');
+        
+     
+        if(!empty($filter['subject'])){
+            $likeCriteria = "(contact.subject  LIKE '%" . $filter['subject'] . "%')";
+            $this->db->where($likeCriteria);
+        }
+      
+        if(!empty($filter['message'])){
+            $likeCriteria = "(contact.message  LIKE '%" . $filter['message'] . "%')";
+            $this->db->where($likeCriteria);
+        }
+        if(!empty($filter['mobile'])){
+            $this->db->where('reg.mobile', $filter['mobile']);
+        }
+        if(!empty($filter['by_name'])){
+            $likeCriteria = "(reg.name  LIKE '%" . $filter['by_name'] . "%')";
+            $this->db->where($likeCriteria);
+        }
+        if(!empty($filter['date'])){
+            $this->db->where('contact.created_date_time', $filter['date']);
+        }
+        if(!empty($filter['admission_year'])){
+            $this->db->where('reg.reg_year', $filter['admission_year']);
+        }
+      
+        $this->db->where('contact.is_deleted', 0);
+        $this->db->order_by('contact.active_status','ASC'); 
+        $this->db->limit($filter['page'], $filter['segment']);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    public function getviewGrievanceCount($filter=''){
+        $this->db->from('tbl_admission_contact_us as contact');
+        $this->db->join('tbl_admission_registered_student_temp as reg', 'reg.row_id = contact.registered_row_id ','left');
+        if(!empty($filter['subject'])){
+            $likeCriteria = "(contact.subject  LIKE '%" . $filter['subject'] . "%')";
+            $this->db->where($likeCriteria);
+        }
+        if(!empty($filter['by_name'])){
+            $likeCriteria = "(reg.name  LIKE '%" . $filter['by_name'] . "%')";
+            $this->db->where($likeCriteria);
+        }
+        if(!empty($filter['message'])){
+            $likeCriteria = "(contact.message  LIKE '%" . $filter['message'] . "%')";
+            $this->db->where($likeCriteria);
+        }
+        if(!empty($filter['mobile'])){
+            $this->db->where('reg.mobile', $filter['mobile']);
+        }
+        if(!empty($filter['date'])){
+            $this->db->where('contact.created_date_time', $filter['date']);
+        }
+        if(!empty($filter['admission_year'])){
+            $this->db->where('reg.reg_year', $filter['admission_year']);
+        }
+      
+        $this->db->where('contact.is_deleted', 0);
+      
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+    function updateGrievanceInfo($studentInfo,$row_id){
+        $this->db->where('row_id', $row_id);
+        $this->db->update('tbl_admission_contact_us', $studentInfo);
+        return TRUE;
     }
 }
 ?>

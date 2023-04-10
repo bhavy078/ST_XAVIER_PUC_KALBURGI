@@ -48,7 +48,7 @@ vertical-align: middle !important;
         </div>
         </th>
         <th><input style="text-transform: uppercase" id="subject_max_mark_one" type="text" name="subject_max_mark[]" class="form-control required input-sm" value="125" readonly /></th>
-        <td><input maxlength="3" onkeypress="return isNumber(event)" id="subject_obtained_one" type="text" name="subject_obtained[]" class="form-control required input-sm" placeholder="Enter 10th Standard Mark" autocomplete="off" required/></td>
+        <td><input maxlength="3" onkeypress="return isNumber(event)" id="subject_obtained_one" type="text" name="subject_obtained[]" class="form-control required input-sm obtnained_mark1" placeholder="Enter 10th Standard Mark" autocomplete="off" required/></td>
         <!-- <td><input maxlength="3" onkeypress="return isNumber(event)" id="obt_mark_9_std" type="text" name="obt_mark_9_std[]" class="form-control  input-sm" placeholder="Enter 9th Standard Mark" autocomplete="off"  /></td> -->
     </tr>
     <tr>
@@ -70,7 +70,7 @@ vertical-align: middle !important;
         </div>
         </th>
         <th><input id="subject_max_mark" type="text" name="subject_max_mark[]" class="form-control required input-sm" value="100" readonly/></th>
-        <td><input maxlength="3" onkeypress="return isNumber(event)" id="subject_obtained" type="text" name="subject_obtained[]" class="form-control required input-sm" placeholder="Enter 10th Standard Mark" autocomplete="off" required/></td>
+        <td><input maxlength="3" onkeypress="return isNumber(event)" id="subject_obtained" type="text" name="subject_obtained[]" class="form-control required input-sm obtnained_mark" placeholder="Enter 10th Standard Mark" autocomplete="off" required/></td>
         <!-- <td><input maxlength="3" onkeypress="return isNumber(event)" id="obt_mark_9_std" type="text" name="obt_mark_9_std[]" class="form-control  input-sm" placeholder="Enter 9th Standard Mark" autocomplete="off"  /></td> -->
     </tr>
     <tr>
@@ -92,25 +92,25 @@ vertical-align: middle !important;
         </div>
         </th>
         <th><input style="text-transform: uppercase" id="subject_max_mark" type="text" name="subject_max_mark[]" class="form-control required input-sm" value="100" readonly/></th>
-        <td><input maxlength="3" onkeypress="return isNumber(event)" id="subject_obtained" type="text" name="subject_obtained[]" class="form-control required input-sm" placeholder="Enter 10th Standard Mark" autocomplete="off" required/></td>
+        <td><input maxlength="3" onkeypress="return isNumber(event)" id="subject_obtained" type="text" name="subject_obtained[]" class="form-control required input-sm obtnained_mark" placeholder="Enter 10th Standard Mark" autocomplete="off" required/></td>
         <!-- <td><input maxlength="3" onkeypress="return isNumber(event)" id="obt_mark_9_std" type="text" name="obt_mark_9_std[]" class="form-control  input-sm" placeholder="Enter 9th Standard Mark" autocomplete="off"  /></td> -->
     </tr>
     <tr>
         <th><input id="subject_name" type="text" name="subject_name[]" class="form-control required input-sm" value="MATHEMATICS" readonly/></th>
         <th><input id="subject_max_mark" type="text" name="subject_max_mark[]" class="form-control required input-sm" value="100" readonly/></th>
-        <td><input maxlength="3" onkeypress="return isNumber(event)" id="subject_obtained" type="text" name="subject_obtained[]" class="form-control required input-sm" placeholder="Enter 10th Standard Mark" autocomplete="off" required/></td>
+        <td><input maxlength="3" onkeypress="return isNumber(event)" id="subject_obtained" type="text" name="subject_obtained[]" class="form-control required input-sm obtnained_mark" placeholder="Enter 10th Standard Mark" autocomplete="off" required/></td>
         <!-- <td><input maxlength="3" onkeypress="return isNumber(event)" id="obt_mark_9_std" type="text" name="obt_mark_9_std[]" class="form-control  input-sm" placeholder="Enter 9th Standard Mark" autocomplete="off"  /></td> -->
     </tr>
     <tr>
         <th><input id="subject_name" type="text" name="subject_name[]" class="form-control required input-sm" value="SCIENCE" readonly/></th>
         <th><input id="subject_max_mark" type="text" name="subject_max_mark[]" class="form-control required input-sm" value="100" readonly/></th>
-        <td><input maxlength="3" onkeypress="return isNumber(event)" id="subject_obtained" type="text" name="subject_obtained[]" class="form-control required input-sm" placeholder="Enter 10th Standard Mark" autocomplete="off" required/></td>
+        <td><input maxlength="3" onkeypress="return isNumber(event)" id="subject_obtained" type="text" name="subject_obtained[]" class="form-control required input-sm obtnained_mark" placeholder="Enter 10th Standard Mark" autocomplete="off" required/></td>
         <!-- <td><input maxlength="3" onkeypress="return isNumber(event)" id="obt_mark_9_std" type="text" name="obt_mark_9_std[]" class="form-control  input-sm" placeholder="Enter 9th Standard Mark" autocomplete="off"  /></td> -->
     </tr>
     <tr>
         <th><input id="subject_name" type="text" name="subject_name[]" class="form-control required input-sm" value="SOCIAL SCIENCE" readonly/></th>
         <th><input id="subject_max_mark" type="text" name="subject_max_mark[]" class="form-control required input-sm" value="100" readonly/></th>
-        <td><input maxlength="3" onkeypress="return isNumber(event)" id="subject_obtained" type="text" name="subject_obtained[]" class="form-control required input-sm" placeholder="Enter 10th Standard Mark" autocomplete="off" required/></td>
+        <td><input maxlength="3" onkeypress="return isNumber(event)" id="subject_obtained" type="text" name="subject_obtained[]" class="form-control required input-sm obtnained_mark" placeholder="Enter 10th Standard Mark" autocomplete="off" required/></td>
         <!-- <td><input maxlength="3" onkeypress="return isNumber(event)" id="obt_mark_9_std" type="text" name="obt_mark_9_std[]" class="form-control  input-sm" placeholder="Enter 9th Standard Mark" autocomplete="off"  /></td> -->
     </tr>
    
@@ -137,4 +137,20 @@ $(document).ready(function(){
 
 });
 
+</script>
+<script>
+    $('.obtnained_mark').keyup(function(){
+
+    if ($(this).val() > 100 && $(this).val().length>1){
+    alert("Please Enter Valid Marks");
+    $(this).val('');
+    }
+    });
+    $('.obtnained_mark1').keyup(function(){
+
+    if ($(this).val() > 125 && $(this).val().length>1){
+    alert("Please Enter Valid Marks");
+    $(this).val('');
+    }
+    });
 </script>

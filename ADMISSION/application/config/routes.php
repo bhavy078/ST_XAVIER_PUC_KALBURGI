@@ -90,6 +90,8 @@ $route['updateStudentBoardInfo'] = "student/updateStudentBoardInfo";
 $route['changePassword'] = "student/changePassword";
 $route['changePassword/(:any)'] = "student/changePassword/$1";
 
+$route['viewGrievance'] = "admission/viewGrievance";
+$route['viewGrievance/(:any)'] = "admission/viewGrievance/$1";
 
 //display Student Mark
 $route['getStudentMarkSheet'] = "student/getStudentMarkSheet";
