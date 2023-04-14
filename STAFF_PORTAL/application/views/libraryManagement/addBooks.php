@@ -119,8 +119,8 @@ if ($warning) {
                                         </div>
                                         <div class="col-md-4 col-12">
                                             <div class="form-group">
-                                                <label for="shelf_no">Shelf No.<span class="text-danger required_star">*</span></label>
-                                                <select name="shelf_no" id="shelf_no" class="form-control input-sm selectpicker" data-live-search="true" required>
+                                                <label for="shelf_no">Shelf No.<span class="text-danger required_star"></span></label>
+                                                <select name="shelf_no" id="shelf_no" class="form-control input-sm selectpicker" data-live-search="true">
                                                     <option value="">Select Shelf No.</option>
                                                     <?php if (!empty($shelfInfo)) {
                                                         foreach ($shelfInfo as $shelf) { ?>
