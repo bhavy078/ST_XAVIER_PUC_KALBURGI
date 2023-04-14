@@ -317,11 +317,11 @@ if(!empty($documentInfo)){
                         </div>
 
 
-                        <div class="card col-12 field_color shadow-none  pl-0 pr-0 mt-3 mb-2">
+                        <!-- <div class="card col-12 field_color shadow-none  pl-0 pr-0 mt-3 mb-2">
                             <div class="card-header text-left inside_color pt-3 pb-3 ml-0">Other Details</div>    
-                        </div> 
+                        </div>  -->
 
-                        <div class="row">
+                        <!-- <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group sports_label">
                                     <label for="sports">Participated in State/ National Level Sports &nbsp; 
@@ -392,7 +392,7 @@ if(!empty($documentInfo)){
                                     </div>
                                 </div>
                             </div>
-                        </div> 
+                        </div>  -->
                         
                     </div>
                 </div>

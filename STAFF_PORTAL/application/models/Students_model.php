@@ -1406,6 +1406,21 @@ class students_model extends CI_Model
             return $query->result();
         }
 
-
+        public function getStudentInfoBy_AppNo($application_no){
+            $this->db->from('tbl_students_info as std');
+            // $this->db->join('tbl_student_academic_info as academic','std.application_no = academic.application_no','left');
+          
+            $this->db->where('std.is_deleted', 0);
+            $this->db->where_in('std.application_no', $application_no);
+            // $this->db->where('academic.is_deleted', 0);
+            $query = $this->db->get();
+            return $query->row();
+            
+        }
+        public function deleteAdmittedStudentInfo($application_no){
+            $this->db->where('application_no', $application_no);
+            $this->db->delete('tbl_students_info');
+            return true;
+        }
 
 }

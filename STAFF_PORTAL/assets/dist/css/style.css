@@ -82,6 +82,11 @@
     border-color: #e62b2b;
 }
 
+.admission_document{
+    height: 380px;
+    width: 100%;
+  }
+
 .close {
     color: black;
     line-height: 0.7 !important;

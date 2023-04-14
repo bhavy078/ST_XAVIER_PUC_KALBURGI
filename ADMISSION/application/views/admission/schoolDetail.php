@@ -55,13 +55,23 @@ $sslc_mark_card = "";
 $ninth_mark_card = "";
 if (!empty($documentInfo)) {
     foreach ($documentInfo as $doc) {
-        if ($doc->doc_name == 'sslc_mark_card') {
-            $sslc_mark_card = $doc->doc_path;
+        if($doc->doc_name == 'sslc_mark_card'){
+            $myFile = pathinfo($doc->doc_path); 
+            $extension = $myFile['extension']; 
+            if($extension == 'pdf'){
+                $sslc_mark_card = 'assets/dist/img/pdf.png';
+            }else{
+                $sslc_mark_card = $doc->doc_path;
+            }
             $sslc_label = $doc->doc_name;
-        } else if ($doc->doc_name == 'ninth_mark_card') {
-            $ninth_mark_card = $doc->doc_path;
-            $ninth_label = $doc->doc_name;
         }
+        // if ($doc->doc_name == 'sslc_mark_card') {
+        //     $sslc_mark_card = $doc->doc_path;
+        //     $sslc_label = $doc->doc_name;
+        // } else if ($doc->doc_name == 'ninth_mark_card') {
+        //     $ninth_mark_card = $doc->doc_path;
+        //     $ninth_label = $doc->doc_name;
+        // }
     }
 }
 
@@ -334,11 +344,11 @@ $this->load->helper('form');
                                     </div>
                                 </div>
                             </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 mb-1">
+                        <!-- <div class="col-lg-4 col-md-4 col-sm-4 mb-1">
                         <div id="secondLanguage" class="">
                                     <span class="text-danger" style= "font-size : 13px;">Note :(CBSE candidates who have not received the provisional copy of the first term marks, are requested to upload the first term mark list ( announced in school)  duly signed by the Principal of the institution.)</span>
                                 </div> 
-                        </div>
+                        </div> -->
                         <div class="col-lg-4 col-md-4 col-sm-4 mb-1">
                             <div class="form-group other_board_name_text">
                                 <label class="other_board_name mdc-text-field mdc-text-field--filled ">

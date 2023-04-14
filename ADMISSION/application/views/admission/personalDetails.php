@@ -210,15 +210,34 @@ if(!empty($documentInfo)){
             $student_label = $doc->doc_name;
         }
         if($doc->doc_name == 'caste_certificates'){
-            $caste_certificate = $doc->doc_path;
+            $myFile = pathinfo($doc->doc_path); 
+            $extension = $myFile['extension']; 
+            if($extension == 'pdf'){
+                $caste_certificate = 'assets/dist/img/pdf.png';
+            }else{
+                $caste_certificate = $doc->doc_path;
+            }
             $caste_label = $doc->doc_name;
         }
         if($doc->doc_name == 'physically_challenged_certificate'){
-            $physically = $doc->doc_path;
+            $myFile = pathinfo($doc->doc_path); 
+            $extension = $myFile['extension']; 
+            if($extension == 'pdf'){
+                $physically = 'assets/dist/img/pdf.png';
+            }else{
+                $physically = $doc->doc_path;
+            }
             $physically_label = $doc->doc_name;
         }
         if($doc->doc_name == 'dyslexia_certificate'){
-            $dyslexia = $doc->doc_path;
+            $myFile = pathinfo($doc->doc_path); 
+            $extension = $myFile['extension']; 
+            if($extension == 'pdf'){
+                $dyslexia = 'assets/dist/img/pdf.png';
+            }else{
+                $dyslexia = $doc->doc_path;
+            }
+            
             $dyslexia_label = $doc->doc_name;
         }
     }
@@ -372,7 +391,7 @@ if(!empty($documentInfo)){
                                                 </label>
                                         </div>
                                     </div> -->
-                                     <div class="col-lg-3 col-md-6 col-sm-6">
+                                     <div class="col-lg-4 col-md-6 col-sm-6">
                                          <div class="form-group">
                                              <div class="mdc-select mdc-select-gender mdc-select--required">
                                                  <div class="mdc-select__anchor demo-width-class">
@@ -746,7 +765,7 @@ if(!empty($documentInfo)){
                                      </label>
                                  </div>
                              </div>
-                             <div class="col-lg-4 col-md-4 col-sm-6 aadhar_text">
+                             <div class="col-lg-3 col-md-4 col-sm-6 aadhar_text">
                                  <div class="form-group">
                                      <label class="aadhar_no mdc-text-field mdc-text-field--filled ">
                                          <span class="mdc-text-field__ripple"></span>
@@ -759,9 +778,9 @@ if(!empty($documentInfo)){
                                      </label>
                                  </div>
                              </div>
-                         </div>
-                         <div class="row">
-                             <div class="col-lg-4 col-md-4 col-sm-4">
+                         <!-- </div>
+                         <div class="row"> -->
+                             <div class="col-lg-3 col-md-4 col-sm-4">
                                  <div class="form-group">
                                      <div class="mdc-select mdc-select-physically mdc-select--required">
                                          <div class="mdc-select__anchor demo-width-class">
@@ -795,7 +814,7 @@ if(!empty($documentInfo)){
                                      </div>
                                  </div>
                              </div>
-                             <div class="col-lg-4 col-md-4 col-sm-4">
+                             <div class="col-lg-3 col-md-4 col-sm-4">
                                  <div class="form-group">
                                      <div class="mdc-select mdc-select-dyslexia mdc-select--required">
                                          <div class="mdc-select__anchor demo-width-class" aria-required=>
@@ -855,7 +874,7 @@ if(!empty($documentInfo)){
                                  </div>
                              </div>
 
-                             <div class="col-lg-4 col-md-4 col-sm-4">
+                             <div class="col-lg-3 col-md-4 col-sm-4">
                                  <div class="form-group">
                                      <div class="mdc-select mdc-select-hostel mdc-select--required">
                                          <div class="mdc-select__anchor demo-width-class" aria-required=>
@@ -890,7 +909,7 @@ if(!empty($documentInfo)){
                              </div>
 
 
-                             <div class="col-lg-4 col-md-4 col-sm-4">
+                             <div class="col-lg-3 col-md-4 col-sm-4">
                                  <div class="form-group">
                                      <div class="mdc-select mdc-select-bus mdc-select--required">
                                          <div class="mdc-select__anchor demo-width-class" aria-required=>
@@ -938,7 +957,8 @@ if(!empty($documentInfo)){
                                      </label>
                                  </div>
                              </div>
-
+                             </div>
+                             <div class="row">
                              <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-2 phCertificate">
                                  <div class="card col-12 field_color shadow-none  pl-0 pr-0 mt-3 mb-1 ">
                                      <div class="card-header text-left inside_color pt-3 pb-3 ml-0">Upload Physically
@@ -1860,8 +1880,10 @@ mdc.select.MDCSelect.attachTo(document.querySelector('.mdc-select-nativeState'))
 nation.listen('MDCSelect:change', () => {
     if (nation.value == "OTHER") {
         $('.other_nationality_text').show();
+        $('#other_nationality').prop('required', true);
     } else {
         $('.other_nationality_text').hide();
+        $('#other_nationality').prop('required', false);
     }
 
     if (nation.value == "INDIAN") {
@@ -1876,16 +1898,20 @@ nation.listen('MDCSelect:change', () => {
 religion.listen('MDCSelect:change', () => {
     if (religion.value == "OTHER") {
         $('.other_religion_text').show();
+        $('#other_religion_text').prop('required', true);
     } else {
         $('.other_religion_text').hide();
+        $('#other_religion_text').prop('required', false);
     }
 });
 
 caste.listen('MDCSelect:change', () => {
     if (caste.value == "OTHER") {
         $('.other_caste_text').show();
+        $('#other_caste_text').prop('required', true);
     } else {
         $('.other_caste_text').hide();
+        $('#other_caste_text').prop('required', false);
     }
 
     if (caste.value == "ROMAN CATHOLIC") {

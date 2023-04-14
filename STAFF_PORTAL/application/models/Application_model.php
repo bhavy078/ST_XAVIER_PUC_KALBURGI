@@ -407,7 +407,19 @@ class Application_model extends CI_Model {
         $query = $this->db->get();
         return $query->result();   
     }
-    
+    function getBoardNameByName($sslc_board_name){
+        $this->db->from('tbl_sslc_board_name as board');
+        $this->db->where('board.board_name', $sslc_board_name);
+        $this->db->where('board.is_deleted', 0);
+        $query = $this->db->get();
+        return $query->row();   
+    }
+    function updateBoardInfo($registered_row_id,$boardInfo){
+        $this->db->where('row_id', $registered_row_id);
+        $this->db->where('is_deleted', 0);
+        $this->db->update('tbl_admission_registered_student_temp', $boardInfo);
+        return $this->db->affected_rows();
+    }
     function getBoardNameById($row_id){
         $this->db->from('tbl_sslc_board_name as board');
         $this->db->join('tbl_admission_registered_student_temp as std', 'std.sslc_board_name_id = board.row_id','left');
@@ -2218,6 +2230,49 @@ public function getAllAdmittedListInfo()
         $this->db->where('row_id', $row_id);
         $this->db->update('tbl_admission_contact_us', $studentInfo);
         return TRUE;
+    }
+
+    function getStudentApplicationStatusByAppNo($application_number){
+        $this->db->from('tbl_admission_students_status_temp as std');
+        $this->db->where_in('std.application_number', $application_number);
+        $this->db->where('std.is_deleted', 0);
+        $query = $this->db->get();
+        return $query->row();   
+    }
+    function getStudentApplicationInfoByID($registered_row_id){
+        $this->db->from('tbl_admission_student_personal_details_temp as stud');
+        $this->db->where('stud.resgisted_tbl_row_id', $registered_row_id);
+        $this->db->where('stud.is_deleted', 0);
+        $query = $this->db->get();
+        return $query->row();
+    }
+    function getStudentAcademicInformation($registered_row_id){
+        $this->db->from('tbl_admission_combination_language_opted_temp as stud');
+        $this->db->where('stud.registred_row_id ', $registered_row_id);
+        // $this->db->where('stud.is_deleted', 0);
+        $query = $this->db->get();
+        return $query->row();
+    }
+    function getStudentPreviousInformation($registered_row_id){
+        $this->db->from('tbl_admission_school_and_examination_deatils_temp as stud');
+        $this->db->where('stud.registred_row_id', $registered_row_id);
+        $this->db->where('stud.is_deleted', 0);
+        $query = $this->db->get();
+        return $query->row();
+    }
+    public function addStudentInfo($student_info) {
+        $this->db->trans_start();
+        $this->db->insert('tbl_students_info', $student_info);
+        $insert_id = $this->db->insert_id();
+        $this->db->trans_complete();
+        return $insert_id;
+    }
+    function getBoardNameInfoById($row_id){
+        $this->db->from('tbl_sslc_board_name as board');
+        $this->db->where('board.is_deleted', 0);
+        $this->db->where_in('board.row_id', $row_id);
+        $query = $this->db->get();
+        return $query->row();   
     }
 }
 ?>

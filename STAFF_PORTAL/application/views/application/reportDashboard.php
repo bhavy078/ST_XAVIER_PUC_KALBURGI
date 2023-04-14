@@ -94,7 +94,7 @@ $this->load->helper('form');
                             </div>
                         </a>
                     </div>
-                    <div class="col-lg-3 col-6 mb-2 column_padding_card">
+                    <!-- <div class="col-lg-3 col-6 mb-2 column_padding_card">
                         <a data-toggle="modal" data-target="#applicationShorlistedReport" class="more-info text-white" href="#">
                             <div class="card card-small dash-card admission_card">
                                 <div class="card-body pt-2 pb-2">
@@ -107,7 +107,7 @@ $this->load->helper('form');
                                 </div>
                             </div>
                         </a>
-                    </div>
+                    </div> -->
                     <div class="col-lg-3 col-6 mb-2 column_padding_card">
                         <a data-toggle="modal" data-target="#applicationRejectedReport" class="more-info text-white" href="#">
                             <div class="card card-small dash-card admission_card">

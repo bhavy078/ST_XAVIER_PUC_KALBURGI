@@ -149,10 +149,10 @@
                                                     <th>Rejected Students</th>
                                                     <th><?php echo $rejectedCount; ?></th>
                                                 </tr>
-                                                <tr>
+                                                <!-- <tr>
                                                     <th>Shortlisted Students</th>
                                                     <th><?php echo $shortlistedCount; ?></th>
-                                                </tr>
+                                                </tr> -->
                                                 <!-- <tr>
                                                     <th>Interview Completed</th>
                                                     <th><?php echo $interviewCount; ?></th>

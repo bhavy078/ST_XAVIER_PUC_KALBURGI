@@ -455,12 +455,12 @@
                                 <span>Approved Application</span>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a class="nav-link " href="<?php echo base_url(); ?>getShortlistedApplication">
                                 <i class="material-icons">description</i>
                                 <span>Shortlisted Application</span>
                             </a>
-                        </li>
+                        </li> -->
                         <li class="nav-item">
                             <a class="nav-link " href="<?php echo base_url(); ?>getRejectedApplicationInfo">
                                 <i class="material-icons">description</i>

@@ -130,8 +130,8 @@ if ($error) {
                                 <a onclick="window.history.back();"
                                     class="btn primary_color mobile-btn float-right text-white border_left_radius"
                                     value="Back"><i class="fa fa-arrow-circle-left"></i> Back </a>
-                                    <a style="float:right" class="btn btn-md btn-success pull-right mobile-btn border_right_radius" 
-                                    id="shortListModel"><i class="fa fa-hourglass-start" style="color:white;"></i> <span style="color:white;">Shortlist</span> </a>
+                                    <!-- <a style="float:right" class="btn btn-md btn-success pull-right mobile-btn border_right_radius" 
+                                    id="shortListModel"><i class="fa fa-hourglass-start" style="color:white;"></i> <span style="color:white;">Shortlist</span> </a> -->
                             </div>
                         </div>
                     </div>
@@ -154,7 +154,7 @@ if ($error) {
                                     <th>Pref-1</th>
                                     <th>Pref-2</th>
                                     <th>Board</th>
-                                    <th>Status</th>
+                                    <!-- <th>Status</th> -->
                                     <th>Action</th>
                                 </tr>
                                 <tr class="row_filter">
@@ -254,7 +254,7 @@ if ($error) {
                                                 <?php } } ?>
                                             </select>
                                         </th>
-                                        <th width="110" style="padding: 1px;">
+                                        <!-- <th width="110" style="padding: 1px;">
                                             <select class="form-control input-sm" id="sms_status" name="sms_status">
                                                 <?php if($sms_status != ""){ ?>
                                                 <option value="<?php echo $sms_status; ?>" selected>
@@ -265,7 +265,7 @@ if ($error) {
                                                 <option value="Shortlisted">Shortlisted</option>
                                                 <option value="Pending">Pending</option>
                                             </select>
-                                        </th>
+                                        </th> -->
                                         <th style="padding: 1px;" class="text-center">
                                             <button type="submit"
                                             class="btn btn-success btn-md btn-block"><i class="fa fa-filter"></i> Filter</button>
@@ -294,7 +294,7 @@ if ($error) {
                                     <td><?php echo $record->stream_name; ?></td>
                                     <td><?php echo $record->second_stream_name; ?></td>
                                     <th><?php echo $record->board_name; ?></th>
-                                    <td><?php echo $status; ?></td>
+                                    <!-- <td><?php echo $status; ?></td> -->
                                    
                                     <th class="text-center">
                                         <a class="btn btn-xs btn-info" title="<?php echo $record->name; ?>" data-toggle="popover" data-placement="left" 
@@ -329,7 +329,7 @@ if ($error) {
                                     <th>Pref-1</th>
                                     <th>Pref-2</th>
                                     <th>Board</th>
-                                    <th>Status</th>
+                                    <!-- <th>Status</th> -->
                                     <th>Action</th>
                                 </tr>
                             </tfoot>

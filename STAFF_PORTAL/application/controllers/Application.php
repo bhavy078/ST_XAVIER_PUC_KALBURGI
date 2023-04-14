@@ -14,7 +14,7 @@ class Application extends BaseController {
         $this->load->model('staff_model','staff');
         $this->load->model('fee_model','fee');
         $this->load->library('excel');
-        //  $this->load->model('students_model','student');
+        $this->load->model('students_model','student');
         $this->isLoggedIn();
     }
     public function getAllApplicationInfoForCheck(){
@@ -578,6 +578,14 @@ class Application extends BaseController {
 
             log_message('debug','fa ma='.$student->father_mobile);
             
+            $studentApplicationStatus = $this->application->getStudentApplicationStatusByAppNo($application_number);
+            $studentApplicationInfo = $this->application->getStudentApplicationInfoByID($studentApplicationStatus->registered_row_id);
+            $studentApplicationAcademicInfo = $this->application->getStudentAcademicInformation($studentApplicationStatus->registered_row_id);
+            $studentApplicationPreviousInfo = $this->application->getStudentPreviousInformation($studentApplicationStatus->registered_row_id);
+            $boardInfo = $this->application->getBoardNameInfoById($studentApplicationAcademicInfo->sslc_board_name_id);
+    
+            $checkExists = $this->student->getStudentInfoBy_AppNo($application_number);
+
             if(!empty($student)){
                 $number .= $student->father_mobile.','.$student->mother_mobile;
             }
@@ -597,7 +605,57 @@ class Application extends BaseController {
 
                     // $message = "Dear Parent/Guardian, \nYour daughter's/ward's Application No. $application_number is approved. Please click the link given below to pay the fees within TWO days from receipt of this sms failing which you might have to forgo the seat. Anyone having an issue kindly send an email to admissions@jnpuc.org\nLink - https://bit.ly/2VBVo9M\nBest Regards\nPrincipal \nJyoti Nivas Pre-University College.";
                     // $response = $this->sendSingleNumberSMS($number, $message);
-
+        
+                           if(empty($checkExists->students_appliction_number)){                   
+                            $studentInfo = array(
+                             'student_name' => $studentApplicationInfo->name,
+                             'application_no' => $studentApplicationStatus->application_number ,
+                             'student_id '=>$studentApplicationStatus->application_number ,
+                            'last_board_name' => $boardInfo->board_name,
+                             'term_name' => $studentApplicationAcademicInfo->program_name,
+                             'stream_name' => $studentApplicationAcademicInfo->stream_name,
+                             'is_active' => 1,
+                             'is_admitted' => 1,
+                             'admission_status'=>1,
+                             'intake_year' => '2023-2024',
+                             'native_place'=>$studentApplicationInfo->native_place,
+                             'last_percentage'=>$studentApplicationInfo->sslc_percentage,
+                             'mother_name' =>$studentApplicationInfo->mother_name,
+                             'father_name'  =>$studentApplicationInfo->father_name,
+                             'father_profession' =>$studentApplicationInfo->father_profession,
+                             'mother_profession'  =>$studentApplicationInfo->mother_profession,
+                             'gender'=> $studentApplicationInfo->gender,
+                             'nationality'=> $studentApplicationInfo->nationality,
+                             'religion'=> $studentApplicationInfo->religion,
+                             'caste' => $studentApplicationInfo->caste,
+                             'sub_caste' => $studentApplicationInfo->sub_caste,
+                             'category' => $studentApplicationInfo->caste,
+                             'aadhar_no'=> $studentApplicationInfo->aadhar_no,
+                             'mobile'=>$studentApplicationInfo->student_mobile,
+                             'email'=> $studentApplicationInfo->student_email,
+                             'father_annual_income'=> $studentApplicationInfo->father_annual_income,
+                             'mother_annual_income'=> $studentApplicationInfo->mother_annual_income,
+                             'guardian_name'=> $studentApplicationInfo->guardian_name,
+                             'guardian_mobile'=> $studentApplicationInfo->guardian_mobile,
+                             'guardian_address'=> $studentApplicationInfo->guardian_address,
+                             'dob'=> $studentApplicationInfo->dob,
+                            'father_age' => $studentApplicationInfo->father_age,
+                            'mother_age	'=> $studentApplicationInfo->mother_age,
+                           'mother_tongue'=> $studentApplicationInfo->mother_tongue,
+                           'mother_mobile'=> $studentApplicationInfo->mother_mobile,
+                           'father_mobile'=> $studentApplicationInfo->father_mobile,
+                           'blood_group'=> $studentApplicationInfo->blood_group,
+                           'permanent_address'=>$studentApplicationInfo->permanent_address_line_1.' '.$studentApplicationInfo->permanent_address_line_2.' '.$studentApplicationInfo->permanent_address_district.' '.$studentApplicationInfo->permanent_address_state.' '.$studentApplicationInfo->permanent_address_pincode,
+                           'present_address'=>$studentApplicationInfo->residential_address_line_1.' '.$studentApplicationInfo->residential_address_line_2.' '.$studentApplicationInfo->residential_address_district.' '.$studentApplicationInfo->residential_address_state.' '.$studentApplicationInfo->residential_address_pincode,
+                             
+                            'is_dyslexic'=>$studentApplicationInfo->dyslexia_challenged,
+                          
+                             'created_by' => $this->staff_id,
+                             'created_date_time' => date('Y-m-d H:i:s'),
+                             'updated_by' => $this->staff_id);
+            
+            
+                         }
 
 
             }else if($application_status_btn == 'Reject'){
@@ -611,20 +669,23 @@ class Application extends BaseController {
                     'updated_date_time' => date('Y-m-d H:i:s'),
                     'updated_by' => $this->staff_id);
 
-                $message = "Dear Student/ Parents,
-Your application has been rejected. Please check the reason, update and re-submit the application form.
-Regards
-Principal
-St. Joseph's Pre-University College HASSAN";
-                    $response = $this->sendSingleNumberSMS($number, $message);
+//                 $message = "Dear Student/ Parents,
+// Your application has been rejected. Please check the reason, update and re-submit the application form.
+// Regards
+// Principal
+// St. Joseph's Pre-University College HASSAN";
+//                     $response = $this->sendSingleNumberSMS($number, $message);
             }
             $result = $this->application->updateStudentApplicationStatus($application_number,$applicationInfo);
             
             if($result > 0){
                 if($application_status_btn == 'Approve'){
                     $this->session->set_flashdata('success', 'Application Number <b>'.$application_number.'</b> Approved Successfully');
+                    $resultstd = $this->application->addStudentInfo($studentInfo);
+
                 }else{
                     $this->session->set_flashdata('success', 'Application Number <b>'.$application_number.'</b> Rejected Successfully');
+                    $this->student->deleteAdmittedStudentInfo($application_number);
                 }
             }else{
                 if($application_status_btn == 'Approve'){
@@ -728,6 +789,7 @@ St. Joseph's Pre-University College HASSAN";
             $data['streamInfo'] = $this->application->getCombinationInfo($resgisted_tbl_row_id);
             $data['applicationInfo'] = $this->application->getStudentApplicationStatus($resgisted_tbl_row_id);
             $data['boardInfo'] = $this->application->getBoardNameById($resgisted_tbl_row_id);
+            $data['allBoardsInfo'] = $this->application->getBoardName();
             // log_message('debug','scdjcn'.print_r($data['boardInfo'],true));
             $data['stateInfo'] = $this->application->getStateInfo();
             $data['nationalityInfo'] = $this->application->getNationality();
@@ -811,7 +873,8 @@ St. Joseph's Pre-University College HASSAN";
                 $residence_address_district = $this->security->xss_clean($this->input->post('residence_address_district'));
                 $residence_address_state = $this->security->xss_clean($this->input->post('residence_address_state'));
                 $residence_address_pincode = $this->security->xss_clean($this->input->post('residence_address_pincode'));
-                
+                $residence_address_taluk = $this->security->xss_clean($this->input->post('residence_address_taluk'));
+                $permanent_address_taluk = $this->security->xss_clean($this->input->post('permanent_address_taluk'));
                 $priest_name = $this->security->xss_clean($this->input->post('priest_name'));
                 $priest_mobile = $this->security->xss_clean($this->input->post('priest_mobile'));
                 
@@ -820,7 +883,18 @@ St. Joseph's Pre-University College HASSAN";
 
                 $dyslexia_challenged = $this->security->xss_clean($this->input->post('dyslexia_challenged'));
                 $physically_challenged = $this->security->xss_clean($this->input->post('physically_challenged'));
+                $hostel_facility = $this->security->xss_clean($this->input->post('hostel_facility'));
+                $bus_facility = $this->security->xss_clean($this->input->post('bus_facility'));
+                $boarding_point = $this->security->xss_clean($this->input->post('boarding_point'));
                 
+                $caste_no = $this->security->xss_clean($this->input->post('caste_no'));
+                $income_no = $this->security->xss_clean($this->input->post('income_no'));
+                $guardian_relation = $this->security->xss_clean($this->input->post('guardian_relation'));
+    
+                $native_taluk = $this->security->xss_clean($this->input->post('native_taluk'));
+                $native_state = $this->security->xss_clean($this->input->post('native_state'));
+                $native_district = $this->security->xss_clean($this->input->post('native_district'));
+                $monthly_income = $this->security->xss_clean($this->input->post('monthly_income'));
                 
                 // $documentName = $this->security->xss_clean($this->input->post('documentName'));
 
@@ -934,6 +1008,15 @@ St. Joseph's Pre-University College HASSAN";
                     'residential_address_pincode'=> $residence_address_pincode, 
                     'physically_challenged'=> $physically_challenged,
                     'dyslexia_challenged'=> $dyslexia_challenged, 
+                    'caste_no'=> $caste_no, 
+                    'income_no'=> $income_no, 
+                    'monthly_income'=> $monthly_income, 
+                    'residence_address_taluk' => $residence_address_taluk,
+                    'permanent_address_taluk' => $permanent_address_taluk,
+                    'guardian_relation' => $guardian_relation,
+                    'bus_facility' => $bus_facility,
+                    'hostel_facility' => $hostel_facility,
+                    'boarding_point' => $boarding_point,
                     'updated_by'=> $this->staff_id,
                     'updated_dtm'=>date('Y-m-d H:i:s'));
 
@@ -1001,12 +1084,17 @@ St. Joseph's Pre-University College HASSAN";
                 $medium = $this->security->xss_clean($this->input->post('medium'));
                 $school_address = $this->security->xss_clean($this->input->post('school_address'));
                 $year_of_passed = $this->security->xss_clean($this->input->post('year_of_passed'));
-                // $board_name = $this->security->xss_clean($this->input->post('board_name'));
+                $sslc_board_name = $this->security->xss_clean($this->input->post('sslc_board_name'));
                 $other_medium_instruction = $this->security->xss_clean($this->input->post('other_medium_instruction'));
+                $other_board_name = $this->security->xss_clean($this->input->post('other_board_name'));
                 $doc_name = $this->security->xss_clean($this->input->post('doc_name'));
+                $month_of_passed = $this->security->xss_clean($this->input->post('month_of_passed'));
+                $no_of_attempt = $this->security->xss_clean($this->input->post('no_of_attempt'));
                 
                 $boardInfo = $this->application->getBoardNameById($registered_row_id);
+                $board_name = $this->application->getBoardNameByName($sslc_board_name);
 
+                $boardName_row_id = $board_name->row_id;
             
                 $subject_name = $this->input->post('subject_name');
                 $subject_max_mark = $this->input->post('subject_max_mark');
@@ -1032,10 +1120,19 @@ St. Joseph's Pre-University College HASSAN";
                     'medium_instruction' => $medium_instruction,
                     'school_address' => $school_address,
                     'year_of_passed' => $year_of_passed,
+                    'other_state_board_name'=>$other_board_name,
+                    'month_of_passed'=>$month_of_passed,
+                    'sslc_board_name_id'=>$board_name->row_id,
+                    'no_of_attempt'=>$no_of_attempt,
                     'updated_by' => $this->staff_id,
                     'updated_date_time' => date('Y-m-d H:i:s'));
                 $schoolInfo = array_map('strtoupper', $schoolInfo);
             
+                $Other_board = array(
+                    'other_board_name' => $other_board_name,
+                     'sslc_board_name_id' => $boardName_row_id); 
+
+                     $this->application->updateBoardInfo($registered_row_id,$Other_board);
                 $retun_id = $this->application->updateStudentSchoolInfo($registered_row_id,$schoolInfo);
 
                 if($retun_id > 0){
@@ -1516,7 +1613,14 @@ St. Joseph's Pre-University College HASSAN";
             // $any_comments = $this->input->post('any_comments');
             // $shortlist_number = $this->input->post('shortlist_number');
 
-
+            $studentApplicationStatus = $this->application->getStudentApplicationStatusByAppNo($students_appliction_number);
+            $studentApplicationInfo = $this->application->getStudentApplicationInfoByID($studentApplicationStatus->registered_row_id);
+            $studentApplicationAcademicInfo = $this->application->getStudentAcademicInformation($studentApplicationStatus->registered_row_id);
+            $studentApplicationPreviousInfo = $this->application->getStudentPreviousInformation($studentApplicationStatus->registered_row_id);
+            $boardInfo = $this->application->getBoardNameInfoById($studentApplicationAcademicInfo->sslc_board_name_id);
+    
+            $checkExists = $this->student->getStudentInfoBy_AppNo($students_appliction_number);
+    
             foreach($students_appliction_number as $app_no){           
                 $admissionStatus = array(
                     'shortlisted_by'=> $this->name,
@@ -1527,6 +1631,59 @@ St. Joseph's Pre-University College HASSAN";
                     'updated_date_time'=>date('Y-m-d H:i:s'),
 
                    );
+
+
+                   if(empty($checkExists->students_appliction_number)){                   
+                    $studentInfo = array(
+                     'student_name' => $studentApplicationInfo->name,
+                     'application_no' => $studentApplicationStatus->application_number ,
+                     'student_id '=>$studentApplicationStatus->application_number ,
+                    'last_board_name' => $boardInfo->board_name,
+                     'term_name' => $studentApplicationAcademicInfo->program_name,
+                     'stream_name' => $studentApplicationAcademicInfo->stream_name,
+                     'is_active' => 1,
+                     'is_admitted' => 1,
+                     'admission_status'=>1,
+                     'intake_year' => '2023-2024',
+                     'native_place'=>$studentApplicationInfo->native_place,
+                     'last_percentage'=>$studentApplicationInfo->sslc_percentage,
+                     'mother_name' =>$studentApplicationInfo->mother_name,
+                     'father_name'  =>$studentApplicationInfo->father_name,
+                     'father_profession' =>$studentApplicationInfo->father_profession,
+                     'mother_profession'  =>$studentApplicationInfo->mother_profession,
+                     'gender'=> $studentApplicationInfo->gender,
+                     'nationality'=> $studentApplicationInfo->nationality,
+                     'religion'=> $studentApplicationInfo->religion,
+                     'caste' => $studentApplicationInfo->caste,
+                     'sub_caste' => $studentApplicationInfo->sub_caste,
+                     'category' => $studentApplicationInfo->caste,
+                     'aadhar_no'=> $studentApplicationInfo->aadhar_no,
+                     'mobile'=>$studentApplicationInfo->student_mobile,
+                     'email'=> $studentApplicationInfo->student_email,
+                     'father_annual_income'=> $studentApplicationInfo->father_annual_income,
+                     'mother_annual_income'=> $studentApplicationInfo->mother_annual_income,
+                     'guardian_name'=> $studentApplicationInfo->guardian_name,
+                     'guardian_mobile'=> $studentApplicationInfo->guardian_mobile,
+                     'guardian_address'=> $studentApplicationInfo->guardian_address,
+                     'dob'=> $studentApplicationInfo->dob,
+                    'father_age' => $studentApplicationInfo->father_age,
+                    'mother_age	'=> $studentApplicationInfo->mother_age,
+                   'mother_tongue'=> $studentApplicationInfo->mother_tongue,
+                   'mother_mobile'=> $studentApplicationInfo->mother_mobile,
+                   'father_mobile'=> $studentApplicationInfo->father_mobile,
+                   'blood_group'=> $studentApplicationInfo->blood_group,
+                   'permanent_address'=>$studentApplicationInfo->permanent_address_line_1.' '.$studentApplicationInfo->permanent_address_line_2.' '.$studentApplicationInfo->permanent_address_district.' '.$studentApplicationInfo->permanent_address_state.' '.$studentApplicationInfo->permanent_address_pincode,
+                   'present_address'=>$studentApplicationInfo->residential_address_line_1.' '.$studentApplicationInfo->residential_address_line_2.' '.$studentApplicationInfo->residential_address_district.' '.$studentApplicationInfo->residential_address_state.' '.$studentApplicationInfo->residential_address_pincode,
+                     
+                    'is_dyslexic'=>$studentApplicationInfo->dyslexia_challenged,
+                  
+                     'created_by' => $this->staff_id,
+                     'created_date_time' => date('Y-m-d H:i:s'),
+                     'updated_by' => $this->staff_id);
+    
+    
+                     $resultstd = $this->application->addStudentInfo($studentInfo);
+                 }
 
                 $return_id = $this->application->updatedStudentApplicationStatus($admissionStatus,$app_no);
             }

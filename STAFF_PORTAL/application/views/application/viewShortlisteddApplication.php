@@ -148,7 +148,7 @@ if ($error) {
                                     <th width="25"><input type="checkbox" id="selectAll" /></th>
                                     <th>Application No.</th>
                                     <th width="200">Name</th>
-                                    <th>%</th>
+                                    <th>Percentage %</th>
                                     <th>Category</th>
                                     <th>Stream</th>
                                     <th>Integrated Batch</th>
@@ -330,7 +330,7 @@ if ($error) {
                                     <th width="25"><input type="checkbox" id="selectAll" /></th>
                                     <th>Application No.</th>
                                     <th width="200">Name</th>
-                                    <th>%</th>
+                                    <th>Percentage %</th>
                                     <th>Category</th>
                                     <th>Stream</th>
                                     <th>Integrated Batch</th>
