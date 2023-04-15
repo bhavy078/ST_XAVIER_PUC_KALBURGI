@@ -905,8 +905,8 @@ class Student extends BaseController
         $this->form_validation->set_rules('language_second','Second Language','trim|required');
         $this->form_validation->set_rules('program_name','Program Name','trim|required');
         $this->form_validation->set_rules('stream_name','School Address','trim|required');
-        $this->form_validation->set_rules('sports','National Level Sports','required');
-        $this->form_validation->set_rules('ncc','NCC','trim|required');
+        // $this->form_validation->set_rules('sports','National Level Sports','required');
+        // $this->form_validation->set_rules('ncc','NCC','trim|required');
         if($this->form_validation->run() == FALSE) {
             $this->viewCombinationDetail();
         } else {

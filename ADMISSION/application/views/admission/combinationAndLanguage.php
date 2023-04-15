@@ -191,11 +191,11 @@ if(!empty($documentInfo)){
                                                     HINDI
                                                 </span>
                                                 </li>
-                                                <li class="mdc-list-item" data-value="FRENCH">
+                                                <!-- <li class="mdc-list-item" data-value="FRENCH">
                                                 <span class="mdc-list-item__text">
                                                     FRENCH
                                                 </span>
-                                                </li>
+                                                </li> -->
                                             </ul>
                                         </div>
                                      </div>
