@@ -914,12 +914,12 @@
                                 <i class="material-icons">group</i>
                                 <span>Class Completed</span>
                             </a>
-                            <?php if ($role == ROLE_OFFICE || $role == ROLE_ADMIN || $role == ROLE_PRINCIPAL || $role == ROLE_PRIMARY_ADMINISTRATOR || $role == ROLE_VICE_PRINCIPAL) { ?>
+                            <!-- <?php if ($role == ROLE_OFFICE || $role == ROLE_ADMIN || $role == ROLE_PRINCIPAL || $role == ROLE_PRIMARY_ADMINISTRATOR || $role == ROLE_VICE_PRINCIPAL) { ?>
                             <a class="nav-link" href="<?php echo base_url(); ?>verifyStudentAttendance">
                                 <i class="material-icons">format_list_bulleted</i>
                                 <span>Verify Attendance</span>
                             </a>
-                            <?php } ?>
+                            <?php } ?> -->
                         </li>
 
                     </ul>
