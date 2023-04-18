@@ -10,8 +10,12 @@ $(document).ready(function(){
 
 	jQuery(document).on("click", "#approveAdmission", function(){
 
-		var application_number = $(this).data("application_number"),
-
+		var application_number = $(this).data("application_number");
+		var section = $("#section").val();
+		if(seat_category == ''){
+			alert('Select the Section');
+		}
+		else{
 			hitURL = baseURL + "updateApplicationStatus",
 
 			currentRow = $(this);
@@ -33,6 +37,7 @@ $(document).ready(function(){
                 type:"Approve",
 
                 application_number : application_number, 
+				section : section, 
 
             } 
 
@@ -55,7 +60,7 @@ $(document).ready(function(){
 			});
 
 		}
-
+	}
     });
 
 

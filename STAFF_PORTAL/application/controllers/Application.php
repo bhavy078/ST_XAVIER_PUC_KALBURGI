@@ -570,6 +570,7 @@ class Application extends BaseController {
         } else {   
             $application_number = $this->input->post('application_number');
             $registered_row_id = $this->input->post('registered_row_id');
+            $section = $this->input->post('section');
             $comments = $this->input->post('comments');
             $student_category = $this->input->post('student_category');
             $application_status_btn = $this->input->post('application_status_btn');
@@ -597,6 +598,7 @@ class Application extends BaseController {
                     'admission_status' => 1,
                     'comments'=>$comments,
                     'student_category' =>$student_category,
+                    'section'=>$section,
                     'approved_by' => $this->staff_id,
                     'submitted_doc_status'=>1,
                     'approved_date' => date('Y-m-d'),
@@ -614,6 +616,7 @@ class Application extends BaseController {
                             'last_board_name' => $boardInfo->board_name,
                              'term_name' => $studentApplicationAcademicInfo->program_name,
                              'stream_name' => $studentApplicationAcademicInfo->stream_name,
+                             'section_name'=>$section,
                              'is_active' => 1,
                              'is_admitted' => 1,
                              'admission_status'=>1,
@@ -1090,7 +1093,6 @@ class Application extends BaseController {
                 $doc_name = $this->security->xss_clean($this->input->post('doc_name'));
                 $month_of_passed = $this->security->xss_clean($this->input->post('month_of_passed'));
                 $no_of_attempt = $this->security->xss_clean($this->input->post('no_of_attempt'));
-                
                 $boardInfo = $this->application->getBoardNameById($registered_row_id);
                 $board_name = $this->application->getBoardNameByName($sslc_board_name);
 

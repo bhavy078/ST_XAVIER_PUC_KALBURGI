@@ -496,7 +496,7 @@ class Application_model extends CI_Model {
 
     
     function getStudentSchoolInfo($registered_row_id){
-        $this->db->select('school.name_of_the_school,school.month_of_passed,school.school_address,school.medium_instruction,school.year_of_passed,
+        $this->db->select('school.name_of_the_school,school.month_of_passed,school.school_address,school.medium_instruction,school.year_of_passed,school.no_of_attempt,
         board.board_name');
         $this->db->from('tbl_admission_school_and_examination_deatils_temp as school');
         $this->db->join('tbl_admission_combination_language_opted_temp as sjpuc', 'sjpuc.registred_row_id = school.registred_row_id','left');
@@ -2067,20 +2067,20 @@ public function getAllAdmittedListInfo()
                // $this->db->where('std.fee_payment_status', 0);
             }else if($filter['report_type'] == 'APPLICATION_STACK'){
                 $this->db->where('std.admission_status', 0);
-                $this->db->where('std.shortlisted_status', 0);
+                // $this->db->where('std.shortlisted_status', 0);
                 $this->db->where('std.application_fee_status',1); 
             }else if($filter['report_type'] == 'APPLICATION_FEE_PENDING'){
                 $this->db->where('std.admission_status', 0);
                 $this->db->where('std.application_fee_status', 0);
             }else if($filter['report_type'] == 'APPLICATION_APPROVED'){
                 $this->db->where('std.admission_status', 1);
-                $this->db->where('std.shortlisted_status', 0);
+                // $this->db->where('std.shortlisted_status', 0);
             }else if($filter['report_type'] == 'APPLICATION_SHORTLISTED'){
                 
                 $this->db->where('std.shortlisted_status', 1);
             }else if($filter['report_type'] == 'APPLICATION_REJECTED'){
                 $this->db->where('std.admission_status', 2);
-                $this->db->where('std.shortlisted_status', 0);
+                // $this->db->where('std.shortlisted_status', 0);
             }
             
             $this->db->where('std.is_deleted', 0);

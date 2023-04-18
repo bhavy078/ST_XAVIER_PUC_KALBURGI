@@ -1837,6 +1837,21 @@ $certificate_uploaded_name = array();
                                             </div>
                                         </div>
                                         <div class="col-6">
+                                            <div class="form-group">
+                                                <label>Select Section*</label>
+                                                <select class="form-control required section" id="section" name="section" required>
+                                                    <?php if(!empty($studentInfo->section)){ ?>
+                                                        <option value="<?php echo $studentInfo->section; ?>" selected><?php echo $studentInfo->section; ?></option>
+                                                    <?php } ?>
+                                                    <option value="">Select Section</option>
+                                                        <option value="A">A</option>
+                                                        <option value="B">B</option>
+                                                        <option value="C">C</option>
+                                                        <option value="D">D</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
                                             <label>Any Comments(Optional)</label>
                                             <div class="form-group">
                                                 <textarea type="text" class="form-control" style="text-transform: uppercase" placeholder="Any Comments (optional)" id="comments" name="comments"  autocomplete="off"><?php echo $applicationInfo->comments; ?></textarea>
