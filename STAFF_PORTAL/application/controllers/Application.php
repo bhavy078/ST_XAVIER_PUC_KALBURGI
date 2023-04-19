@@ -710,7 +710,6 @@ class Application extends BaseController {
             $type = $this->input->post('type');
             $section = $this->input->post('section');
             $student_category = $this->input->post('student_category');
-
             $studentApplicationStatus = $this->application->getStudentApplicationStatusByAppNo($application_number);
             $studentApplicationInfo = $this->application->getStudentApplicationInfoByID($studentApplicationStatus->registered_row_id);
             $studentApplicationAcademicInfo = $this->application->getStudentAcademicInformation($studentApplicationStatus->registered_row_id);
@@ -740,7 +739,8 @@ class Application extends BaseController {
                              'application_no' => $studentApplicationStatus->application_number ,
                              'student_id '=>$studentApplicationStatus->application_number ,
                             'last_board_name' => $boardInfo->board_name,
-                             'term_name' => $studentApplicationAcademicInfo->program_name,
+                             'term_name' => 'I PUC',
+                             'program_name' => $studentApplicationAcademicInfo->program_name,
                              'stream_name' => $studentApplicationAcademicInfo->stream_name,
                              'section_name'=>$section,
                              'is_active' => 1,
