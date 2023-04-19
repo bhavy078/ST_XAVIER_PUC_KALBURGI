@@ -564,7 +564,7 @@ $route['getShortlistedApplication'] = "application/getShortlistedApplication";
 $route['getShortlistedApplication/(:any)'] = "application/getShortlistedApplication/$1";
 $route['updateShortListedStudents'] = 'application/updateShortListedStudents';
 $route['updateShortListedStudents/(:any)'] = 'application/updateShortListedStudents/$1';
-
+$route['updateStudentAdmissionStatus'] = "application/updateStudentAdmissionStatus";
 // edit single admission application 
 $route['editSingleStudentApplications/(:any)'] = "application/editSingleStudentApplications/$1";
 

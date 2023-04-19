@@ -563,22 +563,154 @@ class Application extends BaseController {
 
 
 
-    // approve reject admission
+//     // approve reject admission
+//     public function updateApplicationStatus(){
+//         if($this->isAdmin() == TRUE){
+//             $this->loadThis();
+//         } else {   
+//             $application_number = $this->input->post('application_number');
+//             $registered_row_id = $this->input->post('registered_row_id');
+//             $section = $this->input->post('section');
+//             $comments = $this->input->post('comments');
+//             $student_category = $this->input->post('student_category');
+//             $application_status_btn = $this->input->post('application_status_btn');
+//             $student = $this->application->getNewAdmittedStudentInfo($application_number);
+//             // log_message('debug','wjd'.print_r($student,true));
+
+//             log_message('debug','fa ma='.$student->father_mobile);
+            
+//             $studentApplicationStatus = $this->application->getStudentApplicationStatusByAppNo($application_number);
+//             $studentApplicationInfo = $this->application->getStudentApplicationInfoByID($studentApplicationStatus->registered_row_id);
+//             $studentApplicationAcademicInfo = $this->application->getStudentAcademicInformation($studentApplicationStatus->registered_row_id);
+//             $studentApplicationPreviousInfo = $this->application->getStudentPreviousInformation($studentApplicationStatus->registered_row_id);
+//             $boardInfo = $this->application->getBoardNameInfoById($studentApplicationAcademicInfo->sslc_board_name_id);
+    
+//             $checkExists = $this->student->getStudentInfoBy_AppNo($application_number);
+
+//             if(!empty($student)){
+//                 $number .= $student->father_mobile.','.$student->mother_mobile;
+//             }
+            
+//             // $type = $this->input->post('type');
+//             if($application_status_btn == 'Approve'){
+                
+//                 $applicationInfo = array(
+//                     'admission_status' => 1,
+//                     'comments'=>$comments,
+//                     'student_category' =>$student_category,
+//                     'section'=>$section,
+//                     'approved_by' => $this->staff_id,
+//                     'submitted_doc_status'=>1,
+//                     'approved_date' => date('Y-m-d'),
+//                     'updated_date_time' => date('Y-m-d H:i:s'),
+//                     'updated_by' => $this->staff_id);
+
+//                     // $message = "Dear Parent/Guardian, \nYour daughter's/ward's Application No. $application_number is approved. Please click the link given below to pay the fees within TWO days from receipt of this sms failing which you might have to forgo the seat. Anyone having an issue kindly send an email to admissions@jnpuc.org\nLink - https://bit.ly/2VBVo9M\nBest Regards\nPrincipal \nJyoti Nivas Pre-University College.";
+//                     // $response = $this->sendSingleNumberSMS($number, $message);
+        
+//                            if(empty($checkExists->students_appliction_number)){                   
+//                             $studentInfo = array(
+//                              'student_name' => $studentApplicationInfo->name,
+//                              'application_no' => $studentApplicationStatus->application_number ,
+//                              'student_id '=>$studentApplicationStatus->application_number ,
+//                             'last_board_name' => $boardInfo->board_name,
+//                              'term_name' => $studentApplicationAcademicInfo->program_name,
+//                              'stream_name' => $studentApplicationAcademicInfo->stream_name,
+//                              'section_name'=>$section,
+//                              'is_active' => 1,
+//                              'is_admitted' => 1,
+//                              'admission_status'=>1,
+//                              'intake_year' => '2023-2024',
+//                              'native_place'=>$studentApplicationInfo->native_place,
+//                              'last_percentage'=>$studentApplicationInfo->sslc_percentage,
+//                              'mother_name' =>$studentApplicationInfo->mother_name,
+//                              'father_name'  =>$studentApplicationInfo->father_name,
+//                              'father_profession' =>$studentApplicationInfo->father_profession,
+//                              'mother_profession'  =>$studentApplicationInfo->mother_profession,
+//                              'gender'=> $studentApplicationInfo->gender,
+//                              'nationality'=> $studentApplicationInfo->nationality,
+//                              'religion'=> $studentApplicationInfo->religion,
+//                              'caste' => $studentApplicationInfo->caste,
+//                              'sub_caste' => $studentApplicationInfo->sub_caste,
+//                              'category' => $studentApplicationInfo->caste,
+//                              'aadhar_no'=> $studentApplicationInfo->aadhar_no,
+//                              'mobile'=>$studentApplicationInfo->student_mobile,
+//                              'email'=> $studentApplicationInfo->student_email,
+//                              'father_annual_income'=> $studentApplicationInfo->father_annual_income,
+//                              'mother_annual_income'=> $studentApplicationInfo->mother_annual_income,
+//                              'guardian_name'=> $studentApplicationInfo->guardian_name,
+//                              'guardian_mobile'=> $studentApplicationInfo->guardian_mobile,
+//                              'guardian_address'=> $studentApplicationInfo->guardian_address,
+//                              'dob'=> $studentApplicationInfo->dob,
+//                             'father_age' => $studentApplicationInfo->father_age,
+//                             'mother_age	'=> $studentApplicationInfo->mother_age,
+//                            'mother_tongue'=> $studentApplicationInfo->mother_tongue,
+//                            'mother_mobile'=> $studentApplicationInfo->mother_mobile,
+//                            'father_mobile'=> $studentApplicationInfo->father_mobile,
+//                            'blood_group'=> $studentApplicationInfo->blood_group,
+//                            'permanent_address'=>$studentApplicationInfo->permanent_address_line_1.' '.$studentApplicationInfo->permanent_address_line_2.' '.$studentApplicationInfo->permanent_address_district.' '.$studentApplicationInfo->permanent_address_state.' '.$studentApplicationInfo->permanent_address_pincode,
+//                            'present_address'=>$studentApplicationInfo->residential_address_line_1.' '.$studentApplicationInfo->residential_address_line_2.' '.$studentApplicationInfo->residential_address_district.' '.$studentApplicationInfo->residential_address_state.' '.$studentApplicationInfo->residential_address_pincode,
+                             
+//                             'is_dyslexic'=>$studentApplicationInfo->dyslexia_challenged,
+                          
+//                              'created_by' => $this->staff_id,
+//                              'created_date_time' => date('Y-m-d H:i:s'),
+//                              'updated_by' => $this->staff_id);
+            
+            
+//                          }
+
+
+//             }else if($application_status_btn == 'Reject'){
+//                 $applicationInfo = array(
+//                     'admission_status' => 2,
+//                     'comments'=>$comments,
+//                     'student_category' =>$student_category,
+//                     'rejected_by' => $this->staff_id,
+//                     'submitted_doc_status'=>0,
+//                     'rejected_date' => date('Y-m-d'),
+//                     'updated_date_time' => date('Y-m-d H:i:s'),
+//                     'updated_by' => $this->staff_id);
+
+// //                 $message = "Dear Student/ Parents,
+// // Your application has been rejected. Please check the reason, update and re-submit the application form.
+// // Regards
+// // Principal
+// // St. Joseph's Pre-University College HASSAN";
+// //                     $response = $this->sendSingleNumberSMS($number, $message);
+//             }
+//             $result = $this->application->updateStudentApplicationStatus($application_number,$applicationInfo);
+            
+//             if($result > 0){
+//                 if($application_status_btn == 'Approve'){
+//                     $this->session->set_flashdata('success', 'Application Number <b>'.$application_number.'</b> Approved Successfully');
+//                     $resultstd = $this->application->addStudentInfo($studentInfo);
+
+//                 }else{
+//                     $this->session->set_flashdata('success', 'Application Number <b>'.$application_number.'</b> Rejected Successfully');
+//                     $this->student->deleteAdmittedStudentInfo($application_number);
+//                 }
+//             }else{
+//                 if($application_status_btn == 'Approve'){
+//                     $this->session->set_flashdata('error', 'Application Number <b>'.$application_number.'</b> Approved Failed');
+//                 }else{
+//                     $this->session->set_flashdata('error', 'Application Number <b>'.$application_number.'</b> Rejected Failed');
+//                 }
+//             }
+//             redirect('editSingleStudentApplications/'.$registered_row_id);
+//             // if ($result == true) {echo (json_encode(array('status' => true)));} else {echo (json_encode(array('status' => false)));}
+//         } 
+//     }
     public function updateApplicationStatus(){
         if($this->isAdmin() == TRUE){
             $this->loadThis();
         } else {   
             $application_number = $this->input->post('application_number');
-            $registered_row_id = $this->input->post('registered_row_id');
+            $seat_category = $this->input->post('seat_category');
+            $type = $this->input->post('type');
             $section = $this->input->post('section');
-            $comments = $this->input->post('comments');
             $student_category = $this->input->post('student_category');
-            $application_status_btn = $this->input->post('application_status_btn');
-            $student = $this->application->getNewAdmittedStudentInfo($application_number);
-            // log_message('debug','wjd'.print_r($student,true));
 
-            log_message('debug','fa ma='.$student->father_mobile);
-            
             $studentApplicationStatus = $this->application->getStudentApplicationStatusByAppNo($application_number);
             $studentApplicationInfo = $this->application->getStudentApplicationInfoByID($studentApplicationStatus->registered_row_id);
             $studentApplicationAcademicInfo = $this->application->getStudentAcademicInformation($studentApplicationStatus->registered_row_id);
@@ -587,13 +719,7 @@ class Application extends BaseController {
     
             $checkExists = $this->student->getStudentInfoBy_AppNo($application_number);
 
-            if(!empty($student)){
-                $number .= $student->father_mobile.','.$student->mother_mobile;
-            }
-            
-            // $type = $this->input->post('type');
-            if($application_status_btn == 'Approve'){
-                
+            if($type == 'Approve'){
                 $applicationInfo = array(
                     'admission_status' => 1,
                     'comments'=>$comments,
@@ -657,52 +783,49 @@ class Application extends BaseController {
                              'created_date_time' => date('Y-m-d H:i:s'),
                              'updated_by' => $this->staff_id);
             
-            
-                         }
-
-
-            }else if($application_status_btn == 'Reject'){
-                $applicationInfo = array(
-                    'admission_status' => 2,
-                    'comments'=>$comments,
-                    'student_category' =>$student_category,
-                    'rejected_by' => $this->staff_id,
-                    'submitted_doc_status'=>0,
-                    'rejected_date' => date('Y-m-d'),
-                    'updated_date_time' => date('Y-m-d H:i:s'),
-                    'updated_by' => $this->staff_id);
-
-//                 $message = "Dear Student/ Parents,
-// Your application has been rejected. Please check the reason, update and re-submit the application form.
-// Regards
-// Principal
-// St. Joseph's Pre-University College HASSAN";
-//                     $response = $this->sendSingleNumberSMS($number, $message);
-            }
-            $result = $this->application->updateStudentApplicationStatus($application_number,$applicationInfo);
-            
-            if($result > 0){
-                if($application_status_btn == 'Approve'){
-                    $this->session->set_flashdata('success', 'Application Number <b>'.$application_number.'</b> Approved Successfully');
-                    $resultstd = $this->application->addStudentInfo($studentInfo);
-
-                }else{
-                    $this->session->set_flashdata('success', 'Application Number <b>'.$application_number.'</b> Rejected Successfully');
-                    $this->student->deleteAdmittedStudentInfo($application_number);
+                     $resultstd = $this->application->addStudentInfo($studentInfo);
+                 }
                 }
-            }else{
-                if($application_status_btn == 'Approve'){
-                    $this->session->set_flashdata('error', 'Application Number <b>'.$application_number.'</b> Approved Failed');
-                }else{
-                    $this->session->set_flashdata('error', 'Application Number <b>'.$application_number.'</b> Rejected Failed');
-                }
-            }
-            redirect('editSingleStudentApplications/'.$registered_row_id);
-            // if ($result == true) {echo (json_encode(array('status' => true)));} else {echo (json_encode(array('status' => false)));}
+                $result = $this->application->updateStudentApplicationStatus($application_number,$applicationInfo);
+            if ($result == true) {echo (json_encode(array('status' => true)));} else {echo (json_encode(array('status' => false)));}
         } 
     }
-    
+    public function updateStudentAdmissionStatus(){
+        if($this->isAdmin() == TRUE){
+            $this->loadThis();
+        } else {   
 
+        $comments = $this->input->post('comments');
+        $application_number = $this->input->post('application_number');
+        $registered_row_id = $this->input->post('registered_row_id');
+        // if($isExist == 0){
+            $applicationInfo = array(
+                'admission_status' => 2,
+                'comments'=>$comments,
+                'rejected_by' => $this->staff_id,
+                'submitted_doc_status'=>0,
+                'rejected_date' => date('Y-m-d'),
+                'updated_date_time' => date('Y-m-d H:i:s'),
+                'updated_by' => $this->staff_id);
+            // $applicationInfo = array(
+            //     'comments'=>$comments,
+            //     'admission_status' => 2,
+            //     'shortlisted_status'=>0,
+            //     'rejected_by' =>  $this->staff_id,
+            //     'rejected_date' => date('Y-m-d H:i:s'));
+
+            $result = $this->application->updateStudentApplicationStatus($application_number,$applicationInfo);
+
+            if($result > 0){
+                $this->session->set_flashdata('success', 'Application Number <b>'.$application_number.'</b> Rejected Successfully');
+                $this->student->deleteAdmittedStudentInfo($application_number);
+            }else{
+                $this->session->set_flashdata('error', 'Failed to Reject Application Number <b>'.$application_number.'</b> ');
+            }
+
+            redirect('editSingleStudentApplications/'.$registered_row_id);
+        } 
+    }
 
 
 

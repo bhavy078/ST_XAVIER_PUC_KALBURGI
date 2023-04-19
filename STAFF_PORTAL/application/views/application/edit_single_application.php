@@ -1816,14 +1816,14 @@ $certificate_uploaded_name = array();
 
 
                             <div class="tab-pane fade" id="approve" role="tabpanel" aria-labelledby="approve-tab">
-                                <form method="POST" id="approveForm" action="<?php echo base_url() ?>updateApplicationStatus" role="form">
+                                <form method="POST" id="approveForm" action="<?php echo base_url() ?>updateStudentAdmissionStatus" role="form">
                                     <input type="hidden" value="<?php echo $applicationInfo->application_number; ?>" id="application_number" name="application_number">
                                     <input type="hidden" value="<?php echo $studentInfo->resgisted_tbl_row_id; ?>" id="registered_row_id" name="registered_row_id"/>
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="form-group">
                                                 <label>Category of the Student*</label>
-                                                <select class="form-control required student_category" id="student_category" name="student_category" required>
+                                                <select class="form-control student_category" id="student_category" name="student_category" >
                                                     <?php if(!empty($studentInfo->student_category)){ ?>
                                                         <option value="<?php echo $studentInfo->student_category; ?>" selected><?php echo $studentInfo->student_category; ?></option>
                                                     <?php } ?>
@@ -1839,7 +1839,7 @@ $certificate_uploaded_name = array();
                                         <div class="col-6">
                                             <div class="form-group">
                                                 <label>Select Section*</label>
-                                                <select class="form-control required section" id="section" name="section" required>
+                                                <select class="form-control section" id="section" name="section" >
                                                     <?php if(!empty($studentInfo->section)){ ?>
                                                         <option value="<?php echo $studentInfo->section; ?>" selected><?php echo $studentInfo->section; ?></option>
                                                     <?php } ?>
@@ -1858,26 +1858,23 @@ $certificate_uploaded_name = array();
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <?php if($applicationInfo->admission_status != 1){ ?>
-                                                
-                                                <?php if($role != ROLE_TEACHING_STAFF){ ?>
-                                                <button type="submit" class="btn float-right btn-success text-white ml-2" title="Approve" id="approveAdmission" 
-                                                name="application_status_btn" value="Approve">Approve</button>
-                                                <?php } ?>
-                                            <?php }else{?>
-                                                <b class="float-right text-success">Approved</b>
-                                            <?php } 
-                                            if($applicationInfo->admission_status != 2){ ?>
-                                                <?php if($role != ROLE_TEACHING_STAFF){ ?>
-                                                <button type="submit"  class="float-left btn btn-danger text-white" title="Reject" id="rejectAdmission" 
-                                                name="application_status_btn" value="Reject">Reject</button>
-                                                <?php } ?>
-                                            <?php }else{?>
-                                                <b class="float-left text-danger">Rejected</b>
-                                            <?php } ?>
+                                        <?php  
+                                                        if($applicationInfo->admission_status == 2){ ?>
+                                                            <b class="float-left text-danger">Rejected</b>
+                                                        <?php }else{?>
+                                                            <button type="submit" class="float-left btn btn-danger text-white" title="Reject" name="add" 
+                                                            data-application_number="<?php echo $applicationInfo->application_number; ?>">Reject</button>
+                                                        <?php } ?>
+                                                    </form>
+                                                    <?php if($applicationInfo->admission_status == 1){ ?>
+                                                        <b class="float-right text-success">Approved</b>
+                                                    <?php }else{?>
+                                                        <button type="button" class="btn float-right btn-success text-white ml-2" title="Approve" id="approveAdmission" name="add" data-dismiss="modal"
+                                                        data-application_number="<?php echo $applicationInfo->application_number; ?>">Approve</button>
+                                                    <?php } ?>
                                         </div>
                                     </div>
-                                </form>
+                                <!-- </form> -->
                             </div>
                         </div>
                     </div>
@@ -1891,7 +1888,7 @@ $certificate_uploaded_name = array();
 </div>
 </div>
 
-<!-- <script src="<?php echo base_url(); ?>assets/js/admission.js" type="text/javascript"></script> -->
+<script src="<?php echo base_url(); ?>assets/js/admission.js" type="text/javascript"></script>
 
 <script type="text/javascript">
     const dyslexia = mdc.select.MDCSelect.attachTo(document.querySelector('.mdc-select-dyslexia'));
@@ -2101,7 +2098,7 @@ $certificate_uploaded_name = array();
         }else{
             $('.phCertificate').hide();
         }
-
+        
         var permanentAddressLine_1 = $("#permanent_address_line_1").val();
     var permanentAddressLine_2 = $("#permanent_address_line_2").val();
     var permanentState = $("#permanent_address_state").val();

@@ -1,6 +1,6 @@
 
 
-$(document).ready(function(){
+jQuery(document).ready(function(){
 
     
 
@@ -8,62 +8,103 @@ $(document).ready(function(){
 
 	
 
-	jQuery(document).on("click", "#approveAdmission", function(){
+	// jQuery(document).on("click", "#approveAdmission", function(){
 
-		var application_number = $(this).data("application_number");
+	// 	var application_number = $(this).data("application_number");
+	// 	alert('xxxxxx');
+	// 	var section = $("#section").val();
+	// 	alert(section);
+	// 	if(section == ''){
+	// 		alert('Select the Section');
+	// 	}
+	// 	else{
+	// 		hitURL = baseURL + "updateApplicationStatus",
+
+	// 		currentRow = $(this);
+
+	// 	var confirmation = confirm("Are you sure to approve this Student Admission ?");
+
+	// 	if(confirmation) {
+
+	// 		jQuery.ajax({
+
+	// 		type : "POST",
+
+	// 		dataType : "json",
+
+	// 		url : hitURL,
+
+	// 		data : { 
+
+    //             type:"Approve",
+
+    //             application_number : application_number, 
+	// 			section : section, 
+
+    //         } 
+
+
+
+	// 		}).done(function(data){
+
+	// 			//  $('#tr'+application_number).html('<b id="tr'+application_number+'" style="color:green">Approved</b>');
+
+	// 			if(data.status = true) { 
+
+	// 				alert("Admission Approved Successfully."); 
+
+	// 				window.location.reload();  }
+
+	// 			else if(data.status = false) { alert("Admission Approve failed"); }
+
+	// 			else { alert("Access denied..!"); }
+
+	// 		});
+
+	// 	}
+	// }
+    // });
+
+	jQuery(document).on("click", "#approveAdmission", function(){
+		var application_number = $("#application_number").val();
 		var section = $("#section").val();
-		if(seat_category == ''){
+		var remarks = $("#remarks").val();
+		var student_category = $("#student_category").val();
+		var register_row_id = $("#registered_row_id").val();
+
+		if(section == ''){
 			alert('Select the Section');
+		}else if(student_category == ''){
+			alert('Select the Category');
 		}
 		else{
+
 			hitURL = baseURL + "updateApplicationStatus",
-
 			currentRow = $(this);
-
-		var confirmation = confirm("Are you sure to approve this Student Admission ?");
-
-		if(confirmation) {
-
 			jQuery.ajax({
-
 			type : "POST",
-
 			dataType : "json",
-
 			url : hitURL,
-
 			data : { 
-
                 type:"Approve",
-
                 application_number : application_number, 
-				section : section, 
+				student_category : student_category, 
+                section : section, 
+                remarks : remarks,
+				register_row_id : register_row_id, 
 
             } 
 
-
-
 			}).done(function(data){
-
-				//  $('#tr'+application_number).html('<b id="tr'+application_number+'" style="color:green">Approved</b>');
-
+				// $('#tr'+application_number).html('<b id="tr'+application_number+'" style="color:green">Approved</b>');
 				if(data.status = true) { 
-
 					alert("Admission Approved Successfully."); 
-
 					window.location.reload();  }
-
 				else if(data.status = false) { alert("Admission Approve failed"); }
-
 				else { alert("Access denied..!"); }
-
 			});
-
 		}
-	}
     });
-
-
 
     
 
