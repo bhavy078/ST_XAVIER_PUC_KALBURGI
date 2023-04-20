@@ -2745,8 +2745,6 @@ public function newAdm_AddFeePaymentInfo(){
                         $filter['board_name'] = "OTHER";
             }
 
-
-
             if(!empty($studentInfo)){
                 $term_name = $studentInfo->term_name;
                
@@ -2791,7 +2789,7 @@ public function newAdm_AddFeePaymentInfo(){
                     $data['I_balance'] = $total_fee_amount;
                     $data['concession'] = $concession_amt;
                     $data['balance'] = 0;
-                }else{
+                    }else{
                     //$prev_year = trim($studentInfo->intake_year_id)-1;
                     // this will execute if student only II PUC
                     //------ I PUC PENDING START

@@ -1148,12 +1148,7 @@ class Fee_model extends CI_Model
                $this->db->from('tbl_students_overall_fee_payment_info_i_puc_2021 as fee');
                $this->db->join('tbl_students_info as std', 'std.application_no = fee.application_no','left');
                $this->db->join('tbl_fee_payment_bank_settlement as bank', 'bank.receipt_number = fee.receipt_number','left');
-            //    if(!empty($filter['application_no'])){
-            //       $this->db->where('fee.application_no', $filter['application_no']);
-            //   }
-            //    if(!empty($filter['student_id'])){
-            //        $this->db->where('std.student_id', $filter['student_id']);
-            //    }
+          
                if(!empty($filter['date_from'])){
                 $this->db->where('fee.payment_date>=', $filter['date_from']);
                 $this->db->where('fee.payment_date<=', $filter['date_to']);
@@ -1161,31 +1156,7 @@ class Fee_model extends CI_Model
                if(!empty($filter['preference'])){
                 $this->db->where('std.stream_name', $filter['preference']);
                }
-            //    if(!empty($filter['receipt_number'])){
-            //     $this->db->where('fee.receipt_number', $filter['receipt_number']);
-            //    }
-            //    if(!empty($filter['amount_paid'])){
-            //     $this->db->where('fee.paid_amount', $filter['amount_paid']);
-            //    }
-            //    if(!empty($filter['amount_pending'])){
-            //     $this->db->where('fee.pending_balance', $filter['amount_pending']);
-            //    }
-            //    if(!empty($filter['order_id'])){
-            //     $this->db->where('fee.order_id', $filter['order_id']);
-            //    }
-        
-            //    if(!empty($filter['payment_type'])){
-            //     $this->db->where('fee.payment_type', $filter['payment_type']);
-            //    }
-        
-            //    if($filter['bank_settlement'] == 'Settled'){
-            //     $this->db->where('fee.bank_settlement_status', 1);
-            //    }else if($filter['bank_settlement'] == 'Pending'){
-            //     $this->db->where('fee.bank_settlement_status', 0);
-            //    }
-            //    if(!empty($filter['by_bank_date'])){
-            //     $this->db->where('bank.date', $filter['by_bank_date']);
-            //    }
+         
               $this->db->where('fee.term_name', $filter['term_name']);
               $this->db->where('fee.is_deleted', 0);
              $this->db->order_by('fee.receipt_number', 'ASC');
@@ -1195,10 +1166,9 @@ class Fee_model extends CI_Model
              
          }
 
-         public function getAllFeePaymentInfoForReport_I_PUC($filter)
+         public function getAllFeePaymentInfoForReport($filter)
          {
             $this->db->select('fee.payment_date,fee.row_id,
-            std.application_number,
             fee.receipt_number,
             fee.order_id,
             fee.application_no,
@@ -1206,46 +1176,21 @@ class Fee_model extends CI_Model
             fee.pending_balance,
             fee.payment_type, 
             fee.bank_settlement_status,
-            personal.name as student_name,
-            sjpuc.stream_name,
-            bank.date');
+            student.student_name,student.student_id,student.stream_name');
             $this->db->from('tbl_students_overall_fee_payment_info_i_puc_2021 as fee');
-            $this->db->join('tbl_admission_students_status_temp as std', 'std.application_number  = fee.application_no','left');
-            
-            $this->db->join('tbl_fee_payment_bank_settlement as bank', 'bank.receipt_number = fee.row_id','left');
-            $this->db->join('tbl_admission_student_personal_details_temp as personal', 'personal.resgisted_tbl_row_id = std.registered_row_id','left');
-            $this->db->join('tbl_admission_school_and_examination_deatils_temp as exam', 'exam.registred_row_id = personal.resgisted_tbl_row_id','left');
-            $this->db->join('tbl_admission_combination_language_opted_temp as sjpuc', 'sjpuc.registred_row_id = personal.resgisted_tbl_row_id','left'); 
+            $this->db->join('tbl_students_info as student','student.application_no = fee.application_no','left');
             if(!empty($filter['date_from'])){
                 $this->db->where('fee.payment_date>=', $filter['date_from']);
                 $this->db->where('fee.payment_date<=', $filter['date_to']);
                }
                if(!empty($filter['preference'])){
-                $this->db->where('sjpuc.stream_name', $filter['preference']);
+                $this->db->where('student.stream_name', $filter['preference']);
                }
-            //    if(!empty($filter['amount_paid'])){
-            //     $this->db->where('fee.paid_amount', $filter['amount_paid']);
-            //    }
-            //    if(!empty($filter['amount_pending'])){
-            //     $this->db->where('fee.pending_balance', $filter['amount_pending']);
-            //    }
-            //    if(!empty($filter['order_id'])){
-            //     $this->db->where('fee.order_id', $filter['order_id']);
-            //    }
-        
-            //    if(!empty($filter['payment_type'])){
-            //     $this->db->where('fee.payment_type', $filter['payment_type']);
-            //    }
-        
-            //    if($filter['bank_settlement'] == 'Settled'){
-            //     $this->db->where('fee.bank_settlement_status', 1);
-            //    }else if($filter['bank_settlement'] == 'Pending'){
-            //     $this->db->where('fee.bank_settlement_status', 0);
-            //    }
-            //    if(!empty($filter['by_bank_date'])){
-            //     $this->db->where('bank.date', $filter['by_bank_date']);
-            //    }
-            $this->db->where('fee.term_name', 'I PUC');
+               if(!empty($filter['term_name'])){
+                $this->db->where('student.term_name', $filter['term_name']);
+               }
+           
+
             $this->db->where('fee.is_deleted', 0);
              $this->db->order_by('fee.receipt_number', 'ASC');
              $this->db->limit($page, $segment);

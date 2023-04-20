@@ -35,7 +35,7 @@
             </a>
         </div> -->
         <?php if($role != EXAM_COMMITTEE){ ?>
-        <div class="col-lg-3 col-6 mb-2 column_padding_card">
+        <!-- <div class="col-lg-3 col-6 mb-2 column_padding_card">
             <a data-toggle="modal" data-target="#downloadFeeStructure" class="more-info text-white dashboard_link" href="#">
                 <div class="card card-small dash-card" style="background: #3e50b3;">
                     <div class="card-body pt-1 pb-1">
@@ -50,7 +50,7 @@
                     </div>
                 </div>
             </a>
-        </div>
+        </div> -->
         <div class="col-lg-3 col-6 mb-2 column_padding_card">
             <a data-toggle="modal" data-target="#downloadDayWiseFeeReport" class="more-info text-white dashboard_link" href="#">
                 <div class="card card-small dash-card" style="background: #3e50b3;">
@@ -502,7 +502,7 @@
                                 <option value="PCMC">PCMC</option>
                                 <!-- <option value="PCME">PCME</option>
                                 <option value="PCMS" >PCMS</option> -->
-                                <option value="CEBA">CEBA</option>
+                                <option value="EBAC">EBAC</option>
                                 <option value="HEPE">HEPE</option>
                                 <!-- <option value="CSBA">CSBA</option>
                                 <option value="MEBA">MEBA</option>
