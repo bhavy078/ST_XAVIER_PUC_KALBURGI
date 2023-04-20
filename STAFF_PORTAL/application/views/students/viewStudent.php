@@ -120,7 +120,7 @@
                                                         </th>
                                                         <th class="tbl-head">Nationality</th>
                                                         <th class="tbl-head-content">
-                                                            <?php echo $studentInfo->nationality_name; ?>
+                                                            <?php echo $studentInfo->nationality; ?>
                                                         </th>
                                                     </tr>
                                                     <tr>
@@ -132,7 +132,7 @@
                                                         <th class="tbl-head-content"><?php echo $studentInfo->caste; ?></th>
                                                         <th class="tbl-head">Category</th>
                                                         <th class="tbl-head-content">
-                                                            <?php echo $studentInfo->category_name; ?>
+                                                            <?php echo $studentInfo->category; ?>
                                                         </th>
                                                     </tr>
                                                     <tr>
@@ -205,7 +205,7 @@
                                                         <div class="card-header head-title text-center p-1 tbl-head">
                                                             <span style="font-size:16px; font-weight:900">Permanent Address</span></div>
                                                         <div class="card-body p-1 tbl-head-content font-weight-bold">
-                                                            <?php echo $studentInfo->permanent_address; ?>
+                                                            <?php echo $studentInfo->residential_address; ?>
                                                         </div>
                                                     </div>
                                                 </div>
