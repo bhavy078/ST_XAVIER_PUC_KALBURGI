@@ -1,249 +1,272 @@
+<style>
+.select2-container .select2-selection--single {
+    height: 38px !important;
+    width: 360px !important;
+}
+
+
+.form-control {
+    border: 1px solid #000000 !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow b {
+    margin-top: 3px !important;
+    color: black !important;
+
+}
+
+@media screen and (max-width: 480px) {
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+
+        margin-right: 20px !important;
+    }
+
+    .select2-container .select2-selection--single {
+        width: 270px !important;
+    }
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+</style>
 <?php
-    $this->load->helper('form');
-    $error = $this->session->flashdata('error');
-    if($error)
-    {
-?>
-<div class="alert alert-danger alert-dismissable">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-    ?php echo $this->session->flashdata('error'); ?>                    
+$this->load->helper('form');
+$error = $this->session->flashdata('error');
+if ($error) { 
+    ?>
+<div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">×</span>
+    </button>
+    <i class="fa fa-check mx-2"></i>
+    <strong>Error!</strong> <?php echo $this->session->flashdata('error'); ?>
 </div>
 <?php } ?>
-<?php  
-    $success = $this->session->flashdata('success');
-    if($success)
-    {
-?>
-<div class="alert alert-success alert-dismissable">
-<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-<?php echo $this->session->flashdata('success'); ?>
+<?php
+        $success = $this->session->flashdata('success');
+        if ($success) { 
+        ?>
+<div class="alert alert-success alert-dismissible fade show mb-0" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">×</span>
+    </button>
+    <i class="fa fa-check mx-2"></i>
+    <strong>Success!</strong> <?php echo $this->session->flashdata('success'); ?>
 </div>
-<?php } ?>
-<div class="main-content-container px-3 pt-1">               
-<div class="row">
-    <div class="col-md-12">
+<?php }?>
+<div class="row column_padding_card">
+    <div class="col-12">
         <?php echo validation_errors('<div class="alert alert-danger alert-dismissable">', ' <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button></div>'); ?>
     </div>
 </div>
-
-
- <!-- Content Header (Page header) -->
-<div class="row p-0">
-    <div class="col column_padding_card">
-        <div class="card card-small card_heading_title p-0 m-b-1">
-            <div class="card-body p-2">
-                <div class="row c-m-b">
-                    <div class="col-8 col-sm-4 col-md-5">
-                        <span class="page-title absent_table_title_mobile">
-                           <i class="material-icons">notifications</i> Student Notifications
-                        </span>
-                    </div>
-                    <div class="col-4 col-sm-4 col-md-3">
-                        <div class="text-center text-dark">
-                            <b class="pull-left" style="font-size: 20px;">Total : <?php echo $totalCount ?></b>
+<div class="main-content-container px-3 pt-1 overall_content">
+    <div class="content-wrapper">
+        <div class="row p-0 column_padding_card">
+            <div class="col column_padding_card">
+                <div class="card card-small card_heading_title p-0 m-b-1">
+                    <div class="card-body p-2">
+                        <div class="row">
+                            <div class="col-lg-12 col-12 col-md-12">
+                                <span class="page-title">
+                                    <i class="fa fa-comments-o"></i> Student Notifications
+                                </span>
+                            </div>                                                       
                         </div>
                     </div>
-
-                    <div class="col-12 col-sm-4 col-md-4 box-tools">
-                        <a onclick="window.history.back();" class="btn primary_color border_left_radius mobile-btn float-right text-white pt-2"
-                            value="Back"><i class="fa fa-arrow-circle-left"></i> Back </a>        
-                             
-                    </div> 
                 </div>
             </div>
         </div>
     </div>
-</div>
-
-<div class="row form-employee">
-    <div class="col-12 column_padding_card">
-        <div class="card card-small c-border p-1">
-            <div class="table-responsive-sm">
-                <table class="table table-bordered text-dark">
-                    <form action="<?php echo base_url() ?>studentNotifications" method="POST" id="searchList">
-                        <tr class="filter_row">
-                            <th width="180">
-                                <div class="form-group"> 
-                                    <input type="text" name="by_date" value="<?php echo $by_date; ?>" class="form-control form-control-md  datepicker pull-right" placeholder="Search by Date" autocomplete="off"/>
-                                </div>
-                            </th>
-                            <th width="100"> 
-                                <div class="form-group mb-0">
-                                            <select class="form-control" name="by_term" id="by_term">
-                                                <?php if(!empty($by_term)){ ?>
-                                                    <option value="<?php echo $by_term; ?>" selected><b>Selected: <?php echo $by_term; ?></b></option>
-                                                <?php } ?>
-                                                <option value="">Search Term</option>
-                                                <option value="I PUC">I PUC</option>
-                                                <option value="II PUC">II PUC</option>
-                                            </select>
-                                        
-                                </div>
-                            </th>
-                            <th width="100"><div class="form-group mb-0">
-                                            <select class="form-control" name="by_stream" id="by_stream">
-                                                <?php if(!empty($by_stream)){ ?>
-                                                    <option value="<?php echo $by_stream; ?>" selected><b>Selected: <?php echo $by_stream; ?></b></option>
-                                                <?php } ?>
-                                                <option value="">By Stream</option>
-                                                <option value="ALL">ALL</option>
-                                                <?php if(!empty($streamInfo)){
-                                                    foreach($streamInfo as $stream){ ?>
-                                                <option value="<?php echo $stream->stream_name; ?>"><?php echo $stream->stream_name; ?></option>
-                                                <?php } } ?>
-                                            </select>
-                                        </div>
-                            </th>
-                            <th width="100">
-                            <div class="form-group mb-0">
-                                            <select class="form-control" name="by_Section" id="by_Section">
-                                                <?php if(!empty($by_Section)){ ?>
-                                                    <option value="<?php echo $by_Section; ?>" selected><b>Selected: <?php echo $by_Section; ?></b></option>
-                                                <?php } ?>
-                                                <option value="">By Section</option>
-                                                <option value="ALL">ALL</option>
-                                                <option value="A">A</option>
-                                                <option value="B">B</option>
-                                                <option value="C">C</option>
-                                                <option value="D">D</option>
-                                                <!-- <option value="E">E</option>
-                                                <option value="F">F</option>
-                                                <option value="G">G</option>
-                                                <option value="H">H</option>
-                                                <option value="I">I</option>
-                                                <option value="J">J</option>
-                                                <option value="K">K</option>
-                                                <option value="L">L</option>
-                                                <option value="M">M</option>
-                                                <option value="N">N</option>
-                                                <option value="O">O</option>
-                                                <option value="P">P</option>
-                                                <option value="Q">Q</option>
-                                                <option value="R">R</option>
-                                                <option value="S">S</option> -->
-                                            </select>
-                                        </div>
-                                     </th>  
-                            <th width="150">  
-                                <div class="form-group mb-0">
-                                            <input type="text" value="<?php echo $by_subject; ?>" name="by_subject" id="by_subject" class="form-control input-sm" placeholder="By Subject" autocomplete="off">
-                                </div>
-                            </th>
-                            <th>
-                                 <div class="form-group mb-0">
-                                            <input type="text" value="<?php echo $by_message; ?>" name="by_message" id="by_message" class="form-control input-sm" placeholder="By Message" autocomplete="off">
-                                </div>  
-                            </th>
-                             <th>
-                                 <div class="form-group mb-0">
-                                            <input type="text" value="<?php echo $sent_by; ?>" name="sent_by" id="sent_by" class="form-control input-sm" placeholder="Sent By" autocomplete="off">
-                                </div>  
-                            </th>
-                             <th>
-                                <button class="btn btn-block btn-success searchList"><i class="fa fa-filter"></i> Filter </button>
-                            </th>
-                        </tr>
-                    </form>
-                        <thead class="text-center">
-                            <tr class="table_row_background">
+    <div class="row p-0 column_padding_card">
+        <div class="col column_padding_card">
+            <div class="card card-small mb-4">
+                <div class="card-body p-1 pb-2 text-center table-responsive">
+                    <table id="item-list" style="width:100%"
+                        class="display table  table-bordered table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Student Id</th>
+                                <th>Term</th>
+                                <th>Stream</th>
+                                <th>Section</th>
+                                <th>Subject</th>
+                                <th>Message</th>
+                                <th>Attachment</th>
+                                <th>Sent By</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>                           
+                            <?php
+                                if(!empty($notifications)){
+                                    foreach($notifications as $notification){
+                                        echo "<tr>
+                                            <td>".$notification->date_time."</td>
+                                            <td>".$notification->student_id."</td>
+                                            <td>".$notification->term_name."</td>
+                                            <td>".$notification->stream_name."</td>
+                                            <td>".$notification->section_name."</td>
+                                            <td>".$notification->subject."</td>
+                                            <td>".$notification->message."</td>";
+                                          
+                                            if($notification->filepath !=""){
+                                                echo "
+                                                <td><a class='btn btn-md btn-primary' href='".base_url().$notification->filepath."' download><i class='fa fa-download'></i> Download</a></td>
+                                             ";
+                                            }else{
+                                                echo "<td></td>";
+                                            }
+                                            
+                                            echo "
+                                            <td>".$notification->sent_by."</td>
+                                            <td><a class='btn btn-xs btn-danger deleteStudentNotification px-2 py-1' href='#' data-row_id='".$notification->row_id."' title='Delete'><i class='fa fa-trash'></i></a></td>
+                                        </tr>";
+                                    }
+                                }
+                            ?>
+                        </tbody>
+                        <tfoot>
+                            <tr>
                                 <th>Date</th>
                                 <th>Term</th>
                                 <th>Stream</th>
                                 <th>Section</th>
                                 <th>Subject</th>
                                 <th>Message</th>
+                                <th>Attachment</th>
                                 <th>Sent By</th>
                                 <th>Action</th>
                             </tr>
-                        </thead>
-                        <thead>
-                        <?php if(!empty($notifications)) {
-                                foreach($notifications as $notification) { ?>
-                            <tr>
-                                <td class="text-center"><?php echo date('d-m-Y',strtotime($notification->date_time)); ?></td>
-                                <td class="text-center"><?php echo $notification->term_name; ?></td>
-                                <td class="text-center"><?php echo $notification->stream_name; ?></td>
-                                <td class="text-center"><?php echo $notification->section_name; ?></td>
-                                <td><?php echo $notification->subject; ?></td>
-                                <td><?php echo $notification->message; ?></td>
-                                <td class="text-center"><?php echo $notification->sent_by; ?></td>
-                                <td class="text-center">
-                                                <?php 
-                                                    if($notification->filepath !=""){?>
-                                                        <a class='btn btn-primary' href='<?= base_url().$notification->filepath ?>' download><i class='fa fa-download'></i> Download</a>
-                                                    <?php }
-                                                ?>
-                                    <?php if($role == ROLE_OFFICE || $role == ROLE_ADMIN || $role == ROLE_PRIMARY_ADMINISTRATOR) { ?>
-                                        <a class="btn btn-xs btn-danger deleteStudentNotification mb-1"
-                                                data-row_id="<?php echo $notification->row_id; ?>" href="#" title="Delete">
-                                                <i class="fas fa-trash"></i></a>
-                                    <?php } ?>
-                                   
-                                </td>
-                            </tr>
-                            <?php } }else{ ?>
-                            <tr class="table-info">
-                                <td class="text-center" colspan="8">
-                                    No Notification!.
-                                </td>
-                            </tr>
-                            <?php } ?>
-                            </thead>
-                        </table>
-                    </div>
-                    <div class="box-footer clearfix">
-                        <?php echo $this->pagination->create_links(); ?>
-                    </div>
+                        </tfoot>
+                    </table>
                 </div>
             </div>
         </div>
- 
+    </div>
+</div>
+</div>
 
-<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/websiteCommon.js" charset="utf-8"></script>
-<script>
-jQuery(document).ready(function(){
+<script type="text/javascript">
+jQuery(document).ready(function() {
 
-    jQuery('ul.pagination li a').click(function (e) {
-        e.preventDefault();            
-        var link = jQuery(this).get(0).href;            
-        var value = link.substring(link.lastIndexOf('/') + 1);
-        jQuery("#searchList").attr("action", baseURL + "studentNotifications/" + value);
-        jQuery("#searchList").submit();
+    jQuery(document).on("click", ".deleteStudentNotification", function(){
+			var row_id = $(this).data("row_id"),
+				hitURL = baseURL + "deleteStudentNotification",
+				currentRow = $(this);
+
+			var confirmation = confirm("Are you sure delete this Notification ?");
+
+			if(confirmation)
+			{
+				jQuery.ajax({
+				type : "POST",
+				dataType : "json",
+				url : hitURL,
+				data : { row_id : row_id } 
+				}).done(function(data){
+
+					currentRow.parents('tr').remove();
+					if(data.status = true) { alert("Notification successfully Deleted"); }
+					else if(data.status = false) { alert("Failed to delete Notification"); }
+					else { alert("Access denied..!"); }
+				});
+			}
+
+		});
+    // $('.datepicker, #dateSearch').datepicker({
+    //     autoclose: true,
+    //     orientation: "bottom",
+    //     format: "dd-mm-yyyy"
+
+    // });
+    $(function() {
+        $("#dateSearch, #search_datepicker").datepicker({
+            format: "dd-mm-yyyy",
+            autoclose: true,
+            orientation: "bottom",
+        });
     });
-    
-    jQuery('.datepicker').datepicker({
-        autoclose: true,
-        format : "dd-mm-yyyy",
-        startDate : "01-01-2020"
-    });
 
-      jQuery(document).on("click", ".deleteStudentNotification", function(){
-            var row_id = $(this).data("row_id"),
-                hitURL = baseURL + "deleteStudentNotification",
-                currentRow = $(this);
-            
-            var confirmation = confirm("Are you sure delete this Notification ?");
-            
-            if(confirmation)
-            {
-                jQuery.ajax({
-                type : "POST",
-                dataType : "json",
-                url : hitURL,
-                data : { row_id : row_id } 
-                }).done(function(data){
-                        
-                    currentRow.parents('tr').remove();
-                    if(data.status = true) { alert("Notification successfully Deleted"); 
-                window.location.reload();}
-                    else if(data.status = false) { alert("Failed to delete Notification"); }
-                    else { alert("Access denied..!"); }
-                });
+    $('#item-list thead tr').clone(true).appendTo('#item-list thead');
+    $('#item-list thead tr:eq(1) th').each(function(i) {
+        var title = $(this).text();
+        if (title == 'Date') {
+            $(this).html(
+                '<div class="form-group position-relative mb-0 mt-0" style="margin-top: -5px !important; margin-bottom: -5px !important;" ><input style="border: 1px solid #75787b !important;" type="text" id="dateSearch" class="form-control input-sm" placeholder="Search ' +
+                title + '" /> </div>');
+        } else {
+            $(this).html(
+                '<div class="form-group position-relative mb-0 mt-0" style="margin-top: -5px !important; margin-bottom: -5px !important;" ><input style="border: 1px solid #75787b !important;" type="text" class="form-control input-sm" placeholder="Search ' +
+                title + '" /> </div>');
+        }
+        
+        $('input', this).on('keyup change', function() {
+            if (table.column(i).search() !== this.value) {
+                table
+                    .column(i)
+                    .search(this.value)
+                    .draw();
             }
         });
+    });
 
+
+    var table = $('#item-list').DataTable({
+        columnDefs: [
+            // { className: "my_class", targets: "_all" },
+            {
+                className: "text-left",
+                targets: 4,
+
+            },
+            // {
+            //     className: "text-left",
+            //     targets: 1,
+
+            // }
+        ],
+        lengthMenu: [
+            [200, 150, 100, 50, 20, 10],
+            [200, 150, 100, 50, 20, 10]
+        ],
+        processing: true,
+        orderCellsTop: true,
+        fixedHeader: true,
+        responsive: true,
+        language: {
+            "info": "Showing _START_ to _END_ of _TOTAL_ Notifications",
+            "infoFiltered": "(filtered from _MAX_ total Notifications)",
+            "search": "",
+            searchPlaceholder: "Search Notifications",
+            "lengthMenu": "Show _MENU_ Notifications",
+            "infoEmpty": "Showing 0 to 0 of 0 Notifications",
+            //processing: '<img src="'+baseURL+'assets/images/loader.gif" width="150"  alt="loader">'
+        },
+
+       /* "ajax": {
+            url: '<?php echo base_url(); ?>/get_sms_rep',
+            type: 'POST',
+            data: {
+                term_name: $('#term_name').val(),
+                date_search: $('#search_datepicker').val(),
+                mobile: $('#mobile').val(),
+            }
+            // dataType: 'json',
+        },*/
+
+    });
+
+    new $.fn.dataTable.FixedHeader(table);
 
 });
 </script>
-
-  

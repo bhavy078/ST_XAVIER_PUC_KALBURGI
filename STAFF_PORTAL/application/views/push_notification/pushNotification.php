@@ -70,7 +70,7 @@ if ($error) {
                                 </span>
                             </div>
                             <div class="col-lg-5 col-md-5 col-12 text-right">
-                             <a onclick="showLoader();" href="<?=base_url();?>dashboard"
+                             <a onclick="window.history.back();"
                                     class="btn primary_color mobile-btn float-right text-white"
                                     value="Back"><i class="fa fa-arrow-circle-left"></i> Back </a>                     
                             </div>
@@ -83,7 +83,9 @@ if ($error) {
             <div class="col column_padding_card">
                 <div class="card card-small mb-4">
                     <div class="card-body p-1 pb-2 text-center ">
-                        <?php echo form_open_multipart('push_notification/sendNotification')?>
+                        <!-- <form method="POST" action="<?php echo base_url() ?>push_notification/sendNotification" id="formSmsBulk"> -->
+                        <?php echo form_open_multipart('push_notification/sendNotification',array('id' => 'pn_form'));?>
+
                             <div id="errorMsg"></div>
                             <div class="row">
                                 <div class="col-lg-6 col-md-12 col-sm-12">
@@ -98,7 +100,8 @@ if ($error) {
                                                     <select class="form-control" name="user_name" id="user_name_select"
                                                         required>                                                       
                                                         <option value="student" selected>Student</option>
-                                                        <!-- <option value="staff">Staff</option> -->
+                                                        <option value="selectedStud">Selected Student</option>
+                                                        <option value="staff">Staff</option>
                                                     </select>
                                                 </div>
                                                 <div class="form-group col-lg-6 col-md-12 col-sm-12 for-student">
@@ -139,6 +142,21 @@ if ($error) {
                                                         ?>
                                                     </select>
                                                 </div>
+                                                <div class="form-group col-lg-6 col-md-12 col-sm-12 for-selected-student">
+                                                    <label style="float:left"  for="student_select">Select By Student</label>
+                                                    <select data-live-search="true" class="form-control selectpicker"
+                                                        name="student_id[]" id="student_name_select" multiple>
+                                                        <!-- <option value="ALL">ALL</option> -->
+                                                        <?php 
+                                                            if(!empty($allStudentInfo)){
+                                                                foreach ($allStudentInfo as $stud)
+                                                                {
+                                                                    echo "<option value='".$stud->student_id."'>".$stud->student_id." - ".$stud->student_name." - ".$stud->term_name." - ".$stud->stream_name." - ".$stud->section_name."</option>";
+                                                                }
+                                                            }
+                                                        ?>
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -163,12 +181,12 @@ if ($error) {
                                                 <label style="float:left" for="msg_subject">Upload a File</label>
                                                 <input class="form-control" type="file"  accept=".pdf,.doc,.docx,.png,.jpg,.jpeg" name="msg_file" id="msg_file" > 
                                             </div> 
-                                            <!-- <div class="form-group col-lg-12 col-md-12 col-sm-12" style="padding-bottom:30px;">
+                                            <div class="form-group col-lg-12 col-md-12 col-sm-12" style="padding-bottom:30px;">
                                                 <div class="form-check">
                                                     <input style="float:left" type="checkbox" class="form-check-input" id="send_email_option" name="send_email_option">
                                                     <label style="float:left" class="form-check-label" for="send_email_option">Send email also</label>
                                                 </div>
-                                            </div> -->
+                                            </div>
                                             <input  type="submit" class="btn btn-success font-weight-bold btn-block" value="Send" />
                                         </div>
                                     </div>
@@ -195,14 +213,20 @@ function clearStudentSetUp(){
     $("#section_name_select").val("ALL");
 }
     jQuery(document).ready(function() {
+        $('.for-selected-student').hide();
         if($("#user_name_select").val()=="staff"){
             clearStudentSetUp();
         }        
         $("#user_name_select").on('change', function() {
             if($(this).val()==="staff"){
                 clearStudentSetUp();
+                $('.for-selected-student').hide();
+            }else if($(this).val()==="selectedStud"){
+                clearStudentSetUp();
+                $('.for-selected-student').show();
             }else{
                 studentSetUp();
+                $('.for-selected-student').hide();
             }
         });    
     });

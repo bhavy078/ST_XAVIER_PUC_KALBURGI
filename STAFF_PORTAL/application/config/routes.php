@@ -469,6 +469,7 @@ $route['push_notification/sendNotification'] = "push_Notification/validateForm";
 $route['push_notification/blocked_user'] = 'push_Notification/addBlockedUser';
 $route['push_notification/register_token'] = 'push_Notification/addFcmToken';
 $route['staffNotifications'] = 'push_Notification/getStaffNotifications';
+$route['deleteStaffNotification'] = "push_Notification/deleteStaffNotification";
 // $route['studentNotifications'] = 'push_Notification/getStudentNotifications';
 $route['studentNotifications'] = "push_Notification/studentNotifications";
 $route['studentNotifications/(:any)'] = "push_Notification/studentNotifications/$1";

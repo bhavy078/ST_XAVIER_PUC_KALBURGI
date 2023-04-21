@@ -11,6 +11,7 @@ class Push_notification_model extends CI_Model{
 
     public function getStaffNotifications(){
         $this->db->from('tbl_staff_notifications');
+        $this->db->where('is_deleted',0);
         $this->db->order_by("date_time", "desc");
         $query = $this->db->get(); 
         return $query->result();
@@ -18,6 +19,7 @@ class Push_notification_model extends CI_Model{
 
     public function getStudentNotifications(){
         $this->db->from('tbl_student_notifications');
+        $this->db->where('is_deleted',0);
         $this->db->order_by("date_time", "desc");
         $query = $this->db->get(); 
         return $query->result();
@@ -162,23 +164,23 @@ class Push_notification_model extends CI_Model{
         }
     }
     
-    public function getStudentTokenByID($id){
-        $this->db->select('student.token');
-        $this->db->from('tbl_std_push_notification_token_manager as student');
-        $this->db->where('student.user_id',$id);
-        $query = $this->db->get();
-        if($this->db->affected_rows() <= 0){
-            return array();
-        }else{
-            $all_token=$query->result_array();
-            $sorted_tokens = array();
-            foreach ($all_token as $value) {
-               array_push($sorted_tokens,$value['token']);
-            }
-            return $sorted_tokens;
-        }
+    // public function getStudentTokenByID($id){
+    //     $this->db->select('student.token');
+    //     $this->db->from('tbl_std_push_notification_token_manager as student');
+    //     $this->db->where('student.user_id',$id);
+    //     $query = $this->db->get();
+    //     if($this->db->affected_rows() <= 0){
+    //         return array();
+    //     }else{
+    //         $all_token=$query->result_array();
+    //         $sorted_tokens = array();
+    //         foreach ($all_token as $value) {
+    //            array_push($sorted_tokens,$value['token']);
+    //         }
+    //         return $sorted_tokens;
+    //     }
         
-    }
+    // }
     public function getTokenForReplyMessage($row_id){
         $this->db->select('student.student_id');
         $this->db->from('tbl_student_feedback_for_management as student');
@@ -314,6 +316,7 @@ class Push_notification_model extends CI_Model{
             $likeCriteria = "(notifications.date_time  LIKE '%" . $filter['by_date'] . "%')";
             $this->db->where($likeCriteria);
         }
+        
         if(!empty($filter['by_term'])){
             $this->db->where('notifications.term_name', $filter['by_term']);
         }
@@ -370,5 +373,54 @@ class Push_notification_model extends CI_Model{
             return $this->db->affected_rows();
     }
 
+    public function updatedStaffNotification($row_id, $notInfo){
+        $this->db->where('row_id', $row_id);
+        $this->db->update('tbl_staff_notifications', $notInfo);
+        return $this->db->affected_rows();
+    }
     
+
+    public function getStudentsTokenByIDs($student_id){
+        $this->db->select('student_token.token');
+        $this->db->from('tbl_token as student_token'); 
+        $this->db->where_in('student_token.student_id', $student_id);
+        $query = $this->db->get();
+        if($this->db->affected_rows() <= 0){
+            return array();
+        }else{
+            $all_users_token=$query->result_array();
+            $sorted_registration_ids = array();
+            foreach ($all_users_token as $value) {
+               array_push($sorted_registration_ids,$value['token']);
+            }
+            return $sorted_registration_ids;
+        }
+    }
+
+    public function saveStudentNotificationByID($student_ids,$title,$body,$uploadedFilePath){
+        $sent_by = $this->session->userdata('name');
+        date_default_timezone_set('Asia/Kolkata');
+        $format = "%Y-%m-%d %h:%i:%s";
+        $cdate = mdate($format);
+        for($i=0; $i < count($student_ids); $i++){
+                $data = [
+                    'row_id' => null,
+                    'term_name' => '',
+                    'stream_name' => '',
+                    'section_name' => '',
+                    'student_id' => $student_ids[$i],
+                    'subject' => $title,
+                    'filepath' => $uploadedFilePath,
+                    'message' => $body,
+                    'sent_by'=> $sent_by,
+                    'date_time' => $cdate,
+                ];
+                $this->db->insert('tbl_student_notifications', $data);
+        }
+        if($this->db->affected_rows() <= 0){
+            return 0;
+        }else{
+            return 1;
+        }
+    }
 }

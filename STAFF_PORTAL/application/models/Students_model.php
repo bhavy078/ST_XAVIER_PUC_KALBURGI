@@ -1423,4 +1423,15 @@ class students_model extends CI_Model
             return true;
         }
 
+        function getAllCurrentStudentInfo(){
+            $this->db->select('student.row_id,student.admission_no,student.student_name,student.dob,student.gender, 
+            student.blood_group,student.admission_no,student.application_no,student.intake_year,student.term_name,
+            student.section_name,student.intake_year,student.student_id,student.stream_name');
+            $this->db->from('tbl_students_info as student'); 
+            $this->db->where('student.is_active', 1);
+            $this->db->where('student.is_deleted', 0);
+            $query = $this->db->get();
+            return $query->result();
+        }
+
 }

@@ -778,7 +778,7 @@
                         </li>
                     </ul>
                 </li> -->
-                <!-- <li class="nav-item">
+                 <li class="nav-item">
                     <a href="#notification_items" data-toggle="collapse" aria-expanded="false" class="nav-link  dropdown-toggle">
                         <i class="material-icons">chat</i>
                         <span>Notification</span>
@@ -790,20 +790,20 @@
                                 <span>Send</span>
                             </a>
                         </li>
-                        <!-- <li class="nav-item">
+                         <li class="nav-item">
                             <a class="nav-link" href="<?php echo base_url(); ?>staffNotifications">
                                 <i class="material-icons">account_box</i>
                                 <span>Staff</span>
                             </a>
-                        </li> -->
-                      <!--  <li class="nav-item">
+                        </li>
+                      <li class="nav-item">
                             <a class="nav-link" href="<?php echo base_url(); ?>studentNotifications">
                                 <i class="material-icons">supervisor_account</i>
                                 <span>Student</span>
                             </a>
                         </li>
                     </ul>
-                </li> -->
+                </li> 
                 <?php } ?>
                 <li class="nav-item">
                     <a href="#leave" data-toggle="collapse" aria-expanded="false"
@@ -1046,34 +1046,34 @@
                 </li> -->
                 <?php } ?>
 
-                <!-- <?php if ($role == ROLE_ADMIN || $role == ROLE_PRINCIPAL || $role == ROLE_PRIMARY_ADMINISTRATOR) { ?>
+                <?php if ($role == ROLE_ADMIN || $role == ROLE_PRINCIPAL || $role == ROLE_PRIMARY_ADMINISTRATOR) { ?>
                 <li class="nav-item">
                     <a href="#website" data-toggle="collapse" aria-expanded="false" class="nav-link  dropdown-toggle">
                         <i class="material-icons">language</i>
                         <span>Website</span>
-                    </a>
+                    </a> 
                     <ul class="collapse list-unstyled ml-3" id="website">
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a class="nav-link" href="<?php echo base_url(); ?>announcementListing">
                                 <i class="material-icons">notifications</i>
                                 <span>Announcement</span>
                             </a>
-                        </li>
+                        </li> -->
                         <li class="nav-item">
-                            <a class="nav-link" href="<?php echo base_url(); ?>eventListing">
+                            <a class="nav-link" href="https://stxavierspuckalaburagi.com/newsall.php">
                                 <i class="material-icons">event</i>
                                 <span>Events</span>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a class="nav-link" href="<?php echo base_url(); ?>newsListing">
                                 <i class="material-icons">web</i>
                                 <span>News & Events</span>
                             </a>
-                        </li>
+                        </li> -->
                     </ul>
                 </li>
-                <?php } ?> -->
+                <?php } ?>
                 <!-- <li class="nav-item">
                     <a class="nav-link " href="<?php echo base_url(); ?>viewHolidayList">
                         <i class="material-icons">event</i>

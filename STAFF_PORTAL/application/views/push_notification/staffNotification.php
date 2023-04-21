@@ -76,16 +76,11 @@ if ($error) {
                 <div class="card card-small card_heading_title p-0 m-b-1">
                     <div class="card-body p-2">
                         <div class="row">
-                            <div class="col-7">
+                            <div class="col-lg-12 col-12 col-md-12">
                                 <span class="page-title">
                                     <i class="fa fa-comments-o"></i> Staff Notifications
                                 </span>
-                            </div>    
-                            <div class="col-5 text-right">
-                             <a onclick="showLoader();window.history.back();"
-                                    class="btn primary_color mobile-btn float-right text-white"
-                                    value="Back"><i class="fa fa-arrow-circle-left"></i> Back </a>                     
-                            </div>                                                   
+                            </div>                                                       
                         </div>
                     </div>
                 </div>
@@ -104,6 +99,7 @@ if ($error) {
                                 <th>Subject</th>
                                 <th>Message</th>
                                 <th>Sent By</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>                           
@@ -115,6 +111,7 @@ if ($error) {
                                             <td>".$notification->subject."</td>
                                             <td>".$notification->message."</td>
                                             <td>".$notification->sent_by."</td>
+                                            <td><a class='btn btn-xs btn-danger deleteStaffNotification px-2 py-1' href='#' data-row_id='".$notification->row_id."' title='Delete'><i class='fa fa-trash'></i></a></td>
                                         </tr>";
                                     }
                                 }
@@ -144,6 +141,29 @@ jQuery(document).ready(function() {
     //     format: "dd-mm-yyyy"
 
     // });
+    jQuery(document).on("click", ".deleteStaffNotification", function(){
+			var row_id = $(this).data("row_id"),
+				hitURL = baseURL + "deleteStaffNotification",
+				currentRow = $(this);
+
+			var confirmation = confirm("Are you sure delete this Notification ?");
+			if(confirmation)
+			{
+				jQuery.ajax({
+				type : "POST",
+				dataType : "json",
+				url : hitURL,
+				data : { row_id : row_id } 
+				}).done(function(data){
+
+					currentRow.parents('tr').remove();
+					if(data.status = true) { alert("Notification successfully Deleted"); }
+					else if(data.status = false) { alert("Failed to delete Notification"); }
+					else { alert("Access denied..!"); }
+				});
+			}
+
+		});
     $(function() {
         $("#dateSearch, #search_datepicker").datepicker({
             format: "dd-mm-yyyy",

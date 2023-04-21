@@ -16,10 +16,16 @@ class Push_Notification extends BaseController {
 	public function index()
 	{
         if ($this->isAdmin() == TRUE ) {
-            $this->loadThis();
+            //$this->loadThis();
+            $data['streams'] = $this->students_model->getAllStreamName();
+            $data['sections'] = $this->students_model->getAllSectionName();
+            $data['allStudentInfo'] = $this->students_model->getAllCurrentStudentInfo();
+            $this->global['pageTitle'] = ''.TAB_TITLE.' : Push Notification ';
+            $this->loadViews("push_notification/pushNotification", $this->global, $data, NULL);
         } else {
             $data['streams'] = $this->students_model->getAllStreamName();
             $data['sections'] = $this->students_model->getAllSectionName();
+            $data['allStudentInfo'] = $this->students_model->getAllCurrentStudentInfo();
             $this->global['pageTitle'] = ''.TAB_TITLE.' : Push Notification ';
             $this->loadViews("push_notification/pushNotification", $this->global, $data, NULL);
         }
@@ -44,11 +50,11 @@ class Push_Notification extends BaseController {
         $this->loadViews("push_notification/staffNotification", $this->global, $data, NULL);
     }
 
-    // public function getStudentNotifications(){
-    //     $data['notifications'] = $this->push_notification_model->getStudentNotifications();
-    //     $this->global['pageTitle'] = ''.TAB_TITLE.' : Student Notification ';
-    //     $this->loadViews("push_notification/studentNotification", $this->global, $data, NULL);
-    // }
+    public function getStudentNotifications(){
+        $data['notifications'] = $this->push_notification_model->getStudentNotifications();
+        $this->global['pageTitle'] = ''.TAB_TITLE.' : Student Notification ';
+        $this->loadViews("push_notification/studentNotification", $this->global, $data, NULL);
+    }
 
     public function validateForm(){
         if($this->input->server("REQUEST_METHOD") == "POST"){
@@ -68,15 +74,14 @@ class Push_Notification extends BaseController {
                     $config['upload_path'] = $destinationPath;
                     $config['allowed_types'] = 'pdf|doc|docx|png|jpg|jpeg';
                     $config['max_size'] = 2000;
-                    // $uniquFileName = uniqid("JNPUC-",true).$_FILES['msg_file']['name'];
+                    // $uniquFileName = uniqid("SJBHS-",true).$_FILES['msg_file']['name'];
                     // $config['file_name'] = $uniquFileName;
                     $this->load->library('upload', $config);
                     if($this->upload->do_upload('msg_file')){
                         $data = array('upload_data' => $this->upload->data());
                         $uploadedFilePath = "upload/notifications/".$data['upload_data']['orig_name'];
-                        log_message('debug','dd'.$uploadedFilePath);
-                    }else{                        
-                        $this->session->set_flashdata('error', $this->upload->display_errors());
+                    }else{
+                        $this->session->set_flashdata('error',$this->upload->display_errors());
                         redirect('pushNotification');
                     }
                 }
@@ -93,13 +98,20 @@ class Push_Notification extends BaseController {
                     $filter['term_name'] = $this->input->post("term_name");
                     $filter['stream_name'] = $this->input->post("stream_name");
                     $filter['section_name'] = $this->input->post("section_name");
-                    $this->sendPushNotificationToStudents($title,$body,$uploadedFilePath,$filter);
-                    // $email_option = $this->input->post('send_email_option');
-                    // if(isset($email_option)){
-                    //     $this->sendEmailToAllStudent($title,$body);
-                    // }
-
+                    $this->sendPushNotificationToStudents($title,$body,$filter);
+                    $email_option = $this->input->post('send_email_option');
+                    if(isset($email_option)){
+                        $this->sendEmailToAllStudent($title,$body);
+                    }  
                     $this->push_notification_model->saveStudentNotification($filter['term_name'],$filter['stream_name'],$filter['section_name'],$title,$body,$uploadedFilePath);    
+                }else{
+                    $student_id = $this->input->post("student_id");
+                    $this->sendPushNotificationToStudentIDs($title,$body,$student_id);
+                    $email_option = $this->input->post('send_email_option');
+                    if(isset($email_option)){
+                        $this->sendEmailToStudentIds($title,$body,$student_id);
+                    }  
+                    $this->push_notification_model->saveStudentNotificationByID($student_id,$title,$body,$uploadedFilePath); 
                 }
                 $this->index(); 
             }
@@ -134,6 +146,22 @@ class Push_Notification extends BaseController {
 
     private function sendEmailToAllStudent($title,$body){
         $users_email_address = $this->custom_email_model->getAllStudentsEmail();
+        $users_email_address = array_filter($users_email_address);
+        if(! empty($users_email_address !== 0)){
+            $this->custom_email_model->sendEmail($title,$body,$users_email_address);
+        }                       
+    }
+    private function sendPushNotificationToStudentIDs($title,$body,$student_id){
+        $all_users_token = $this->push_notification_model->getStudentsTokenByIDs($student_id);
+        $tokenBatch = array_chunk($all_users_token,500);
+        for($itr = 0; $itr < count($tokenBatch); $itr++){
+            $this->push_notification_model->sendMessage($title,$body,$tokenBatch[$itr],'student');
+        }
+        $this->session->set_flashdata('success','Notification sent..!'); 
+    }
+
+    private function sendEmailToStudentIds($title,$body,$student_id){
+        $users_email_address = $this->custom_email_model->getStudentsEmailById($student_id);
         $users_email_address = array_filter($users_email_address);
         if(! empty($users_email_address !== 0)){
             $this->custom_email_model->sendEmail($title,$body,$users_email_address);
@@ -203,5 +231,17 @@ class Push_Notification extends BaseController {
         }
     } 
     
+    public function deleteStaffNotification(){
+        // if ($this->isAdmin() == true) {
+        //     echo (json_encode(array('status' => 'access')));
+        // } else {
+            $row_id = $this->input->post('row_id');
+            $notInfo = array('is_deleted' => 1,
+            'updated_by' => $this->staff_id,
+            'updated_date_time' => date('Y-m-d h:i:s'));
+            $result = $this->push_notification_model->updatedStaffNotification($row_id, $notInfo);
+            if ($result > 0) {echo (json_encode(array('status' => true)));} else {echo (json_encode(array('status' => false)));}
+        //}
+    } 
 
 }
