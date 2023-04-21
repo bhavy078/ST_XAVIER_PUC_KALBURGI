@@ -386,7 +386,7 @@ $route['addTimetableDayShifting'] = "settings/addTimetableDayShifting";
 $route['deleteDayShifting'] = "settings/deleteDayShifting";
 $route['addFeesName'] = "settings/addFeesName";
 $route['deleteFeeName'] = "settings/deleteFeeName";
-
+$route['updateStdInfo'] = "Settings/updateStdInfo";
 // route for attendance absent list
 $route['viewAttendanceInfo'] = "studentAttendance/viewAttendanceInfo";
 $route['viewAttendanceInfo/(:any)'] = "studentAttendance/viewAttendanceInfo/$1";
