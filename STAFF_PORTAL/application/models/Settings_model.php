@@ -378,4 +378,12 @@ class Settings_model extends CI_Model{
         return TRUE;
     }
 
+      public function addBookInfo($libraryInfo) {
+        $this->db->trans_start();
+        $this->db->insert('tbl_library_managemnt',$libraryInfo);
+        $insert_id = $this->db->insert_id();
+        $this->db->trans_complete();
+        return $insert_id;
+    }
+
 }

@@ -734,6 +734,96 @@ class Settings extends BaseController {
     }
 
 
+    // // update missing fields
+    public function addLibData(){
+        $config=['upload_path' => './upload/',
+        'allowed_types' => 'xlsx|csv|xls','max_size' => '102400','overwrite' => TRUE,
+        ];
+        $this->load->library('upload', $config);
+        if (!$this->upload->do_upload('excelFile')) {
+            $error = array('error' => $this->upload->display_errors());
+        } else { 
+            $data = array('upload_data' => $this->upload->data());
+        }
+       if (!empty($data['upload_data']['file_name'])) {
+            $import_xls_file = $data['upload_data']['file_name'];
+        } else {
+            $import_xls_file = 0;
+        }
+        $inputFileName = 'upload/'. $import_xls_file;
+       
+        try {
+            $inputFileType = PHPExcel_IOFactory::identify($inputFileName);
+            $objReader = PHPExcel_IOFactory::createReader($inputFileType);
+            $objPHPExcel = $objReader->load($inputFileName);
+        } catch (Exception $e) {
+            die('Error loading file "' . pathinfo($inputFileName, PATHINFO_BASENAME)
+                    . '": ' . $e->getMessage());
+        }
+       
+        $excelValues = array();
+        $excelValues2 = array();
+        $sheetCount = $objPHPExcel->getSheetCount();
+        $sheetNames = $objPHPExcel->getSheet();
+        $objWorksheet = $objPHPExcel->getActiveSheet($sheetCount);
+        $row_index = $objWorksheet->getHighestRow(); 
+        $col_name = $objWorksheet->getHighestColumn();
+        $headings = array();
+        $cell_config = array(); 
+        $row_count = 1;
+        $total_records = 0;
+        $highestRow = $objWorksheet->getHighestDataRow(); 
+        $highestColumn = $objWorksheet->getHighestDataColumn();
+        $total_fields = 2;
+        $student_count = 0;
+        $studentNotExistCount = 0;
+        $student_update_count = 0;
+        $app_no = array();
+
+        for($i=2;$i<=$highestRow;$i++){
+          
+           
+            $access_code = $objWorksheet->getCellByColumnAndRow(0,$i)->getFormattedValue();
+            $book_title = $objWorksheet->getCellByColumnAndRow(1,$i)->getFormattedValue();
+            $category = $objWorksheet->getCellByColumnAndRow(2,$i)->getFormattedValue();
+            $publisher_name = $objWorksheet->getCellByColumnAndRow(3,$i)->getFormattedValue();
+            $author_name = $objWorksheet->getCellByColumnAndRow(4,$i)->getFormattedValue();
+
+            // $date_of_admission = date('d-m-Y',strtotime($date_of_admission));
+            // log_message('debug','Info = '.print_r($studentInfo,true));
+            if(!empty($access_code)){
+                $book_info = array(
+                    'access_code'=>trim($access_code),
+                    'book_title'=>strtoupper($book_title),
+                    'category'=>strtoupper($category),
+                    'publisher_name'=>strtoupper($publisher_name),
+                     'author_name'=>strtoupper($author_name)
+                //     // 'student_no'=>$student_no,
+                //     // 'pu_board_number'=>$student_no,
+                //     // 'sat_number'=>$sat_no,
+                // // 'date_of_admission'=>$date_of_admission,
+                // // 'sat_number' => $sat_no,
+                // 'updated_by'=>$this->staff_id,
+                // 'updated_date_time'=>date('Y-m-d H:i:s')
+            );
+                    log_message('debug','Info std = '.print_r($book_info,true));
+                    // log_message('debug','student_id std = '.$student_id);
+                    // $result = $this->student->updateStudentInfoAdmissionNo($student_info,$application_no);
+                    $result = $this->settings->addBookInfo($book_info);
+                    $student_count++;
+            }else{
+                $studentNotExistCount++;
+              log_message('debug','student_id NotExist'.$student_id);
+                // array_push($app_no,$application_number);
+            }
+        }
+         log_message('debug','notUpdated '.$studentNotExistCount);
+        log_message('debug','Student NOT Count= '.$studentNotExistCount);
+        log_message('debug','Total Count= '.$student_count);
+        redirect('viewSettings');
+    }
+
+
 
 
 
