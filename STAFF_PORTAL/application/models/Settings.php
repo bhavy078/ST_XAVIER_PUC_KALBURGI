@@ -1351,5 +1351,110 @@ class Settings extends BaseController {
 
     }
 
+     // // update missing fields
+    public function updateStdInfo(){
+        $config=['upload_path' => './upload/',
+        'allowed_types' => 'xlsx|csv|xls','max_size' => '102400','overwrite' => TRUE,
+        ];
+        $this->load->library('upload', $config);
+        if (!$this->upload->do_upload('excelFile')) {
+            $error = array('error' => $this->upload->display_errors());
+        } else { 
+            $data = array('upload_data' => $this->upload->data());
+        }
+       if (!empty($data['upload_data']['file_name'])) {
+            $import_xls_file = $data['upload_data']['file_name'];
+        } else {
+            $import_xls_file = 0;
+        }
+        $inputFileName = 'upload/'. $import_xls_file;
+       
+        try {
+            $inputFileType = PHPExcel_IOFactory::identify($inputFileName);
+            $objReader = PHPExcel_IOFactory::createReader($inputFileType);
+            $objPHPExcel = $objReader->load($inputFileName);
+        } catch (Exception $e) {
+            die('Error loading file "' . pathinfo($inputFileName, PATHINFO_BASENAME)
+                    . '": ' . $e->getMessage());
+        }
+       
+        $excelValues = array();
+        $excelValues2 = array();
+        $sheetCount = $objPHPExcel->getSheetCount();
+        $sheetNames = $objPHPExcel->getSheet();
+        $objWorksheet = $objPHPExcel->getActiveSheet($sheetCount);
+        $row_index = $objWorksheet->getHighestRow(); 
+        $col_name = $objWorksheet->getHighestColumn();
+        $headings = array();
+        $cell_config = array(); 
+        $row_count = 1;
+        $total_records = 0;
+        $highestRow = $objWorksheet->getHighestDataRow(); 
+        $highestColumn = $objWorksheet->getHighestDataColumn();
+        $total_fields = 2;
+        $student_count = 0;
+        $studentNotExistCount = 0;
+        $student_update_count = 0;
+        $app_no = array();
+
+        for($i=6;$i<=$highestRow;$i++){
+          
+           
+            $student_id = $objWorksheet->getCellByColumnAndRow(1,$i)->getFormattedValue();
+            $name = $objWorksheet->getCellByColumnAndRow(2,$i)->getFormattedValue();
+            $subject = $objWorksheet->getCellByColumnAndRow(3,$i)->getFormattedValue();
+            $mobile_one = $objWorksheet->getCellByColumnAndRow(5,$i)->getFormattedValue();
+            $mobile_two = $objWorksheet->getCellByColumnAndRow(6,$i)->getFormattedValue();
+            $section_name = $objWorksheet->getCellByColumnAndRow(7,$i)->getFormattedValue();
+
+
+            if($subject == "KAN"){
+                $elective_sub = 'KANNADA';
+            }else if($subject == "HIN"){
+                $elective_sub = 'HINDI';
+            }
+           
+           //elective subject update
+            if(!empty($student_id)){
+                $electiveInfo = array(
+                'elective_sub'=>$elective_sub,
+                'section_name'=>$section_name,
+                'updated_by'=>$this->staff_id,
+                'updated_date_time'=>date('Y-m-d H:i:s')
+            );
+
+             //elective subject update
+            if(!empty($mobile_one)){
+                $mobileInfo = array(
+                'mobile'=>$mobile_one,
+                'updated_by'=>$this->staff_id,
+                'updated_date_time'=>date('Y-m-d H:i:s')
+            );
+                if(!empty($mobile_two)){
+                $mobile2Info = array(
+                'mobile_two'=>$mobile_two,
+                'updated_by'=>$this->staff_id,
+                'updated_date_time'=>date('Y-m-d H:i:s')
+            );
+                    log_message('debug','Info std = '.print_r($electiveInfo,true));
+                    // log_message('debug','student_id std = '.$student_id);
+                    // $result = $this->student->updateStudentInfoAdmissionNo($student_info,$application_no);
+                    $result = $this->student->updateStudentInfoBStdId($electiveInfo,trim($student_id));
+                    $result2 = $this->student->updateStudentInfoBStdId($mobileInfo,trim($student_id));
+                    $result2 = $this->student->updateStudentInfoBStdId($mobile2Info,trim($student_id));
+                    $student_count++;
+            }else{
+                $studentNotExistCount++;
+              log_message('debug','student_id NotExist'.$student_id);
+                // array_push($app_no,$application_number);
+            }
+        }
+         log_message('debug','notUpdated '.$studentNotExistCount);
+        log_message('debug','Student NOT Count= '.$studentNotExistCount);
+        log_message('debug','Total Count= '.$student_count);
+        redirect('viewSettings');
+    }
+
+
 
 }

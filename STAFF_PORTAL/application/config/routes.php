@@ -148,6 +148,7 @@ $route['deleteHoliday'] = "holiday/deleteHoliday";
 
 //faculty settings routes
 $route['viewSettings'] = "settings/viewSettings";
+$route['addStudentMissingDatas'] = "settings/addStudentMissingDatas";
 
 
 //staff profile
@@ -208,7 +209,7 @@ $route['deleteCategory'] = "settings/deleteCategory";
 $route['addStream'] = "settings/addStream";
 $route['deleteStream'] = "settings/deleteStream";
 $route['getNewAdmittedStudentsImport'] = "settings/getNewAdmittedStudentsImport";
-$route['addStudentMissingData'] = "settings/addStudentMissingData";
+$route['updateStdInfo'] = "settings/updateStdInfo";
 
 // routes for student 
 $route['studentDetails'] = "students/studentDetails";
