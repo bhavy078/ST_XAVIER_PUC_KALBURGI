@@ -60,30 +60,30 @@
               <div class="form-group mb-2"> 
                 <label class="student_login mdc-text-field mdc-text-field--filled ">
                   <span class="mdc-text-field__ripple"></span>
-                  <input name="username" class="mdc-text-field__input" type="text" aria-labelledby="my-label-id" autocomplete="off" required>
-                  <span class="mdc-floating-label" id="my-label-id">Registered Email/Mobile Number</span>
+                  <input name="username" class="mdc-text-field__input" placeholder="Mobile Number" minlength="10" maxlength="10" onkeypress="return isNumber(event)" type="text" aria-labelledby="my-label-id" autocomplete="off" required>
+                  <span class="mdc-floating-label" id="my-label-id" style="font-size:18px;color:#2E2252">Mobile Number</span>
                   <span class="mdc-line-ripple"></span>
                 </label>
               </div>
 
-              <div class="form-group mb-2"> 
+              <!-- <div class="form-group mb-2"> 
                 <label class="student_password mdc-text-field mdc-text-field--filled ">
                   <span class="mdc-text-field__ripple"></span>
                   <input name="password" id="password" class="mdc-text-field__input" type="password" aria-labelledby="my-label-id" autocomplete="off" required>
                   <span class="mdc-floating-label" id="my-label-id">Password</span>
                   <span class="mdc-line-ripple"><i class="fa fa-eye-slash" id="togglePassword" style="margin-left: -30px; cursor: pointer;"></i></span>
                 </label>
-              </div>    
+              </div>     -->
               
               <button type="submit" class="mdc-button mdc-button--raised btn-log btn-block mt-2">Sign In</button>
-              <a href="<?php echo base_url() ?>studentRegister" class="mdc-button mdc-button--raised btn_submit btn-block" value="Registration" style="margin-top:10px;">New Registration</a>
+              <!-- <a href="<?php echo base_url() ?>studentRegister" class="mdc-button mdc-button--raised btn_submit btn-block" value="Registration" style="margin-top:10px;">New Registration</a> -->
             </form>
             <div class="row">
                 <div class="col-sm-6 col-md-6">
                   <a target="_blank" href="<?php echo base_url(); ?>assets/downloads/STUDENT_GUIDE_FOR_ONLINE_ADMISSION_PROCEDURE_2022.pdf" class="float-left" style="margin-top: 10px;">Click here for help <i class="far fa-question-circle"></i></a><br>
                 </div>
                 <div class="col-sm-6 col-md-6">
-                  <a class="float-right" style="margin-top: 10px;" href="<?php echo base_url() ?>forgotPassword">Forgot Password</a>
+                  <!-- <a class="float-right" style="margin-top: 10px;" href="<?php echo base_url() ?>forgotPassword">Forgot Password</a> -->
               </div>
               </div>
           </div>
@@ -291,4 +291,12 @@
 
       $("#togglePassword").attr('class', className);
   });
+  function isNumber(evt) {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        return false;
+    }
+    return true;
+}
 </script>  

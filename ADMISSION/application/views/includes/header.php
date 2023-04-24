@@ -410,7 +410,7 @@
                             src="<?php echo base_url(); ?>assets/dist/img/user.png" alt="User Avatar"
                             height="100" width="100">
                         
-                        <p class="mb-1"> <?php echo $name; ?></p>
+                        <p class="mb-1"> <?php echo $mobile; ?></p>
                         <span style="font-size:12px;"> </span>
                       </div>
                     </div>

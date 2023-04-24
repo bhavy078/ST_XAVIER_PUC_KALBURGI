@@ -49,16 +49,16 @@ class Registration_model extends CI_Model
      * @param {number} $userId : This is user id
      * @return {mixed} $result : This is searched result
      */
-    function checkMobileNumberExists($mobile)
-    {
-        $this->db->select("mobile");
-        $this->db->from("tbl_admission_registered_student_temp");
-        $this->db->where("mobile", $mobile);  
-        $this->db->where("reg_year", 2023);
-        $this->db->where("is_deleted", 0);
-        $query = $this->db->get();
-        return $query->result();
-    }
+    // function checkMobileNumberExists($mobile)
+    // {
+    //     $this->db->select("mobile");
+    //     $this->db->from("tbl_admission_registered_student_temp");
+    //     $this->db->where("mobile", $mobile);  
+    //     $this->db->where("reg_year", 2023);
+    //     $this->db->where("is_deleted", 0);
+    //     $query = $this->db->get();
+    //     return $query->result();
+    // }
 
     function checkRegisterNumberExists($registration_number)
     {
@@ -71,6 +71,16 @@ class Registration_model extends CI_Model
         return $query->row();
     }
     
+        function checkMobileNumberExists($mobile)
+    {
+        $this->db->select("mobile,name");
+        $this->db->from("tbl_admission_registered_student_temp");
+        $this->db->where("mobile", $mobile);   
+        $this->db->where("is_deleted", 0);
+        $this->db->where("reg_year", 2023);
+        $query = $this->db->get();
+        return $query->row();
+    }
     
     function getBoardName(){
         $this->db->from('tbl_sslc_board_name as board');

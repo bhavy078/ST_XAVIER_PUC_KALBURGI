@@ -181,9 +181,9 @@ class Student_model extends CI_Model
     }
 
 //checking mark is already added
-    function checkStudentMarkInfoAdded($register_number){
+    function checkStudentMarkInfoAdded($registred_row_id ){
         $this->db->from('tbl_admission_student_sslc_mark_info_temp as school');
-        $this->db->where('school.register_number', $register_number);
+        $this->db->where('school.registred_row_id ', $registred_row_id );
         $query = $this->db->get();
         return $query->num_rows();
     }
@@ -248,8 +248,8 @@ class Student_model extends CI_Model
     }
 
     //delete all subject for update
-    function deleteAllSubject($register_number){
-        $this->db->where('register_number', $register_number);
+    function deleteAllSubject($registred_row_id ){
+        $this->db->where('registred_row_id ', $registred_row_id );
         $this->db->delete('tbl_admission_student_sslc_mark_info_temp');
         return $this->db->affected_rows();
     }

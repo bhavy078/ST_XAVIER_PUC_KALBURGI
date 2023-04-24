@@ -48,8 +48,10 @@ if($_SESSION['application_number_status']==true) {
  <?php
 	$application_number="";
     $nationality = "";
-    $name = $name;
-    $dob = date('d-m-Y',strtotime($date_of_birth));
+    // $name = $name;
+    // $dob = date('d-m-Y',strtotime($date_of_birth));
+    $name = "";
+    $dob = "";
     $religion = "";
     $caste = "";
     $sub_caste = "";
@@ -77,7 +79,7 @@ if($_SESSION['application_number_status']==true) {
     $father_age = "";
     $mother_age = "";
     $student_mobile = "";
-    $gender = "MALE";
+    $gender = "";
     
     $permanent_address_line_1 = "";
     $permanent_address_line_2 = "";
@@ -402,8 +404,7 @@ if(!empty($documentInfo)){
                                                      <span class="mdc-floating-label">Select Gender</span>
                                                      <span class="mdc-line-ripple"></span>
                                                  </div>
-                                                 <div
-                                                     class="mdc-select__menu mdc-menu mdc-menu-surface demo-width-class">
+                                                 <div class="mdc-select__menu mdc-menu mdc-menu-surface demo-width-class">
                                                      <ul class="mdc-list">
                                                          <?php if(!empty($gender)){ ?>
                                                          <li class="mdc-list-item mdc-list-item--selected"
@@ -441,7 +442,7 @@ if(!empty($documentInfo)){
                                                  <input name="student_mobile" id="student_mobile" pattern="[0-9]*"
                                                      value="<?php echo $student_mobile; ?>"
                                                      class="mdc-text-field__input" type="tel"
-                                                     aria-labelledby="my-label-id" maxlength="10" minlength="10" placeholder="Whatsapp Number"
+                                                     aria-labelledby="my-label-id" maxlength="10" minlength="10" placeholder="Whatsapp Number" required
                                                      autocomplete="off" onkeypress="return isNumber(event)">
                                                  <span class="mdc-floating-label" id="my-label-id">Whatsapp
                                                      Number</span>

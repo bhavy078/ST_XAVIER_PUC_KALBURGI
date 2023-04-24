@@ -97,7 +97,8 @@ class Student extends BaseController
     }
 
     public function viewSchoolDetail() {
-        $boardData = $this->student_model->getStudentBoardInformation($this->student_row_id);
+        $boardData = $this->student_model->getStudentSchoolInfo($this->student_row_id);
+        // log_message('debug','darraa'.$boardData->sslc_board_name_id);
         if(empty($boardData)) {
             $sslc_id = -1;
         }
@@ -110,8 +111,10 @@ class Student extends BaseController
         $student = $this->student_model->getStudentApplicationInfo($this->student_row_id);
         $data['studentSchoolInfo'] = $this->student_model->getStudentSchoolInfo($this->student_row_id);
         $data['studentMarkInfo'] = $this->student_model->getStudentMarkInfoforDisplay($this->student_row_id);
+        log_message('debug','jhgfdsgfd'.print_r($data['studentMarkInfo'],true));
         $data['marksDetail'] = $this->student_model->getMarksDetailforDisplay($this->student_row_id);
         $data['boardInfo'] = $this->student_model->getBoardNameById($sslc_id); //$this->sslc_board_name_id
+        log_message('debug','kdkfd'.print_r($data['boardInfo'],true));
         $data['allBoardsInfo'] = $this->registration_model->getBoardName();
         $data['documentInfo'] = $this->student_model->getDocumnetDetails($this->student_row_id);
         $data['studentApplicationInfo'] = $student;
@@ -241,7 +244,7 @@ class Student extends BaseController
     function getStudentMarkSheet(){
         // $medium = $this->input->post('medium');
         $sslc_board_name_id = $this->input->post('board_name');
-
+log_message('debug','csdfsdr'.$sslc_board_name_id);
         $boardData = $this->student_model->getStudentBoardInformation($this->student_row_id);                
         $sslc_id = $boardData->sslc_board_name_id;
        $boardInfo = $this->student_model->getBoardNameById($sslc_id);
@@ -264,9 +267,6 @@ class Student extends BaseController
             }
         }
     
-
-
-
         if($sslc_board_name_id == 1){
             // if($medium == "KANNADA"){
             //     $this->load->view('student_sslc_subjects/state_board_karnataka_kannada');
@@ -280,6 +280,33 @@ class Student extends BaseController
         }else if($sslc_board_name_id == 4){
             $this->load->view('student_sslc_subjects/other_board_subject');
         }
+    }
+
+    function getStudentMarkSheet_two(){
+        // $medium = $this->input->post('medium');
+        $board_name = $this->input->post('board_name');
+        $sslc_board_name_id = $this->input->post('board_name');
+
+        $studentSchoolInfo = $this->student_model->getStudentSchoolInfo($this->student_row_id);
+
+     
+       
+        if($sslc_board_name_id == 1){
+            // if($medium == "KANNADA"){
+            //     $this->load->view('student_sslc_subjects/state_board_karnataka_kannada');
+            // }else{
+                $this->load->view('student_sslc_subjects/state_board_karnataka_english');
+            // }
+        } else if($sslc_board_name_id == 2){
+            $this->load->view('student_sslc_subjects/cbse_subjects');
+        }else if($sslc_board_name_id == 3){
+            $this->load->view('student_sslc_subjects/icse_board');
+        }else if($sslc_board_name_id == 4){
+            $this->load->view('student_sslc_subjects/other_board_subject');
+        }else if($sslc_board_name_id == 5){
+            $this->load->view('student_sslc_subjects/other_board_subject');
+        }
+
     }
 
     function getStreamNamesByProgram(){
@@ -759,9 +786,9 @@ class Student extends BaseController
 
             }
 
-            $markExist = $this->student_model->checkStudentMarkInfoAdded($this->registration_number);
+            $markExist = $this->student_model->checkStudentMarkInfoAdded($this->student_row_id);
             if($markExist > 0){
-                $deleted_id =  $this->student_model->deleteAllSubject($this->registration_number);
+                $deleted_id =  $this->student_model->deleteAllSubject($this->student_row_id);
             }
 
             if($retun_id > 0){

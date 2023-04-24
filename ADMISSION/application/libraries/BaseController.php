@@ -44,6 +44,7 @@ class BaseController extends CI_Controller {
 			$this->sslc_board_name_id = $this->session->userdata ( 'sslc_board_name_id' );
 			$this->date_of_birth = $this->session->userdata ( 'date_of_birth' );
 			$this->email = $this->session->userdata ( 'email' );
+			$this->mobile = $this->session->userdata ( 'mobile' );
 
 			$this->global ['last_login'] = $this->lastLogin;
 			$this->global ['name'] = $this->name;
@@ -51,6 +52,7 @@ class BaseController extends CI_Controller {
 			$this->global ['role_text'] = $this->roleText;
 			$this->global ['date_of_birth'] = $this->date_of_birth;
 			$this->global ['email'] = $this->email;
+			$this->global ['mobile'] = $this->mobile;
 		}
 	}
 	

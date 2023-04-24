@@ -96,6 +96,9 @@ $route['viewGrievance/(:any)'] = "admission/viewGrievance/$1";
 //display Student Mark
 $route['getStudentMarkSheet'] = "student/getStudentMarkSheet";
 
+$route['getStudentMarkSheet_two'] = "student/getStudentMarkSheet_two";
+
+
 //display student personal info assets 
 $route['getFormInformation'] = "student/getFormInformation";
 $route['getStreamNamesByProgram'] = "student/getStreamNamesByProgram";

@@ -8,30 +8,42 @@ class Login_model extends CI_Model
      * @param string $email : This is email of the user
      * @param string $password : This is encrypted password of the user
      */
-    function loginMe($username, $password)
+    // function loginMe($username, $password)
+    // {
+    //     $this->db->select('std.row_id, std.password, std.name, std.email, std.mobile, std.dob, std.registration_number, std.sslc_board_name_id, std.other_board_name');
+    //     $this->db->from('tbl_admission_registered_student_temp as std');
+    //     $this->db->where('std.reg_year', '2023');
+    //     if (strpos($username, '@') !== false){
+    //         $this->db->where('std.email', $username);
+    //     }else{
+    //         $this->db->where('std.mobile', $username);
+    //     }
+    //     //$this->db->where('std.registration_number', $username);
+    //     $this->db->where('std.is_deleted', 0);
+    //     $query = $this->db->get();
+    //     $student = $query->row();
+    //     // return $student;
+    //     if(!empty($student)){
+    //         if(verifyHashedPassword($password,$student->password) || $password == 'parrosj@2020'){
+    //             return $student;
+    //         } else {
+    //             return array();
+    //         }
+    //     } else {
+    //         return array();
+    //     }
+    // }
+
+    function loginMe($username)
     {
-        $this->db->select('std.row_id, std.password, std.name, std.email, std.mobile, std.dob, std.registration_number, std.sslc_board_name_id, std.other_board_name');
+        $this->db->select('std.row_id, std.password, std.name, std.email, std.mobile, std.dob, std.registration_number');
         $this->db->from('tbl_admission_registered_student_temp as std');
-        $this->db->where('std.reg_year', '2023');
-        if (strpos($username, '@') !== false){
-            $this->db->where('std.email', $username);
-        }else{
             $this->db->where('std.mobile', $username);
-        }
-        //$this->db->where('std.registration_number', $username);
-        $this->db->where('std.is_deleted', 0);
+            $this->db->where('std.reg_year', 2023);
         $query = $this->db->get();
         $student = $query->row();
-        // return $student;
-        if(!empty($student)){
-            if(verifyHashedPassword($password,$student->password) || $password == 'parrosj@2020'){
-                return $student;
-            } else {
-                return array();
-            }
-        } else {
-            return array();
-        }
+        return $student;
+            
     }
 
     

@@ -226,7 +226,7 @@ $certificate_uploaded_name = array();
                                                             <div class="form-group"> 
                                                                 <label class="student_mobile mdc-text-field mdc-text-field--filled ">
                                                                 <span class="mdc-text-field__ripple"></span>
-                                                                <input name="student_mobile" id="student_mobile" pattern="[0-9]*" value="<?php echo $studentInfo->student_mobile; ?>" class="mdc-text-field__input" type="tel" aria-labelledby="my-label-id" maxlength="10" autocomplete="off" onkeypress="return isNumber(event)" >
+                                                                <input name="student_mobile" id="student_mobile" pattern="[0-9]*" value="<?php echo $studentInfo->student_mobile; ?>" class="mdc-text-field__input" type="tel" aria-labelledby="my-label-id" maxlength="10" required autocomplete="off" onkeypress="return isNumber(event)" >
                                                                 <span class="mdc-floating-label" id="my-label-id">Whatsapp Number</span>
                                                                 <span class="mdc-line-ripple"></span>
                                                                 </label>
@@ -1324,8 +1324,18 @@ $certificate_uploaded_name = array();
                                                         </label>
                                                     </div>
                                                 </div>
-
                                                 <div class="col-lg-4 col-md-4 col-sm-4 mb-1">
+                                                    <div class="form-group">
+                                                        <label class="sslc_board_name mdc-text-field mdc-text-field--filled ">
+                                                            <span class="mdc-text-field__ripple"></span>
+                                                            <input type="text"  name="sslc_board_name" id="sslc_board_name" value="<?= $boardInfo->board_name ?>" class="mdc-text-field__input"  style="text-transform: uppercase;" maxlength="128" aria-labelledby="my-label-id" autocomplete="off" readonly required>
+                                                            <span class="mdc-floating-label" id="my-label-id">10th Board Name</span>
+                                                            <span class="mdc-line-ripple"></span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+
+                                                <!-- <div class="col-lg-4 col-md-4 col-sm-4 mb-1">
                                                 <input type="hidden" id="sslcId" value="<?php $boardInfo->board_name ?>">
                                                 <div class="form-group">
                                                     <div class="mdc-select mdc-select-board mdc-select--required">
@@ -1342,7 +1352,7 @@ $certificate_uploaded_name = array();
                                                                     <span class="mdc-list-item__text">
                                                                         Select Board Name
                                                                     </span>
-                                                                </li> -->
+                                                                </li> 
                                                                 <li class="mdc-list-item mdc-list-item--selected" data-value="<?php echo $boardInfo->row_id ?>">
                                                                     <span class="mdc-list-item__text">
                                                                         <?= $boardInfo->board_name ?>
@@ -1362,7 +1372,7 @@ $certificate_uploaded_name = array();
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                             <div class="col-lg-4 col-md-4 col-sm-4 mb-1">
                                                 <div class="form-group">
                                                     <div class="mdc-select mdc-select-attempts mdc-select--required">
@@ -2071,9 +2081,9 @@ $certificate_uploaded_name = array();
 
     });
 
-    const board_name = mdc.select.MDCSelect.attachTo(document.querySelector('.mdc-select-board'));
+    // const board_name = mdc.select.MDCSelect.attachTo(document.querySelector('.mdc-select-board'));
     const other_board_name = mdc.textField.MDCTextField.attachTo(document.querySelector('.other_board_name'));
-
+    const board_name =  mdc.textField.MDCTextField.attachTo(document.querySelector('.sslc_board_name'));
     // const changeMDCLabel = ({ focus })=>{
     //     if(focus){
     //         board_name.label.root_.className += ' mdc-floating-label--float-above';
