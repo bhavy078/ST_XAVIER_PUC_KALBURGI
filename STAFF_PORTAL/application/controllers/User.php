@@ -39,6 +39,8 @@ class User extends BaseController
     {
         $todayDate = date('Y-m-d');
         $data['staffInfo'] = $this->staff->getStaffInfoForProfile($this->staff_id);
+        $data['allStudentInfo'] = $this->student->getAllCurrentStudentInfo();
+        $data['AllstaffInfo'] = $this->staff->getAllStaffInfo();
         // $filter['by_role'] = ROLE_TEACHING_STAFF;
         // $data['teaching_staffs_total']= $this->staff->staffListingCount($filter);
         // $filter['by_role'] = ROLE_NON_TEACHING_STAFF;
@@ -114,6 +116,32 @@ class User extends BaseController
             $studentRecord = $this->student->getStudentInfoByStudentId($filter); 
             if(!empty($studentRecord)){
                 $data['studentsRecords'] = $studentRecord;
+                $elective_sub = strtoupper($studentRecord->elective_sub);            
+                if($elective_sub == 'KANNADA'){
+                    array_push($subjects_code, '01');
+                }else if($elective_sub == 'HINDI'){
+                    array_push($subjects_code, '03');
+                } else if($elective_sub == 'FRENCH'){
+                    array_push($subjects_code, '12');
+                }
+                log_message('debug','steamNme'.$studentRecord->stream_name);
+                $subjects = $this->getSubjectCodes($studentRecord->stream_name);
+                $subjects_code = array_merge($subjects_code,$subjects);
+                $data['subject_code'] = $subjects;
+                for($i=0;$i<count($subjects_code);$i++){
+                $subject_attendance[$subjects_code[$i]]['sub_name'] = $this->subject->getSubjectInfoById($subjects_code[$i]);
+                $subject_attendance[$subjects_code[$i]]['class_held'] = $this->student->getClassHeldInfo($filter,$subjects_code[$i]);
+                $class_absent = $this->student->getStudentAbsentInfo($student->student_id,$subjects_code[$i]);
+                $subject_attendance[$subjects_code[$i]]['class_attended'] = $subject_attendance[$subjects_code[$i]]['class_held'] - $class_absent;
+                if($subject_attendance[$subjects_code[$i]]['class_held'] == 0){
+                    $subject_attendance[$subjects_code[$i]]['percentage'] = 0;
+                }else{
+                    $subject_attendance[$subjects_code[$i]]['percentage'] = ($subject_attendance[$subjects_code[$i]]['class_attended'] / $subject_attendance[$subjects_code[$i]]['class_held']) * 100;
+                }
+                $total_class_held += $subject_attendance[$subjects_code[$i]]['class_held'];
+                $total_class_attended += $subject_attendance[$subjects_code[$i]]['class_attended'];
+                }
+
             } else {
                 $data['studentsRecords'] = '';
                 $data['studentSearchMsg'] = '<div class="alert alert-danger p-1 mb-0" role="alert">
@@ -536,6 +564,83 @@ class User extends BaseController
             $this->push_notification_model->sendMessage($title,$body,$tokenBatch[$itr],USER_TYPE_STUDENT);
         }
         $this->session->set_flashdata('success','Notification sent..!'); 
+    }
+
+
+
+
+
+    public function getSubjectCodes($stream_name){
+        //science
+        $PCMB = array("33", "34", "35", '36');
+        $PCMC = array("33", "34", "35", '41');
+        $PCME = array("33", "34", "35", '40');
+        $PCMS = array("33", "34", "35", '31');
+        $PCBH = array("33", "34", "36", '67');
+        //commarce
+        $BEBA = array("75", "22", "27", '30');
+        $BSBA = array("75", "31", "27", '30');
+        $CSBA = array("41", "31", "27", '30');
+        $SEBA = array("31", "22", "27", '30');
+        $CEBA = array("41", "22", "27", '30');
+        //art
+        $HEPP = array("21", "22", "32", '29');
+        $HEPS = array("21", "22", "29", '28');
+
+        $PEBA = array("29", "22", "27", '30');
+        $MEBA = array("75", "22", "27", '30');
+        $MSBA = array("75", "31", "27", '30');
+
+        switch ($stream_name) {
+            case "PCMB":
+                return  $PCMB;
+                break;
+            case "PCMC":
+                return $PCMC;
+                break;
+            case "PCME":
+                return $PCME;
+                break;
+            case "PCMS":
+                return $PCMS;
+                break;
+            case "PCBH":
+                return $PCBH;
+                break;
+            case "BEBA":
+                return $BEBA;
+                break;
+            case "BSBA":
+                return $BSBA;
+                break;
+            case "CSBA":
+                return $CSBA;
+                break;
+            case "SEBA":
+                return $SEBA;
+                break;
+            case "CEBA":
+                return $CEBA;
+                break;
+            case "HEPP":
+                return $HEPP;
+                break;
+            case "HEPS":
+                return $HEPS;
+                break;
+            case "HEBA":
+                return $HEBA;
+                break;
+            case "MEBA":
+                return $MEBA;
+                break;
+            case "MSBA":
+                return $MSBA;
+                break;
+            case "PEBA":
+                return $PEBA;
+                break;
+        }
     }
 
 
