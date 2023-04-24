@@ -138,7 +138,7 @@ if ($error) {
 
                                         <select class="form-control selectpicker" data-live-search="true"
                                             name="application_no" required>
-                                            <?php if(!empty($application_no)){?>
+                                            <?php if(!empty($application_no)){ ?>
                                             <option value="<?php echo $application_no; ?>" selected>
                                                 <?php echo $studentInfo->student_id; ?></option>
                                             <?php }   ?>
@@ -367,7 +367,7 @@ if ($error) {
                                         <div class="card-header bg-primary border-success p-1 text-white">I PUC Fee Info
                                         </div>
                                         <div class="card-body">
-                                            <?php //if(trim($studentInfo->term_name) == 'I PUC'){ if ($previousBal > 0) { ?>
+                                            <?php if($pending_amount > 0){ //if(trim($studentInfo->term_name) == 'I PUC'){ if ($previousBal > 0) { ?>
                                             <div class="row">
 
                                                 <div class="col-6">
@@ -408,9 +408,9 @@ if ($error) {
                                                 </div>
                                             </div>
 
-                                            <?php //} } else { ?>
-                                            <!-- <h5 style="color:green">I PUC Fee Cleared</h5> -->
-                                            <?php //}  ?>
+                                            <?php  } else { ?>
+                                            <h5 style="color:green">I PUC Fee Cleared</h5>
+                                            <?php }  ?>
                                             <table style="margin-top: 5px;" class="table table-hover">
                                                 <thead>
                                                     <tr class="table_row_background">
