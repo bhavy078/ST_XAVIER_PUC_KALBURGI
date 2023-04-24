@@ -152,20 +152,20 @@ if ($error) {
                                                 autocomplete="off" />
                                         </div>
                                     </td>
-                                    <td class="p-0 table_search_th">
+                                    <!-- <td class="p-0 table_search_th">
                                         <div class="form-group m-0">
                                             <input type="text" value="<?php echo $application_no;  ?>"
                                                 name="application_no" class="form-control" Placeholder="Application No."
                                                 id="application_no" maxlength="10" autocomplete="off" />
                                         </div>
-                                    </td>
-                                    <!-- <td class="p-0 table_search_th">
+                                    </td> -->
+                                    <td class="p-0 table_search_th">
                                             <div class="form-group m-0">
                                                 <input type="text" value="<?php echo $student_id;  ?>" name="student_id"
                                                     class="form-control" Placeholder="Student Id." id="student_id"
                                                     maxlength="8" autocomplete="off" />
                                             </div>
-                                        </td> -->
+                                        </td>
                                     <td class="p-0 table_search_th">
                                         <div class="form-group m-0">
                                             <input onkeypress="return isNumberKey(event)" type="text"
@@ -241,8 +241,8 @@ if ($error) {
                                 <tr class="table_row_background">
                                     <th width="25"><input type="checkbox" id="selectAll" /></th>
                                     <th>Date</th>
-                                    <th>Application No.</th>
-                                    <!-- <th>Student ID</th> -->
+                                    <!-- <th>Application No.</th> -->
+                                    <th>Student ID</th>
                                     <th>Receipt No.</th>
                                     <th>Order ID.</th>
 
@@ -259,8 +259,8 @@ if ($error) {
                                     <th><input type="checkbox" class="singleSelect"
                                             value="<?php echo $online->row_id; ?>" /></th>
                                     <td><?php echo date('d-m-Y',strtotime($online->payment_date)); ?></td>
-                                    <td><?php echo $online->application_no; ?></td>
-                                    <!-- <td><?php echo $online->student_id; ?></td> -->
+                                    <!-- <td><?php echo $online->application_no; ?></td> -->
+                                    <td><?php echo $online->student_id; ?></td>
                                     <td class="text-center"><?php echo sprintf("%04d", $online->receipt_number) ; ?></td>
                                     <td><?php echo $online->order_id; ?></td>
                                     <td><?php echo $online->paid_amount; ?></td>
@@ -284,13 +284,8 @@ if ($error) {
                                     }
                                     ?></td>
                                     <td>
-                                        <?php if($online->term_name == 'I PUC'){ ?>
                                         <a href="<?php echo base_url(); ?>feePaymentReceiptPrint/<?php echo $online->row_id; ?>"
                                             target="_blank">Receipt</a>
-                                        <?php }else{ ?>
-                                        <a href="<?php echo base_url(); ?>feePaymentReceiptPrintNewAdm/<?php echo $online->row_id; ?>"
-                                            target="_blank">Receipt</a>
-                                        <?php } ?>
                                     </td>
 
                                 </tr>

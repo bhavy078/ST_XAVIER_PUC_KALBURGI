@@ -421,21 +421,16 @@ if ($error) {
                                                         <th>Action</th>
                                                     </tr>
                                                 </thead>
-                                                <?php if (!empty($feePaidInfo)) {
+                                                <?php if (!empty($feePaidInfo)) {   
                                                             foreach ($feePaidInfo as $fee) { ?>
                                                 <tr class="text-dark">
                                                     <td><?php echo date('d-m-Y', strtotime($fee->payment_date)); ?></td>
                                                     <td class="text-center"><?php echo $fee->receipt_number; ?></td>
                                                     <td><?php echo number_format($fee->paid_amount,2); ?></td>
                                                     <td><?php echo $fee->payment_type; ?></td>
-                                                    <td>
-                                                        <?php if(trim($studentInfo->intake_year_id) == '2020'){ ?>
-                                                            <a href="<?php echo base_url(); ?>feePaymentReceiptPrint/<?php echo $fee->receipt_number; ?>"
-                                                            target="_blank">Receipt</a>
-                                                        <?php }else{ ?>   
+                                                    <td>   
                                                             <a href="<?php echo base_url(); ?>feePaymentReceiptPrint/<?php echo $fee->row_id; ?>"
-                                                            target="_blank">Receipt</a>
-                                                        <?php } ?>    
+                                                            target="_blank">Receipt</a> 
                                                     </td>
                                                 </tr>
                                                 <?php }

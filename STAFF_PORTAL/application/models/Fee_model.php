@@ -740,10 +740,9 @@ class Fee_model extends CI_Model
     public function getAllFeePaymentInfoCount($filter='')
     {
         $this->db->from('tbl_students_overall_fee_payment_info_i_puc_2021 as fee');
-        // $this->db->join('tbl_students_info as std', 'std.application_no = fee.application_no','left');
-      //  $this->db->join('tbl_fee_payment_bank_settlement as bank', 'bank.receipt_number = fee.row_id','left');
+        $this->db->join('tbl_students_info as std', 'std.row_id = fee.application_no','left');
+        //  $this->db->join('tbl_fee_payment_bank_settlement as bank', 'bank.receipt_number = fee.row_id','left');
     
-
         if(!empty($filter['application_no'])){
             $this->db->where('fee.application_no', $filter['application_no']);
         }
@@ -802,10 +801,10 @@ class Fee_model extends CI_Model
              fee.pending_balance,
              fee.payment_type, 
              fee.bank_settlement_status,
-             fee.term_name,
+             fee.term_name,std.student_id,
              fee.bank_settlement_date as date');
              $this->db->from('tbl_students_overall_fee_payment_info_i_puc_2021 as fee');
-            //  $this->db->join('tbl_students_info as std', 'std.application_no = fee.application_no','left');
+             $this->db->join('tbl_students_info as std', 'std.row_id = fee.application_no','left');
            //  $this->db->join('tbl_fee_payment_bank_settlement as bank', 'bank.receipt_number = fee.row_id','left');
              if(!empty($filter['application_no'])){
                 $this->db->where('fee.application_no', $filter['application_no']);
