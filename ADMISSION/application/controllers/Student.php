@@ -578,6 +578,15 @@ log_message('debug','csdfsdr'.$sslc_board_name_id);
                 $retun_id = $this->student_model->saveStudentPersonalInfo($studentPersonalInfo);
             }
 
+            $registrationInfo = array(
+                'name' => $fname,
+                'email'=> $student_email, 
+                'dob'=> $date_of_birth,
+                'updated_by' => $this->student_row_id, 
+                'updatedDtm' => date('Y-m-d H:i:s'));
+
+                $this->student_model->updateRegisterInfo($this->student_row_id,$registrationInfo); 
+
             if($retun_id > 0){
                 if(!empty($priest_name)){ 
                     $priestCertificateInfo = array(

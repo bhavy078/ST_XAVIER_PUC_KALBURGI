@@ -146,8 +146,8 @@ if ($error) {
                                     <!-- <th width="25"><input type="checkbox" id="selectAll" /></th> -->
                                     <th>Date</th>
                                     <th>Name</th>
-                                    <th>DOB</th>
-                                    <th>Board</th>
+                                    <!-- <th>DOB</th>
+                                    <th>Board</th> -->
                                     <th>Mobile No.</th>
                                     <th>Email</th>
                                     <th>Action</th>
@@ -166,7 +166,7 @@ if ($error) {
                                                 style="text-transform: uppercase" placeholder="Name"
                                                 autocomplete="off" />
                                         </th>
-                                        <th style="padding: 1px;"> <input type="text" name="dob"
+                                        <!-- <th style="padding: 1px;"> <input type="text" name="dob"
                                                 id="dob" value="<?php echo $dob; ?>"
                                                 class="form-control datepicker input-sm pull-right"
                                                 style="text-transform: uppercase" placeholder="Date of Birth"
@@ -187,7 +187,7 @@ if ($error) {
                                                     <option value="<?php echo $board->board_name; ?>"><?php echo $board->board_name; ?></option>
                                                 <?php } } ?>
                                             </select>
-                                        </th>
+                                        </th> -->
                                         <th style="padding: 1px;"> <input type="text" name="mobile"
                                                 id="mobile" value="<?php echo $mobile; ?>"
                                                 class="form-control input-sm pull-right"
@@ -216,11 +216,19 @@ if ($error) {
                                     <!-- <th><input type="checkbox" class="singleSelect"
                                             value="<?php echo $record->application_number; ?>" /></th> -->
                                     <th class="text-center"><?php echo date('d-m-Y',strtotime($record->created_date)); ?></th>
+                                    <?php if(empty($record->name )){ ?> 
+                                        <th class="text-success ">Name not updated</th>
+                                        <?php } else { ?>
                                     <th><?php echo $record->name; ?></th>
-                                    <th class="text-center"><?php echo date('d-m-Y',strtotime($record->dob)); ?></th>
-                                    <th><?php echo $record->board_name; ?></th>
+                                    <?php } ?>
+                                    <!-- <th class="text-center"><?php echo date('d-m-Y',strtotime($record->dob)); ?></th>
+                                    <th><?php echo $record->board_name; ?></th> -->
                                     <th class="text-center"><?php echo $record->mobile; ?> </th>
+                                    <?php if(empty($record->email )){ ?> 
+                                        <th class="text-success text-center">Email not updated</th>
+                                        <?php } else { ?>
                                     <th class="text-center"><?php echo $record->email; ?> </th>
+                                    <?php } ?>
                                     <th class="text-center"></th>
                                     <!-- <th class="text-center" width="180"> -->
                                         <!-- <a class="btn btn-xs btn-info" title="<?php echo $record->name; ?>" data-toggle="popover" data-placement="left" 
@@ -239,8 +247,8 @@ if ($error) {
                                 <tr class="table_row_backgrond text-center">
                                     <th>Date</th>
                                     <th>Name</th>
-                                    <th>DOB</th>
-                                    <th>Board</th>
+                                    <!-- <th>DOB</th>
+                                    <th>Board</th> -->
                                     <th>Mobile No.</th>
                                     <th>Email</th>
                                     <th>Action</th>

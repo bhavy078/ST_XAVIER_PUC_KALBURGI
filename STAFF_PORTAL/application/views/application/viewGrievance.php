@@ -75,11 +75,11 @@
                     <div class="card-body p-1 pb-2 table-responsive">
                         <table class="table table-bordered table-striped table-hover w-100 mb-2">
                                 <tr class="filter_row">
-                                <td >
+                                <!-- <td >
                                         <div class="form-group mb-0">
                                             <input type="text" value="<?php echo $by_name; ?>" name="by_name" id="by_name" class="form-control input-sm text-uppercase" placeholder="Name" autocomplete="off">
                                         </div>
-                                    </td> 
+                                    </td>  -->
                                     <td>
 
                                         <div class="form-group mb-0">
@@ -119,7 +119,7 @@
                             <thead>
                                 <tr class="table_row_background">
                                     <!-- <th class="text-center">Application No.</th> -->
-                                    <th class="text-center">Name</th>
+                                    <!-- <th class="text-center">Name</th> -->
                                     <th class="text-center">Mobile Number</th>
                                     <th class="text-center">Subject</th>
                                     <th class="text-center">Message</th>
@@ -133,7 +133,7 @@
                                     foreach($applicationInfo as $record){ 
                                         if($record->active_status == "1") { ?>
                                     <tr>
-                                    <th style="background-color:#90EE90"><?php echo $record->name; ?></th>
+                                    <!-- <th style="background-color:#90EE90"><?php echo $record->name; ?></th> -->
                                     <th class="text-center" style="background-color:#90EE90"><?php echo $record->mobile; ?></th>
                                         <th class="text-center" style="background-color:#90EE90"><?php echo $record->subject; ?></th>
                                         <th class="text-center" style="background-color:#90EE90"><?php echo $record->message; ?></th>
@@ -144,7 +144,7 @@
                                     </tr>
                                     <?php } else { ?>
                                         <tr>
-                                        <th><?php echo $record->name; ?></th> 
+                                        <!-- <th><?php echo $record->name; ?></th>  -->
                                         <th class="text-center"><?php echo $record->mobile; ?></th>
                                         <th class="text-center"><?php echo $record->subject; ?></th>
                                         <th class="text-center"><?php echo $record->message; ?></th>

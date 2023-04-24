@@ -154,6 +154,12 @@ class Student_model extends CI_Model
         return $query->row();
     }
 
+    function updateRegisterInfo($register_row_id,$registerInfo){
+        $this->db->where('row_id', $register_row_id);
+        $this->db->update('tbl_admission_registered_student_temp', $registerInfo);
+        return $this->db->affected_rows();
+    }
+
     //saving school info
     function saveStudentSchoolInfo($schoolInfo){
         $this->db->trans_start();
