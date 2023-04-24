@@ -140,18 +140,12 @@ if ($error) {
                                             name="application_no" required>
                                             <?php if(!empty($application_no)){?>
                                             <option value="<?php echo $application_no; ?>" selected>
-                                                <?php echo $application_no; ?></option>
+                                                <?php echo $studentInfo->student_id; ?></option>
                                             <?php }   ?>
                                             <option value="">Select Student</option>
-                                            <?php if (!empty($newStdInfo)) {
-                                            foreach ($newStdInfo as $std) {  ?>
-                                            <option value="<?php echo $std->application_no; ?>">
-                                                <b><?php echo $std->application_no . ' - ' . $std->student_name. ' - I PUC'; ?></b>
-                                            </option>
-                                            <?php } } ?>
                                             <?php if(!empty($allStudentInfo)){
                                         foreach($allStudentInfo as $std){  ?>
-                                            <option value="<?php echo $std->application_no; ?>">
+                                            <option value="<?php echo $std->row_id; ?>">
                                                 <b><?php echo $std->student_id.' - '.$std->application_no.' - '.$std->student_name. ' - '.$std->term_name; ?></b>
                                             </option>
                                             <?php } } ?>
@@ -195,9 +189,9 @@ if ($error) {
                                                     </tr>
 
                                                     <tr class="table-success">
-                                                        <th class="text-left" scope="col">App No./Stud ID</th>
+                                                        <th class="text-left" scope="col">Stud ID</th>
                                                         <th class="text-left" scope="col">
-                                                            <?php echo $application_no.'/'.$studentInfo->student_id; ?></th>
+                                                            <?php echo $studentInfo->student_id; ?></th>
                                                     </tr>
                                                     <tr class="table-primary">
                                                         <th class="text-left" scope="col">Term</th>
@@ -209,30 +203,7 @@ if ($error) {
                                                             <?php echo $studentInfo->stream_name; ?>
                                                         </th>
                                                     </tr>
-                                                    <!-- <tr class="table-primary">
-                                                        <th class="text-left" scope="col">Category</th>
-                                                        <th class="text-left" scope="col">
-                                                            <?php echo $studentInfo->category; ?>
-                                                        </th>
-                                                    </tr> -->
-
-                                                    <?php if(!empty($board_id)){ ?>
-                                                    <tr class="bg-info text-white">
-                                                        <th class="text-left" scope="col">Board</th>
-                                                        <th class="text-left" scope="col">
-                                                            <?php if($board_id == 1) {
-                                                                        echo 'SSLC';
-                                                                    }else if($board_id == 2){
-                                                                        echo 'CBSE';
-                                                                    }else if($board_id == 3){
-                                                                        echo 'ICSE';
-                                                                    }else{
-                                                                        echo 'OTHER';
-                                                                    }
-                                                                     ?>
-                                                        </th>
-                                                    </tr>
-                                                    <?php } ?>
+                                            
                                                     <!-- <tr class="bg-primary text-white">
                                                         <th class="text-left" scope="col">Elective Sub</th>
                                                         <th class="text-left" scope="col">
@@ -279,7 +250,7 @@ if ($error) {
                                                         </tr>
                                                         <?php } ?>
 
-                                                    <?php if ($term_name == "II PUC") { ?>
+                                                    <?php if ($term_name == "III PUC") { ?>
                                                     <tr class="bg-danger text-white">
                                                         <th class="text-left" scope="col">I PUC Balance</th>
                                                         <th class="text-left" scope="col">
@@ -391,12 +362,12 @@ if ($error) {
                                         </div>
                                     </div>
                                     <?php } ?>
-                                   
+                                    <?php if(trim($studentInfo->term_name) == 'I PUC'){ ?>
                                     <div class="card border-success mb-1">
                                         <div class="card-header bg-primary border-success p-1 text-white">I PUC Fee Info
                                         </div>
                                         <div class="card-body">
-                                            <?php if(trim($studentInfo->intake_year_id) != '2020'){ if ($previousBal > 0) { ?>
+                                            <?php //if(trim($studentInfo->term_name) == 'I PUC'){ if ($previousBal > 0) { ?>
                                             <div class="row">
 
                                                 <div class="col-6">
@@ -437,9 +408,9 @@ if ($error) {
                                                 </div>
                                             </div>
 
-                                            <?php } else { ?>
-                                            <h5 style="color:green">I PUC Fee Cleared</h5>
-                                            <?php } } ?>
+                                            <?php //} } else { ?>
+                                            <!-- <h5 style="color:green">I PUC Fee Cleared</h5> -->
+                                            <?php //}  ?>
                                             <table style="margin-top: 5px;" class="table table-hover">
                                                 <thead>
                                                     <tr class="table_row_background">
@@ -472,10 +443,11 @@ if ($error) {
                                                 <tr class="text-dark">
                                                     <td colspan="5">Fee info not found</td>
                                                 </tr>
-                                                <?php   } ?>
+                                                <?php  } ?>
                                             </table>
                                         </div>
                                     </div>
+                                    <?php } ?>
                                 </div>
 
 

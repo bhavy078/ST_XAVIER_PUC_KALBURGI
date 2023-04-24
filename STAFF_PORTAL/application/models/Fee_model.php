@@ -7,7 +7,7 @@ class Fee_model extends CI_Model
         $this->db->select('std.student_id,fee.row_id,fee.fee_amt,fee.approved_status,fee.date,fee.description,fee.application_no,
         fee.payment_status,std.student_name');
         $this->db->from('tbl_student_fee_concession as fee');
-        $this->db->join('tbl_students_info as std','std.application_no = fee.application_no'); 
+        $this->db->join('tbl_students_info as std','std.row_id = fee.application_no'); 
        
         
         if(!empty($filter['by_name'])) {
@@ -35,7 +35,7 @@ class Fee_model extends CI_Model
         $this->db->select('std.student_id,fee.row_id,fee.fee_amt,fee.approved_status,fee.date,
         fee.description,fee.application_no,fee.payment_status,std.student_name');
         $this->db->from('tbl_student_fee_concession as fee');
-        $this->db->join('tbl_students_info as std','std.application_no = fee.application_no'); 
+        $this->db->join('tbl_students_info as std','std.row_id = fee.application_no'); 
        
         
         if(!empty($filter['by_name'])) {
@@ -487,16 +487,6 @@ class Fee_model extends CI_Model
         $insert_id = $this->db->insert_id(); 
         $this->db->trans_complete();
         return $insert_id; 
-    }
-
-    public function getLastReceiptNo2021(){
-        $this->db->select('fee.receipt_number');
-        $this->db->from('tbl_admission_students_overall_fee_payment_info as fee');
-        $this->db->where('fee.is_deleted', 0);
-        $this->db->order_by('fee.row_id', 'DESC');
-        $this->db->limit(1);
-        $query = $this->db->get();
-        return $query->row();
     }
 
     public function addReceiptFeeTypeOld($paymentInfo){
@@ -1229,16 +1219,6 @@ class Fee_model extends CI_Model
         return $query->row();
     }
 
-    public function getLastReceiptNoFromOverall($term){
-        $this->db->from('tbl_students_overall_fee_payment_info_i_puc_2021 as std');
-        $this->db->where('std.payment_year', CURRENT_YEAR);
-        $this->db->where('std.term_name', $term);
-        $this->db->where('std.is_deleted', 0);
-        $this->db->order_by('std.row_id', 'DESC');
-        $this->db->limit(1);
-        $query = $this->db->get();
-        return $query->row()->receipt_number;
-    }
 
     // add overall fees detail - readmission
     public function addReadmission_FeeDetailsInfo($feeInfo){
@@ -1386,12 +1366,11 @@ class Fee_model extends CI_Model
         return $query->row();
     }
 
-    public function getLastReceiptNo($year,$term){
+    public function getLastReceiptNo($year){
         $this->db->select('fee.receipt_number');
         $this->db->from('tbl_students_overall_fee_payment_info_i_puc_2021 as fee');
         $this->db->where('fee.is_deleted', 0);
         $this->db->where('fee.payment_year', $year);
-        $this->db->where('fee.term_name',$term);
         $this->db->order_by('fee.row_id', 'DESC');
         $this->db->limit(1);
         $query = $this->db->get();

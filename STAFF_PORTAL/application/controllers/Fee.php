@@ -57,48 +57,7 @@ class Fee extends BaseController
             $this->loadViews("feeConcession/concession.php", $this->global, $data, null);
         }
     }
-
-    
-    public function viewFeeConcessionNewAdmission(){
-        if ($this->isAdmin() == true ) {
-            $this->loadThis();
-        } else {  
-            $filter = array();
-            $by_name = $this->security->xss_clean($this->input->post('by_name'));
-            $amount = $this->security->xss_clean($this->input->post('amount'));
-            $by_date = $this->security->xss_clean($this->input->post('by_date'));
-            $application_no = $this->security->xss_clean($this->input->post('application_no'));
-
-            $data['by_name'] = $by_name;
-            $data['amount'] = $amount;
-            $data['application_no'] = $application_no;
-
-            $filter['application_no'] = $application_no;
-            $filter['by_name'] = $by_name;
-            $filter['amount'] = $amount;
-
-            if(!empty($by_date)){
-                $filter['by_date'] = date('Y-m-d',strtotime($by_date));
-                $data['by_date'] = date('d-m-Y',strtotime($by_date));
-            }else{
-                $data['by_date'] = '';
-            }
-            
-            $this->load->library('pagination');
-            $count = $this->fee->getFeeConcessionNewAdmCount($filter);
-            $returns = $this->paginationCompress("viewFeeConcessionNewAdmission/", $count, 100);
-            $data['totalCount'] = $count;
-            $filter['page'] = $returns["page"];
-            $filter['segment'] = $returns["segment"];
-            $data['concessionInfo'] = $this->fee->getFeeConcessionNewAdmInfo($filter);
-            $data['studentInfo'] = $this->fee->getStudentNewApplicationForConcession();
-            $this->global['pageTitle'] = ''.TAB_TITLE.' : New Adm Fee Concession';
-            $this->loadViews("feeConcession/feeConcessionNewAdmission", $this->global, $data, null);
-        }
-    }
-    
-
-    
+  
     public function addConcession() {
         if($this->isAdmin() == TRUE) {
             $this->loadThis();
@@ -122,7 +81,7 @@ class Fee extends BaseController
                         'description'=>$description,
                         'year'=>$year,
                         'date'=>date('Y-m-d H:i:s'),
-                         'approved_status'=>1,
+                        'approved_status'=>1,
                         'created_by'=>$this->staff_id,
                         'created_date_time'=>date('Y-m-d H:i:s'));
                     $result = $this->fee->addConcession($feeInfo);
@@ -814,340 +773,10 @@ class Fee extends BaseController
         }
     }
 
-    public function feePaymentReceiptPrint_old($receipt_number){
-        if($this->isAdmin() == TRUE){
-            $this->loadThis();
-        } else {
-            $data['ddInfo'] = $this->fee->getFeeDDInfo($receipt_number);
-            $data['cardInfo'] = $this->fee->getFeeCardInfo($receipt_number);
-            $data['feePaidInfo'] = $this->fee->getFeeInfoByReceiptNum_2020old($receipt_number);
-           
-            $data['studentInfo'] = $this->student->getStudentInfoBy_Application_no($data['feePaidInfo']->application_no);
-            // $this->global['pageTitle'] = 'Schoolphins-SJPUC : Fee Receipt';
-            // $this->loadViews("fees/feePaymentReceiptPrint_old", $this->global, $data, null); 
+   
+  
 
-            $this->global['pageTitle'] = ''.TAB_TITLE.' : Fee Receipt';
-           // $data['feeInfo'] = $this->fee->getStudentManagementFeeInfoById($row_id);
-            $mpdf = new \Mpdf\Mpdf(['tempDir' => sys_get_temp_dir().DIRECTORY_SEPARATOR.'mpdf','default_font' => 'timesnewroman', 'format' => 'A4']);
-            $mpdf->AddPage('L','','','','',2,2,2,1,8,8);
-            $feePending = $this->fee->getFeePendingAmount2019($data['studentInfo']->student_id);
-           
-
-            $filter['fee_year'] = '2020';
-            $filter['term_name'] = 'I PUC';
-            $data['term_name'] = 'I PUC';
-            $filter['stream_name'] = $studentInfo->stream_name;
-            if(strtoupper($studentInfo->elective_sub) == 'FRENCH'){
-                $filter['lang_fee_status'] = true;
-            }else{
-                $filter['lang_fee_status'] = false;
-            }
-            
-            $filter['category'] = strtoupper($studentInfo->category);
-            $feeStructure = $this->fee->getFeeStructureInfo2021($filter);
-            $paid_amount = $data['feePaidInfo']->paid_amount;
-
-            $mpdf->SetTitle('Fee Receipt');
-            $data['year_display'] = '2020-21';
-            $data['term_name'] = $data['studentInfo']->term_name;
-            //management_reciept
-          
-            // if(!empty($feePending)){
-            //     if($feePending->fee_paid == 0){
-            //         foreach($feeStructure as $fee){
-            //             if($fee->fees_type == 'TUITION FEE'){
-            //                 $data['fee_name'] = "TUITION FEE";
-            //                 $data['fee_amount_clg'] = $fee->fee_amount_state_board;
-            //                 $data['paid_amount'] = $fee->fee_amount_state_board;
-            //                 $paid_amount -= $fee->fee_amount_state_board;
-            //             }
-            //         }
-            //         $data['college_name'] = "ST JOSEPH'S PRE-UNIVERSITY COLLEGE";
-            //         $data['name_count'] = 0;
-            //         $html_student_copy = $this->load->view('fees/feePaymentReceiptPrint_old',$data,true);
-            //         $data['name_count'] = 1;
-            //         $html_college_copy = $this->load->view('fees/feePaymentReceiptPrint_old',$data,true);
-            //         $data['name_count'] = 2;
-            //         $html_bank_copy = $this->load->view('fees/feePaymentReceiptPrint_old',$data,true);
-            //         $mpdf->WriteHTML('<columns column-count="3" vAlign="J" column-gap="2" />');
-            //         $mpdf->WriteHTML($html_student_copy);
-            //         $mpdf->WriteHTML($html_college_copy);
-            //         $mpdf->WriteHTML($html_bank_copy);
-            //     }
-            // }
-            $data['fee_name'] = "TUITION FEE";
-            $data['paid_amount'] = $paid_amount;
-            $data['college_name'] = 'HASSAN JESUIT EDUCATIONAL SOCIETY';
-            $data['name_count'] = 0;
-            $html_student_copy = $this->load->view('fees/feePaymentReceiptPrint_old',$data,true);
-            $data['name_count'] = 1;
-            $html_college_copy = $this->load->view('fees/feePaymentReceiptPrint_old',$data,true);
-            $data['name_count'] = 2;
-            $html_bank_copy = $this->load->view('fees/feePaymentReceiptPrint_old',$data,true);
-            $mpdf->WriteHTML('<columns column-count="3" vAlign="J" column-gap="2" />');
-            $mpdf->WriteHTML($html_student_copy);
-            $mpdf->WriteHTML($html_college_copy);
-            $mpdf->WriteHTML($html_bank_copy);
-            //college fee reciept
-            // $data['college_name'] = "ST JOSEPH'S PRE-UNIVERSITY COLLEGE";
-            // $data['name_count'] = 0;
-            // $html_student_copy = $this->load->view('fees/feePaymentReceiptPrint_old',$data,true);
-            // $data['name_count'] = 1;
-            // $html_college_copy = $this->load->view('fees/feePaymentReceiptPrint_old',$data,true);
-            // $data['name_count'] = 2;
-            // $html_bank_copy = $this->load->view('fees/feePaymentReceiptPrint_old',$data,true);
-            // $mpdf->AddPage('L','','','','',2,2,2,1,8,8);
-            // $mpdf->WriteHTML('<columns column-count="3" vAlign="J" column-gap="2" />');
-            // $mpdf->WriteHTML($html_student_copy);
-            // $mpdf->WriteHTML($html_college_copy);
-            // $mpdf->WriteHTML($html_bank_copy);
-
-            $mpdf->Output('Fee_Receipt.pdf', 'I');
-        }
-    }
-
-    public function feePaymentReceiptPrint_old2019($receipt_number){
-        if($this->isAdmin() == TRUE){
-            $this->loadThis();
-        } else {
-            $data['ddInfo'] = $this->fee->getFeeDDInfo($receipt_number);
-            $data['cardInfo'] = $this->fee->getFeeCardInfo($receipt_number);
-            $data['feePaidInfo'] = $this->fee->getFeeInfoByReceiptNum_2019old($receipt_number);
-           
-            $data['studentInfo'] = $this->student->getStudentInfoBy_Application_no($data['feePaidInfo']->application_no);
-            // $this->global['pageTitle'] = 'Schoolphins-SJPUC : Fee Receipt';
-            // $this->loadViews("fees/feePaymentReceiptPrint_old", $this->global, $data, null); 
-
-            $this->global['pageTitle'] = ''.TAB_TITLE.' : Fee Receipt';
-           // $data['feeInfo'] = $this->fee->getStudentManagementFeeInfoById($row_id);
-            $mpdf = new \Mpdf\Mpdf(['tempDir' => sys_get_temp_dir().DIRECTORY_SEPARATOR.'mpdf','default_font' => 'timesnewroman', 'format' => 'A4']);
-            $mpdf->AddPage('L','','','','',2,2,2,1,8,8);
-            $feePending = $this->fee->getFeePendingAmount2019($data['studentInfo']->student_id);
-           
-
-            $filter['fee_year'] = '2020';
-            $filter['term_name'] = 'I PUC';
-            $data['term_name'] = 'I PUC';
-            $filter['stream_name'] = $studentInfo->stream_name;
-            if(strtoupper($studentInfo->elective_sub) == 'FRENCH'){
-                $filter['lang_fee_status'] = true;
-            }else{
-                $filter['lang_fee_status'] = false;
-            }
-            
-            $filter['category'] = strtoupper($studentInfo->category);
-            $feeStructure = $this->fee->getFeeStructureInfo2021($filter);
-            $paid_amount = $data['feePaidInfo']->paid_amount;
-
-            $mpdf->SetTitle('Fee Receipt');
-            $data['year_display'] = '2020-21';
-            $data['term_name'] = $data['studentInfo']->term_name;
-            //management_reciept
-          
-            // if(!empty($feePending)){
-            //     if($feePending->fee_paid == 0){
-            //         foreach($feeStructure as $fee){
-            //             if($fee->fees_type == 'TUITION FEE'){
-            //                 $data['fee_name'] = "TUITION FEE";
-            //                 $data['fee_amount_clg'] = $fee->fee_amount_state_board;
-            //                 $data['paid_amount'] = $fee->fee_amount_state_board;
-            //                 $paid_amount -= $fee->fee_amount_state_board;
-            //             }
-            //         }
-            //         $data['college_name'] = "ST JOSEPH'S PRE-UNIVERSITY COLLEGE";
-            //         $data['name_count'] = 0;
-            //         $html_student_copy = $this->load->view('fees/feePaymentReceiptPrint_old',$data,true);
-            //         $data['name_count'] = 1;
-            //         $html_college_copy = $this->load->view('fees/feePaymentReceiptPrint_old',$data,true);
-            //         $data['name_count'] = 2;
-            //         $html_bank_copy = $this->load->view('fees/feePaymentReceiptPrint_old',$data,true);
-            //         $mpdf->WriteHTML('<columns column-count="3" vAlign="J" column-gap="2" />');
-            //         $mpdf->WriteHTML($html_student_copy);
-            //         $mpdf->WriteHTML($html_college_copy);
-            //         $mpdf->WriteHTML($html_bank_copy);
-            //     }
-            // }
-            $data['fee_name'] = "TUITION FEE";
-            $data['paid_amount'] = $paid_amount;
-            $data['college_name'] = 'HASSAN JESUIT EDUCATIONAL SOCIETY';
-            $data['name_count'] = 0;
-            $html_student_copy = $this->load->view('fees/feePaymentReceiptPrint_old',$data,true);
-            $data['name_count'] = 1;
-            $html_college_copy = $this->load->view('fees/feePaymentReceiptPrint_old',$data,true);
-            $data['name_count'] = 2;
-            $html_bank_copy = $this->load->view('fees/feePaymentReceiptPrint_old',$data,true);
-            $mpdf->WriteHTML('<columns column-count="3" vAlign="J" column-gap="2" />');
-            $mpdf->WriteHTML($html_student_copy);
-            $mpdf->WriteHTML($html_college_copy);
-            $mpdf->WriteHTML($html_bank_copy);
-            //college fee reciept
-            // $data['college_name'] = "ST JOSEPH'S PRE-UNIVERSITY COLLEGE";
-            // $data['name_count'] = 0;
-            // $html_student_copy = $this->load->view('fees/feePaymentReceiptPrint_old',$data,true);
-            // $data['name_count'] = 1;
-            // $html_college_copy = $this->load->view('fees/feePaymentReceiptPrint_old',$data,true);
-            // $data['name_count'] = 2;
-            // $html_bank_copy = $this->load->view('fees/feePaymentReceiptPrint_old',$data,true);
-            // $mpdf->AddPage('L','','','','',2,2,2,1,8,8);
-            // $mpdf->WriteHTML('<columns column-count="3" vAlign="J" column-gap="2" />');
-            // $mpdf->WriteHTML($html_student_copy);
-            // $mpdf->WriteHTML($html_college_copy);
-            // $mpdf->WriteHTML($html_bank_copy);
-
-            $mpdf->Output('Fee_Receipt.pdf', 'I');
-        }
-    }
-    public function feePaymentReceiptPrintNewAdm($receipt_number){
-        if($this->isAdmin() == TRUE){
-            $this->loadThis();
-        } else {
-            $data['feePaidInfo'] = $this->fee->getFeeInfoByReceiptNum_2021($receipt_number);
-           
-           
-            $application_no = $data['feePaidInfo']->application_no;
-            $studentInfo = $this->student->getStudentInfoBy_Application_no($application_no);
-            $data['ddInfo'] = $this->fee->getFeeDDInfo($receipt_number);
-            $data['cardInfo'] = $this->fee->getFeeCardInfo($receipt_number);
-           
-            // $this->global['pageTitle'] = 'Schoolphins-SJPUC : Fee Receipt';
-            // $this->loadViews("fees/feePaymentReceiptPrint_old", $this->global, $data, null); 
-            $data['year_display'] = '2022-23';
-            $this->global['pageTitle'] = ''.TAB_TITLE.' : Fee Receipt';
-
-            $data['studentInfo'] = $studentInfo;
-           // $data['feeInfo'] = $this->fee->getStudentManagementFeeInfoById($row_id);
-            $mpdf = new \Mpdf\Mpdf(['tempDir' => sys_get_temp_dir().DIRECTORY_SEPARATOR.'mpdf','default_font' => 'timesnewroman', 'format' => 'A4']);
-            $mpdf->AddPage('L','','','','',2,2,2,1,8,8);
-            
-            $mpdf->SetTitle('Fee Receipt');
-            $payment_count = $data['feePaidInfo']->payment_count;
-            //management_reciept
-            $data['college_name'] = 'HASSAN JESUIT EDUCATIONAL SOCIETY';
-            $data['name_count'] = 0;
-            
-                
-           
-           
-            $feePaidStructure = $this->fee->getFeeReceiptPrintInfo_2021_I_PUC($receipt_number,'1',$application_no);
-            // $filter['category'] = strtoupper($studentInfo->category);
-            // $feeStructure = $this->fee->getFeeStructureInfo2021($filter);
-            // log_message('debug','feePaidStructure='.print_r($feePaidStructure,true));
-            // log_message('debug','receipt_number='.$receipt_number);
-            // log_message('debug','$application_no='.print_r($application_no,true));
-            $data['feePaidStructure'] = $feePaidStructure;
-            $data['term_name'] = 'II PUC';
-            $data['college_name'] = 'HASSAN JESUIT EDUCATIONAL SOCIETY';
-            $html_student_copy = $this->load->view('fees/feePaymentReceiptPrint_2021',$data,true);
-            $data['name_count'] = 1;
-            $html_college_copy = $this->load->view('fees/feePaymentReceiptPrint_2021',$data,true);
-            $data['name_count'] = 2;
-            $html_bank_copy = $this->load->view('fees/feePaymentReceiptPrint_2021',$data,true);
-            $mpdf->WriteHTML('<columns column-count="3" vAlign="J" column-gap="2" />');
-            $mpdf->WriteHTML($html_student_copy);
-            $mpdf->WriteHTML($html_college_copy);
-            $mpdf->WriteHTML($html_bank_copy);
-            
-            if($payment_count == 1){
-            $feePaidStructure = $this->fee->getFeeReceiptPrintInfo_2021_I_PUC($receipt_number,'2',$application_no);
-            // log_message('debug','feePaidStructure2='.print_r($feePaidStructure,true));
-            // log_message('debug','receipt_number2='.$receipt_number);
-            // log_message('debug','$application_no2='.print_r($application_no,true));
-            $data['feePaidStructure'] = $feePaidStructure;
-                // log_message('debug','fff=='.print_r($feeStructure,true));
-             $data['payment_count'] = $payment_count;
-             //college fee reciept
-             $data['college_name'] = "ST JOSEPH'S PRE-UNIVERSITY COLLEGE";
-             $data['name_count'] = 0;
-             $html_student_copy = $this->load->view('fees/feePaymentReceiptPrint_2021',$data,true);
-             $data['name_count'] = 1;
-             $html_college_copy = $this->load->view('fees/feePaymentReceiptPrint_2021',$data,true);
-             $data['name_count'] = 2;
-             $html_bank_copy = $this->load->view('fees/feePaymentReceiptPrint_2021',$data,true);
-             $mpdf->AddPage('L','','','','',2,2,2,1,8,8);
-             $mpdf->WriteHTML('<columns column-count="3" vAlign="J" column-gap="2" />');
-             $mpdf->WriteHTML($html_student_copy);
-             $mpdf->WriteHTML($html_college_copy);
-             $mpdf->WriteHTML($html_bank_copy);
-             }
-            $mpdf->Output('Fee_Receipt.pdf', 'I');
-        }
-    }
-
-    public function feePaymentReceiptPrintOld($receipt_number){
-        if($this->isAdmin() == TRUE){
-            $this->loadThis();
-        } else {
-            $data['feePaidInfo'] = $this->fee->getFeeInfoByReceiptNumOld($receipt_number);
-           
-           
-            $application_no = $data['feePaidInfo']->application_no;
-            $studentInfo = $this->student->getStudentInfoBy_Application_no($application_no);
-            $data['ddInfo'] = $this->fee->getFeeDDInfo($receipt_number);
-            $data['cardInfo'] = $this->fee->getFeeCardInfo($receipt_number);
-           
-            // $this->global['pageTitle'] = 'Schoolphins-SJPUC : Fee Receipt';
-            // $this->loadViews("fees/feePaymentReceiptPrint_old", $this->global, $data, null); 
-            $data['year_display'] = '2021-22';
-            $this->global['pageTitle'] = ''.TAB_TITLE.' : Fee Receipt';
-
-            $data['studentInfo'] = $studentInfo;
-           // $data['feeInfo'] = $this->fee->getStudentManagementFeeInfoById($row_id);
-            $mpdf = new \Mpdf\Mpdf(['tempDir' => sys_get_temp_dir().DIRECTORY_SEPARATOR.'mpdf','default_font' => 'timesnewroman', 'format' => 'A4']);
-            $mpdf->AddPage('L','','','','',2,2,2,1,8,8);
-            
-            $mpdf->SetTitle('Fee Receipt');
-            $payment_count = $data['feePaidInfo']->payment_count;
-            //management_reciept
-            $data['college_name'] = 'HASSAN JESUIT EDUCATIONAL SOCIETY';
-            $data['name_count'] = 0;
-            
-                
-           
-           
-            $feePaidStructure = $this->fee->getFeeReceiptPrintInfo_2021_I_PUC($receipt_number,'1',$application_no);
-            // $filter['category'] = strtoupper($studentInfo->category);
-            // $feeStructure = $this->fee->getFeeStructureInfo2021($filter);
-            // log_message('debug','feePaidStructure='.print_r($feePaidStructure,true));
-            // log_message('debug','receipt_number='.$receipt_number);
-            // log_message('debug','$application_no='.print_r($application_no,true));
-            $data['feePaidStructure'] = $feePaidStructure;
-            $data['term_name'] = 'II PUC';
-            $data['college_name'] = 'HASSAN JESUIT EDUCATIONAL SOCIETY';
-            $html_student_copy = $this->load->view('fees/feePaymentReceiptPrint_2021',$data,true);
-            $data['name_count'] = 1;
-            $html_college_copy = $this->load->view('fees/feePaymentReceiptPrint_2021',$data,true);
-            $data['name_count'] = 2;
-            $html_bank_copy = $this->load->view('fees/feePaymentReceiptPrint_2021',$data,true);
-            $mpdf->WriteHTML('<columns column-count="3" vAlign="J" column-gap="2" />');
-            $mpdf->WriteHTML($html_student_copy);
-            $mpdf->WriteHTML($html_college_copy);
-            $mpdf->WriteHTML($html_bank_copy);
-            
-            if($payment_count == 1){
-            $feePaidStructure = $this->fee->getFeeReceiptPrintInfo_2021_I_PUC($receipt_number,'2',$application_no);
-            // log_message('debug','feePaidStructure2='.print_r($feePaidStructure,true));
-            // log_message('debug','receipt_number2='.$receipt_number);
-            // log_message('debug','$application_no2='.print_r($application_no,true));
-            $data['feePaidStructure'] = $feePaidStructure;
-                // log_message('debug','fff=='.print_r($feeStructure,true));
-             $data['payment_count'] = $payment_count;
-             //college fee reciept
-             $data['college_name'] = "ST JOSEPH'S PRE-UNIVERSITY COLLEGE";
-             $data['name_count'] = 0;
-             $html_student_copy = $this->load->view('fees/feePaymentReceiptPrint_2021',$data,true);
-             $data['name_count'] = 1;
-             $html_college_copy = $this->load->view('fees/feePaymentReceiptPrint_2021',$data,true);
-             $data['name_count'] = 2;
-             $html_bank_copy = $this->load->view('fees/feePaymentReceiptPrint_2021',$data,true);
-             $mpdf->AddPage('L','','','','',2,2,2,1,8,8);
-             $mpdf->WriteHTML('<columns column-count="3" vAlign="J" column-gap="2" />');
-             $mpdf->WriteHTML($html_student_copy);
-             $mpdf->WriteHTML($html_college_copy);
-             $mpdf->WriteHTML($html_bank_copy);
-             }
-            $mpdf->Output('Fee_Receipt.pdf', 'I');
-        }
-    }
+   
 
 
     public function viewAdmFeeConcession(){
@@ -1416,78 +1045,11 @@ class Fee extends BaseController
         }
     }
     
-    // public function feePaymentReceiptPrintNewAdmIPUC($receipt_number){
-    //     if($this->isAdmin() == TRUE){
-    //         $this->loadThis();
-    //     } else {
-    //         $data['feePaidInfo'] = $this->fee->getFeeInfoByReceiptNum_2021_newAdm($receipt_number);
-    //         $application_no = $data['feePaidInfo']->application_no;
-    //         $data['ddInfo'] = $this->fee->getFeeDDInfoNewAdm($receipt_number,$application_no);
-    //         $data['cardInfo'] = $this->fee->getFeeCardInfoNewAdm($receipt_number,$application_no);
-           
-           
-    //         $studentInfo = $this->admission->getStudentStudentInfo($application_no);
-
-    //         // $this->global['pageTitle'] = 'Schoolphins-SJPUC : Fee Receipt';
-    //         // $this->loadViews("fees/feePaymentReceiptPrint_old", $this->global, $data, null); 
-    //         $data['year_display'] = '2022-23';
-    //         $this->global['pageTitle'] = ''.TAB_TITLE.' : Fee Receipt';
-
-    //         $data['studentInfo'] = $studentInfo;
-    //        // $data['feeInfo'] = $this->fee->getStudentManagementFeeInfoById($row_id);
-    //         $mpdf = new \Mpdf\Mpdf(['tempDir' => sys_get_temp_dir().DIRECTORY_SEPARATOR.'mpdf','default_font' => 'timesnewroman', 'format' => 'A4']);
-    //         $mpdf->AddPage('L','','','','',2,2,2,1,8,8);
-            
-    //         $mpdf->SetTitle('Fee Receipt');
-    //         $payment_count = $data['feePaidInfo']->payment_count;
-    //         //management_reciept
-    //         $data['college_name'] = 'HASSAN JESUIT EDUCATIONAL SOCIETY';
-    //         $data['name_count'] = 0;
-
-    //         $feePaidStructure = $this->fee->getFeeReceiptPrintInfo_2021_I_PUC($receipt_number,'1',$application_no);
-
-    //         // $filter['category'] = strtoupper($studentInfo->category);
-    //         // $feeStructure = $this->fee->getFeeStructureInfo2021($filter);
-    //         $data['feePaidStructure'] = $feePaidStructure;
-    //         $data['term_name'] = 'I PUC';
-    //         $data['college_name'] = 'HASSAN JESUIT EDUCATIONAL SOCIETY';
-    //         $html_student_copy = $this->load->view('fees/feePaymentReceiptPrint_2021',$data,true);
-    //         $data['name_count'] = 1;
-    //         $html_college_copy = $this->load->view('fees/feePaymentReceiptPrint_2021',$data,true);
-    //         $data['name_count'] = 2;
-    //         $html_bank_copy = $this->load->view('fees/feePaymentReceiptPrint_2021',$data,true);
-    //         $mpdf->WriteHTML('<columns column-count="3" vAlign="J" column-gap="2" />');
-    //         $mpdf->WriteHTML($html_student_copy);
-    //         $mpdf->WriteHTML($html_college_copy);
-    //         $mpdf->WriteHTML($html_bank_copy);
-            
-    //         if($payment_count == 1){
-    //         $feePaidStructure = $this->fee->getFeeReceiptPrintInfo_2021_I_PUC($receipt_number,'2',$application_no);
-    //         $data['feePaidStructure'] = $feePaidStructure;
-    //             // log_message('debug','fff=='.print_r($feeStructure,true));
-    //          $data['payment_count'] = $payment_count;
-    //          //college fee reciept
-    //          $data['college_name'] = "ST JOSEPH'S PRE-UNIVERSITY COLLEGE";
-    //          $data['name_count'] = 0;
-    //          $html_student_copy = $this->load->view('fees/feePaymentReceiptPrint_2021',$data,true);
-    //          $data['name_count'] = 1;
-    //          $html_college_copy = $this->load->view('fees/feePaymentReceiptPrint_2021',$data,true);
-    //          $data['name_count'] = 2;
-    //          $html_bank_copy = $this->load->view('fees/feePaymentReceiptPrint_2021',$data,true);
-    //          $mpdf->AddPage('L','','','','',2,2,2,1,8,8);
-    //          $mpdf->WriteHTML('<columns column-count="3" vAlign="J" column-gap="2" />');
-    //          $mpdf->WriteHTML($html_student_copy);
-    //          $mpdf->WriteHTML($html_college_copy);
-    //          $mpdf->WriteHTML($html_bank_copy);
-    //          }
-    //         $mpdf->Output('Fee_Receipt.pdf', 'I');
-    //     }
-    // }
     public function feePaymentReceiptPrint($row_id){
         $filter = array();
         $data['feeInfo'] = $this->fee->getFeeInfoByReceiptNum($row_id);
 
-        $studentInfo =  $this->student->getStudentInfoBy_Application_no($data['feeInfo']->application_no);
+        $studentInfo =  $this->student->getStudentInfoByRowId($data['feeInfo']->application_no);
         // $filter['fee_year'] = ($studentInfo->intake_year_id)+1;
         // if($studentInfo->term_name == 'I PUC'){
         //     $studentInfo = $this->application->getApprovedStudentInfoByApplicationNo($data['feeInfo']->application_no);
@@ -1989,720 +1551,720 @@ public function processTheFeePayment(){
 
   //fee payment proceed in portal
     
-public function newAdm_feePayNow(){
-    if ($this->isAdmin() == true ) {
-        $this->loadThis();
-    } else {
-        $data['fee_pending_status'] = false; 
-        //$data['allStudentInfo'] = $this->student->getAllStudentsInfo();
-       //  $data['studentInfoSelection'] = $this->student->getAllFirstYearStudent();
-        $data['allStudentInfo'] = $this->admission->getFirstYearStudentsInfo();
-        $this->global['pageTitle'] = ''.TAB_TITLE.' : Pay Now';
-        $this->loadViews("fees/newAdmPaymentPortal", $this->global, $data, null);
-    }
-}
+// public function newAdm_feePayNow(){
+//     if ($this->isAdmin() == true ) {
+//         $this->loadThis();
+//     } else {
+//         $data['fee_pending_status'] = false; 
+//         //$data['allStudentInfo'] = $this->student->getAllStudentsInfo();
+//        //  $data['studentInfoSelection'] = $this->student->getAllFirstYearStudent();
+//         $data['allStudentInfo'] = $this->admission->getFirstYearStudentsInfo();
+//         $this->global['pageTitle'] = ''.TAB_TITLE.' : Pay Now';
+//         $this->loadViews("fees/newAdmPaymentPortal", $this->global, $data, null);
+//     }
+// }
 
 
-public function getNewAdm_StudentFeePaymentInfo(){
-    if ($this->isAdmin() == true ) {
-        $this->loadThis();
-    } else {
+// public function getNewAdm_StudentFeePaymentInfo(){
+//     if ($this->isAdmin() == true ) {
+//         $this->loadThis();
+//     } else {
        
-        //$student_id = $this->security->xss_clean($this->input->post('student_id'));
-        $term_name = 'I PUC'; 
-        $application_no = $this->security->xss_clean($this->input->post('application_no')); 
-        if(empty($application_no)){
-            $application_no = $_SESSION["FEE_STUDENT_ID"];
-           // $term_name = $_SESSION["FEE_TERM_NAME"];
-        }
-        $studentInfo = $this->admission->getStudentStudentInfo($application_no);
+//         //$student_id = $this->security->xss_clean($this->input->post('student_id'));
+//         $term_name = 'I PUC'; 
+//         $application_no = $this->security->xss_clean($this->input->post('application_no')); 
+//         if(empty($application_no)){
+//             $application_no = $_SESSION["FEE_STUDENT_ID"];
+//            // $term_name = $_SESSION["FEE_TERM_NAME"];
+//         }
+//         $studentInfo = $this->admission->getStudentStudentInfo($application_no);
         
-        $filter = array();
+//         $filter = array();
   
-        $data['application_no'] = $application_no;
-        $data['term_name'] = $term_name;
-        $filter['stream_name'] = $studentInfo->stream_name;
+//         $data['application_no'] = $application_no;
+//         $data['term_name'] = $term_name;
+//         $filter['stream_name'] = $studentInfo->stream_name;
         
-        if(strtoupper($studentInfo->elective_sub) == 'FRENCH'){
-            $filter['lang_fee_status'] = true;
-        }else{
-            $filter['lang_fee_status'] = false;
-        }
-        $filter['category'] = strtoupper($studentInfo->category);
-        $boardInfo = $this->admission->getStudentRegisteredInfo($studentInfo->registered_row_id);
-        $data['board_id'] = $boardInfo->sslc_board_name_id;
-        if($boardInfo->sslc_board_name_id == 1){
-            $filter['board_name'] = "SSLC";
-           }else{
-            $filter['board_name'] = "OTHER";
-           }
-        $data['board_id'] = $boardInfo->sslc_board_name_id;
-        $filter['term_name'] = 'I PUC';
-        $filter['fee_year'] = CURRENT_YEAR;
-        $data['fee_year'] = CURRENT_YEAR;
-        $total_fee = $this->fee->getTotalFeeAmount($filter);
-        $total_fee_to_pay = $data['total_fee'] = $total_fee->total_fee;
-        $data['feePaidInfo'] = $this->fee->getFeePaidInfo_NewAdm_2021($application_no);
-        if(!empty($data['feePaidInfo'])){
-            foreach($data['feePaidInfo'] as $fee){
-                $total_fee_to_pay = $total_fee_to_pay - $fee->paid_amount;
-            }
-        }
-        $data['balance'] = $total_fee_to_pay;
+//         if(strtoupper($studentInfo->elective_sub) == 'FRENCH'){
+//             $filter['lang_fee_status'] = true;
+//         }else{
+//             $filter['lang_fee_status'] = false;
+//         }
+//         $filter['category'] = strtoupper($studentInfo->category);
+//         $boardInfo = $this->admission->getStudentRegisteredInfo($studentInfo->registered_row_id);
+//         $data['board_id'] = $boardInfo->sslc_board_name_id;
+//         if($boardInfo->sslc_board_name_id == 1){
+//             $filter['board_name'] = "SSLC";
+//            }else{
+//             $filter['board_name'] = "OTHER";
+//            }
+//         $data['board_id'] = $boardInfo->sslc_board_name_id;
+//         $filter['term_name'] = 'I PUC';
+//         $filter['fee_year'] = CURRENT_YEAR;
+//         $data['fee_year'] = CURRENT_YEAR;
+//         $total_fee = $this->fee->getTotalFeeAmount($filter);
+//         $total_fee_to_pay = $data['total_fee'] = $total_fee->total_fee;
+//         $data['feePaidInfo'] = $this->fee->getFeePaidInfo_NewAdm_2021($application_no);
+//         if(!empty($data['feePaidInfo'])){
+//             foreach($data['feePaidInfo'] as $fee){
+//                 $total_fee_to_pay = $total_fee_to_pay - $fee->paid_amount;
+//             }
+//         }
+//         $data['balance'] = $total_fee_to_pay;
 
-        $data['studentInfo'] = $studentInfo;
+//         $data['studentInfo'] = $studentInfo;
         
-        $data['allStudentInfo'] = $this->admission->getFirstYearStudentsInfo();
-        $this->global['pageTitle'] = TAB_TITLE.' : Fee Payment' ;
-        $this->loadViews("fees/newAdmPaymentPortal", $this->global, $data, null);
-    }
-}
+//         $data['allStudentInfo'] = $this->admission->getFirstYearStudentsInfo();
+//         $this->global['pageTitle'] = TAB_TITLE.' : Fee Payment' ;
+//         $this->loadViews("fees/newAdmPaymentPortal", $this->global, $data, null);
+//     }
+// }
 
-public function newAdm_AddFeePaymentInfo(){
-    if($this->isAdmin() == TRUE){
-        $this->loadThis();
-    } else {  
-        $filter = array();
-        $term_name = $this->security->xss_clean($this->input->post('term_name')); 
+// public function newAdm_AddFeePaymentInfo(){
+//     if($this->isAdmin() == TRUE){
+//         $this->loadThis();
+//     } else {  
+//         $filter = array();
+//         $term_name = $this->security->xss_clean($this->input->post('term_name')); 
         
-        $application_no = $this->security->xss_clean($this->input->post('application_no'));
+//         $application_no = $this->security->xss_clean($this->input->post('application_no'));
 
-        $paid_fee_amount = $this->security->xss_clean($this->input->post('paid_fee_amount'));
-        $payment_type = $this->security->xss_clean($this->input->post('payment_type'));
+//         $paid_fee_amount = $this->security->xss_clean($this->input->post('paid_fee_amount'));
+//         $payment_type = $this->security->xss_clean($this->input->post('payment_type'));
 
-        $dd_number = $this->security->xss_clean($this->input->post('dd_number'));
-        $dd_date = $this->security->xss_clean($this->input->post('dd_date'));
-        $bank_name = $this->security->xss_clean($this->input->post('bank_name'));
+//         $dd_number = $this->security->xss_clean($this->input->post('dd_number'));
+//         $dd_date = $this->security->xss_clean($this->input->post('dd_date'));
+//         $bank_name = $this->security->xss_clean($this->input->post('bank_name'));
 
-        $tran_number = $this->security->xss_clean($this->input->post('tran_number'));
-        $tran_date = $this->security->xss_clean($this->input->post('tran_date'));
-        $tran_bank_name = $this->security->xss_clean($this->input->post('tran_bank_name'));
+//         $tran_number = $this->security->xss_clean($this->input->post('tran_number'));
+//         $tran_date = $this->security->xss_clean($this->input->post('tran_date'));
+//         $tran_bank_name = $this->security->xss_clean($this->input->post('tran_bank_name'));
 
-        $payment_date = $this->security->xss_clean($this->input->post('transaction_date'));
+//         $payment_date = $this->security->xss_clean($this->input->post('transaction_date'));
 
-        $excess_amount = $this->security->xss_clean($this->input->post('excess_amount'));
-        $_SESSION["FEE_STUDENT_ID"] = $application_no;
-        $_SESSION["FEE_TERM_NAME"] = $term_name;
+//         $excess_amount = $this->security->xss_clean($this->input->post('excess_amount'));
+//         $_SESSION["FEE_STUDENT_ID"] = $application_no;
+//         $_SESSION["FEE_TERM_NAME"] = $term_name;
 
 
-        $filter['student_id'] = $student_id;
-        $studentInfo = $this->admission->getStudentStudentInfo($application_no);
+//         $filter['student_id'] = $student_id;
+//         $studentInfo = $this->admission->getStudentStudentInfo($application_no);
       
-            $feePaymentInfo = $this->fee->getStdPaidDetailsByApplicationNo_newADM($studentInfo->application_number);
-            if(empty($feePaymentInfo)){
-                $paid_count = 1;
-            }else{
-                $paid_count = $feePaymentInfo->payment_count+1;
-            }
-            $filter['term_name'] = 'I PUC';
-            $filter['stream_name'] = $studentInfo->stream_name;
+//             $feePaymentInfo = $this->fee->getStdPaidDetailsByApplicationNo_newADM($studentInfo->application_number);
+//             if(empty($feePaymentInfo)){
+//                 $paid_count = 1;
+//             }else{
+//                 $paid_count = $feePaymentInfo->payment_count+1;
+//             }
+//             $filter['term_name'] = 'I PUC';
+//             $filter['stream_name'] = $studentInfo->stream_name;
         
-            if(strtoupper($studentInfo->elective_sub) == 'FRENCH'){
-                $filter['lang_fee_status'] = true;
-            }else{
-                $filter['lang_fee_status'] = false;
-            }
-            $filter['category'] = strtoupper($studentInfo->category);
-            $boardInfo = $this->admission->getStudentRegisteredInfo($studentInfo->registered_row_id);
-            $data['board_id'] = $boardInfo->sslc_board_name_id;
-            if($boardInfo->sslc_board_name_id == 1){
-                $filter['board_name'] = "SSLC";
-            }else{
-                $filter['board_name'] = "OTHER";
-            }
-            $data['feePaidInfo'] = $this->fee->getFeePaidInfo_NewAdm_2021($application_no);
-            $filter['fee_year'] = '2021';
-            $data['fee_year'] = '2021';
-            $total_fee = $this->fee->getTotalFeeAmount($filter);
-            $feeStructureInfo = $this->fee->getFeeStructureInfo2021($filter);
-            $total_fee_to_pay = $total_fee->total_fee;
-            $data['total_fee'] = $total_fee->total_fee;
-            if(!empty($data['feePaidInfo'])){
-                foreach($data['feePaidInfo'] as $fee){
-                    $total_fee_to_pay = $total_fee_to_pay - $fee->paid_amount;
-                }
-            }
+//             if(strtoupper($studentInfo->elective_sub) == 'FRENCH'){
+//                 $filter['lang_fee_status'] = true;
+//             }else{
+//                 $filter['lang_fee_status'] = false;
+//             }
+//             $filter['category'] = strtoupper($studentInfo->category);
+//             $boardInfo = $this->admission->getStudentRegisteredInfo($studentInfo->registered_row_id);
+//             $data['board_id'] = $boardInfo->sslc_board_name_id;
+//             if($boardInfo->sslc_board_name_id == 1){
+//                 $filter['board_name'] = "SSLC";
+//             }else{
+//                 $filter['board_name'] = "OTHER";
+//             }
+//             $data['feePaidInfo'] = $this->fee->getFeePaidInfo_NewAdm_2021($application_no);
+//             $filter['fee_year'] = '2021';
+//             $data['fee_year'] = '2021';
+//             $total_fee = $this->fee->getTotalFeeAmount($filter);
+//             $feeStructureInfo = $this->fee->getFeeStructureInfo2021($filter);
+//             $total_fee_to_pay = $total_fee->total_fee;
+//             $data['total_fee'] = $total_fee->total_fee;
+//             if(!empty($data['feePaidInfo'])){
+//                 foreach($data['feePaidInfo'] as $fee){
+//                     $total_fee_to_pay = $total_fee_to_pay - $fee->paid_amount;
+//                 }
+//             }
 
-            $pending_fee_balance = $total_fee_to_pay - $paid_fee_amount;
-            if($pending_fee_balance <= 0){
-                $fee_excess_amount = abs($pending_fee_balance);
-                $fee_pending_status = 0;
-            }else if($pending_fee_balance > 0){
-                $fee_excess_amount = 0;
-                $fee_pending_status = 1;
-            }
+//             $pending_fee_balance = $total_fee_to_pay - $paid_fee_amount;
+//             if($pending_fee_balance <= 0){
+//                 $fee_excess_amount = abs($pending_fee_balance);
+//                 $fee_pending_status = 0;
+//             }else if($pending_fee_balance > 0){
+//                 $fee_excess_amount = 0;
+//                 $fee_pending_status = 1;
+//             }
            
-            $overallFee = array(
-                'application_no' => $studentInfo->application_number,
-                'payment_type' => $payment_type,
-                'payment_date' => date('Y-m-d',strtotime($payment_date)),
-                'total_amount' => $total_fee->total_fee,
-                'paid_amount' => $paid_fee_amount,
-                'excess_amount' => $fee_excess_amount,
-                'fee_concession' => 0,
-                'pending_balance' => abs($pending_fee_balance),
-                'fee_pending_status' => $fee_pending_status,
-                'payment_count' => $paid_count,
-                'created_by' => $this->staff_id,
-                'created_date_time' => date('Y-m-d H:i:s'));
-                $fee_year= 2021;
-                $receipt_number = $this->fee->addFeeDetailsNewAdmission_2021($overallFee);
+//             $overallFee = array(
+//                 'application_no' => $studentInfo->application_number,
+//                 'payment_type' => $payment_type,
+//                 'payment_date' => date('Y-m-d',strtotime($payment_date)),
+//                 'total_amount' => $total_fee->total_fee,
+//                 'paid_amount' => $paid_fee_amount,
+//                 'excess_amount' => $fee_excess_amount,
+//                 'fee_concession' => 0,
+//                 'pending_balance' => abs($pending_fee_balance),
+//                 'fee_pending_status' => $fee_pending_status,
+//                 'payment_count' => $paid_count,
+//                 'created_by' => $this->staff_id,
+//                 'created_date_time' => date('Y-m-d H:i:s'));
+//                 $fee_year= 2021;
+//                 $receipt_number = $this->fee->addFeeDetailsNewAdmission_2021($overallFee);
 
-                $fee_amount_balance_pending = $paid_fee_amount;
-                $remaining_fee_amt = $paid_fee_amount;
-                foreach($feeStructureInfo as $fee){
-                    $db_save_status = false;
-                    $fee_structure_amt = $fee->fee_amount_state_board;
-                    $isAlreadyPaid = $this->fee->checkFeeTypeIsAlreadyPaid($studentInfo->application_number,$fee->row_id);
-                    if($remaining_fee_amt >= 0){
-                        if(!empty($isAlreadyPaid)){
-                            if($isAlreadyPaid->pending_status == 1){
-                                $remaining_fee_amt -= $isAlreadyPaid->pending_amt;
-                                if($remaining_fee_amt >= 0){
-                                    //$pending_amount = 0;
-                                    $paid_amt = $isAlreadyPaid->pending_amt;
-                                    $pending_amt = 0;
-                                    $fee_pending_status = 0;
-                                } else {
-                                    //$dd_amount = 0; 
-                                    $paid_amt = $isAlreadyPaid->pending_amt - abs($remaining_fee_amt);
-                                    $pending_amt = $isAlreadyPaid->pending_amt - $paid_amt;
-                                    $fee_pending_status = 1;
-                                } 
-                                $db_save_status = true;
-                            }
-                        }else{
-                            $remaining_fee_amt -= $fee_structure_amt;
-                            if($remaining_fee_amt >= 0){
-                                //$pending_amount = 0;
-                                $paid_amt = $fee_structure_amt;
-                                $pending_amt = 0;
-                                $fee_pending_status = 0;
-                            } else {
-                                //$dd_amount = 0; 
-                                $paid_amt = $fee_structure_amt - abs($remaining_fee_amt);
-                                $pending_amt = $fee_structure_amt - $paid_amt;
-                                $fee_pending_status = 1;
-                            } 
-                            $db_save_status = true;
-                        }
-                    }else{
-                        if(empty($isAlreadyPaid)){
-                        $pending_amt = $fee_structure_amt;
-                        $paid_amt = 0;
-                        $fee_pending_status = 1;
-                        $db_save_status = true;
-                        }
-                    }
-                    if($db_save_status){
-                        $feeReceiptPayment = array(
-                            'application_no' => $studentInfo->application_number,
-                            'receipt_number' => $receipt_number,
-                            'payment_date' => date('Y-m-d',strtotime($payment_date)), 
-                            'fee_type_id' => $fee->row_id,
-                            'paid_amount' => $paid_amt,
-                            'pending_amt' => $pending_amt,
-                            'pending_status' => $fee_pending_status,
-                            'school_account_id' => $fee->account_row_id,
-                            'created_by' => 'schoolphins',
-                            'fee_amount' => $fee_structure_amt,
-                            'created_date_time' => date('Y-m-d H:i:s'));
+//                 $fee_amount_balance_pending = $paid_fee_amount;
+//                 $remaining_fee_amt = $paid_fee_amount;
+//                 foreach($feeStructureInfo as $fee){
+//                     $db_save_status = false;
+//                     $fee_structure_amt = $fee->fee_amount_state_board;
+//                     $isAlreadyPaid = $this->fee->checkFeeTypeIsAlreadyPaid($studentInfo->application_number,$fee->row_id);
+//                     if($remaining_fee_amt >= 0){
+//                         if(!empty($isAlreadyPaid)){
+//                             if($isAlreadyPaid->pending_status == 1){
+//                                 $remaining_fee_amt -= $isAlreadyPaid->pending_amt;
+//                                 if($remaining_fee_amt >= 0){
+//                                     //$pending_amount = 0;
+//                                     $paid_amt = $isAlreadyPaid->pending_amt;
+//                                     $pending_amt = 0;
+//                                     $fee_pending_status = 0;
+//                                 } else {
+//                                     //$dd_amount = 0; 
+//                                     $paid_amt = $isAlreadyPaid->pending_amt - abs($remaining_fee_amt);
+//                                     $pending_amt = $isAlreadyPaid->pending_amt - $paid_amt;
+//                                     $fee_pending_status = 1;
+//                                 } 
+//                                 $db_save_status = true;
+//                             }
+//                         }else{
+//                             $remaining_fee_amt -= $fee_structure_amt;
+//                             if($remaining_fee_amt >= 0){
+//                                 //$pending_amount = 0;
+//                                 $paid_amt = $fee_structure_amt;
+//                                 $pending_amt = 0;
+//                                 $fee_pending_status = 0;
+//                             } else {
+//                                 //$dd_amount = 0; 
+//                                 $paid_amt = $fee_structure_amt - abs($remaining_fee_amt);
+//                                 $pending_amt = $fee_structure_amt - $paid_amt;
+//                                 $fee_pending_status = 1;
+//                             } 
+//                             $db_save_status = true;
+//                         }
+//                     }else{
+//                         if(empty($isAlreadyPaid)){
+//                         $pending_amt = $fee_structure_amt;
+//                         $paid_amt = 0;
+//                         $fee_pending_status = 1;
+//                         $db_save_status = true;
+//                         }
+//                     }
+//                     if($db_save_status){
+//                         $feeReceiptPayment = array(
+//                             'application_no' => $studentInfo->application_number,
+//                             'receipt_number' => $receipt_number,
+//                             'payment_date' => date('Y-m-d',strtotime($payment_date)), 
+//                             'fee_type_id' => $fee->row_id,
+//                             'paid_amount' => $paid_amt,
+//                             'pending_amt' => $pending_amt,
+//                             'pending_status' => $fee_pending_status,
+//                             'school_account_id' => $fee->account_row_id,
+//                             'created_by' => 'schoolphins',
+//                             'fee_amount' => $fee_structure_amt,
+//                             'created_date_time' => date('Y-m-d H:i:s'));
                             
-                        $receipt_return_feeType = $this->fee->addReceiptFeeType($feeReceiptPayment);
-                    }
+//                         $receipt_return_feeType = $this->fee->addReceiptFeeType($feeReceiptPayment);
+//                     }
                 
-                }
+//                 }
         
   
        
         
-        if(!empty($receipt_number)){
-            if($payment_type == 'DD'){
-                $ddInfo = array(
-                    'application_no' => $studentInfo->application_number,
-                    'fee_year' => $fee_year,
-                    'receipt_number' => $receipt_number,
-                    'dd_number' => $dd_number,
-                    'dd_date' => date('Y-m-d',strtotime($dd_date)),
-                    'bank_name' => $bank_name,
-                    'created_by' => $this->staff_id,
-                    'created_date_time' => date('Y-m-d H:i:s')
-                );
-                $this->fee->addDDInfo($ddInfo);
-            }else if($payment_type == 'CARD'){
-                $bankInfo = array(
-                    'application_no' => $studentInfo->application_number,
-                    'receipt_number' => $receipt_number,
-                    'transaction_number' => $tran_number,
-                    'transaction_date' => date('Y-m-d',strtotime($tran_date)),
-                    'bank_name' => $tran_bank_name,
-                    'created_by' => $this->staff_id,
-                    'created_date_time' => date('Y-m-d H:i:s')
-                );
-                $this->fee->addBankInfo($bankInfo);
-            }
-            $this->session->set_flashdata('success', 'Fee Paid Successfully');
-            // redirect('feePaymentReceiptPrint/'.$receipt_number); 
-            $applicationStatus = array(
-                'joined_status' => 1,
-                'admission_status'=> 1,
-                'updated_date_time' => date('Y-m-d H:i:s'));
-           $this->admission->updateStudentApplicationStatus($studentInfo->application_number,$applicationStatus);
-        }else{
-            $this->session->set_flashdata('error', 'Fee Payment Failed!');
-        }
-        redirect('getNewAdm_StudentFeePaymentInfo'); 
-    }
-}
+//         if(!empty($receipt_number)){
+//             if($payment_type == 'DD'){
+//                 $ddInfo = array(
+//                     'application_no' => $studentInfo->application_number,
+//                     'fee_year' => $fee_year,
+//                     'receipt_number' => $receipt_number,
+//                     'dd_number' => $dd_number,
+//                     'dd_date' => date('Y-m-d',strtotime($dd_date)),
+//                     'bank_name' => $bank_name,
+//                     'created_by' => $this->staff_id,
+//                     'created_date_time' => date('Y-m-d H:i:s')
+//                 );
+//                 $this->fee->addDDInfo($ddInfo);
+//             }else if($payment_type == 'CARD'){
+//                 $bankInfo = array(
+//                     'application_no' => $studentInfo->application_number,
+//                     'receipt_number' => $receipt_number,
+//                     'transaction_number' => $tran_number,
+//                     'transaction_date' => date('Y-m-d',strtotime($tran_date)),
+//                     'bank_name' => $tran_bank_name,
+//                     'created_by' => $this->staff_id,
+//                     'created_date_time' => date('Y-m-d H:i:s')
+//                 );
+//                 $this->fee->addBankInfo($bankInfo);
+//             }
+//             $this->session->set_flashdata('success', 'Fee Paid Successfully');
+//             // redirect('feePaymentReceiptPrint/'.$receipt_number); 
+//             $applicationStatus = array(
+//                 'joined_status' => 1,
+//                 'admission_status'=> 1,
+//                 'updated_date_time' => date('Y-m-d H:i:s'));
+//            $this->admission->updateStudentApplicationStatus($studentInfo->application_number,$applicationStatus);
+//         }else{
+//             $this->session->set_flashdata('error', 'Fee Payment Failed!');
+//         }
+//         redirect('getNewAdm_StudentFeePaymentInfo'); 
+//     }
+// }
 
     // re-admission order id process
-    public function reAdmissionOrderIdProcess(){
-        $paytmChecksum = "";
-        $paramList = array();
-        $isValidChecksum = "FALSE";
-        $order_id = $this->security->xss_clean($this->input->post('order_id'));
-        $order_id = strtoupper($order_id);
-        $paytmInfo = $this->fee->getReadmissionPayTmLogByAppNo($order_id);
-        if(!empty($paytmInfo)){
+    // public function reAdmissionOrderIdProcess(){
+    //     $paytmChecksum = "";
+    //     $paramList = array();
+    //     $isValidChecksum = "FALSE";
+    //     $order_id = $this->security->xss_clean($this->input->post('order_id'));
+    //     $order_id = strtoupper($order_id);
+    //     $paytmInfo = $this->fee->getReadmissionPayTmLogByAppNo($order_id);
+    //     if(!empty($paytmInfo)){
            
-            $application_no = $paytmInfo->student_id;
-            $studentInfo = $this->student->getStudentsInfoByApplicationNumber($application_no);
+    //         $application_no = $paytmInfo->student_id;
+    //         $studentInfo = $this->student->getStudentsInfoByApplicationNumber($application_no);
 
-            $requestParamList = array("MID" => PAYTM_MERCHANT_MID , "ORDERID" => $order_id);  
+    //         $requestParamList = array("MID" => PAYTM_MERCHANT_MID , "ORDERID" => $order_id);  
 
-            // $paid_fee_amount = 15000;
-            $filter = array();
-            $filter['stream_name'] = $studentInfo->stream_name;
-            $filter['term_name'] = $studentInfo->term_name;
-            $filter['fee_year'] = CURRENT_YEAR;
-            if(strtoupper($studentInfo->elective_sub) == 'FRENCH'){
-                $filter['lang_fee_status'] = true;
-            }else{
-                $filter['lang_fee_status'] = false;
-            }
-           // $catInfo = $this->admission_model->getStudentCategoryByApplicationNum($studentInfo->application_no);
-            $filter['category'] = strtoupper($studentInfo->category);
+    //         // $paid_fee_amount = 15000;
+    //         $filter = array();
+    //         $filter['stream_name'] = $studentInfo->stream_name;
+    //         $filter['term_name'] = $studentInfo->term_name;
+    //         $filter['fee_year'] = CURRENT_YEAR;
+    //         if(strtoupper($studentInfo->elective_sub) == 'FRENCH'){
+    //             $filter['lang_fee_status'] = true;
+    //         }else{
+    //             $filter['lang_fee_status'] = false;
+    //         }
+    //        // $catInfo = $this->admission_model->getStudentCategoryByApplicationNum($studentInfo->application_no);
+    //         $filter['category'] = strtoupper($studentInfo->category);
            
            
-            $totalFeeObj = $this->fee->getTotalFeeAmount($filter);
-            $feeStructureInfo = $this->fee->getFeeStructureInfo2021($filter);
-            $total_fee_pending_to_pay = $totalFeeObj->total_fee;
+    //         $totalFeeObj = $this->fee->getTotalFeeAmount($filter);
+    //         $feeStructureInfo = $this->fee->getFeeStructureInfo2021($filter);
+    //         $total_fee_pending_to_pay = $totalFeeObj->total_fee;
            
           
-            $StatusCheckSum = getChecksumFromArray($requestParamList,PAYTM_MERCHANT_KEY);
+    //         $StatusCheckSum = getChecksumFromArray($requestParamList,PAYTM_MERCHANT_KEY);
             
-            $requestParamList['CHECKSUMHASH'] = $StatusCheckSum;
+    //         $requestParamList['CHECKSUMHASH'] = $StatusCheckSum;
     
-            // Call the PG's getTxnStatusNew() function for verifying the transaction status.
-            $_POST = getTxnStatusNew($requestParamList);
+    //         // Call the PG's getTxnStatusNew() function for verifying the transaction status.
+    //         $_POST = getTxnStatusNew($requestParamList);
           
                 
-            $paytmChecksum = isset($_POST["CHECKSUMHASH"]) ? $_POST["CHECKSUMHASH"] : ""; //Sent by Paytm pg
-            $data['application_applied_status'] = false;
-            //Verify all parameters received from Paytm pg to your application. Like MID received from paytm pg is same as your application�s MID, TXN_AMOUNT and ORDER_ID are same as what was sent by you to Paytm PG for initiating transaction etc.
-            $isValidChecksum = verifychecksum_e($paramList, PAYTM_MERCHANT_KEY, $paytmChecksum); //will return TRUE or FALSE string.
-            $data['isValidChecksum'] = $isValidChecksum;
-            $data['paramList'] = $paramList;
-            $data['payment_status'] = false;
-            $data['payment_done_now'] = false;
-            // $total_fee_pending_to_pay = $total_fee;
-            $paid_fee_amount = $_POST['TXNAMOUNT'];
-            if($isValidChecksum == true){ 
-                if($_POST['STATUS'] == 'TXN_SUCCESS'){ 
-                    $isExists = $this->fee->checkReAdmissionOrderIdExists($order_id);
-                    if(empty($isExists)){
-                        $totalPaid = $this->fee->getReAdmissionTotalPaidAmount($application_no);
-                        if($totalPaid->paid_amount != 0){
-                            $total_fee_pending_to_pay -= $totalPaid->paid_amount;
-                        }
+    //         $paytmChecksum = isset($_POST["CHECKSUMHASH"]) ? $_POST["CHECKSUMHASH"] : ""; //Sent by Paytm pg
+    //         $data['application_applied_status'] = false;
+    //         //Verify all parameters received from Paytm pg to your application. Like MID received from paytm pg is same as your application�s MID, TXN_AMOUNT and ORDER_ID are same as what was sent by you to Paytm PG for initiating transaction etc.
+    //         $isValidChecksum = verifychecksum_e($paramList, PAYTM_MERCHANT_KEY, $paytmChecksum); //will return TRUE or FALSE string.
+    //         $data['isValidChecksum'] = $isValidChecksum;
+    //         $data['paramList'] = $paramList;
+    //         $data['payment_status'] = false;
+    //         $data['payment_done_now'] = false;
+    //         // $total_fee_pending_to_pay = $total_fee;
+    //         $paid_fee_amount = $_POST['TXNAMOUNT'];
+    //         if($isValidChecksum == true){ 
+    //             if($_POST['STATUS'] == 'TXN_SUCCESS'){ 
+    //                 $isExists = $this->fee->checkReAdmissionOrderIdExists($order_id);
+    //                 if(empty($isExists)){
+    //                     $totalPaid = $this->fee->getReAdmissionTotalPaidAmount($application_no);
+    //                     if($totalPaid->paid_amount != 0){
+    //                         $total_fee_pending_to_pay -= $totalPaid->paid_amount;
+    //                     }
                         
-                        $pending_fee_balance = $total_fee_pending_to_pay - $paid_fee_amount;
-                        if($pending_fee_balance <= 0){
-                            $fee_excess_amount = abs($pending_fee_balance);
-                            $fee_pending_status = 0;
-                        }else if($pending_fee_balance > 0){
-                            $fee_excess_amount = 0;
-                            $fee_pending_status = 1;
-                        }
-                        $feePaymentInfo = $this->fee->getReadmission_FeePaidDetailsByApplicationNo($studentInfo->application_no);
-                        if(empty($feePaymentInfo)){
-                            $paid_count = 1;
-                        }else{
-                            $paid_count = $feePaymentInfo->payment_count+1;
-                        }
+    //                     $pending_fee_balance = $total_fee_pending_to_pay - $paid_fee_amount;
+    //                     if($pending_fee_balance <= 0){
+    //                         $fee_excess_amount = abs($pending_fee_balance);
+    //                         $fee_pending_status = 0;
+    //                     }else if($pending_fee_balance > 0){
+    //                         $fee_excess_amount = 0;
+    //                         $fee_pending_status = 1;
+    //                     }
+    //                     $feePaymentInfo = $this->fee->getReadmission_FeePaidDetailsByApplicationNo($studentInfo->application_no);
+    //                     if(empty($feePaymentInfo)){
+    //                         $paid_count = 1;
+    //                     }else{
+    //                         $paid_count = $feePaymentInfo->payment_count+1;
+    //                     }
 
-                        $receipt_no = $this->fee->getLastReceiptNoFromOverall($filter['term_name']);
-                        if(empty($receipt_no)){
-                            $receipt_no = 0;
-                        }
-                        $receipt_no += 1;
-                        $receipt_no = sprintf('%04d', $receipt_no);
+    //                     $receipt_no = $this->fee->getLastReceiptNoFromOverall($filter['term_name']);
+    //                     if(empty($receipt_no)){
+    //                         $receipt_no = 0;
+    //                     }
+    //                     $receipt_no += 1;
+    //                     $receipt_no = sprintf('%04d', $receipt_no);
 
-                        $overallFee = array(
-                            'receipt_number'=> $receipt_no,
-                            'application_no' => $studentInfo->application_no,
-                            'payment_type' => 'ONLINE',
-                            'payment_date' => date('Y-m-d',strtotime($_POST['TXNDATE'])),
-                            'total_amount' => $total_fee_pending_to_pay,
-                            'paid_amount' => $paid_fee_amount,
-                            'excess_amount' => $fee_excess_amount,
-                            'fee_concession' => 0,
-                            'payment_year' => CURRENT_YEAR,
-                            'term_name' => $studentInfo->term_name,
-                            'pending_balance' => $pending_fee_balance,
-                            'fee_pending_status' => $fee_pending_status,
-                            'payment_count' => $paid_count,
-                            'order_id' => $_POST["ORDERID"],
-                            'collected_staff_name' => 'schoolphins',
-                            'created_by' => $studentInfo->application_no,
-                            'created_date_time' => date('Y-m-d H:i:s'));
+    //                     $overallFee = array(
+    //                         'receipt_number'=> $receipt_no,
+    //                         'application_no' => $studentInfo->application_no,
+    //                         'payment_type' => 'ONLINE',
+    //                         'payment_date' => date('Y-m-d',strtotime($_POST['TXNDATE'])),
+    //                         'total_amount' => $total_fee_pending_to_pay,
+    //                         'paid_amount' => $paid_fee_amount,
+    //                         'excess_amount' => $fee_excess_amount,
+    //                         'fee_concession' => 0,
+    //                         'payment_year' => CURRENT_YEAR,
+    //                         'term_name' => $studentInfo->term_name,
+    //                         'pending_balance' => $pending_fee_balance,
+    //                         'fee_pending_status' => $fee_pending_status,
+    //                         'payment_count' => $paid_count,
+    //                         'order_id' => $_POST["ORDERID"],
+    //                         'collected_staff_name' => 'schoolphins',
+    //                         'created_by' => $studentInfo->application_no,
+    //                         'created_date_time' => date('Y-m-d H:i:s'));
 
-                        $receipt_number = $this->fee->addReadmission_FeeDetailsInfo($overallFee);
-                        $installmentAmtExist = $this->fee->checkInstallmentAlreadyExistNew($studentInfo->application_no);
-                        if(!empty($installmentAmtExist)){
-                            $instalUpdate = array(
-                                'payment_status' =>1,
-                                'amount' => $_POST['TXNAMOUNT'],
-                                'receipt_number' => $receipt_number,
-                                'updated_by' => $studentInfo->application_no,
-                                'updated_date_time' => date('Y-m-d H:i:s')
-                            );
-                            $this->fee->updateInstalmentNew($instalUpdate, $studentInfo->application_no);
-                        }
+    //                     $receipt_number = $this->fee->addReadmission_FeeDetailsInfo($overallFee);
+    //                     $installmentAmtExist = $this->fee->checkInstallmentAlreadyExistNew($studentInfo->application_no);
+    //                     if(!empty($installmentAmtExist)){
+    //                         $instalUpdate = array(
+    //                             'payment_status' =>1,
+    //                             'amount' => $_POST['TXNAMOUNT'],
+    //                             'receipt_number' => $receipt_number,
+    //                             'updated_by' => $studentInfo->application_no,
+    //                             'updated_date_time' => date('Y-m-d H:i:s')
+    //                         );
+    //                         $this->fee->updateInstalmentNew($instalUpdate, $studentInfo->application_no);
+    //                     }
                     
-                        $paymentLogUpdate = array(
-                            'payment_mode' => $_POST['PAYMENTMODE'],
-                            'reference_number'=>$_POST['TXNID'],
-                            'payment_status' =>'SUCCESS',
-                            'receipt_number' =>$receipt_number,
-                            'amount_pending' =>$pending_fee_balance,
-                            'fee_amount' => $_POST['TXNAMOUNT'],
-                            'updated_by' => $studentInfo->application_no,
-                            'updated_date_time' => date('Y-m-d H:i:s')
-                        );
-                            $fee_amount_balance_pending = $paid_fee_amount;
-                            $remaining_fee_amt = $paid_fee_amount;
-                            foreach($feeStructureInfo as $fee){
-                                $db_save_status = false;
-                                $fee_structure_amt = $fee->fee_amount_state_board;
-                                $isAlreadyPaid = $this->fee->checkFeeTypeIsAlreadyPaid($studentInfo->application_no,$fee->row_id);
-                                if($remaining_fee_amt >= 0){
-                                    if(!empty($isAlreadyPaid)){
-                                        if($isAlreadyPaid->pending_status == 1){
-                                            $remaining_fee_amt -= $isAlreadyPaid->pending_amt;
-                                            if($remaining_fee_amt >= 0){
-                                                //$pending_amount = 0;
-                                                $paid_amt = $isAlreadyPaid->pending_amt;
-                                                $pending_amt = 0;
-                                                $fee_pending_status = 0;
-                                            } else {
-                                                //$dd_amount = 0; 
-                                                $paid_amt = $isAlreadyPaid->pending_amt - abs($remaining_fee_amt);
-                                                $pending_amt = $isAlreadyPaid->pending_amt - $paid_amt;
-                                                $fee_pending_status = 1;
-                                            } 
-                                            $db_save_status = true;
-                                        }
-                                    }else{
-                                        $remaining_fee_amt -= $fee_structure_amt;
-                                        if($remaining_fee_amt >= 0){
-                                            //$pending_amount = 0;
-                                            $paid_amt = $fee_structure_amt;
-                                            $pending_amt = 0;
-                                            $fee_pending_status = 0;
-                                        } else {
-                                            //$dd_amount = 0; 
-                                            $paid_amt = $fee_structure_amt - abs($remaining_fee_amt);
-                                            $pending_amt = $fee_structure_amt - $paid_amt;
-                                            $fee_pending_status = 1;
-                                        } 
-                                        $db_save_status = true;
-                                    }
-                                }else{
-                                    if(empty($isAlreadyPaid)){
-                                    $pending_amt = $fee_structure_amt;
-                                    $paid_amt = 0;
-                                    $fee_pending_status = 1;
-                                    $db_save_status = true;
-                                    }
-                                }
-                                if($db_save_status){
-                                    $feeReceiptPayment = array(
-                                        'application_no' => $studentInfo->application_no,
-                                        'receipt_number' => $receipt_number,
-                                        'payment_date' => date('Y-m-d',strtotime($_POST['TXNDATE'])), 
-                                        'fee_type_id' => $fee->row_id,
-                                        'paid_amount' => $paid_amt,
-                                        'pending_amt' => $pending_amt,
-                                        'pending_status' => $fee_pending_status,
-                                        'school_account_id' => $fee->account_row_id,
-                                        'created_by' => 'schoolphins',
-                                        'fee_amount' => $fee_structure_amt,
-                                        'created_date_time' => date('Y-m-d H:i:s'));
+    //                     $paymentLogUpdate = array(
+    //                         'payment_mode' => $_POST['PAYMENTMODE'],
+    //                         'reference_number'=>$_POST['TXNID'],
+    //                         'payment_status' =>'SUCCESS',
+    //                         'receipt_number' =>$receipt_number,
+    //                         'amount_pending' =>$pending_fee_balance,
+    //                         'fee_amount' => $_POST['TXNAMOUNT'],
+    //                         'updated_by' => $studentInfo->application_no,
+    //                         'updated_date_time' => date('Y-m-d H:i:s')
+    //                     );
+    //                         $fee_amount_balance_pending = $paid_fee_amount;
+    //                         $remaining_fee_amt = $paid_fee_amount;
+    //                         foreach($feeStructureInfo as $fee){
+    //                             $db_save_status = false;
+    //                             $fee_structure_amt = $fee->fee_amount_state_board;
+    //                             $isAlreadyPaid = $this->fee->checkFeeTypeIsAlreadyPaid($studentInfo->application_no,$fee->row_id);
+    //                             if($remaining_fee_amt >= 0){
+    //                                 if(!empty($isAlreadyPaid)){
+    //                                     if($isAlreadyPaid->pending_status == 1){
+    //                                         $remaining_fee_amt -= $isAlreadyPaid->pending_amt;
+    //                                         if($remaining_fee_amt >= 0){
+    //                                             //$pending_amount = 0;
+    //                                             $paid_amt = $isAlreadyPaid->pending_amt;
+    //                                             $pending_amt = 0;
+    //                                             $fee_pending_status = 0;
+    //                                         } else {
+    //                                             //$dd_amount = 0; 
+    //                                             $paid_amt = $isAlreadyPaid->pending_amt - abs($remaining_fee_amt);
+    //                                             $pending_amt = $isAlreadyPaid->pending_amt - $paid_amt;
+    //                                             $fee_pending_status = 1;
+    //                                         } 
+    //                                         $db_save_status = true;
+    //                                     }
+    //                                 }else{
+    //                                     $remaining_fee_amt -= $fee_structure_amt;
+    //                                     if($remaining_fee_amt >= 0){
+    //                                         //$pending_amount = 0;
+    //                                         $paid_amt = $fee_structure_amt;
+    //                                         $pending_amt = 0;
+    //                                         $fee_pending_status = 0;
+    //                                     } else {
+    //                                         //$dd_amount = 0; 
+    //                                         $paid_amt = $fee_structure_amt - abs($remaining_fee_amt);
+    //                                         $pending_amt = $fee_structure_amt - $paid_amt;
+    //                                         $fee_pending_status = 1;
+    //                                     } 
+    //                                     $db_save_status = true;
+    //                                 }
+    //                             }else{
+    //                                 if(empty($isAlreadyPaid)){
+    //                                 $pending_amt = $fee_structure_amt;
+    //                                 $paid_amt = 0;
+    //                                 $fee_pending_status = 1;
+    //                                 $db_save_status = true;
+    //                                 }
+    //                             }
+    //                             if($db_save_status){
+    //                                 $feeReceiptPayment = array(
+    //                                     'application_no' => $studentInfo->application_no,
+    //                                     'receipt_number' => $receipt_number,
+    //                                     'payment_date' => date('Y-m-d',strtotime($_POST['TXNDATE'])), 
+    //                                     'fee_type_id' => $fee->row_id,
+    //                                     'paid_amount' => $paid_amt,
+    //                                     'pending_amt' => $pending_amt,
+    //                                     'pending_status' => $fee_pending_status,
+    //                                     'school_account_id' => $fee->account_row_id,
+    //                                     'created_by' => 'schoolphins',
+    //                                     'fee_amount' => $fee_structure_amt,
+    //                                     'created_date_time' => date('Y-m-d H:i:s'));
                                         
-                                    $receipt_return_feeType = $this->fee->addReceiptFeeType2021($feeReceiptPayment);
-                                }
+    //                                 $receipt_return_feeType = $this->fee->addReceiptFeeType2021($feeReceiptPayment);
+    //                             }
                             
-                            }
+    //                         }
                                 
-                            $this->session->set_flashdata('success', 'Order ID processed successfully '); 
+    //                         $this->session->set_flashdata('success', 'Order ID processed successfully '); 
                         
-                        }else{
-                            $paymentLogUpdate = array(
-                                'payment_mode' => $_POST['PAYMENTMODE'],
-                                'reference_number'=>$_POST['TXNID'],
-                                'payment_status' =>'SUCCESS',
-                                'receipt_number' =>$receipt_number,
-                                'amount_pending' =>$pending_fee_balance,
-                                'fee_amount' => $_POST['TXNAMOUNT'],
-                                'updated_by' => $studentInfo->application_no,
-                                'updated_date_time' => date('Y-m-d H:i:s'));
-                            $this->session->set_flashdata('success', 'Order ID already exists'); 
-                        }
-                    }else{
-                        $paymentLogUpdate = array(
-                            'payment_status' =>'FAILED',
-                            'fee_amount' => $_POST['TXNAMOUNT'],
-                            'updated_by' => $studentInfo->application_no,
-                            'updated_date_time' => date('Y-m-d H:i:s')
-                        );
-                        $this->session->set_flashdata('error', 'Payment checksum is failed.'); 
-                    }
-                    $this->fee->updateReadmission_PaymentLogByOrderIdPaytm($paymentLogUpdate, $_POST["ORDERID"]);
-                }
+    //                     }else{
+    //                         $paymentLogUpdate = array(
+    //                             'payment_mode' => $_POST['PAYMENTMODE'],
+    //                             'reference_number'=>$_POST['TXNID'],
+    //                             'payment_status' =>'SUCCESS',
+    //                             'receipt_number' =>$receipt_number,
+    //                             'amount_pending' =>$pending_fee_balance,
+    //                             'fee_amount' => $_POST['TXNAMOUNT'],
+    //                             'updated_by' => $studentInfo->application_no,
+    //                             'updated_date_time' => date('Y-m-d H:i:s'));
+    //                         $this->session->set_flashdata('success', 'Order ID already exists'); 
+    //                     }
+    //                 }else{
+    //                     $paymentLogUpdate = array(
+    //                         'payment_status' =>'FAILED',
+    //                         'fee_amount' => $_POST['TXNAMOUNT'],
+    //                         'updated_by' => $studentInfo->application_no,
+    //                         'updated_date_time' => date('Y-m-d H:i:s')
+    //                     );
+    //                     $this->session->set_flashdata('error', 'Payment checksum is failed.'); 
+    //                 }
+    //                 $this->fee->updateReadmission_PaymentLogByOrderIdPaytm($paymentLogUpdate, $_POST["ORDERID"]);
+    //             }
                 
-            }else{
-                $this->session->set_flashdata('success', 'Order ID already processed'); 
-            }
-        redirect('getAllFeePaymentInfo');
-    }
+    //         }else{
+    //             $this->session->set_flashdata('success', 'Order ID already processed'); 
+    //         }
+    //     redirect('getAllFeePaymentInfo');
+    // }
 
-    // New admissio order id process
-    public function newAdmissionOrderIdProcess(){
-        $paytmChecksum = "";
-        $paramList = array();
-        $isValidChecksum = "FALSE";
-        $order_id = $this->security->xss_clean($this->input->post('order_id'));
-        $order_id = strtoupper($order_id);
-        $paytmInfo = $this->fee->getAdmissionPayTmLogByOrderId($order_id);
-        if(!empty($paytmInfo)){
+    // // New admissio order id process
+    // public function newAdmissionOrderIdProcess(){
+    //     $paytmChecksum = "";
+    //     $paramList = array();
+    //     $isValidChecksum = "FALSE";
+    //     $order_id = $this->security->xss_clean($this->input->post('order_id'));
+    //     $order_id = strtoupper($order_id);
+    //     $paytmInfo = $this->fee->getAdmissionPayTmLogByOrderId($order_id);
+    //     if(!empty($paytmInfo)){
            
-            $application_no = $paytmInfo->student_id;
-            $studentInfo = $this->admission->getStudentStudentInfo($application_no);
-            // log_message('debug','tetst'.print_r($studentInfo,true));
+    //         $application_no = $paytmInfo->student_id;
+    //         $studentInfo = $this->admission->getStudentStudentInfo($application_no);
+    //         // log_message('debug','tetst'.print_r($studentInfo,true));
 
-            $requestParamList = array("MID" => PAYTM_MERCHANT_MID , "ORDERID" => $order_id);  
+    //         $requestParamList = array("MID" => PAYTM_MERCHANT_MID , "ORDERID" => $order_id);  
 
-            $filter = array();
-            $filter['term_name'] = 'I PUC';
-            $filter['stream_name'] = $studentInfo->stream_name;
+    //         $filter = array();
+    //         $filter['term_name'] = 'I PUC';
+    //         $filter['stream_name'] = $studentInfo->stream_name;
         
-            if(strtoupper($studentInfo->elective_sub) == 'FRENCH'){
-                $filter['lang_fee_status'] = true;
-            }else{
-                $filter['lang_fee_status'] = false;
-            }
-            $filter['category'] = strtoupper($studentInfo->category);
-            $boardInfo = $this->admission->getStudentRegisteredInfo($studentInfo->registered_row_id);
-            $data['board_id'] = $boardInfo->sslc_board_name_id;
-            if($boardInfo->sslc_board_name_id == 1){
-                $filter['board_name'] = "SSLC";
-            }else{
-                $filter['board_name'] = "OTHER";
-            }
+    //         if(strtoupper($studentInfo->elective_sub) == 'FRENCH'){
+    //             $filter['lang_fee_status'] = true;
+    //         }else{
+    //             $filter['lang_fee_status'] = false;
+    //         }
+    //         $filter['category'] = strtoupper($studentInfo->category);
+    //         $boardInfo = $this->admission->getStudentRegisteredInfo($studentInfo->registered_row_id);
+    //         $data['board_id'] = $boardInfo->sslc_board_name_id;
+    //         if($boardInfo->sslc_board_name_id == 1){
+    //             $filter['board_name'] = "SSLC";
+    //         }else{
+    //             $filter['board_name'] = "OTHER";
+    //         }
           
-            $StatusCheckSum = getChecksumFromArray($requestParamList,PAYTM_MERCHANT_KEY);
+    //         $StatusCheckSum = getChecksumFromArray($requestParamList,PAYTM_MERCHANT_KEY);
             
-            $requestParamList['CHECKSUMHASH'] = $StatusCheckSum;
+    //         $requestParamList['CHECKSUMHASH'] = $StatusCheckSum;
     
-            // Call the PG's getTxnStatusNew() function for verifying the transaction status.
-            $_POST = getTxnStatusNew($requestParamList);
+    //         // Call the PG's getTxnStatusNew() function for verifying the transaction status.
+    //         $_POST = getTxnStatusNew($requestParamList);
           
                 
-            $paytmChecksum = isset($_POST["CHECKSUMHASH"]) ? $_POST["CHECKSUMHASH"] : ""; //Sent by Paytm pg
-            $data['application_applied_status'] = false;
-            //Verify all parameters received from Paytm pg to your application. Like MID received from paytm pg is same as your application�s MID, TXN_AMOUNT and ORDER_ID are same as what was sent by you to Paytm PG for initiating transaction etc.
-            $isValidChecksum = verifychecksum_e($paramList, PAYTM_MERCHANT_KEY, $paytmChecksum); //will return TRUE or FALSE string.
-            $data['isValidChecksum'] = $isValidChecksum;
-            $data['paramList'] = $paramList;
-            $data['payment_status'] = false;
-            $data['payment_done_now'] = false;
-            // $total_fee_pending_to_pay = $total_fee;
-            $paid_fee_amount = $_POST['TXNAMOUNT'];
-            if($isValidChecksum == true){ 
-                if($_POST['STATUS'] == 'TXN_SUCCESS'){ 
-                    $isExists = $this->fee->checkAdmissionOrderIdExists($order_id);
-                    if(empty($isExists)){
-                        $feePaymentInfo = $this->fee->getStdPaidDetailsByApplicationNo_newADM($studentInfo->application_number);
-                        if(empty($feePaymentInfo)){
-                            $paid_count = 1;
-                        }else{
-                            $paid_count = $feePaymentInfo->payment_count+1;
-                        }
+    //         $paytmChecksum = isset($_POST["CHECKSUMHASH"]) ? $_POST["CHECKSUMHASH"] : ""; //Sent by Paytm pg
+    //         $data['application_applied_status'] = false;
+    //         //Verify all parameters received from Paytm pg to your application. Like MID received from paytm pg is same as your application�s MID, TXN_AMOUNT and ORDER_ID are same as what was sent by you to Paytm PG for initiating transaction etc.
+    //         $isValidChecksum = verifychecksum_e($paramList, PAYTM_MERCHANT_KEY, $paytmChecksum); //will return TRUE or FALSE string.
+    //         $data['isValidChecksum'] = $isValidChecksum;
+    //         $data['paramList'] = $paramList;
+    //         $data['payment_status'] = false;
+    //         $data['payment_done_now'] = false;
+    //         // $total_fee_pending_to_pay = $total_fee;
+    //         $paid_fee_amount = $_POST['TXNAMOUNT'];
+    //         if($isValidChecksum == true){ 
+    //             if($_POST['STATUS'] == 'TXN_SUCCESS'){ 
+    //                 $isExists = $this->fee->checkAdmissionOrderIdExists($order_id);
+    //                 if(empty($isExists)){
+    //                     $feePaymentInfo = $this->fee->getStdPaidDetailsByApplicationNo_newADM($studentInfo->application_number);
+    //                     if(empty($feePaymentInfo)){
+    //                         $paid_count = 1;
+    //                     }else{
+    //                         $paid_count = $feePaymentInfo->payment_count+1;
+    //                     }
                     
-                        $data['feePaidInfo'] = $this->fee->getFeePaidInfo_NewAdm_2021($application_no);
-                        $filter['fee_year'] = CURRENT_YEAR;
-                        $data['fee_year'] = CURRENT_YEAR;
-                        $total_fee = $this->fee->getTotalFeeAmount($filter);
-                        $feeStructureInfo = $this->fee->getFeeStructureInfo2021($filter);
-                        $total_fee_to_pay = $total_fee->total_fee;
-                        $data['total_fee'] = $total_fee->total_fee;
-                        if(!empty($data['feePaidInfo'])){
-                            foreach($data['feePaidInfo'] as $fee){
-                                $total_fee_to_pay = $total_fee_to_pay - $fee->paid_amount;
-                            }
-                        }
+    //                     $data['feePaidInfo'] = $this->fee->getFeePaidInfo_NewAdm_2021($application_no);
+    //                     $filter['fee_year'] = CURRENT_YEAR;
+    //                     $data['fee_year'] = CURRENT_YEAR;
+    //                     $total_fee = $this->fee->getTotalFeeAmount($filter);
+    //                     $feeStructureInfo = $this->fee->getFeeStructureInfo2021($filter);
+    //                     $total_fee_to_pay = $total_fee->total_fee;
+    //                     $data['total_fee'] = $total_fee->total_fee;
+    //                     if(!empty($data['feePaidInfo'])){
+    //                         foreach($data['feePaidInfo'] as $fee){
+    //                             $total_fee_to_pay = $total_fee_to_pay - $fee->paid_amount;
+    //                         }
+    //                     }
             
-                        $pending_fee_balance = $total_fee_to_pay - $paid_fee_amount;
-                        if($pending_fee_balance <= 0){
-                            $fee_excess_amount = abs($pending_fee_balance);
-                            $fee_pending_status = 0;
-                        }else if($pending_fee_balance > 0){
-                            $fee_excess_amount = 0;
-                            $fee_pending_status = 1;
-                        }
+    //                     $pending_fee_balance = $total_fee_to_pay - $paid_fee_amount;
+    //                     if($pending_fee_balance <= 0){
+    //                         $fee_excess_amount = abs($pending_fee_balance);
+    //                         $fee_pending_status = 0;
+    //                     }else if($pending_fee_balance > 0){
+    //                         $fee_excess_amount = 0;
+    //                         $fee_pending_status = 1;
+    //                     }
 
-                        $receipt_no = $this->fee->getLastReceiptNoFromOverall($filter['term_name']);
-                        if(empty($receipt_no)){
-                            $receipt_no = 0;
-                        }
-                        $receipt_no += 1;
-                        $receipt_no = sprintf('%04d', $receipt_no);
+    //                     $receipt_no = $this->fee->getLastReceiptNoFromOverall($filter['term_name']);
+    //                     if(empty($receipt_no)){
+    //                         $receipt_no = 0;
+    //                     }
+    //                     $receipt_no += 1;
+    //                     $receipt_no = sprintf('%04d', $receipt_no);
                     
-                        $overallFee = array(
-                            'receipt_number'=> $receipt_no,
-                            'application_no' => $studentInfo->application_number,
-                            'payment_type' => 'ONLINE',
-                            'payment_date' => date('Y-m-d',strtotime($_POST['TXNDATE'])),
-                            'total_amount' => $total_fee->total_fee,
-                            'paid_amount' => $paid_fee_amount,
-                            'excess_amount' => $fee_excess_amount,
-                            'fee_concession' => 0,
-                            'pending_balance' => abs($pending_fee_balance),
-                            'fee_pending_status' => $fee_pending_status,
-                            'payment_year' => CURRENT_YEAR,
-                            'term_name' => 'I PUC',
-                            'payment_count' => $paid_count,
-                            'order_id' => $_POST["ORDERID"],
-                            'created_by' => $this->staff_id,
-                            'created_date_time' => date('Y-m-d H:i:s'));
-                            $fee_year= 2022;
-                            $receipt_number = $this->fee->addFeeDetailsNewAdmission_2021($overallFee);
-                            // log_message('debug','bcbc'.print_r($overallFee,true));
+    //                     $overallFee = array(
+    //                         'receipt_number'=> $receipt_no,
+    //                         'application_no' => $studentInfo->application_number,
+    //                         'payment_type' => 'ONLINE',
+    //                         'payment_date' => date('Y-m-d',strtotime($_POST['TXNDATE'])),
+    //                         'total_amount' => $total_fee->total_fee,
+    //                         'paid_amount' => $paid_fee_amount,
+    //                         'excess_amount' => $fee_excess_amount,
+    //                         'fee_concession' => 0,
+    //                         'pending_balance' => abs($pending_fee_balance),
+    //                         'fee_pending_status' => $fee_pending_status,
+    //                         'payment_year' => CURRENT_YEAR,
+    //                         'term_name' => 'I PUC',
+    //                         'payment_count' => $paid_count,
+    //                         'order_id' => $_POST["ORDERID"],
+    //                         'created_by' => $this->staff_id,
+    //                         'created_date_time' => date('Y-m-d H:i:s'));
+    //                         $fee_year= 2022;
+    //                         $receipt_number = $this->fee->addFeeDetailsNewAdmission_2021($overallFee);
+    //                         // log_message('debug','bcbc'.print_r($overallFee,true));
 
                             
-                        $paymentLogUpdate = array(
-                            'payment_mode' => $_POST['PAYMENTMODE'],
-                            'reference_number'=>$_POST['TXNID'],
-                            'payment_status' =>'SUCCESS',
-                            'receipt_number' =>$receipt_number,
-                            'amount_pending' =>$pending_fee_balance,
-                            'fee_amount' => $_POST['TXNAMOUNT'],
-                            'updated_by' => $studentInfo->application_no,
-                            'updated_date_time' => date('Y-m-d H:i:s'));
+    //                     $paymentLogUpdate = array(
+    //                         'payment_mode' => $_POST['PAYMENTMODE'],
+    //                         'reference_number'=>$_POST['TXNID'],
+    //                         'payment_status' =>'SUCCESS',
+    //                         'receipt_number' =>$receipt_number,
+    //                         'amount_pending' =>$pending_fee_balance,
+    //                         'fee_amount' => $_POST['TXNAMOUNT'],
+    //                         'updated_by' => $studentInfo->application_no,
+    //                         'updated_date_time' => date('Y-m-d H:i:s'));
             
-                            $fee_amount_balance_pending = $paid_fee_amount;
-                            $remaining_fee_amt = $paid_fee_amount;
-                            foreach($feeStructureInfo as $fee){
-                                $db_save_status = false;
-                                $fee_structure_amt = $fee->fee_amount_state_board;
-                                $isAlreadyPaid = $this->fee->checkFeeTypeIsAlreadyPaid($studentInfo->application_number,$fee->row_id);
-                                if($remaining_fee_amt >= 0){
-                                    if(!empty($isAlreadyPaid)){
-                                        if($isAlreadyPaid->pending_status == 1){
-                                            $remaining_fee_amt -= $isAlreadyPaid->pending_amt;
-                                            if($remaining_fee_amt >= 0){
-                                                //$pending_amount = 0;
-                                                $paid_amt = $isAlreadyPaid->pending_amt;
-                                                $pending_amt = 0;
-                                                $fee_pending_status = 0;
-                                            } else {
-                                                //$dd_amount = 0; 
-                                                $paid_amt = $isAlreadyPaid->pending_amt - abs($remaining_fee_amt);
-                                                $pending_amt = $isAlreadyPaid->pending_amt - $paid_amt;
-                                                $fee_pending_status = 1;
-                                            } 
-                                            $db_save_status = true;
-                                        }
-                                    }else{
-                                        $remaining_fee_amt -= $fee_structure_amt;
-                                        if($remaining_fee_amt >= 0){
-                                            //$pending_amount = 0;
-                                            $paid_amt = $fee_structure_amt;
-                                            $pending_amt = 0;
-                                            $fee_pending_status = 0;
-                                        } else {
-                                            //$dd_amount = 0; 
-                                            $paid_amt = $fee_structure_amt - abs($remaining_fee_amt);
-                                            $pending_amt = $fee_structure_amt - $paid_amt;
-                                            $fee_pending_status = 1;
-                                        } 
-                                        $db_save_status = true;
-                                    }
-                                }else{
-                                    if(empty($isAlreadyPaid)){
-                                    $pending_amt = $fee_structure_amt;
-                                    $paid_amt = 0;
-                                    $fee_pending_status = 1;
-                                    $db_save_status = true;
-                                    }
-                                }
-                                if($db_save_status){
-                                    $feeReceiptPayment = array(
-                                        'application_no' => $studentInfo->application_number,
-                                        'receipt_number' => $receipt_number,
-                                        'payment_date' => date('Y-m-d',strtotime($_POST['TXNDATE'])), 
-                                        'fee_type_id' => $fee->row_id,
-                                        'paid_amount' => $paid_amt,
-                                        'pending_amt' => $pending_amt,
-                                        'pending_status' => $fee_pending_status,
-                                        'school_account_id' => $fee->account_row_id,
-                                        'created_by' => 'schoolphins',
-                                        'fee_amount' => $fee_structure_amt,
-                                        'created_date_time' => date('Y-m-d H:i:s'));
+    //                         $fee_amount_balance_pending = $paid_fee_amount;
+    //                         $remaining_fee_amt = $paid_fee_amount;
+    //                         foreach($feeStructureInfo as $fee){
+    //                             $db_save_status = false;
+    //                             $fee_structure_amt = $fee->fee_amount_state_board;
+    //                             $isAlreadyPaid = $this->fee->checkFeeTypeIsAlreadyPaid($studentInfo->application_number,$fee->row_id);
+    //                             if($remaining_fee_amt >= 0){
+    //                                 if(!empty($isAlreadyPaid)){
+    //                                     if($isAlreadyPaid->pending_status == 1){
+    //                                         $remaining_fee_amt -= $isAlreadyPaid->pending_amt;
+    //                                         if($remaining_fee_amt >= 0){
+    //                                             //$pending_amount = 0;
+    //                                             $paid_amt = $isAlreadyPaid->pending_amt;
+    //                                             $pending_amt = 0;
+    //                                             $fee_pending_status = 0;
+    //                                         } else {
+    //                                             //$dd_amount = 0; 
+    //                                             $paid_amt = $isAlreadyPaid->pending_amt - abs($remaining_fee_amt);
+    //                                             $pending_amt = $isAlreadyPaid->pending_amt - $paid_amt;
+    //                                             $fee_pending_status = 1;
+    //                                         } 
+    //                                         $db_save_status = true;
+    //                                     }
+    //                                 }else{
+    //                                     $remaining_fee_amt -= $fee_structure_amt;
+    //                                     if($remaining_fee_amt >= 0){
+    //                                         //$pending_amount = 0;
+    //                                         $paid_amt = $fee_structure_amt;
+    //                                         $pending_amt = 0;
+    //                                         $fee_pending_status = 0;
+    //                                     } else {
+    //                                         //$dd_amount = 0; 
+    //                                         $paid_amt = $fee_structure_amt - abs($remaining_fee_amt);
+    //                                         $pending_amt = $fee_structure_amt - $paid_amt;
+    //                                         $fee_pending_status = 1;
+    //                                     } 
+    //                                     $db_save_status = true;
+    //                                 }
+    //                             }else{
+    //                                 if(empty($isAlreadyPaid)){
+    //                                 $pending_amt = $fee_structure_amt;
+    //                                 $paid_amt = 0;
+    //                                 $fee_pending_status = 1;
+    //                                 $db_save_status = true;
+    //                                 }
+    //                             }
+    //                             if($db_save_status){
+    //                                 $feeReceiptPayment = array(
+    //                                     'application_no' => $studentInfo->application_number,
+    //                                     'receipt_number' => $receipt_number,
+    //                                     'payment_date' => date('Y-m-d',strtotime($_POST['TXNDATE'])), 
+    //                                     'fee_type_id' => $fee->row_id,
+    //                                     'paid_amount' => $paid_amt,
+    //                                     'pending_amt' => $pending_amt,
+    //                                     'pending_status' => $fee_pending_status,
+    //                                     'school_account_id' => $fee->account_row_id,
+    //                                     'created_by' => 'schoolphins',
+    //                                     'fee_amount' => $fee_structure_amt,
+    //                                     'created_date_time' => date('Y-m-d H:i:s'));
                                         
-                                    $receipt_return_feeType = $this->fee->addReceiptFeeType($feeReceiptPayment);
-                                }
+    //                                 $receipt_return_feeType = $this->fee->addReceiptFeeType($feeReceiptPayment);
+    //                             }
                             
-                            }
+    //                         }
 
-                            $applicationStatus = array(
-                                'joined_status' => 1,
-                                'admission_status'=> 1,
-                                'updated_date_time' => date('Y-m-d H:i:s'));
-                            $this->admission->updateStudentApplicationStatus($studentInfo->application_number,$applicationStatus);
+    //                         $applicationStatus = array(
+    //                             'joined_status' => 1,
+    //                             'admission_status'=> 1,
+    //                             'updated_date_time' => date('Y-m-d H:i:s'));
+    //                         $this->admission->updateStudentApplicationStatus($studentInfo->application_number,$applicationStatus);
                               
-                            $this->session->set_flashdata('success', 'Order ID processed successfully '); 
-                        }else{
-                            $paymentLogUpdate = array(
-                                'payment_mode' => $_POST['PAYMENTMODE'],
-                                'reference_number'=>$_POST['TXNID'],
-                                'payment_status' =>'SUCCESS',
-                                'receipt_number' =>$receipt_number,
-                                'amount_pending' =>$pending_fee_balance,
-                                'fee_amount' => $_POST['TXNAMOUNT'],
-                                'updated_by' => $studentInfo->application_no,
-                                'updated_date_time' => date('Y-m-d H:i:s'));
-                            $this->session->set_flashdata('success', 'Order ID already exists'); 
-                        }
+    //                         $this->session->set_flashdata('success', 'Order ID processed successfully '); 
+    //                     }else{
+    //                         $paymentLogUpdate = array(
+    //                             'payment_mode' => $_POST['PAYMENTMODE'],
+    //                             'reference_number'=>$_POST['TXNID'],
+    //                             'payment_status' =>'SUCCESS',
+    //                             'receipt_number' =>$receipt_number,
+    //                             'amount_pending' =>$pending_fee_balance,
+    //                             'fee_amount' => $_POST['TXNAMOUNT'],
+    //                             'updated_by' => $studentInfo->application_no,
+    //                             'updated_date_time' => date('Y-m-d H:i:s'));
+    //                         $this->session->set_flashdata('success', 'Order ID already exists'); 
+    //                     }
                     
-                    }else{
-                        $paymentLogUpdate = array(
-                            'payment_status' =>'FAILED',
-                            'fee_amount' => $_POST['TXNAMOUNT'],
-                            'updated_by' => $studentInfo->application_no,
-                            'updated_date_time' => date('Y-m-d H:i:s')
-                        );
-                        $this->session->set_flashdata('error', 'Payment checksum is failed.'); 
-                    }
-                    $this->fee->updatePaymentLogByOrderId($paymentLogUpdate, $_POST["ORDERID"]);
-                }
+    //                 }else{
+    //                     $paymentLogUpdate = array(
+    //                         'payment_status' =>'FAILED',
+    //                         'fee_amount' => $_POST['TXNAMOUNT'],
+    //                         'updated_by' => $studentInfo->application_no,
+    //                         'updated_date_time' => date('Y-m-d H:i:s')
+    //                     );
+    //                     $this->session->set_flashdata('error', 'Payment checksum is failed.'); 
+    //                 }
+    //                 $this->fee->updatePaymentLogByOrderId($paymentLogUpdate, $_POST["ORDERID"]);
+    //             }
                 
-            }else{
-                $this->session->set_flashdata('success', 'Order ID already processed'); 
-            }
-        redirect('getAllFeePaymentInfo');
-    }
+    //         }else{
+    //             $this->session->set_flashdata('success', 'Order ID already processed'); 
+    //         }
+    //     redirect('getAllFeePaymentInfo');
+    // }
 
             
     public function newFeePayNow(){
@@ -2729,21 +2291,21 @@ public function newAdm_AddFeePaymentInfo(){
             if(empty($application_no)){
                 $application_no = $_SESSION["FEE_STUDENT_ID"];
             }
-            $studentInfo =  $this->student->getStudentInfoBy_Application_no($application_no);
-            if(empty($studentInfo)){
-                //check student exist in new admission info
-                $studentInfo = $this->admission->getStudentStudentInfo($application_no);
-            }
+            $studentInfo =  $this->student->getStudentInfoByRowId($application_no);
+            // if(empty($studentInfo)){
+            //     //check student exist in new admission info
+            //     $studentInfo = $this->admission->getStudentStudentInfo($application_no);
+            // }
             $filter = array(); 
             //FOR BOARD
-            $studentInfo2 = $this->admission->getStudentStudentInfo($application_no);
-            $boardInfo = $this->admission->getStudentRegisteredInfo($studentInfo2->registered_row_id);
-                $data['board_id'] = $boardInfo->sslc_board_name_id;
-                    if($boardInfo->sslc_board_name_id == 1){
-                        $filter['board_name'] = "SSLC";
-                    }else{
-                        $filter['board_name'] = "OTHER";
-            }
+            // $studentInfo2 = $this->admission->getStudentStudentInfo($application_no);
+            // $boardInfo = $this->admission->getStudentRegisteredInfo($studentInfo2->registered_row_id);
+            //     $data['board_id'] = $boardInfo->sslc_board_name_id;
+            //         if($boardInfo->sslc_board_name_id == 1){
+            //             $filter['board_name'] = "SSLC";
+            //         }else{
+            //             $filter['board_name'] = "OTHER";
+            // }
 
             if(!empty($studentInfo)){
                 $term_name = $studentInfo->term_name;
@@ -2752,12 +2314,12 @@ public function newAdm_AddFeePaymentInfo(){
                 $data['term_name'] = $term_name;
                 $filter['stream_name'] = $studentInfo->stream_name;
                 
-                if(strtoupper($studentInfo->elective_sub) == 'FRENCH'){
-                    $filter['lang_fee_status'] = true;
-                }else{
-                    $filter['lang_fee_status'] = false;
-                }
-                $filter['category'] = strtoupper($studentInfo->category);
+                // if(strtoupper($studentInfo->elective_sub) == 'FRENCH'){
+                //     $filter['lang_fee_status'] = true;
+                // }else{
+                //     $filter['lang_fee_status'] = false;
+                // }
+                // $filter['category'] = strtoupper($studentInfo->category);
                 
 
                 if($term_name == 'I PUC'){
@@ -2782,10 +2344,11 @@ public function newAdm_AddFeePaymentInfo(){
                     $feeConcession = $this->fee->getStudentFeeConcession($application_no);
                     if(!empty($feeConcession)){
                         $concession_amt = $feeConcession->fee_amt;
+                        $total_fee_amount -= $concession_amt;
                     }
                     
                     $total_fee_amount -= $paidFee;
-                    $data['previousBal'] = $data['first_puc_pending_amount'] = $data['pending_amount'] = $total_fee_amount- $concession_amt;
+                    $data['previousBal'] = $data['first_puc_pending_amount'] = $data['pending_amount'] = $total_fee_amount;
                     $data['I_balance'] = $total_fee_amount;
                     $data['concession'] = $concession_amt;
                     $data['balance'] = 0;
@@ -2862,7 +2425,7 @@ public function newAdm_AddFeePaymentInfo(){
                 $this->session->set_flashdata('error', 'Sorry!, Student data not found!');
             }
            
-            $data['newStdInfo'] = $this->admission->getFirstYearStudentsInfo();
+            // $data['newStdInfo'] = $this->admission->getFirstYearStudentsInfo();
             $data['allStudentInfo'] = $this->student->getAllStudentsInfo();
             $this->global['pageTitle'] = TAB_TITLE.' : Fee Payment' ;
             $this->loadViews("fees/newPaymentPortal", $this->global, $data, null);
@@ -2897,13 +2460,13 @@ public function newAdm_AddFeePaymentInfo(){
 
 
             $filter['student_id'] = $student_id;
-            $studentInfo =  $this->student->getStudentInfoBy_Application_no($application_no);
+            $studentInfo =  $this->student->getStudentInfoByRowId($application_no);
             $filter['fee_year'] = CURRENT_YEAR; //$studentInfo->intake_year_id;
-            if(empty($studentInfo)){
-                //check student exist in new admission info
-                $studentInfo = $this->admission->getStudentStudentInfo($application_no);
-                $filter['fee_year'] = CURRENT_YEAR;
-            }
+            // if(empty($studentInfo)){
+            //     //check student exist in new admission info
+            //     $studentInfo = $this->admission->getStudentStudentInfo($application_no);
+            //     $filter['fee_year'] = CURRENT_YEAR;
+            // }
 
             // if($term_name == 'II PUC'){
             //     $filter['fee_year'] = ($studentInfo->intake_year_id)+1;
@@ -2919,16 +2482,16 @@ public function newAdm_AddFeePaymentInfo(){
                 // }
                 // $filter['category'] = strtoupper($studentInfo->category);
                 
-                if($term_name == 'I PUC'){
-                    $studentInfo2 = $this->admission->getStudentStudentInfo($application_no);
-                    $boardInfo = $this->admission->getStudentRegisteredInfo($studentInfo2->registered_row_id);
-                    $data['board_id'] = $boardInfo->sslc_board_name_id;
-                    if($boardInfo->sslc_board_name_id == 1){
-                        $filter['board_name'] = "SSLC";
-                    }else{
-                        $filter['board_name'] = "OTHER";
-                    }
-                }
+                // if($term_name == 'I PUC'){
+                //     $studentInfo2 = $this->admission->getStudentStudentInfo($application_no);
+                //     $boardInfo = $this->admission->getStudentRegisteredInfo($studentInfo2->registered_row_id);
+                //     $data['board_id'] = $boardInfo->sslc_board_name_id;
+                //     if($boardInfo->sslc_board_name_id == 1){
+                //         $filter['board_name'] = "SSLC";
+                //     }else{
+                //         $filter['board_name'] = "OTHER";
+                //     }
+                // }
 
                 // if($term_name == 'II PUC'){
                 //     if($studentInfo->is_admitted == 1){
@@ -2943,7 +2506,12 @@ public function newAdm_AddFeePaymentInfo(){
                 // $feeStructureInfo = $this->fee->getFeeStructureInfo2021($filter);
                 $total_fee_to_pay = $total_fee->total_fee;
                 $data['total_fee'] = $total_fee->total_fee;
-
+                $concession_amt = 0;
+                $feeConcession = $this->fee->getStudentFeeConcession($application_no);
+                if(!empty($feeConcession)){
+                    $concession_amt = $feeConcession->fee_amt;
+                    $total_fee_to_pay -= $concession_amt;
+                }
                 $data['feePaidInfo'] = $this->fee->getFeePaidInfo($application_no,$filter['fee_year']);
                 if(!empty($data['feePaidInfo'])){
                     foreach($data['feePaidInfo'] as $fee){
@@ -2967,7 +2535,7 @@ public function newAdm_AddFeePaymentInfo(){
                     $paid_count = $feePaymentInfo->payment_count+1;
                 }
 
-                $lastReceiptInfo = $this->fee->getLastReceiptNo($filter['fee_year'],$term_name);
+                $lastReceiptInfo = $this->fee->getLastReceiptNo($filter['fee_year']);
                 if(!empty($lastReceiptInfo->receipt_number)){
                     $receipt_no = $lastReceiptInfo->receipt_number + 1;
                 }else{
@@ -2982,7 +2550,7 @@ public function newAdm_AddFeePaymentInfo(){
                     'total_amount' => $total_fee_to_pay,
                     'paid_amount' => $paid_fee_amount,
                     'excess_amount' => $fee_excess_amount,
-                    'fee_concession' => 0,
+                    'fee_concession' => $concession_amt,
                     'pending_balance' => abs($pending_fee_balance),
                     'fee_pending_status' => $fee_pending_status,
                     'payment_count' => $paid_count,

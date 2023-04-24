@@ -75,7 +75,7 @@ if ($error) {
                                                     <option value="">Select Student</option>
                                                     <?php if(!empty($studentInfo)){
                                                         foreach($studentInfo as $std){  ?>
-                                                        <option value="<?php echo $std->application_no; ?>"><b><?php echo $std->student_id.' - '.$std->student_name; ?></b></option>
+                                                        <option value="<?php echo $std->row_id; ?>"><b><?php echo $std->student_id.' - '.$std->student_name; ?></b></option>
                                                     <?php } } ?>
                                                 </select>
                                             </div>

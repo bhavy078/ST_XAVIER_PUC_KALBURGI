@@ -706,6 +706,14 @@ class students_model extends CI_Model
         return $query->row();
     }
 
+    public function getStudentInfoByRowId($row_id){
+        $this->db->from('tbl_students_info as student'); 
+        $this->db->where('student.row_id', $row_id);
+        $this->db->where('student.is_deleted', 0);
+        $query = $this->db->get();
+        return $query->row();
+    }
+
     public function getAllStudentInfo_For_Fee_report($term_name,$year){
         $this->db->from('tbl_students_info as student'); 
         $this->db->where('student.term_name', $term_name);

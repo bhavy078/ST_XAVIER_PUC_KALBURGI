@@ -121,7 +121,7 @@ table{
                 </tr>
                 <tr>
                     <th colspan="1">Amount Pending</th>
-                    <th class="border_right_none" style="text-align: right;"><?php echo number_format($total_fee_amt - $paidFeeSum - $concession_amount,2); ?></th>
+                    <th class="border_right_none" style="text-align: right;"><?php echo number_format($feeInfo->pending_balance,2); ?></th>
                 </tr>
                 <tr>
                     <td colspan="2"><b>Paid total amount in word: <span style="text-transform: capitalize;"><?php echo strtoupper(getIndianCurrency($feeInfo->paid_amount)).' ONLY'; ?></span></b></td>
