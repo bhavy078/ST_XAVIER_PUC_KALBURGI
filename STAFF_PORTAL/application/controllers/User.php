@@ -80,6 +80,7 @@ class User extends BaseController
         $staffClass = $this->staff->getStaffSubjectSectionByStaffId($this->staff_id);
         $subjectInfo = $this->subject->getStaffSubjectCodebyStaffId($this->staff_id);
        $data['assignedStaffsection'] = $this->staff->getSectionByStaffId($this->staff_id);
+       $data['alumniStudents'] =  $this->student->getAlumniStudentCount($filter);
       //  $data['staffClassCompletedInfo'] = $this->attendance->getStaffClassCompletenfoById();
         $classCompletedCount = array();
         $data['assignedStaffClass'] = $staffClass;

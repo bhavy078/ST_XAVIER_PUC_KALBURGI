@@ -261,8 +261,8 @@ h4{
                                 <div class="row" style="margin-top: -48px;">
                                     <div class="col-lg-12 col-sm-12 col-12">
                                         <div class="header-heading text-center" style="margin-bottom: 10px;">
-                                            <b class="mb-1" style="font-size: 36px; text-transform: uppercase;font-family: serif;">St. Joseph’s Pre-University College</b>
-                                            <p class="mb-1" style="font-size: 18px;font-weight: 600;">Address</p>
+                                            <b class="mb-1" style="font-size: 36px; text-transform: uppercase;font-family: serif;">ST. XAVIER'S PRE–UNIVERSITY COLLEGE</b>
+                                            <p class="mb-1" style="font-size: 18px;font-weight: 600;">NH 50, FARHATABAD POST SIRNOOR, KALABURAGI - 585308 KARNATAKA, INDIA</p>
                                             <b style="font-size: 25px;"><b>TRANSFER CERTIFICATE</b></b><br/>
                                             <b style="font-size: 25px; font-weight: 600;"><b>(<?php echo strtoupper($record->remarks); ?>)</b></b>
                                         </div>

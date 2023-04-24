@@ -1442,4 +1442,10 @@ class students_model extends CI_Model
             return $query->result();
         }
 
+        public function updateStudentAcademicInfo($academicInfo,$application_no){
+            $this->db->where('application_no', $application_no);
+            $this->db->update('tbl_students_info',$academicInfo);
+            return TRUE;
+        }
+
 }

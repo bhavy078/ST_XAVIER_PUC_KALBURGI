@@ -45,16 +45,16 @@
                                                 role="tab" aria-controls="academic" aria-selected="true">Academic
                                                 Info</a>
                                         </li>
-                                        <!-- <li class="nav-item">
+                                        <li class="nav-item">
                                             <a class="nav-link" id="first_unit_test-tab" data-toggle="tab" href="#first_unit_test"
                                                 role="tab" aria-controls="first_unit_test" aria-selected="true">I Unit Test
                                             </a>
                                         </li>
-                                        <li class="nav-item">
+                                        <!-- <li class="nav-item">
                                             <a class="nav-link" id="first_term-tab" data-toggle="tab" href="#first_term"
                                                 role="tab" aria-controls="first_term" aria-selected="true">I Term
                                             </a>
-                                        </li>-->
+                                        </li> -->
                                         <li class="nav-item">
                                             <a class="nav-link" id="mid_term-tab" data-toggle="tab" href="#mid_term"
                                                 role="tab" aria-controls="mid_term" aria-selected="true">MID TERM

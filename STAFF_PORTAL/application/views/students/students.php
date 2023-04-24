@@ -96,14 +96,19 @@ if ($error) {
                                         <div class="dropdown-divider m-0"></div>
                                         <a class="dropdown-item" href="#" id="biodata_student"><i class="fa fa-file"></i> Bio-Data</a>
                                         <div class="dropdown-divider m-0"></div> -->
+                                        <a class="dropdown-item" href="#" id="study_certificate"><i class="fa fa-file"></i> Study Certificate</a>
+                                        <div class="dropdown-divider m-0"></div>
+                                        <a class="dropdown-item" href="#" id="conduct_certificate"><i class="fa fa-file"></i> Conduct Certificate</a>
+                                        <div class="dropdown-divider m-0"></div>
+                                        <a class="dropdown-item" href="#" id="mark_card_print"><i class="fa fa-file"></i> Mark Card</a>
                                         <a class="dropdown-item" href="#" data-toggle="modal" data-target="#downloadReport" class="btn btn-md btn-primary">
                                         <i class="fa fa-download"></i> Export</a>
                                         <!-- <a id="studentBatchModel" class="dropdown-item " href="#"><i class="fa fa-user"></i> Add Batch</a>
                                         <div class="dropdown-divider m-0"></div>
                                         <a class="dropdown-item" href="#" id="unit_test_mark_card"><i class="fa fa-file"></i> Unit Test Mark Card</a>
                                         <div class="dropdown-divider m-0"></div> -->
-                                        <a class="dropdown-item" href="#" id="assign_feedback"><i class="fa fa-file"></i> Assign Student For Feedback</a>
-                                        <div class="dropdown-divider m-0"></div>
+                                        <!-- <a class="dropdown-item" href="#" id="assign_feedback"><i class="fa fa-file"></i> Assign Student For Feedback</a>
+                                        <div class="dropdown-divider m-0"></div> -->
                                         <!-- <a class="dropdown-item" href="#" id="promoteStudent"><i class="fa fa-file"></i>Promote Student</a>
                                         <div class="dropdown-divider m-0"></div> -->
                                     </div>
@@ -687,9 +692,9 @@ if ($error) {
                             <label>Select Examination Year</label>
                             <select class=" form-control input-md" id="exam_year" name="exam_year">
                                 <option value="">Select Examination Year</option>
-                                 <option value="FEBRUARY - 2022_D"><strong>Annual Exam(Detained)</strong></option>
+                                 <!-- <option value="FEBRUARY - 2022_D"><strong>Annual Exam(Detained)</strong></option> -->
                                  <option value="annual_exam"><strong>Annual Exam</strong></option>
-                                 <option value="supplementary_exam"><strong>Supplementary Exam</strong></option>
+                                 <!-- <option value="supplementary_exam"><strong>Supplementary Exam</strong></option>
                                 <option value="FEBRUARY - 2021"><strong>FEBRUARY - 2021</strong></option>
                                 <option value="MARCH - 2021"><strong>MARCH - 2021</strong></option>
                                 <option value="JULY - 2021"><strong>JULY - 2021</strong></option>
@@ -702,7 +707,7 @@ if ($error) {
                                 <option value="MARCH - 2019"><strong>MARCH - 2019</strong></option>
                                 <option value="APRIL - 2019"><strong>APRIL - 2019</strong></option>
                                 <option value="JULY - 2019"><strong>JULY - 2019</strong></option>
-                                <option value="FEBRUARY - 2018"><strong>FEBRUARY - 2018</strong></option>
+                                <option value="FEBRUARY - 2018"><strong>FEBRUARY - 2018</strong></option> -->
                             </select>
                         </div>
 

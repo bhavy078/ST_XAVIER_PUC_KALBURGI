@@ -488,6 +488,7 @@ class Student extends BaseController
         $data['studentInfo'] = $this->student_model->getStudentInfoById($this->student_id,$this->term_name);
         $filter['stream_name']= $data['studentInfo']->stream_name;
         $filter['section_name']= $data['studentInfo']->section_name;
+        $data['personal_notifications'] = $this->student_model->getStudentNotificationsById($this->student_id);
         $data['notifications'] = $this->student_model->getStudentNotifications($limit=75,$filter);
       
         $this->global['pageTitle'] = ''.TAB_TITLE.' : My Notifications';

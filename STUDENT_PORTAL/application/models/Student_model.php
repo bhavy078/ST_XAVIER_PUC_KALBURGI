@@ -682,6 +682,15 @@ public function updateCoursePaymentLogByRowId($paymentInfo,$order_id) {
         //return $this->db->last_query();
         return $query->result();
     }
+
+    public function getStudentNotificationsById($student_id){  
+        $this->db->from('tbl_student_notifications as notification');
+        $this->db->where('notification.student_id',$student_id);
+        $this->db->where('notification.is_deleted',0);
+        $this->db->order_by("date_time","DESC");
+        $query = $this->db->get(); 
+        return $query->result();
+    }
  
 }
 ?>

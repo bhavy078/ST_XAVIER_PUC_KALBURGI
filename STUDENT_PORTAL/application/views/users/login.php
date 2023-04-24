@@ -76,7 +76,7 @@
             </form>
             <div class="row">
                 <div class="col-sm-6 col-md-6">
-                  <a target="_blank" href="<?php echo base_url() ?>assets/downloads/student_SJPUC_UserGuide.pdf" class="float-left" style="margin-top: 10px;">Click here to help <i class="far fa-question-circle"></i></a><br>
+                  <a target="_blank" href="<?php echo base_url() ?>assets/downloads/student_SJPUC_UserGuide.pdf" class="float-left" style="margin-top: 10px;"></i></a><br>
                 </div>
                 <div class="col-sm-6 col-md-6">
                   <a class="float-right" style="margin-top: 10px;" href="<?php echo base_url() ?>forgotPassword">Forgot Password</a>

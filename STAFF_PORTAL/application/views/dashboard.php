@@ -253,7 +253,7 @@ if ($warning) {
                     <a  href="<?php echo base_url(); ?>studentAlumniInfo" class="dashboard_link">
                         <div class="card-body pt-1 pb-1">
                             <span class="stats-small__label text-uppercase text-white text-center">Alumni</span>
-                            <h6 class="stats-small__value count text-white">0</h6>
+                            <h6 class="stats-small__value count text-white"><?php echo $alumniStudents; ?></h6>
                             <div class="icon pull-right">
                                 <i class="fa fa-graduation-cap dash-icons"></i>
                             </div>

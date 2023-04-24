@@ -382,9 +382,9 @@ if ($error) {
                             <label>Select Examination Year</label>
                             <select class=" form-control input-md" id="exam_year" name="exam_year">
                                 <option value="">Select Examination Year</option>
-                                 <option value="FEBRUARY - 2022_D"><strong>Annual Exam(Detained)</strong></option>
+                                 <!-- <option value="FEBRUARY - 2022_D"><strong>Annual Exam(Detained)</strong></option> -->
                                  <option value="annual_exam"><strong>Annual Exam</strong></option>
-                                <option value="FEBRUARY - 2021"><strong>FEBRUARY - 2021</strong></option>
+                                <!-- <option value="FEBRUARY - 2021"><strong>FEBRUARY - 2021</strong></option>
                                 <option value="MARCH - 2021"><strong>MARCH - 2021</strong></option>
                                 <option value="JULY - 2021"><strong>JULY - 2021</strong></option>
                                 <option value="APRIL - 2021"><strong>APRIL - 2021</strong></option>
@@ -396,7 +396,7 @@ if ($error) {
                                 <option value="MARCH - 2019"><strong>MARCH - 2019</strong></option>
                                 <option value="APRIL - 2019"><strong>APRIL - 2019</strong></option>
                                 <option value="JULY - 2019"><strong>JULY - 2019</strong></option>
-                                <option value="FEBRUARY - 2018"><strong>FEBRUARY - 2018</strong></option>
+                                <option value="FEBRUARY - 2018"><strong>FEBRUARY - 2018</strong></option> -->
                             </select>
                         </div>
 

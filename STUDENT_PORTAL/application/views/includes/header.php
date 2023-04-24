@@ -353,6 +353,20 @@
 
                                 </li>
 
+                                <li class="nav-item">
+
+                                            <a class="nav-link"
+                                                href="<?php echo base_url(); ?>myNotifications">
+
+                                                <i class="material-icons">notifications</i>
+
+                                                <span>Notifications</span>
+
+                                            </a>
+
+                                        </li>
+
+
 
 
                                
@@ -397,7 +411,7 @@
 
                                         </li>
 
-                                        <li class="nav-item">
+                                        <!-- <li class="nav-item">
 
                                             <a class="nav-link" href="<?php echo base_url(); ?>viewYoutubeVideos">
 
@@ -407,7 +421,7 @@
 
                                             </a>
 
-                                        </li>
+                                        </li> -->
 
 
 

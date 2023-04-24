@@ -78,7 +78,7 @@ if ($error) {
                         <div class="row">
                             <div class="col-lg-12 col-12 col-md-12">
                                 <span class="page-title">
-                                    <i class="fa fa-comments-o"></i> Staff Notifications
+                                    <i class="fas fa-comments"></i> Staff Notifications
                                 </span>
                             </div>                                                       
                         </div>

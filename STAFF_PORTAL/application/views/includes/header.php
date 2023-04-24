@@ -396,12 +396,12 @@
                                 <span>Alumni Tc</span>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a class="nav-link" href="<?php echo base_url(); ?>studentRegisterListing">
                                 <i class="material-icons">language</i>
                                 <span>Portal Registration</span>
                             </a>
-                        </li>
+                        </li> -->
                         <!-- <?php if ($role == ROLE_ADMIN || $role == ROLE_PRINCIPAL || $role == ROLE_PRIMARY_ADMINISTRATOR || $role == ROLE_VICE_PRINCIPAL || $role == ROLE_TEACHING_STAFF) { ?>
                         <li class="nav-item">
                             <a class="nav-link" href="<?php echo base_url(); ?>viewLatecomerInfo">
@@ -696,12 +696,12 @@
                                 <span>Study Materials</span>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a class="nav-link" href="<?php echo base_url(); ?>viewYoutube">
                                 <i class="fab fa-youtube header_icons"></i>
                                 <span>Video</span>
                             </a>
-                        </li>
+                        </li> -->
                     </ul>
                     <?php } ?>
                     <?php if($role == ROLE_LIBRARY || $role == ROLE_ADMIN || $role == ROLE_PRIMARY_ADMINISTRATOR || $role == ROLE_OFFICE ||  $role == ROLE_PRINCIPAL) { ?>
@@ -778,7 +778,7 @@
                         </li>
                     </ul>
                 </li> -->
-                 <li class="nav-item">
+                 <!-- <li class="nav-item">
                     <a href="#notification_items" data-toggle="collapse" aria-expanded="false" class="nav-link  dropdown-toggle">
                         <i class="material-icons">chat</i>
                         <span>Notification</span>
@@ -803,8 +803,38 @@
                             </a>
                         </li>
                     </ul>
-                </li> 
+                </li>  -->
                 <?php } ?>
+                <li class="nav-item">
+                    <a href="#notification_items" data-toggle="collapse" aria-expanded="false" class="nav-link  dropdown-toggle">
+                        <i class="material-icons">chat</i>
+                        <span>Notification</span>
+                    </a>
+                    <ul class="collapse list-unstyled ml-3" id="notification_items">
+                    <?php if ($role == ROLE_ADMIN || $role == ROLE_PRINCIPAL || $role == ROLE_PRIMARY_ADMINISTRATOR || $role == ROLE_OFFICE) { ?>
+                        <li class="nav-item">
+                            <a class="nav-link " href="<?php echo base_url(); ?>pushNotification">
+                                <i class="material-icons">send</i>
+                                <span>Send</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?php echo base_url(); ?>studentNotifications">
+                                <i class="material-icons">supervisor_account</i>
+                                <span>Student</span>
+                            </a>
+                        </li>
+                        <?php } ?>
+
+                         <li class="nav-item">
+                            <a class="nav-link" href="<?php echo base_url(); ?>staffNotifications">
+                                <i class="material-icons">account_box</i>
+                                <span>Staff</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li> 
                 <li class="nav-item">
                     <a href="#leave" data-toggle="collapse" aria-expanded="false"
                         class="nav-link  dropdown-toggle">
@@ -826,7 +856,7 @@
                                 </a>
                             </li>
                         <?php } ?>
-                        <?php if($role == ROLE_ADMIN || $role == ROLE_PRINCIPAL || $role == ROLE_PRIMARY_ADMINISTRATOR || $role == ROLE_MANAGEMENT || $role == ROLE_SECURITY) { ?>
+                        <?php if($role == ROLE_ADMIN || $role == ROLE_PRINCIPAL || $role == ROLE_PRIMARY_ADMINISTRATOR ||  $role == ROLE_SECURITY) { ?>
                             <li class="nav-item">
                                 <a class="nav-link" href="<?php echo base_url(); ?>staffLeaveInfo">
                                     <i class="material-icons">watch_later</i>
@@ -965,7 +995,7 @@
                     </ul>
                 </li>
                 <?php } ?>
-                <?php if ($role == ROLE_TEACHING_STAFF || $role == ROLE_OFFICE || $role == ROLE_ADMIN || $role == ROLE_PRINCIPAL || $role == ROLE_PRIMARY_ADMINISTRATOR  || $role == ROLE_ACCOUNT) { ?>
+                <?php if ( $role == ROLE_ADMIN  || $role == ROLE_PRIMARY_ADMINISTRATOR) { ?>
                 <li class="nav-item">
                     <a class="nav-link " href="<?php echo base_url(); ?>reportDashboard">
                         <i class="material-icons">description</i>
@@ -1047,11 +1077,11 @@
                 <?php } ?>
 
                 <?php if ($role == ROLE_ADMIN || $role == ROLE_PRINCIPAL || $role == ROLE_PRIMARY_ADMINISTRATOR) { ?>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a href="#website" data-toggle="collapse" aria-expanded="false" class="nav-link  dropdown-toggle">
                         <i class="material-icons">language</i>
                         <span>Website</span>
-                    </a> 
+                    </a>  -->
                     <ul class="collapse list-unstyled ml-3" id="website">
                         <!-- <li class="nav-item">
                             <a class="nav-link" href="<?php echo base_url(); ?>announcementListing">
@@ -1137,12 +1167,12 @@
                 </li>
                 <?php } ?>
                 <?php if ($role == ROLE_ADMIN || $role == ROLE_PRIMARY_ADMINISTRATOR) { ?>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a class="nav-link " href="<?php echo base_url(); ?>calendar">
                         <i class="material-icons">today</i>
                         <span>Calendar</span>
                     </a>
-                </li>
+                </li> -->
                 <?php } ?>
                 <?php if ($role == ROLE_RECTOR || $role == ROLE_ADMIN || $role == ROLE_PRIMARY_ADMINISTRATOR || $role == ROLE_PRINCIPAL || $role == ROLE_VICE_PRINCIPAL || $role == ROLE_OFFICE || $role == ROLE_RECEPTION) { ?>
                 <!-- <li class="nav-item">
