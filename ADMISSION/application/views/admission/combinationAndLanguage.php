@@ -264,7 +264,7 @@ if(!empty($documentInfo)){
                                 </div>
                             </div>
 
-                            <div class="col-lg-4 col-md-6 col-sm-4 mb-2">
+                            <!-- <div class="col-lg-4 col-md-6 col-sm-4 mb-2">
                                 <div class="form-group">
                                     <div class="mdc-select mdc-select-integrated_batch">
                                         <div class="mdc-select__anchor demo-width-class">
@@ -313,7 +313,7 @@ if(!empty($documentInfo)){
                                         </div>
                                      </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
 
 
@@ -423,7 +423,7 @@ if(!empty($documentInfo)){
     const stream_name_selected = mdc.select.MDCSelect.attachTo(document.querySelector('.mdc-select-stream_name'));
     const second_stream_name_selected = mdc.select.MDCSelect.attachTo(document.querySelector('.mdc-select-second_stream_name'));
     mdc.select.MDCSelect.attachTo(document.querySelector('.mdc-select-language_second'));
-    mdc.select.MDCSelect.attachTo(document.querySelector('.mdc-select-integrated_batch'));
+    // mdc.select.MDCSelect.attachTo(document.querySelector('.mdc-select-integrated_batch'));
     const program_name = mdc.select.MDCSelect.attachTo(document.querySelector('.mdc-select-program_name'));
     const second_program_name = mdc.select.MDCSelect.attachTo(document.querySelector('.mdc-select-second_program_name'));
 

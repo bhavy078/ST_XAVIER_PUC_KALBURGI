@@ -1952,7 +1952,7 @@ caste.listen('MDCSelect:change', () => {
     if (caste.value == "2A" || caste.value == "2B" || caste.value == "3A" || caste.value == "3B" ||
         caste.value == "CAT-I" || caste.value == "SC" || caste.value == "ST") {
         $('.caste_category_certificate').show();
-        $('#caste_certificate').prop('required', true);
+        $('#caste_certificate').prop('required', false);
         $('#casteLabel').html("Upload");
     } else {
         $('.caste_category_certificate').hide();

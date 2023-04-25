@@ -426,7 +426,7 @@ $set_html=<<<EOD
                     <td style="font-size: 1px;"></td>
                 </tr>
                 <tr nobr="true">
-                    <td style="border:1px solid black;font-size: 12px;"><b>Integrated Batch : $studentAdmissionInfo->integrated_batch</b>
+                    <td style="border:1px solid black;font-size: 12px;"><b>Register Number : $studentSchoolInfo->register_number </b>
                     </td>
                 </tr>
                

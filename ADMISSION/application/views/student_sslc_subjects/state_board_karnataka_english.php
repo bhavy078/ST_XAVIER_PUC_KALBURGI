@@ -17,14 +17,14 @@ vertical-align: middle !important;
 <table class="table table-bordered text-center">
 <thead>
 <tr style="background: #337ab7; color:white;">
-    <th colspan="4">
-        <span class="float-left">10th STANDARD MARK INFO</span>
+    <th colspan="3">
+        <span class="float-left">10th MARK INFO</span>
     </th>
 </tr>
 <tr style="background: #337ab7; color:white;">
     <th>SUBJECT</th>
     <th width="150">MAX MARKS</th>
-    <th>10TH STD MARKS SCORED</th>
+    <th>MARKS SCORED</th>
 </tr>
 </thead>
 
@@ -32,7 +32,7 @@ vertical-align: middle !important;
     <tr>
         <th>
         <div class="form-group">
-            <select class="form-control required" id="subject_name_one" name="subject_name[]" autocomplete="off" required>
+            <select class="form-control required" id="subject_name_one" name="subject_name[]" autocomplete="off" >
                     <option value="">SELECT FIRST LANGAUGE</option>
                     <option value="KANNADA">KANNADA</option>
                     <option value="ENGLISH">ENGLISH</option>
@@ -47,14 +47,13 @@ vertical-align: middle !important;
             </select>
         </div>
         </th>
-        <th><input style="text-transform: uppercase" id="subject_max_mark_one" type="text" name="subject_max_mark[]" class="form-control required input-sm" value="125" readonly /></th>
-        <td><input maxlength="3" onkeypress="return isNumber(event)" id="subject_obtained_one" type="text" name="subject_obtained[]" class="form-control required input-sm obtnained_mark1" placeholder="Enter 10th Standard Mark" autocomplete="off" required/></td>
-        <!-- <td><input maxlength="3" onkeypress="return isNumber(event)" id="obt_mark_9_std" type="text" name="obt_mark_9_std[]" class="form-control  input-sm" placeholder="Enter 9th Standard Mark" autocomplete="off"  /></td> -->
+        <th><input style="text-transform: uppercase" id="subject_max_mark_one" type="text" name="subject_max_mark[]" class="form-control required input-sm " value="125" readonly /></th>
+        <td><input maxlength="3" onkeypress="return isNumber(event)" id="subject_obtained_one" type="text" name="subject_obtained[]" class="form-control required input-sm obtnained_mark1" placeholder="Enter Mark" autocomplete="off" /></td>
     </tr>
     <tr>
         <th>
         <div class="form-group">
-            <select class="form-control required" id="subject_name" name="subject_name[]" autocomplete="off" required>
+            <select class="form-control required" id="subject_name" name="subject_name[]" autocomplete="off" >
                     <option value="">SELECT SECOND LANGAUGE</option>
                     <option value="KANNADA">KANNADA</option>
                     <option value="ENGLISH">ENGLISH</option>
@@ -70,13 +69,12 @@ vertical-align: middle !important;
         </div>
         </th>
         <th><input id="subject_max_mark" type="text" name="subject_max_mark[]" class="form-control required input-sm" value="100" readonly/></th>
-        <td><input maxlength="3" onkeypress="return isNumber(event)" id="subject_obtained" type="text" name="subject_obtained[]" class="form-control required input-sm obtnained_mark" placeholder="Enter 10th Standard Mark" autocomplete="off" required/></td>
-        <!-- <td><input maxlength="3" onkeypress="return isNumber(event)" id="obt_mark_9_std" type="text" name="obt_mark_9_std[]" class="form-control  input-sm" placeholder="Enter 9th Standard Mark" autocomplete="off"  /></td> -->
+        <td><input maxlength="3" onkeypress="return isNumber(event)" id="subject_obtained" type="text" name="subject_obtained[]" class="form-control required input-sm obtnained_mark" placeholder="Enter Mark" autocomplete="off" /></td>
     </tr>
     <tr>
         <th>
         <div class="form-group">
-            <select class="form-control required" id="subject_name" name="subject_name[]" autocomplete="off" required>
+            <select class="form-control required" id="subject_name" name="subject_name[]" autocomplete="off" >
                     <option value="">SELECT THIRD LANGAUGE</option>
                     <option value="KANNADA">KANNADA</option>
                     <option value="ENGLISH">ENGLISH</option>
@@ -92,26 +90,22 @@ vertical-align: middle !important;
         </div>
         </th>
         <th><input style="text-transform: uppercase" id="subject_max_mark" type="text" name="subject_max_mark[]" class="form-control required input-sm" value="100" readonly/></th>
-        <td><input maxlength="3" onkeypress="return isNumber(event)" id="subject_obtained" type="text" name="subject_obtained[]" class="form-control required input-sm obtnained_mark" placeholder="Enter 10th Standard Mark" autocomplete="off" required/></td>
-        <!-- <td><input maxlength="3" onkeypress="return isNumber(event)" id="obt_mark_9_std" type="text" name="obt_mark_9_std[]" class="form-control  input-sm" placeholder="Enter 9th Standard Mark" autocomplete="off"  /></td> -->
+        <td><input maxlength="3" onkeypress="return isNumber(event)" id="subject_obtained" type="text" name="subject_obtained[]" class="form-control required input-sm obtnained_mark" placeholder="Enter Mark" autocomplete="off" /></td>
     </tr>
     <tr>
         <th><input id="subject_name" type="text" name="subject_name[]" class="form-control required input-sm" value="MATHEMATICS" readonly/></th>
         <th><input id="subject_max_mark" type="text" name="subject_max_mark[]" class="form-control required input-sm" value="100" readonly/></th>
-        <td><input maxlength="3" onkeypress="return isNumber(event)" id="subject_obtained" type="text" name="subject_obtained[]" class="form-control required input-sm obtnained_mark" placeholder="Enter 10th Standard Mark" autocomplete="off" required/></td>
-        <!-- <td><input maxlength="3" onkeypress="return isNumber(event)" id="obt_mark_9_std" type="text" name="obt_mark_9_std[]" class="form-control  input-sm" placeholder="Enter 9th Standard Mark" autocomplete="off"  /></td> -->
+        <td><input maxlength="3" onkeypress="return isNumber(event)" id="subject_obtained" type="text" name="subject_obtained[]" class="form-control required input-sm obtnained_mark" placeholder="Enter Mark" autocomplete="off" /></td>
     </tr>
     <tr>
         <th><input id="subject_name" type="text" name="subject_name[]" class="form-control required input-sm" value="SCIENCE" readonly/></th>
         <th><input id="subject_max_mark" type="text" name="subject_max_mark[]" class="form-control required input-sm" value="100" readonly/></th>
-        <td><input maxlength="3" onkeypress="return isNumber(event)" id="subject_obtained" type="text" name="subject_obtained[]" class="form-control required input-sm obtnained_mark" placeholder="Enter 10th Standard Mark" autocomplete="off" required/></td>
-        <!-- <td><input maxlength="3" onkeypress="return isNumber(event)" id="obt_mark_9_std" type="text" name="obt_mark_9_std[]" class="form-control  input-sm" placeholder="Enter 9th Standard Mark" autocomplete="off"  /></td> -->
+        <td><input maxlength="3" onkeypress="return isNumber(event)" id="subject_obtained" type="text" name="subject_obtained[]" class="form-control required input-sm obtnained_mark" placeholder="Enter Mark" autocomplete="off" /></td>
     </tr>
     <tr>
         <th><input id="subject_name" type="text" name="subject_name[]" class="form-control required input-sm" value="SOCIAL SCIENCE" readonly/></th>
         <th><input id="subject_max_mark" type="text" name="subject_max_mark[]" class="form-control required input-sm" value="100" readonly/></th>
-        <td><input maxlength="3" onkeypress="return isNumber(event)" id="subject_obtained" type="text" name="subject_obtained[]" class="form-control required input-sm obtnained_mark" placeholder="Enter 10th Standard Mark" autocomplete="off" required/></td>
-        <!-- <td><input maxlength="3" onkeypress="return isNumber(event)" id="obt_mark_9_std" type="text" name="obt_mark_9_std[]" class="form-control  input-sm" placeholder="Enter 9th Standard Mark" autocomplete="off"  /></td> -->
+        <td><input maxlength="3" onkeypress="return isNumber(event)" id="subject_obtained" type="text" name="subject_obtained[]" class="form-control required input-sm obtnained_mark" placeholder="Enter Mark" autocomplete="off" /></td>
     </tr>
    
 </tbody>
@@ -134,23 +128,23 @@ $(document).ready(function(){
             $('#subject_max_mark_one').val(125);
         }
     });
+    $('.obtnained_mark').keyup(function(){
+
+        if ($(this).val() > 100 && $(this).val().length>1){
+        alert("Please Enter Valid Marks");
+        $(this).val('');
+        }
+    });
+        $('.obtnained_mark1').keyup(function(){
+
+        if ($(this).val() > 125 && $(this).val().length>1){
+        alert("Please Enter Valid Marks");
+        $(this).val('');
+        }
+    });
 
 });
 
-</script>
-<script>
-    $('.obtnained_mark').keyup(function(){
 
-    if ($(this).val() > 100 && $(this).val().length>1){
-    alert("Please Enter Valid Marks");
-    $(this).val('');
-    }
-    });
-    $('.obtnained_mark1').keyup(function(){
 
-    if ($(this).val() > 125 && $(this).val().length>1){
-    alert("Please Enter Valid Marks");
-    $(this).val('');
-    }
-    });
 </script>

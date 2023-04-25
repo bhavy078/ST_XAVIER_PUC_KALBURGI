@@ -705,7 +705,7 @@ log_message('debug','csdfsdr'.$sslc_board_name_id);
             $other_board_name = $this->security->xss_clean($this->input->post('other_board_name'));
 
             $no_of_attempt = $this->security->xss_clean($this->input->post('no_of_attempt'));
-            
+            $register_number = $this->security->xss_clean($this->input->post('register_number'));
             $boardInfo = $this->student_model->getBoardNameById($this->sslc_board_name_id);
 
             $board_name = $this->registration_model->getBoardNameByName($sslc_board_name);
@@ -769,7 +769,7 @@ log_message('debug','csdfsdr'.$sslc_board_name_id);
                     'school_address' => $school_address,
                     'year_of_passed' => $year_of_passed,
                     'month_of_passed' => $month_of_passed,
-                    'register_number' => $this->registration_number,
+                    'register_number' => $register_number,
                     'registred_row_id' => $this->student_row_id,
                     'created_by' => $this->student_row_id,
                     'created_date_time' => date('Y-m-d H:i:s'));
@@ -827,7 +827,7 @@ log_message('debug','csdfsdr'.$sslc_board_name_id);
                             $obtained_mark = ($subject_obtained[$i]);
                             $markInfo = array(
                             'registred_row_id'=>$this->student_row_id,
-                            'register_number'=> $this->registration_number,
+                            'register_number'=> $register_number,
                             'subject_name'=> $subject_name[$i],
                             'max_mark'=> 100,
                             'obtnd_mark'=> $obtained_mark,
@@ -859,7 +859,7 @@ log_message('debug','csdfsdr'.$sslc_board_name_id);
                             $obtained_mark = ($subject_obtained[$i]);
                             $markInfo = array(
                             'registred_row_id'=>$this->student_row_id,
-                            'register_number'=> $this->registration_number,
+                            'register_number'=> $register_number,
                             'subject_name'=> $subject_name[$i],
                             'max_mark'=> 100,
                             'is_deleted'=>0,
@@ -887,10 +887,10 @@ log_message('debug','csdfsdr'.$sslc_board_name_id);
                     }
                 }else{
                     for($i=0; $i<6;$i++){
-                       if(!empty($subject_name[$i])){
+                    //    if(!empty($subject_name[$i])){
                         $markInfo = array(
                             'registred_row_id'=>$this->student_row_id,
-                            'register_number'=> $this->registration_number,
+                            'register_number'=> $register_number,
                             'subject_name'=> $subject_name[$i],
                             'max_mark'=> $subject_max_mark[$i],
                             'obtnd_mark'=> $subject_obtained[$i],
@@ -914,7 +914,7 @@ log_message('debug','csdfsdr'.$sslc_board_name_id);
                             }else{ 
                                 $mark_id = $this->student_model->saveStudentSSLC_MarkInfo($markInfo);
                             }
-                       }
+                    //    }
                     }
                 }
             }

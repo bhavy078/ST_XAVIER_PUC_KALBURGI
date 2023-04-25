@@ -31,39 +31,39 @@ vertical-align: middle !important;
 
 <tbody>
     <tr>
-        <th><input id="subject_name" type="text" name="subject_name[]" class="form-control  input-sm" placeholder="Subject Name" autocomplete="off" required/></th>
-        <th><input onkeypress="return isNumber(event)" maxlength="3" id="subject_max_mark" type="text" name="subject_max_mark[]" class="form-control  input-sm" placeholder="Max Mark" autocomplete="off" required/></th>
-        <td><input maxlength="3" onkeypress="return isNumber(event)" id="subject_obtained" type="text" name="subject_obtained[]" class="form-control  input-sm" placeholder="Enter 10th Standard Mark" autocomplete="off" required/></td>
+        <th><input id="subject_name" type="text" name="subject_name[]" class="form-control  input-sm" placeholder="Subject Name" autocomplete="off" /></th>
+        <th><input onkeypress="return isNumber(event)" maxlength="3" id="subject_max_mark" type="text" name="subject_max_mark[]" class="form-control  input-sm" placeholder="Max Mark" autocomplete="off" /></th>
+        <td><input maxlength="3" onkeypress="return isNumber(event)" id="subject_obtained" type="text" name="subject_obtained[]" class="form-control  input-sm" placeholder="Enter 10th Standard Mark" autocomplete="off" /></td>
         <!-- <td><input maxlength="3" onkeypress="return isNumber(event)" id="obt_mark_9_std" type="text" name="obt_mark_9_std[]" class="form-control  input-sm" placeholder="Enter 9th Standard Mark" autocomplete="off"  required/></td> -->
     </tr>
     <tr>
-        <th><input id="subject_name" type="text" name="subject_name[]" class="form-control  input-sm" placeholder="Subject Name" autocomplete="off" required/></th>
-        <th><input onkeypress="return isNumber(event)" maxlength="3" id="subject_max_mark" type="text" name="subject_max_mark[]" class="form-control  input-sm" placeholder="Max Mark" autocomplete="off" required/></th>
-        <td><input maxlength="3" onkeypress="return isNumber(event)" id="subject_obtained" type="text" name="subject_obtained[]" class="form-control  input-sm" placeholder="Enter 10th Standard Mark" autocomplete="off" required/></td>
+        <th><input id="subject_name" type="text" name="subject_name[]" class="form-control  input-sm" placeholder="Subject Name" autocomplete="off" /></th>
+        <th><input onkeypress="return isNumber(event)" maxlength="3" id="subject_max_mark" type="text" name="subject_max_mark[]" class="form-control  input-sm" placeholder="Max Mark" autocomplete="off" /></th>
+        <td><input maxlength="3" onkeypress="return isNumber(event)" id="subject_obtained" type="text" name="subject_obtained[]" class="form-control  input-sm" placeholder="Enter 10th Standard Mark" autocomplete="off" /></td>
         <!-- <td><input maxlength="3" onkeypress="return isNumber(event)" id="obt_mark_9_std" type="text" name="obt_mark_9_std[]" class="form-control  input-sm" placeholder="Enter 9th Standard Mark" autocomplete="off"  required/></td> -->
     </tr>
     <tr>
-        <th><input id="subject_name" type="text" name="subject_name[]" class="form-control  input-sm" placeholder="Subject Name" autocomplete="off" required/></th>
-        <th><input onkeypress="return isNumber(event)" maxlength="3" id="subject_max_mark" type="text" name="subject_max_mark[]" class="form-control  input-sm" placeholder="Max Mark" autocomplete="off" required/></th>
-        <td><input maxlength="3" onkeypress="return isNumber(event)" id="subject_obtained" type="text" name="subject_obtained[]" class="form-control  input-sm" placeholder="Enter 10th Standard Mark" autocomplete="off" required/></td>
+        <th><input id="subject_name" type="text" name="subject_name[]" class="form-control  input-sm" placeholder="Subject Name" autocomplete="off" /></th>
+        <th><input onkeypress="return isNumber(event)" maxlength="3" id="subject_max_mark" type="text" name="subject_max_mark[]" class="form-control  input-sm" placeholder="Max Mark" autocomplete="off" /></th>
+        <td><input maxlength="3" onkeypress="return isNumber(event)" id="subject_obtained" type="text" name="subject_obtained[]" class="form-control  input-sm" placeholder="Enter 10th Standard Mark" autocomplete="off" /></td>
         <!-- <td><input maxlength="3" onkeypress="return isNumber(event)" id="obt_mark_9_std" type="text" name="obt_mark_9_std[]" class="form-control  input-sm" placeholder="Enter 9th Standard Mark" autocomplete="off"  required/></td> -->
     </tr>
     <tr>
-        <th><input id="subject_name" type="text" name="subject_name[]" class="form-control  input-sm" placeholder="Subject Name" autocomplete="off" required/></th>
-        <th><input onkeypress="return isNumber(event)" maxlength="3" id="subject_max_mark" type="text" name="subject_max_mark[]" class="form-control  input-sm" placeholder="Max Mark" autocomplete="off" required/></th>
-        <td><input maxlength="3" onkeypress="return isNumber(event)" id="subject_obtained" type="text" name="subject_obtained[]" class="form-control  input-sm" placeholder="Enter 10th Standard Mark" autocomplete="off" required/></td>
+        <th><input id="subject_name" type="text" name="subject_name[]" class="form-control  input-sm" placeholder="Subject Name" autocomplete="off" /></th>
+        <th><input onkeypress="return isNumber(event)" maxlength="3" id="subject_max_mark" type="text" name="subject_max_mark[]" class="form-control  input-sm" placeholder="Max Mark" autocomplete="off" /></th>
+        <td><input maxlength="3" onkeypress="return isNumber(event)" id="subject_obtained" type="text" name="subject_obtained[]" class="form-control  input-sm" placeholder="Enter 10th Standard Mark" autocomplete="off" /></td>
         <!-- <td><input maxlength="3" onkeypress="return isNumber(event)" id="obt_mark_9_std" type="text" name="obt_mark_9_std[]" class="form-control  input-sm" placeholder="Enter 9th Standard Mark" autocomplete="off"  required/></td> -->
     </tr>
     <tr>
-        <th><input id="subject_name" type="text" name="subject_name[]" class="form-control  input-sm" placeholder="Subject Name" autocomplete="off" required/></th>
-        <th><input onkeypress="return isNumber(event)" maxlength="3" id="subject_max_mark" type="text" name="subject_max_mark[]" class="form-control  input-sm" placeholder="Max Mark" autocomplete="off" required/></th>
-        <td><input maxlength="3" onkeypress="return isNumber(event)" id="subject_obtained" type="text" name="subject_obtained[]" class="form-control  input-sm" placeholder="Enter 10th Standard Mark" autocomplete="off" required/></td>
+        <th><input id="subject_name" type="text" name="subject_name[]" class="form-control  input-sm" placeholder="Subject Name" autocomplete="off" /></th>
+        <th><input onkeypress="return isNumber(event)" maxlength="3" id="subject_max_mark" type="text" name="subject_max_mark[]" class="form-control  input-sm" placeholder="Max Mark" autocomplete="off" /></th>
+        <td><input maxlength="3" onkeypress="return isNumber(event)" id="subject_obtained" type="text" name="subject_obtained[]" class="form-control  input-sm" placeholder="Enter 10th Standard Mark" autocomplete="off" /></td>
         <!-- <td><input maxlength="3" onkeypress="return isNumber(event)" id="obt_mark_9_std" type="text" name="obt_mark_9_std[]" class="form-control  input-sm" placeholder="Enter 9th Standard Mark" autocomplete="off"  required/></td> -->
     </tr>
     <tr>
-        <th><input id="subject_name" type="text" name="subject_name[]" class="form-control  input-sm" placeholder="Subject Name" autocomplete="off" required/></th>
-        <th><input onkeypress="return isNumber(event)" maxlength="3" id="subject_max_mark" type="text" name="subject_max_mark[]" class="form-control  input-sm" placeholder="Max Mark" autocomplete="off" required/></th>
-        <td><input maxlength="3" onkeypress="return isNumber(event)" id="subject_obtained" type="text" name="subject_obtained[]" class="form-control  input-sm" placeholder="Enter 10th Standard Mark" autocomplete="off" required/></td>
+        <th><input id="subject_name" type="text" name="subject_name[]" class="form-control  input-sm" placeholder="Subject Name" autocomplete="off" /></th>
+        <th><input onkeypress="return isNumber(event)" maxlength="3" id="subject_max_mark" type="text" name="subject_max_mark[]" class="form-control  input-sm" placeholder="Max Mark" autocomplete="off" /></th>
+        <td><input maxlength="3" onkeypress="return isNumber(event)" id="subject_obtained" type="text" name="subject_obtained[]" class="form-control  input-sm" placeholder="Enter 10th Standard Mark" autocomplete="off" /></td>
         <!-- <td><input maxlength="3" onkeypress="return isNumber(event)" id="obt_mark_9_std" type="text" name="obt_mark_9_std[]" class="form-control  input-sm" placeholder="Enter 9th Standard Mark" autocomplete="off"  required/></td> -->
     </tr>
    
