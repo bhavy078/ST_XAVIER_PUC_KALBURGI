@@ -140,6 +140,46 @@ if ($warning) {
                                                 </select>
                                             </div>
                                         </div>
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group">
+                                                <label for="book_title">Bill No.</label>
+                                                <input type="text" class="form-control required" id="bill_no" name="bill_no" value="<?php echo $libraryInfo->bill_no; ?>" placeholder="Enter Bill No." autocomplete="off"  />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group">
+                                                <label for="book_title">Bill Date</label>
+                                                <input type="text" class="form-control required datepicker" id="bill_date" name="bill_date" value= "<?php  if(empty($libraryInfo->bill_date) || $libraryInfo->bill_date == '0000-00-00'){
+                                                       echo "";
+                                                    } else{
+                                                        echo date('d-m-Y',strtotime($libraryInfo->bill_date));
+                                                    } ?>" placeholder="Enter Bill Date" autocomplete="off"  />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group">
+                                                <label for="book_title">Price<span class="text-danger required_star">*</span></label>
+                                                <input type="text" class="form-control required" id="price" name="price" value="<?php echo $libraryInfo->price; ?>" placeholder="Enter Price" autocomplete="off" required />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group">
+                                                <label for="book_title">No. of copies</label>
+                                                <input type="text" class="form-control required" id="no_of_copies" name="no_of_copies" value="<?php echo $libraryInfo->no_of_copies; ?>" placeholder="Enter No. of copies" autocomplete="off"  />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group">
+                                                <label for="book_title">Year</label>
+                                                <input type="text" class="form-control required" id="year" name="year" value="<?php echo $libraryInfo->year; ?>" placeholder="Enter Year" autocomplete="off"  />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group">
+                                                <label for="book_title">No. of Pages<span class="text-danger required_star">*</span></label>
+                                                <input type="text" class="form-control required" id="pages" name="pages" value="<?php echo $libraryInfo->no_of_page; ?>" placeholder="Enter No.of pages" autocomplete="off" required />
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-6">

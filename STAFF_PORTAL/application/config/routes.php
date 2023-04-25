@@ -923,7 +923,7 @@ $route['deleteLibraryDetails'] = "libraryManagement/deleteLibraryDetails";
 $route['viewLibrarySettings'] = "libraryManagement/viewLibrarySettings";
 $route['editLibrary/(:any)'] = "libraryManagement/editLibrary/$1";
 $route['updateLibrary'] = "libraryManagement/updateLibrary";
-
+$route['updateRenewalDate'] = "libraryManagement/updateRenewalDate";
 //library settings
 $route['addBookCategory'] = "libraryManagement/addBookCategory";
 $route['deleteBookCategory'] = "libraryManagement/deleteBookCategory";

@@ -105,6 +105,11 @@ if ($success) {
                                     </td>
                                     <td>
                                         <div class="form-group mb-0">
+                                            <input type="text" value="<?php echo $renewal_date; ?>" name="renewal_date" id="renewalDate" class="form-control input-sm datepicker" placeholder="By renewal date" autocomplete="off">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group mb-0">
                                             <input type="text" value="<?php echo $return_date; ?>" name="return_date" id="return_date" class="form-control input-sm datepicker" placeholder="By return date" autocomplete="off">
                                         </div>
                                     </td>
@@ -138,6 +143,7 @@ if ($success) {
                                     <th>Access No.</th>
                                     <th>Student ID</th>
                                     <th>Issue Date</th>
+                                    <th>Renewal Date</th>
                                     <th>Given Date</th>
                                     <th>Returned Date</th>
                                     <th>Days Delayed</th>
@@ -153,8 +159,15 @@ if ($success) {
                                         <th class="text-center"><?php echo strtoupper($library->access_code); ?></th>
                                             <th class="text-center"><?php echo $library->student_id; ?></th>
                                             <th class="text-center"><?php echo date('d-m-Y',strtotime($library->issue_date)); ?></th>
+                                            <?php if($library->renewal_date == NULL || $library->renewal_date == '1970-01-01'){
+                                                    $RD = '';
+                                                }else{
+                                                    $RD = date('d-m-Y',strtotime($library->renewal_date));
+                                                }
+                                            ?>
+                                            <th class="text-center"><?php echo $RD; ?></th>
                                             <th class="text-center"><?php echo date('d-m-Y',strtotime($library->return_date)); ?></th>
-                                            <?php if($library->actual_return_date == NULL || $library->actual_return_date == '01-01-1970'){
+                                            <?php if($library->actual_return_date == NULL || $library->actual_return_date == '1970-01-01'){
                                                     $DD = '';
                                                 }else{
                                                     $DD = date('d-m-Y',strtotime($library->actual_return_date));
@@ -169,16 +182,23 @@ if ($success) {
                                                 <?php $status = $info->getAccessData($library->access_code);
                                                 if($library->is_issued == 0){ ?>
                                                     <div class="btn btn-xs bg-success rounded">
-                                                        <span style="font-weight: bold;color:white; font-size:13px;">Recevied</span>
+                                                        <span style="font-weight: bold;color:white; font-size:14px;">Recevied</span>
                                                     </div>
                                                 <?php } else {
                                                 ?>
                                                     <div class="btn btn-xs bg-danger rounded">
-                                                        <span style="font-weight: bold;color:white; font-size:13px;">Pending</span>
+                                                        <span style="font-weight: bold;color:white; font-size:14px;">Pending</span>
                                                     </div>
                                                 <?php } ?>
+                                                <?php if($library->renewal_date == NULL || $library->renewal_date == '1970-01-01'){
+                                                    $renewal = 'null';
+                                                }else{
+                                                    $renewal = date('d-m-Y',strtotime($library->renewal_date));
+                                                }
+                                            ?>
                                                 <?php if ($role == ROLE_ADMIN || $role == ROLE_LIBRARY || $role == ROLE_PRINCIPAL || $role == ROLE_PRIMARY_ADMINISTRATOR || $role == ROLE_OFFICE || $role == ROLE_RECEPTION) { ?>
                                                     <a class="btn btn-xs btn-info" target="_blank" href="<?php echo base_url(); ?>editIssuedInfo/<?php echo $library->row_id; ?>" title="Edit Issued Info"><i class="fas fa-pencil-alt"></i></a>
+                                                    <a class="btn btn-xs btn-secondary rounded" onclick="openModel(<?php echo $library->row_id; ?>,/<?php echo $renewal; ?>/,/<?php echo date('d-m-Y', strtotime($library->return_date)); ?>/)" title="Renewal" href='#'>Renewal</a>
                                                     <!-- <a class="btn btn-xs btn-danger deleteLibraryDetails" href="#" data-row_id="<?php echo $library->row_id; ?>" title="Delete Library details"><i class="fa fa-trash"></i></a> -->
                                                 <?php } ?>
                                             </th>
@@ -200,10 +220,65 @@ if ($success) {
         </div>
     </div>
 </div>
-
+<div id="renewalBook" class="modal" role="dialog">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header modal-call-report">
+                    <div class=" col-md-10 col-10">
+                        <span class="text-black mobile-title m-1" style="font-size : 20px">Renewal Book</span>
+                    </div>
+                    <div class=" col-md-2 col-2">
+                        <button type="button" class="text-black close" data-dismiss="modal">&times;</button>
+                    </div>
+                </div>
+                <!-- Modal body -->
+                <div class="modal-body m-0 p-1">
+                    <?php $this->load->helper("form"); ?>
+                    <form role="form" id="renewalDate" action="<?php echo base_url() ?>updateRenewalDate"
+                        method="post" role="form">
+                        <input type="hidden" name="row_id" id="row_id" value="" />
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>Renewal Date</label>
+                                    <input type="text" class="form-control datepicker" id="renewal_date"
+                                        name="renewal_date" autocomplete="off" required>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>Return Date</label>
+                                    <input type="text" class="form-control datepicker" id="date" name="return_date" autocomplete="off" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input style="float:right;" type="submit" class="btn btn-primary" value="Update" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
 <script src="<?php echo base_url(); ?>assets/js/admission.js" type="text/javascript"></script>
 <script type="text/javascript">
+    function openModel(row_id,renewal_date, return_date) {
+    $('#row_id').val(row_id);
+   var yourString = String(return_date);
+   var result = yourString.substring(1, yourString.length-1);
+    $('#date').val(result);
+    if(renewal_date == '/null/'){
+        var res = '';
+    $('#renewal_date').val(res);
+    }else{var yourStrings = String(renewal_date);
+   var results = yourStrings.substring(1, yourStrings.length-1);
+    $('#renewal_date').val(results);
+}
+   
+    $('#renewalBook').modal('show');
+}
     jQuery(document).ready(function() {
 
         jQuery('ul.pagination li a').click(function(e) {

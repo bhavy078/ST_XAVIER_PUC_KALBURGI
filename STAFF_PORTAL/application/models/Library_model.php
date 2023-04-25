@@ -29,7 +29,21 @@ class Library_model extends CI_Model
         if(!empty($filter['shelf_no'])){
             $this->db->where('library.shelf_no', $filter['shelf_no']);
         }
-        
+        if(!empty($filter['bill_date'])){
+            $this->db->where('library.bill_date', $filter['bill_date']);
+        }
+        if(!empty($filter['bill_no'])){
+            $this->db->where('library.bill_no', $filter['bill_no']);
+        }
+        if(!empty($filter['price'])){
+            $this->db->where('library.price', $filter['price']);
+        }
+        if(!empty($filter['no_of_copies'])){
+            $this->db->where('library.no_of_copies', $filter['no_of_copies']);
+        }
+        if(!empty($filter['year'])){
+            $this->db->where('library.year', $filter['year']);
+        }
         $this->db->where('library.is_deleted', 0);
         $query = $this->db->get();
         return $query->num_rows();
@@ -58,7 +72,21 @@ class Library_model extends CI_Model
         if(!empty($filter['shelf_no'])){
             $this->db->where('library.shelf_no', $filter['shelf_no']);
         }
-        
+        if(!empty($filter['bill_date'])){
+            $this->db->where('library.bill_date', $filter['bill_date']);
+        }
+        if(!empty($filter['bill_no'])){
+            $this->db->where('library.bill_no', $filter['bill_no']);
+        }
+        if(!empty($filter['price'])){
+            $this->db->where('library.price', $filter['price']);
+        }
+        if(!empty($filter['no_of_copies'])){
+            $this->db->where('library.no_of_copies', $filter['no_of_copies']);
+        }
+        if(!empty($filter['year'])){
+            $this->db->where('library.year', $filter['year']);
+        }
         $this->db->where('library.is_deleted', 0);
         $this->db->limit($filter['page'], $filter['segment']);
         $query = $this->db->get();
@@ -221,8 +249,8 @@ class Library_model extends CI_Model
         return $insert_id;
     }
 
-    function updateIsAvailable($libraryInfo,$isbn){
-        $this->db->where('isbn', $isbn);
+    function updateIsAvailable($libraryInfo,$access_code){
+        $this->db->where('access_code', $access_code);
         $this->db->update('tbl_library_managemnt', $libraryInfo);
         return TRUE;
     }

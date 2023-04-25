@@ -93,12 +93,22 @@ if ($success) {
                                 <tr class="filter_row" class="text-center">
                                     <td>
                                         <div class="form-group mb-0">
-                                            <input type="text" value="<?php echo $access_no; ?>" name="access_no" id="access_no" class="form-control input-sm " placeholder="Access No." autocomplete="off">
+                                            <input type="text" value="<?php echo $bill_date; ?>" name="bill_date" id="date" class="form-control input-sm datepicker" placeholder="By Bill Date" autocomplete="off">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group mb-0">
-                                            <input type="text" value="<?php echo $isbn; ?>" name="isbn" id="isbn" class="form-control input-sm " placeholder="By ISBN" autocomplete="off">
+                                            <input type="text" value="<?php echo $bill_no; ?>" name="bill_no" id="no" class="form-control input-sm " placeholder="By Bill No" autocomplete="off">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group mb-0">
+                                            <input type="text" value="<?php echo $price; ?>" name="price" id="price" class="form-control input-sm " placeholder="Price" autocomplete="off">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group mb-0">
+                                            <input type="text" value="<?php echo $access_no; ?>" name="access_no" id="access_no" class="form-control input-sm " placeholder="Access No." autocomplete="off">
                                         </div>
                                     </td>
                                     <td>
@@ -123,6 +133,16 @@ if ($success) {
                                     </td>
                                     <td>
                                         <div class="form-group mb-0">
+                                            <input type="text" value="<?php echo $no_of_copies; ?>" name="no_of_copies" id="no_of_copy" class="form-control input-sm" placeholder="By No. of Copies" autocomplete="off">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group mb-0">
+                                            <input type="text" value="<?php echo $year; ?>" name="year" id="year" class="form-control input-sm" placeholder="By year" autocomplete="off">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group mb-0">
                                             <input type="text" value="<?php echo $shelf_no; ?>" name="shelf_no" id="shelf_no" class="form-control input-sm" placeholder="By shelf no" autocomplete="off">
                                         </div>
                                     </td>
@@ -133,26 +153,41 @@ if ($success) {
                             </form>
                             <thead>
                                 <tr class="table_row_background text-center">
+                                <th>Date</th>
+                                <th>Bill No.</th>
+                                <th>Price</th>
                                 <th>Access No.</th>
-                                    <th>ISBN</th>
+                                    <!-- <th>ISBN</th> -->
                                     <th>Book Title</th>
                                     <th>Category</th>
                                     <th>Author name</th>
                                     <th>Publisher Name</th>
+                                    <th>No. of copies</th>
+                                    <th>Year</th>
                                     <th>Shelf No.</th>
-                                    <th width="180">Action</th>
+                                    <th width="100">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php if (!empty($libraryMgmtInfo)) {
                                     foreach ($libraryMgmtInfo as $library) { ?>
                                         <tr>
+                                        <th class="text-center"><?php if(empty($library->bill_date) || $library->bill_date == '0000-00-00'|| $library->bill_date == '1970-01-01'){
+                                                        echo "";
+                                                    } else{
+                                                        echo date('d-m-Y',strtotime($library->bill_date));
+                                                    } ?> </th>
+                                        <th class="text-center"><?php echo $library->bill_no; ?></th>
+                                        <th class="text-center"><?php echo $library->price; ?></th>
                                         <th><?php echo strtoupper($library->access_code); ?></th>
-                                            <th><?php echo strtoupper($library->isbn); ?></th>
+                                            <!-- <th><?php echo strtoupper($library->isbn); ?></th> -->
+                                          
                                             <th class="text-center"><?php echo $library->book_title; ?></th>
                                             <th class="text-center"><?php echo $library->category; ?></th>
                                             <th class="text-center"><?php echo $library->author_name; ?></th>
                                             <th class="text-center"><?php echo $library->publisher_name; ?></th>
+                                            <th class="text-center"><?php echo $library->no_of_copies; ?></th>
+                                            <th class="text-center"><?php echo $library->year; ?></th>
                                             <th class="text-center"><?php echo $library->shelf_no; ?></th>
                                             <th class="text-center">
                                                 <!-- <span><a href="#" data-toggle="popover" data-content="Comment: <?php echo  $adm->comment; ?> <br/> "><span class="badge badge-primary"> <i class="fa fa-info-circle"></i></span></a></span> -->

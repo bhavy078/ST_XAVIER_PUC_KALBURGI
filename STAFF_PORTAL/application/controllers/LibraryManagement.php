@@ -27,7 +27,11 @@ class LibraryManagement extends BaseController
             $author_name = $this->security->xss_clean($this->input->post('author_name'));
             $publisher_name = $this->security->xss_clean($this->input->post('publisher_name'));
             $shelf_no = $this->security->xss_clean($this->input->post('shelf_no'));
-
+            $bill_date = $this->security->xss_clean($this->input->post('bill_date'));
+            $bill_no = $this->security->xss_clean($this->input->post('bill_no'));
+            $price = $this->security->xss_clean($this->input->post('price'));
+            $no_of_copies = $this->security->xss_clean($this->input->post('no_of_copies'));
+            $year = $this->security->xss_clean($this->input->post('year'));
             
             $data['access_no'] = $access_no;
             $data['isbn'] = $isbn;
@@ -36,6 +40,10 @@ class LibraryManagement extends BaseController
             $data['author_name'] = $author_name;
             $data['publisher_name'] = $publisher_name;
             $data['shelf_no'] = $shelf_no;
+            $data['bill_no'] = $bill_no;
+            $data['price'] = $price;
+            $data['no_of_copies'] = $no_of_copies;
+            $data['year'] = $year;
             
             
             $filter['access_no'] = $access_no;
@@ -45,6 +53,17 @@ class LibraryManagement extends BaseController
             $filter['author_name'] = $author_name;
             $filter['publisher_name'] = $publisher_name;
             $filter['shelf_no'] = $shelf_no;
+            $filter['bill_no'] = $bill_no;
+            $filter['price'] = $price;
+            $filter['no_of_copies'] = $no_of_copies;
+            $filter['year'] = $year;
+
+            if(!empty($bill_date)){
+	            $filter['bill_date'] = date('Y-m-d',strtotime($bill_date));
+	            $data['bill_date'] = date('d-m-Y',strtotime($bill_date));
+	        }else{
+	            $data['bill_date'] = '';
+	        }
 
             $this->load->library('pagination');
             $count = $this->library->getAllLibraryMgmtCount($filter);
@@ -96,6 +115,12 @@ class LibraryManagement extends BaseController
                 $author_name = $this->security->xss_clean($this->input->post('author_name'));
                 $publisher_name = $this->security->xss_clean($this->input->post('publisher_name'));
                 $shelf_no = $this->security->xss_clean($this->input->post('shelf_no'));
+                $bill_no = $this->security->xss_clean($this->input->post('bill_no'));
+                $bill_date = $this->security->xss_clean($this->input->post('bill_date'));
+                $price = $this->security->xss_clean($this->input->post('price'));
+                $no_of_copies = $this->security->xss_clean($this->input->post('no_of_copies'));
+                $year = $this->security->xss_clean($this->input->post('year'));
+                $pages = $this->security->xss_clean($this->input->post('pages'));
                 
                 $isAccessExist = $this->library->checkAccessNumberExists($access_code);
                 $image_path="";
@@ -123,6 +148,12 @@ class LibraryManagement extends BaseController
                     'author_name'=>$author_name,
                     'category'=>$category,
                     'shelf_no'=>$shelf_no,
+                    'bill_no'=>$bill_no,
+                    'price'=>$price,
+                    'no_of_copies'=>$no_of_copies,
+                    'year'=>$year,
+                    'no_of_page'=>$pages,
+                    'bill_date'=>date('Y-m-d',strtotime($bill_date)),
                     'created_by'=>$this->staff_id,
                     'created_date_time'=>date('Y-m-d H:i:s'));
                 
@@ -201,6 +232,12 @@ class LibraryManagement extends BaseController
                 $author_name = $this->security->xss_clean($this->input->post('author_name'));
                 $publisher_name = $this->security->xss_clean($this->input->post('publisher_name'));
                 $shelf_no = $this->security->xss_clean($this->input->post('shelf_no'));
+                $bill_no = $this->security->xss_clean($this->input->post('bill_no'));
+                $bill_date = $this->security->xss_clean($this->input->post('bill_date'));
+                $price = $this->security->xss_clean($this->input->post('price'));
+                $no_of_copies = $this->security->xss_clean($this->input->post('no_of_copies'));
+                $year = $this->security->xss_clean($this->input->post('year'));
+                $pages = $this->security->xss_clean($this->input->post('pages'));
                 $image_path="";
                 $target_dir="upload/library/";
                 if(!file_exists($target_dir)){
@@ -226,6 +263,12 @@ class LibraryManagement extends BaseController
                     'author_name'=>$author_name,
                     'category'=>$category,
                     'shelf_no'=>$shelf_no,
+                    'bill_no'=>$bill_no,
+                    'bill_date'=>date('Y-m-d',strtotime($bill_date)),
+                    'price'=>$price,
+                    'no_of_copies'=>$no_of_copies,
+                    'year'=>$year,
+                    'no_of_page'=>$pages,
                     'updated_by' => $this->staff_id,
                     'updated_date_time' => date('Y-m-d h:i:s'));
 
@@ -512,11 +555,13 @@ class LibraryManagement extends BaseController
                 $this->libraryManagementSystem();
             } else {
                 $isbn =$this->security->xss_clean($this->input->post('isbn'));
+               
                 $student_id =$this->security->xss_clean($this->input->post('student_id'));
                 $issue_date = $this->security->xss_clean($this->input->post('issue_date'));
                 $return_date = $this->security->xss_clean($this->input->post('return_date'));
                 $remarks = $this->security->xss_clean($this->input->post('remarks'));
                 $access_code = $this->security->xss_clean($this->input->post('access_code'));
+                $renewal_date = $this->security->xss_clean($this->input->post('renewal_date'));
                 
                 $issedInfo = array(
                     'access_code'=>$access_code,
@@ -524,6 +569,7 @@ class LibraryManagement extends BaseController
                     'student_id'=>$student_id,
                     'issue_date'=>date('Y-m-d',strtotime($issue_date)),
                     'return_date'=>date('Y-m-d',strtotime($return_date)),
+                    'renewal_date'=>date('Y-m-d',strtotime($renewal_date)),
                     'remarks'=>$remarks,
                     'is_issued'=> 1,
                     'created_by'=>$this->staff_id,
@@ -537,7 +583,7 @@ class LibraryManagement extends BaseController
                 //log_message('debug',print_r($issedInfo,true));
          
                 if($returnId > 0 ){
-                    $this->library->updateIsAvailable($libraryInfo,$isbn);
+                    $this->library->updateIsAvailable($libraryInfo,$access_code);
                     $this->session->set_flashdata('success', 'Library Issue Info Added Successfully');
                 } else {
                     $this->session->set_flashdata('error', 'Library issued info Adding failed');
@@ -712,6 +758,30 @@ class LibraryManagement extends BaseController
             $result = $this->library->updatePublisherInfo($publisherInfo, $row_id);
             if ($result == true) {echo (json_encode(array('status' => true)));} else {echo (json_encode(array('status' => false)));}
         } 
+    }
+
+    public function updateRenewalDate(){
+        if($this->isAdmin() == TRUE){
+            $this->loadThis();
+        } else {   
+            $row_id = $this->input->post('row_id');
+            $return_date = $this->security->xss_clean($this->input->post('return_date'));
+            $renewal_date = $this->security->xss_clean($this->input->post('renewal_date'));
+                
+                $overallFee = array(
+                    'return_date' => date('Y-m-d',strtotime($return_date)),
+                    'renewal_date' => date('Y-m-d',strtotime($renewal_date))
+                );
+
+            $result = $this->library->updateBookIssuedInfo($row_id,$overallFee);
+            if ($result) {
+                $this->session->set_flashdata('success', 'Book Issued info Updated Successfully');
+            } else {
+                $this->session->set_flashdata('error', 'update failed');
+            }
+        }
+    
+        redirect('viewIssuedBooks');
     }
 
 
