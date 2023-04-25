@@ -1165,9 +1165,9 @@ class Fee_model extends CI_Model
             fee.pending_balance,
             fee.payment_type, 
             fee.bank_settlement_status,
-            student.student_name,student.student_id,student.stream_name');
+            student.student_name,student.student_id,student.stream_name,student.row_id');
             $this->db->from('tbl_students_overall_fee_payment_info_i_puc_2021 as fee');
-            $this->db->join('tbl_students_info as student','student.application_no = fee.application_no','left');
+            $this->db->join('tbl_students_info as student','student.row_id = fee.application_no','left');
             if(!empty($filter['date_from'])){
                 $this->db->where('fee.payment_date>=', $filter['date_from']);
                 $this->db->where('fee.payment_date<=', $filter['date_to']);
