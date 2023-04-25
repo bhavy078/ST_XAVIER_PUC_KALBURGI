@@ -1215,6 +1215,9 @@ $certificate_uploaded_name = array();
                                                                     <li class="mdc-list-item" data-value="KANNADA">
                                                                         <span class="mdc-list-item__text">KANNADA</span>
                                                                     </li>
+                                                                    <li class="mdc-list-item" data-value="MARATHI">
+                                                                        <span class="mdc-list-item__text">MARATHI</span>
+                                                                    </li>
                                                                     <li class="mdc-list-item" data-value="OTHER">
                                                                         <span class="mdc-list-item__text">OTHER</span>
                                                                     </li>
@@ -1373,6 +1376,16 @@ $certificate_uploaded_name = array();
                                                     </div>
                                                 </div>
                                             </div> -->
+                                            <div class="col-lg-4 col-md-4 col-sm-4 mb-1">
+                                                <div class="form-group register_number">
+                                                    <label class="register_number mdc-text-field mdc-text-field--filled ">
+                                                        <span class="mdc-text-field__ripple"></span>
+                                                        <input type="text" placeholder="Register Number" name="register_number" id="register_number" value="<?php echo $studentSchoolInfo->register_number?>" class="mdc-text-field__input" style="text-transform: uppercase;" aria-labelledby="my-label-id" autocomplete="off" required>
+                                                        <span class="mdc-floating-label" id="my-label-id">Register Number</span>
+                                                        <span class="mdc-line-ripple"></span>
+                                                    </label>
+                                                </div>
+                                            </div>
                                             <div class="col-lg-4 col-md-4 col-sm-4 mb-1">
                                                 <div class="form-group">
                                                     <div class="mdc-select mdc-select-attempts mdc-select--required">
@@ -1661,7 +1674,7 @@ $certificate_uploaded_name = array();
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-lg-4 col-md-6 col-sm-4 mb-2">
+                                                        <!-- <div class="col-lg-4 col-md-6 col-sm-4 mb-2">
                                 <div class="form-group">
                                     <div class="mdc-select mdc-select-integrated_batch">
                                         <div class="mdc-select__anchor demo-width-class">
@@ -1715,7 +1728,7 @@ $certificate_uploaded_name = array();
                                         </div>
                                      </div>
                                 </div>
-                            </div>
+                            </div> -->
                         
                            
                             
@@ -1944,7 +1957,7 @@ $certificate_uploaded_name = array();
 
     mdc.textField.MDCTextField.attachTo(document.querySelector('.pastor_name'));
     mdc.textField.MDCTextField.attachTo(document.querySelector('.pastor_mobile'));
-    mdc.select.MDCSelect.attachTo(document.querySelector('.mdc-select-integrated_batch'));
+    // mdc.select.MDCSelect.attachTo(document.querySelector('.mdc-select-integrated_batch'));
 
     mdc.textField.MDCTextField.attachTo(document.querySelector('.father_name'));
     mdc.textField.MDCTextField.attachTo(document.querySelector('.mother_name'));
@@ -2084,6 +2097,7 @@ $certificate_uploaded_name = array();
     // const board_name = mdc.select.MDCSelect.attachTo(document.querySelector('.mdc-select-board'));
     const other_board_name = mdc.textField.MDCTextField.attachTo(document.querySelector('.other_board_name'));
     const board_name =  mdc.textField.MDCTextField.attachTo(document.querySelector('.sslc_board_name'));
+    mdc.textField.MDCTextField.attachTo(document.querySelector('.register_number'));
     // const changeMDCLabel = ({ focus })=>{
     //     if(focus){
     //         board_name.label.root_.className += ' mdc-floating-label--float-above';

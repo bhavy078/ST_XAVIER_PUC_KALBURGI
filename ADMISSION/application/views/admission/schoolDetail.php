@@ -320,7 +320,7 @@ $this->load->helper('form');
                             <div class="form-group register_number">
                                 <label class="register_number mdc-text-field mdc-text-field--filled ">
                                     <span class="mdc-text-field__ripple"></span>
-                                    <input type="text" placeholder="Register Number" name="register_number" id="register_number" value="<?php echo $register_number?>" class="mdc-text-field__input" maxlength="10" style="text-transform: uppercase;" aria-labelledby="my-label-id" autocomplete="off" required>
+                                    <input type="text" placeholder="Register Number" name="register_number" id="register_number" value="<?php echo $register_number?>" class="mdc-text-field__input" style="text-transform: uppercase;" aria-labelledby="my-label-id" autocomplete="off" required>
                                     <span class="mdc-floating-label" id="my-label-id">Register Number</span>
                                     <span class="mdc-line-ripple"></span>
                                 </label>

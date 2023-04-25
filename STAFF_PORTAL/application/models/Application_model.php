@@ -496,7 +496,7 @@ class Application_model extends CI_Model {
 
     
     function getStudentSchoolInfo($registered_row_id){
-        $this->db->select('school.name_of_the_school,school.month_of_passed,school.school_address,school.medium_instruction,school.year_of_passed,school.no_of_attempt,
+        $this->db->select('school.name_of_the_school,school.month_of_passed,school.school_address,school.medium_instruction,school.year_of_passed,school.no_of_attempt,school.register_number,
         board.board_name');
         $this->db->from('tbl_admission_school_and_examination_deatils_temp as school');
         $this->db->join('tbl_admission_combination_language_opted_temp as sjpuc', 'sjpuc.registred_row_id = school.registred_row_id','left');

@@ -1223,6 +1223,7 @@ class Application extends BaseController {
                 $doc_name = $this->security->xss_clean($this->input->post('doc_name'));
                 $month_of_passed = $this->security->xss_clean($this->input->post('month_of_passed'));
                 $no_of_attempt = $this->security->xss_clean($this->input->post('no_of_attempt'));
+                $register_number = $this->security->xss_clean($this->input->post('register_number'));
                 $boardInfo = $this->application->getBoardNameById($registered_row_id);
                 $board_name = $this->application->getBoardNameByName($sslc_board_name);
 
@@ -1255,6 +1256,7 @@ class Application extends BaseController {
                     'other_state_board_name'=>$other_board_name,
                     'month_of_passed'=>$month_of_passed,
                     'sslc_board_name_id'=>$board_name->row_id,
+                    'register_number'=>$register_number,
                     'no_of_attempt'=>$no_of_attempt,
                     'updated_by' => $this->staff_id,
                     'updated_date_time' => date('Y-m-d H:i:s'));

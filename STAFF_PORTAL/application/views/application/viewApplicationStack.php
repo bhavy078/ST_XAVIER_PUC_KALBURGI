@@ -147,7 +147,7 @@ if ($error) {
                                     <th>Application Number</th>
                                     <th>Name</th>
                                     <th>Percentage(%)</th>
-                                    <th>Integrated Batch</th>
+                                    <!-- <th>Integrated Batch</th> -->
                                     <th>Category</th>
                                     <th>Pref-1</th>
                                     <th>Pref-2</th>
@@ -189,7 +189,7 @@ if ($error) {
                                                 style="text-transform: uppercase" placeholder="SSLC Percentage"
                                                 autocomplete="off" />
                                         </th>
-                                        <th style="padding: 1px;">
+                                        <!-- <th style="padding: 1px;">
                                             <select class="form-control input-sm" id="integrated_batch" name="integrated_batch"
                                                 autocomplete="off">
                                                 <?php if(!empty($integrated_batch)){ ?>
@@ -205,7 +205,7 @@ if ($error) {
                                                 <option value="NONE">NONE</option>
 
                                             </select>
-                                        </th>
+                                        </th> -->
                                         <th width="110" style="padding: 1px;">
                                             <select class="form-control input-sm" id="by_category_name" name="by_category_name">
                                                 <?php if($by_category_name != ""){ ?>
@@ -284,7 +284,7 @@ if ($error) {
                                     <th><?php echo $record->name; ?></th>
                                     <!-- <th class="text-center"><?php echo 'I PUC'; ?></th> -->
                                     <th class="text-center"><?php echo $record->sslc_percentage .' %'; ?> </th>
-                                    <th class="text-center"><?php echo $record->integrated_batch; ?> </th>
+                                    <!-- <th class="text-center"><?php echo $record->integrated_batch; ?> </th> -->
                                     <td><?php echo $record->caste; ?></td>
                                     <td><?php echo $record->stream_name; ?></td>
                                     <td><?php echo $record->second_stream_name; ?></td>
@@ -315,7 +315,7 @@ if ($error) {
                                     <th>Application Number</th>
                                     <th>Name</th>
                                     <th>Percentage(%)</th>
-                                    <th>Integrated Batch</th>
+                                    <!-- <th>Integrated Batch</th> -->
                                     <th>Category</th>
                                     <th>Pref-1</th>
                                     <th>Pref-2</th>
