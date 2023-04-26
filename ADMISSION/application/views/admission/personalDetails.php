@@ -963,7 +963,7 @@ if(!empty($documentInfo)){
                              <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-2 phCertificate">
                                  <div class="card col-12 field_color shadow-none  pl-0 pr-0 mt-3 mb-1 ">
                                      <div class="card-header text-left inside_color pt-3 pb-3 ml-0">Upload Physically
-                                         Challenged Certificate (PH)<span class="text-danger required_star">*</span>
+                                         Challenged Certificate (PH)<span class="text-danger required_star"></span>
                                          <span class="text-danger mb-0 font_14">(Note: Maximum File Size 200KB, File
                                              format: JPG, JPEG, PNG, PDF)</span>
                                      </div>
@@ -994,7 +994,7 @@ if(!empty($documentInfo)){
                              <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-2 dyslexiaCertificate">
                                  <div class="card col-12 field_color shadow-none  pl-0 pr-0 mt-3 mb-1 ">
                                      <div class="card-header text-left inside_color pt-3 pb-3 ml-0">Upload Dyslexia
-                                         Certificate<span class="text-danger required_star">*</span> <span
+                                         Certificate<span class="text-danger required_star"></span> <span
                                              class="text-danger font_14">(Note: Maximum File Size 200KB, File format:
                                              JPG, JPEG, PNG, PDF)</span>
                                      </div>
@@ -1064,7 +1064,7 @@ if(!empty($documentInfo)){
                                  <div class="col-lg-6 col-md-12 col-sm-12">
                                      <div class="flex-container">
                                          <span>Upload Letter from Parish Priest /Baptism Certificate</span>
-                                         <span class="text-danger">*
+                                         <span class="text-danger">
                                              <span class="text-danger" style="font-size: 13px;">(Note: Maximum File Size
                                                  200KB, File format: JPG, JPEG, PNG, PDF) </span>
                                          </span>
@@ -1224,7 +1224,7 @@ if(!empty($documentInfo)){
                                              value="<?php echo $father_qualification; ?>"
                                              class="mdc-text-field__input text-uppercase"
                                              onkeydown="return alphaOnly(event)" aria-labelledby="my-label-id"
-                                             autocomplete="off" required>
+                                             autocomplete="off" >
                                          <span class="mdc-floating-label" id="my-label-id">Father's Qualification</span>
                                          <span class="mdc-line-ripple"></span>
                                      </label>
@@ -1238,7 +1238,7 @@ if(!empty($documentInfo)){
                                          <input type="text" name="father_profession" id="father_profession"
                                              value="<?php echo $father_profession; ?>" class="mdc-text-field__input" placeholder="Father's Occupation"
                                              aria-labelledby="my-label-id" onkeydown="return alphaOnly(event)"
-                                             autocomplete="off" required>
+                                             autocomplete="off" >
                                          <span class="mdc-floating-label" id="my-label-id">Father's Occupation</span>
                                          <span class="mdc-line-ripple"></span>
                                      </label>
@@ -1279,7 +1279,7 @@ if(!empty($documentInfo)){
                                          <input type="text" name="mother_qualification" id="mother_qualification" placeholder="Mother's Qualification"
                                              value="<?php echo $mother_qualification; ?>"
                                              class="mdc-text-field__input text-uppercase" aria-labelledby="my-label-id"
-                                             onkeydown="return alphaOnly(event)" autocomplete="off" required>
+                                             onkeydown="return alphaOnly(event)" autocomplete="off" >
                                          <span class="mdc-floating-label" id="my-label-id">Mother's Qualification</span>
                                          <span class="mdc-line-ripple"></span>
                                      </label>
@@ -1292,7 +1292,7 @@ if(!empty($documentInfo)){
                                          <input type="text" name="mother_profession" id="mother_profession" placeholder="Mother's Occupation"
                                              value="<?php echo $mother_profession; ?>" class="mdc-text-field__input"
                                              aria-labelledby="my-label-id" onkeydown="return alphaOnly(event)"
-                                             autocomplete="off" required>
+                                             autocomplete="off" >
                                          <span class="mdc-floating-label" id="my-label-id">Mother's Occupation</span>
                                          <span class="mdc-line-ripple"></span>
                                      </label>
@@ -1387,7 +1387,7 @@ if(!empty($documentInfo)){
                                          <input type="text" name="mother_annual_income" id="mother_annual_income" placeholder="Mother's Annual Income"
                                              onkeypress="return isNumber(event)"
                                              value="<?php echo $mother_annual_income; ?>" class="mdc-text-field__input"
-                                             aria-labelledby="my-label-id" autocomplete="off" required>
+                                             aria-labelledby="my-label-id" autocomplete="off" >
                                          <span class="mdc-floating-label" id="my-label-id">Mother's Annual Income</span>
                                          <span class="mdc-line-ripple"></span>
                                      </label>
@@ -1439,7 +1439,7 @@ if(!empty($documentInfo)){
                                                      id="permanent_address_line_2" class="mdc-text-field__input"
                                                      type="text" name="permanent_address_line_2"
                                                      placeholder="Area, Colony, Street" autocomplete="off"
-                                                     maxlength="150" required>
+                                                     maxlength="150" >
                                                  <span class="mdc-floating-label" id="my-label-id">Address Line 2</span>
                                                  <span class="mdc-line-ripple"></span>
                                              </label>
@@ -1564,7 +1564,7 @@ if(!empty($documentInfo)){
                                                  <input value="<?php echo $residence_address_line_2; ?>"
                                                      id="residence_address_line_2" class="mdc-text-field__input"
                                                      type="text" name="residence_address_line_2"
-                                                     placeholder="Area, Colony, Street" autocomplete="off" required
+                                                     placeholder="Area, Colony, Street" autocomplete="off" 
                                                      maxlength="150">
                                                  <span class="mdc-floating-label" id="my-label-id">Address Line 2</span>
                                                  <span class="mdc-line-ripple"></span>
@@ -1775,7 +1775,7 @@ const bus_facility = mdc.select.MDCSelect.attachTo(document.querySelector('.mdc-
 dyslexia.listen('MDCSelect:change', () => {
     if (dyslexia.value == "YES") {
         $('.dyslexiaCertificate').show();
-        $('#dyselxiaCertify').prop('required', true);
+        $('#dyselxiaCertify').prop('required', false);
         $('#dyslexia').html("Upload");
     } else {
         $('.dyslexiaCertificate').hide();
@@ -1786,7 +1786,7 @@ dyslexia.listen('MDCSelect:change', () => {
 physically.listen('MDCSelect:change', () => {
     if (physically.value == "YES") {
         $('.phCertificate').show();
-        $('#ph_certificate').prop('required', true);
+        $('#ph_certificate').prop('required', false);
         $('#ph_label').html("Upload");
     } else {
         $('.phCertificate').hide();
@@ -1919,7 +1919,7 @@ caste.listen('MDCSelect:change', () => {
         $('.roman_catholic').show();
         $('#priest_name').prop('required', true);
         $('#priest_mobile').prop('required', true);
-        $('#doc_path').prop('required', true);
+        $('#doc_path').prop('required', false);
         $('#priestLabel').html("Upload");
         $('#pastor_name').val('');
         $('#pastor_mobile').val('');
@@ -1936,7 +1936,7 @@ caste.listen('MDCSelect:change', () => {
         $('.other_christian').show();
         $('#pastor_name').prop('required', true);
         $('#pastor_mobile').prop('required', true);
-        $('#pastor_file').prop('required', true);
+        $('#pastor_file').prop('required', false);
         $('#pasterLabel').html("Upload");
         $('#priest_name').val('');
         $('#priest_mobile').val('');
@@ -2061,7 +2061,7 @@ jQuery(document).ready(function() {
     var studentProfile = $('#studentProfile').val();
     if (studentProfile == "") {
         $('#studentLabel').html("Upload");
-        $('#vImg').prop('required', true);
+        $('#vImg').prop('required', false);
     } else {
         $('#studentLabel').html("Change");
         $('#vImg').prop('required', false);

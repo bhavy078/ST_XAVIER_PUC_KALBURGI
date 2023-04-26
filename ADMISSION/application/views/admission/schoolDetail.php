@@ -597,7 +597,7 @@ $this->load->helper('form');
                     </div>
                     <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="card col-12 field_color shadow-none  pl-0 pr-0 mt-3 mb-1 ">
-                            <div class="card-header text-left inside_color pt-3 pb-3 ml-0">Upload 10th Standard Mark Card <span class="text-danger required_star">*</span><span class="text-danger mb-0 font_14">(Note: Maximum File Size 200KB, File format: JPG, JPEG, PNG, PDF)</span>
+                            <div class="card-header text-left inside_color pt-3 pb-3 ml-0">Upload 10th Standard Mark Card <span class="text-danger required_star"></span><span class="text-danger mb-0 font_14">(Note: Maximum File Size 200KB, File format: JPG, JPEG, PNG, PDF)</span>
                             </div>
                         </div>
                         <div class="mx-auto">

@@ -774,7 +774,7 @@ $certificate_uploaded_name = array();
                                                             <div class="form-group"> 
                                                                 <label class="father_qualification mdc-text-field mdc-text-field--filled ">
                                                                     <span class="mdc-text-field__ripple"></span>
-                                                                    <input type="text" name="father_qualification" id="father_qualification" value="<?php echo $studentInfo->father_qualification; ?>" class="mdc-text-field__input text-uppercase" onkeydown="return alphaOnly(event)" aria-labelledby="my-label-id" autocomplete="off" required>
+                                                                    <input type="text" name="father_qualification" id="father_qualification" value="<?php echo $studentInfo->father_qualification; ?>" class="mdc-text-field__input text-uppercase" onkeydown="return alphaOnly(event)" aria-labelledby="my-label-id" autocomplete="off" >
                                                                     <span class="mdc-floating-label" id="my-label-id">Father's Qualification</span>
                                                                     <span class="mdc-line-ripple"></span>
                                                                 </label>
@@ -785,7 +785,7 @@ $certificate_uploaded_name = array();
 
                                                                 <label class="father_profession mdc-text-field mdc-text-field--filled ">
                                                                 <span class="mdc-text-field__ripple"></span>
-                                                                <input type="text" name="father_profession" id="father_profession" value="<?php echo $studentInfo->father_profession; ?>" class="mdc-text-field__input" aria-labelledby="my-label-id" onkeydown="return alphaOnly(event)" autocomplete="off" required>
+                                                                <input type="text" name="father_profession" id="father_profession" value="<?php echo $studentInfo->father_profession; ?>" class="mdc-text-field__input" aria-labelledby="my-label-id" onkeydown="return alphaOnly(event)" autocomplete="off" >
                                                                 <span class="mdc-floating-label" id="my-label-id">Father's Occupation</span>
                                                                 <span class="mdc-line-ripple"></span>
                                                                 </label>
@@ -817,7 +817,7 @@ $certificate_uploaded_name = array();
                                                             <div class="form-group"> 
                                                                 <label class="mother_qualification mdc-text-field mdc-text-field--filled ">
                                                                 <span class="mdc-text-field__ripple"></span>
-                                                                <input type="text" name="mother_qualification" id="mother_qualification" value="<?php echo $studentInfo->mother_qualification; ?>" class="mdc-text-field__input text-uppercase" aria-labelledby="my-label-id" onkeydown="return alphaOnly(event)" autocomplete="off" required>
+                                                                <input type="text" name="mother_qualification" id="mother_qualification" value="<?php echo $studentInfo->mother_qualification; ?>" class="mdc-text-field__input text-uppercase" aria-labelledby="my-label-id" onkeydown="return alphaOnly(event)" autocomplete="off" >
                                                                 <span class="mdc-floating-label" id="my-label-id">Mother's Qualification</span>
                                                                 <span class="mdc-line-ripple"></span>
                                                                 </label>
@@ -827,7 +827,7 @@ $certificate_uploaded_name = array();
                                                             <div class="form-group">
                                                                 <label class="mother_profession mdc-text-field mdc-text-field--filled ">
                                                                 <span class="mdc-text-field__ripple"></span>
-                                                                <input type="text" name="mother_profession" id="mother_profession" value="<?php echo $studentInfo->mother_profession; ?>" class="mdc-text-field__input" aria-labelledby="my-label-id" onkeydown="return alphaOnly(event)" autocomplete="off" required>
+                                                                <input type="text" name="mother_profession" id="mother_profession" value="<?php echo $studentInfo->mother_profession; ?>" class="mdc-text-field__input" aria-labelledby="my-label-id" onkeydown="return alphaOnly(event)" autocomplete="off" >
                                                                 <span class="mdc-floating-label" id="my-label-id">Mother's Occupation</span>
                                                                 <span class="mdc-line-ripple"></span>
                                                                 </label>
@@ -903,7 +903,7 @@ $certificate_uploaded_name = array();
                                                             <div class="form-group">
                                                                 <label class="mother_annual_income mdc-text-field mdc-text-field--filled ">
                                                                 <span class="mdc-text-field__ripple"></span>
-                                                                <input type="text" name="mother_annual_income" id="mother_annual_income" value="<?php echo $studentInfo->mother_annual_income; ?>" class="mdc-text-field__input" aria-labelledby="my-label-id" autocomplete="off" required>
+                                                                <input type="text" name="mother_annual_income" id="mother_annual_income" value="<?php echo $studentInfo->mother_annual_income; ?>" class="mdc-text-field__input" aria-labelledby="my-label-id" autocomplete="off">
                                                                 <span class="mdc-floating-label" id="my-label-id">Mother's Annual Income</span>
                                                                 <span class="mdc-line-ripple"></span>
                                                                 </label>
@@ -944,7 +944,7 @@ $certificate_uploaded_name = array();
                                                                     <div class="form-group">
                                                                         <label class="permanent_address_line_2 mdc-text-field mdc-text-field--filled ">
                                                                         <span class="mdc-text-field__ripple"></span>
-                                                                        <input value="<?php echo $studentInfo->permanent_address_line_2; ?>" id="permanent_address_line_2" class="mdc-text-field__input" type="text" name="permanent_address_line_2" placeholder="Area, Colony, Street" autocomplete="off" maxlength="150" required>
+                                                                        <input value="<?php echo $studentInfo->permanent_address_line_2; ?>" id="permanent_address_line_2" class="mdc-text-field__input" type="text" name="permanent_address_line_2" placeholder="Area, Colony, Street" autocomplete="off" maxlength="150" >
                                                                         <span class="mdc-floating-label" id="my-label-id">Address Line 2</span>
                                                                         <span class="mdc-line-ripple"></span>
                                                                         </label>
@@ -1045,7 +1045,7 @@ $certificate_uploaded_name = array();
                                                                     <div class="form-group"> 
                                                                         <label class="residence_address_line_2 mdc-text-field mdc-text-field--filled ">
                                                                         <span class="mdc-text-field__ripple"></span>
-                                                                        <input value="<?php echo $studentInfo->residential_address_line_2; ?>" id="residence_address_line_2" class="mdc-text-field__input" type="text" name="residence_address_line_2" placeholder="Area, Colony, Street" autocomplete="off" required maxlength="150">
+                                                                        <input value="<?php echo $studentInfo->residential_address_line_2; ?>" id="residence_address_line_2" class="mdc-text-field__input" type="text" name="residence_address_line_2" placeholder="Area, Colony, Street" autocomplete="off" maxlength="150">
                                                                         <span class="mdc-floating-label" id="my-label-id">Address Line 2</span>
                                                                         <span class="mdc-line-ripple"></span>
                                                                         </label>
