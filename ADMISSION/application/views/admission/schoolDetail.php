@@ -29,7 +29,7 @@ $year_of_passed = "";
 $other_board_name = "";
 $no_of_attempt = "";
 $month_of_passed = "";
-
+$register_number  = "";
 // $register_number = $sslcRegisterNumber;
 // $other_board_name = $boardData->other_board_name;
 
@@ -47,7 +47,7 @@ if (!empty($studentSchoolInfo)) {
     $year_of_passed = $studentSchoolInfo->year_of_passed;
     $month_of_passed = $studentSchoolInfo->month_of_passed;
     $other_board_name = $studentSchoolInfo->other_state_board_name;
-    $register_number = $studentSchoolInfo->register_number;
+    $register_number  = $studentSchoolInfo->register_number;
 }
 
 $course_row_id = "";
