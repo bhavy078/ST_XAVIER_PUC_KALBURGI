@@ -1129,7 +1129,7 @@ if(!empty($documentInfo)){
                                  <div class="col-lg-6 col-md-12 col-sm-12">
                                      <div class="flex-container">
                                          <span>Upload Letter from Pastor/Parish Priest/Baptism Certificate</span>
-                                         <span class="text-danger">*
+                                         <span class="text-danger">
                                              <span class="text-danger" style="font-size: 13px;">(Note: Maximum File Size
                                                  200KB, File format: JPG, JPEG, PNG, PDF) </span>
                                          </span>
@@ -1154,7 +1154,7 @@ if(!empty($documentInfo)){
                          <div class="caste_category_certificate">
                              <div class="card col-12 field_color shadow-none  pl-0 pr-0 mt-3 mb-1 ">
                                  <div class="card-header text-left inside_color pt-3 pb-3 ml-0">Upload Caste/Category
-                                     Certificate<span class="text-danger required_star">*</span> <span
+                                     Certificate<span class="text-danger required_star"></span> <span
                                          class="text-danger">(Note: Maximum File Size 200KB, File format: JPG, JPEG,
                                          PNG, PDF)</span>
                                      <span class="float-right"><a href="#"
