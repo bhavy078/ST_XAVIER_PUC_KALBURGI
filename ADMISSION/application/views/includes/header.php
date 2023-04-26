@@ -438,7 +438,7 @@
           </div>
 
         <!-- ChatBot -->
-        <link href="<?=base_url()?>assets/chatbot/helper.css" rel="stylesheet">
+        <!-- <link href="<?=base_url()?>assets/chatbot/helper.css" rel="stylesheet">
         <script src="<?=base_url()?>assets/chatbot/helper.js"></script>        
         <div id="chatWidgetRoot" class="isClosed">
             <div class="chatWidgetContainer">
@@ -459,5 +459,5 @@
         </div>        
         <div id="chatOpenButton" class="floating-button floating-button isOpened">
             <i class="far fa-comments"></i>
-        </div>        
+        </div>         -->
         <!-- End of ChatBot -->	
