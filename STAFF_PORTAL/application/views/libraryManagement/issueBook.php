@@ -124,8 +124,8 @@ if ($warning) {
                                         </div>
                                         <div class="col-md-4 col-12">
                                             <div class="form-group">
-                                                <label for="category">Category<span class="text-danger required_star">*</span></label>
-                                                <input type="text" class="form-control required" id="category" name="category" placeholder="Book category" autocomplete="off" readonly/>
+                                                <label for="category">Subject<span class="text-danger required_star">*</span></label>
+                                                <input type="text" class="form-control required" id="category" name="category" placeholder="Book subject" autocomplete="off" readonly/>
                                             </div>
                                         </div>
                                         <div class="col-md-4 col-12">
@@ -168,6 +168,7 @@ if ($warning) {
                                                 </div>
                                             </div>
                                         </div>
+                                       
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12 col-12">

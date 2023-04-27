@@ -953,6 +953,7 @@ $route['viewLibraryDashboard'] = "libraryManagement/viewLibraryDashboard";
 $route['viewBarCodeGenerater'] = "libraryManagement/viewBarCodeGenerater";
 $route['generateBarcode'] = "libraryManagement/generateBarcode";
 $route['deleteBarcode'] = "libraryManagement/deleteBarcode";
+$route['viewprintBarcode'] = "libraryManagement/viewprintBarcode";
 
 //library access code
 $route['getAccessCode'] = "libraryManagement/getAccessCode";

@@ -53,9 +53,25 @@
         
         
     </div>
-    <div style="height:8vh"  class="generate p-2">
+    <div style="height:7vh"  class="generate p-2">
         <form role="form" method="post" action="<?php echo base_url() ?>deleteBarcode">
             <input type="submit" class="btn btn-danger" name="generate_barcode" value="Delete All">
+        </form>
+    </div>
+    <div style="height:7vh"  class="generate">
+        <?php 
+            $files = scandir('application/cache');
+        ?>
+                    
+        <form role="form" method="post" action="<?php echo base_url() ?>viewprintBarcode">
+            <?php 
+              $i = 0;
+                foreach($files as $file) {?>
+                 <input type="hidden" name="print_barcode[]" value=<?php echo $file?>>
+                      <?php }?>
+            <input type="submit" class="btn btn-primary" id="print_barcode" style="padding-left:23px;padding-right:23px;" name="generate_barcode" value="Print All">
+
+           
         </form>
     </div>
     <div class="container generate row">
@@ -64,15 +80,23 @@
         foreach($files as $file) {
             if ($file !== "." && $file !== "..") {
                 echo "<div class=' col-6 col-sm-4 col-md-3 mt-3 mb-3'>
-                <img src='application/cache/$file' width='100%' /></div>";
+                <img src='application/cache/$file' alt='image' width='100%' /></div>";
             }
         }
         ?></a>
-        <img src="<?php echo $generate_barcode; ?>">
+        <!-- <img src="<?php echo $generate_barcode; ?>"> -->
     </div>
+</div>
     <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/common.js" charset="utf-8"></script>
     <script>
+      
         jQuery(document).ready(function() {
-            $('SelectorToPrint').printElement();
-        });
+    //         $('#my-var').hide();
+    //         $('#print_barcode').click(function(){
+    //             var myvar = document.getElementById("my-var").innerHTML;      
+    //      // alert(students);
+    //     window.open('<?php echo base_url(); ?>viewprintBarcode?print_barcode='+btoa(myvar));
+    // });
+    $('SelectorToPrint').printElement();
+ });
     </script>

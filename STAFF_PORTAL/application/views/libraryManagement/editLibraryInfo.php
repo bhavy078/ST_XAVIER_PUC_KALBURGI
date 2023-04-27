@@ -83,10 +83,10 @@ if ($warning) {
 
                                         <div class="col-md-4 col-12">
                                             <div class="form-group">
-                                                <label for="category">Category<span class="text-danger required_star">*</span></label>
+                                                <label for="category">Subject<span class="text-danger required_star">*</span></label>
                                                 <select name="category" id="category" class="form-control input-sm selectpicker" data-live-search="true" required>
                                                     <option value="<?php echo $libraryInfo->category; ?>">Selected: <?php echo strtoupper($libraryInfo->category); ?></option>
-                                                    <option value="">Select Category</option>
+                                                    <option value="">Select Subject</option>
                                                     <?php if (!empty($categoryInfo)) {
                                                         foreach ($categoryInfo as $category) { ?>
                                                             <option value="<?php echo $category->category_name; ?>"><?php echo $category->category_name; ?></option>

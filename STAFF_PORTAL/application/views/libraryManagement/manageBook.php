@@ -118,7 +118,7 @@ if ($success) {
                                     </td>
                                     <td>
                                         <div class="form-group mb-0">
-                                            <input type="text" value="<?php echo $category; ?>" name="category" id="category" class="form-control input-sm" placeholder="By Category" autocomplete="off">
+                                            <input type="text" value="<?php echo $category; ?>" name="category" id="category" class="form-control input-sm" placeholder="By Subject" autocomplete="off">
                                         </div>
                                     </td>
                                     <td>
@@ -159,7 +159,7 @@ if ($success) {
                                 <th>Access No.</th>
                                     <!-- <th>ISBN</th> -->
                                     <th>Book Title</th>
-                                    <th>Category</th>
+                                    <th>Subject</th>
                                     <th>Author name</th>
                                     <th>Publisher Name</th>
                                     <th>No. of copies</th>

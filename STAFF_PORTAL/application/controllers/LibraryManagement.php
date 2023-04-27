@@ -362,6 +362,27 @@ class LibraryManagement extends BaseController
 		    return $barcodePath.$code.'.png';
 	}
 
+    public function viewprintBarcode(){
+        if($this->isAdmin() == TRUE ){
+            $this->loadThis();
+        } else {
+            
+            $print_barcode =$this->input->post('print_barcode');
+            // $data['print_barcode'] = explode(',',$print_barcode);
+            $data['print_barcode'] = $print_barcode;
+
+            $mpdf = new \Mpdf\Mpdf(['tempDir' => sys_get_temp_dir().DIRECTORY_SEPARATOR.'mpdf','default_font' => 'timesnewroman','format' => 'A4-L']);
+            $mpdf->AddPage('P','','','','',7,7,7,7,8,8);
+            $mpdf->SetTitle('Bar Code');
+            $this->global['pageTitle'] = ''.TAB_TITLE.' : Barcode';
+
+            $html = $this->load->view('libraryManagement/viewBarCodePrint',$data,true);
+            $mpdf->WriteHTML($html);
+           
+            $mpdf->Output('BarCode.pdf', 'I'); 
+        }
+    }
+    
     function deleteBarcode()
     {
         if($this->isAdmin() == TRUE ){
