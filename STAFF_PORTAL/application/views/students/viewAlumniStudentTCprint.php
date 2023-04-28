@@ -264,7 +264,7 @@ h4{
                                             <b class="mb-1" style="font-size: 36px; text-transform: uppercase;font-family: serif;">ST. XAVIER'S PRE–UNIVERSITY COLLEGE</b>
                                             <p class="mb-1" style="font-size: 18px;font-weight: 600;">NH 50, FARHATABAD POST SIRNOOR, KALABURAGI - 585308 KARNATAKA, INDIA</p>
                                             <b style="font-size: 25px;"><b>TRANSFER CERTIFICATE</b></b><br/>
-                                            <b style="font-size: 25px; font-weight: 600;"><b>(<?php echo strtoupper($record->remarks); ?>)</b></b>
+                                            <!-- <b style="font-size: 25px; font-weight: 600;"><b>(<?php echo strtoupper($record->remarks); ?>)</b></b> -->
                                         </div>
                                     </div>
                                 </div>
@@ -376,7 +376,7 @@ h4{
                                         <h6 class="place_date">Date &nbsp;&nbsp;: <?php echo date('d/m/Y',strtotime($record->created_date_time)); ?></h6>
                                     </div>
                                     <div class="col-12">
-                                        <h6 class="place_date">Place&nbsp;: Bengaluru</h6>
+                                        <h6 class="place_date">Place&nbsp;: Kalaburagi</h6>
                                     </div>
                                 </div><br><br>
                                 <div class="row" style="margin-top:7px;">
@@ -428,7 +428,7 @@ h4{
                                                 <h6 class="place_date" style="font-size: 16px;">Date &nbsp;&nbsp;: <?php echo date('d/m/Y',strtotime($record->created_date_time)); ?></h6>
                                             </div>
                                             <div class="col-12">
-                                                <h6 class="place_date" style="font-size: 16px;">Place&nbsp;: Bengaluru <span class="footer_sign">PRINCIPAL</span></h6>
+                                                <h6 class="place_date" style="font-size: 16px;">Place&nbsp;: Kalaburagi <span class="footer_sign">PRINCIPAL</span></h6>
                                             </div>
                                         </div>
                                     </div>
