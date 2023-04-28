@@ -1448,4 +1448,10 @@ class students_model extends CI_Model
             return TRUE;
         }
 
+        public function updateRequestCertificate($requestInfo, $row_id){
+            $this->db->where('row_id', $row_id);
+            $this->db->update('tbl_request_form', $requestInfo);
+            return TRUE;
+        }
+
 }
