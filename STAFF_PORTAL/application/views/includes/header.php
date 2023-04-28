@@ -684,12 +684,12 @@
                 <?php } ?>
                 <?php if ($role == ROLE_LIBRARY || $role == ROLE_PRIMARY_ADMINISTRATOR || $role == ROLE_PRINCIPAL || $role == ROLE_ADMIN || $role == ROLE_TEACHING_STAFF || $role == ROLE_OFFICE) { ?>
                 <li class="nav-item">
-                    <a href="#study_items" data-toggle="collapse" aria-expanded="false"
+                    <!-- <a href="#study_items" data-toggle="collapse" aria-expanded="false"
                         class="nav-link  dropdown-toggle">
                         <i class="material-icons">book</i>
                         <span>Study Materials</span>
-                    </a>
-                    <ul class="collapse list-unstyled ml-3" id="study_items">
+                    </a> -->
+                    <!-- <ul class="collapse list-unstyled ml-3" id="study_items"> -->
                         <li class="nav-item">
                             <a class="nav-link" href="<?php echo base_url(); ?>viewStudyMaterials">
                                 <i class="material-icons">book</i>
@@ -702,7 +702,7 @@
                                 <span>Video</span>
                             </a>
                         </li> -->
-                    </ul>
+                    <!-- </ul> -->
                     <?php } ?>
                     <?php if($role == ROLE_LIBRARY || $role == ROLE_ADMIN || $role == ROLE_PRIMARY_ADMINISTRATOR || $role == ROLE_OFFICE ||  $role == ROLE_PRINCIPAL) { ?>
                 <li class="nav-item">

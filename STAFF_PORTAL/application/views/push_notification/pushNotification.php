@@ -181,12 +181,12 @@ if ($error) {
                                                 <label style="float:left" for="msg_subject">Upload a File</label>
                                                 <input class="form-control" type="file"  accept=".pdf,.doc,.docx,.png,.jpg,.jpeg" name="msg_file" id="msg_file" > 
                                             </div> 
-                                            <div class="form-group col-lg-12 col-md-12 col-sm-12" style="padding-bottom:30px;">
+                                            <!-- <div class="form-group col-lg-12 col-md-12 col-sm-12" style="padding-bottom:30px;">
                                                 <div class="form-check">
                                                     <input style="float:left" type="checkbox" class="form-check-input" id="send_email_option" name="send_email_option">
                                                     <label style="float:left" class="form-check-label" for="send_email_option">Send email also</label>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                             <input  type="submit" class="btn btn-success font-weight-bold btn-block" value="Send" />
                                         </div>
                                     </div>

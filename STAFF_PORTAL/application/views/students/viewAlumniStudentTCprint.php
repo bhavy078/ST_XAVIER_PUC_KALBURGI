@@ -381,8 +381,8 @@ h4{
                                 </div><br><br>
                                 <div class="row" style="margin-top:7px;">
                                     <div class="col-12">
-                                        <h4 class="text-center" style="font-size: 25px;margin-bottom: 0px;"> <b>St. Joseph's Pre-University College</b></h4>
-                                        <p class="text-center sub_title">Address</p>
+                                        <h4 class="text-center" style="font-size: 25px;margin-bottom: 0px;"> <b>ST. XAVIER'S PRE–UNIVERSITY COLLEGE</b></h4>
+                                        <p class="text-center sub_title">NH 50, FARHATABAD POST SIRNOOR, KALABURAGI - 585308 KARNATAKA, INDIA</p>
                                         <table class="table table_declaration">
                                             <tr>
                                                 <th width="300">T.C. No. <span class="pull-right">:</span></th>

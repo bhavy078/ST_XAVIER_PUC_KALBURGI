@@ -90,9 +90,9 @@ foreach ($studentInfo as $std) {
             <table class="table" style="">
                 <tr>
                     <th class="text-center" style="border-right: 1px solid white !important;">
-                       <br/> <img src="<?php echo base_url(); ?>assets/dist/img/stxpuc.png" width="80" height="70" alt="PHOTO" class="shcm_logo" />
+                       <br/> <img src="<?php echo base_url(); ?>assets/dist/img/logo_stxpuc.jpg" width="80" height="70" alt="PHOTO" class="shcm_logo" />
                     </th>
-                    <td style="font-size:14pt" class="text-center">ST XAVIERS PRE-UNIVERSITY COLLEGE<br>
+                    <td style="font-size:14pt" class="text-center">ST XAVIER'S PRE-UNIVERSITY COLLEGE<br>
                         <p style="font-size:8pt">&emsp;&ensp;NH 50, FARHATABAD POST, SIRNOOR KALABURAGI - 585308</p>
                         <!-- <p style="margin-top:-45px;">Phone No – 080-4101 0013</p> -->
                 </tr>
@@ -112,7 +112,7 @@ foreach ($studentInfo as $std) {
         <div class="row">
         <p style="font-size: 12px;text-align:right;">Date:<?php echo date('d-m-Y')?> </p>
             <p width="100%" style="text-align: justify;font-size: 14pt; font-family: times new roman;">This is to certify that 
-            <?php if(!empty($std->gender == "MALE")){ echo Sri; } else{ echo Kum;} ?><u>
+            <?php if(!empty($std->gender == "MALE")){ echo 'Sri'; } else{ echo 'Kum';} ?><u>
                 <?php echo strtoupper($std->student_name) ?>&nbsp;</u> 
                 <?php if(!empty($std->gender == "MALE")){ echo "S/o"; } else{ echo "D/o";} ?>
                   <u>&nbsp;<?php if(!empty($std->father_name)){ echo strtoupper($std->father_name); } else{ echo strtoupper($std->mother_name);}?>&nbsp;</u> 

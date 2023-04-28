@@ -1625,6 +1625,20 @@ class Students extends BaseController
     }
 
 
+    public function deleteStudentRequestDetails(){
+        if($this->isAdmin() == TRUE){
+            $this->loadThis();
+        } else {   
+            $row_id = $this->input->post('row_id');
+            $requestInfo = array('is_deleted' => 1,
+                'updated_date_time' => date('Y-m-d H:i:s'),
+                'updated_by' => $this->staff_id
+            );
+            $result = $this->student->updateRequestCertificate($requestInfo, $row_id);
+            if ($result == true) {echo (json_encode(array('status' => true)));} else {echo (json_encode(array('status' => false)));}
+        } 
+    }
+
     
 }
 

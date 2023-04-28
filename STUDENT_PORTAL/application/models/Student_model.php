@@ -81,20 +81,20 @@ class Student_model extends CI_Model
      public function getAttendanceReport($filter){
         $this->db->select('attendance.absent_date,sub.name as sub_name,time.start_time,time.end_time');
         $this->db->from('tbl_student_attendance_details as attendance');
-        $this->db->join('tbl_subjects as sub','sub.subject_code = attendance.subject_id');
+        $this->db->join('tbl_subjects as sub','sub.subject_code = attendance.subject_code');
         $this->db->join('tbl_class_timings_info as time','time.row_id = attendance.time_row_id');
         $this->db->where('attendance.student_id', $filter['student_id']);
         if(!empty($filter['date'])){
             $this->db->where('attendance.absent_date', $filter['date']);
         }
         if(!empty($filter['sub_code'])){
-            $this->db->where('attendance.subject_id', $filter['sub_code']);
+            $this->db->where('attendance.subject_code', $filter['sub_code']);
         }
         if(!empty($filter['time_id'])){
             $this->db->where('attendance.time_row_id', $filter['time_id']);
         }
         $this->db->where('attendance.is_deleted',0);
-        $this->db->where('attendance.office_verified_status',1);
+        $this->db->where('attendance.office_verified_status',0);
         $this->db->order_by('attendance.absent_date', 'DESC');
         $this->db->limit($filter['page'], $filter['segment']);
         $query = $this->db->get();
@@ -106,20 +106,20 @@ class Student_model extends CI_Model
     public function getAttendanceReportCount($filter){
         $this->db->select('attendance.absent_date,sub.name as sub_name,time.start_time,time.end_time');
         $this->db->from('tbl_student_attendance_details as attendance');
-        $this->db->join('tbl_subjects as sub','sub.subject_code = attendance.subject_id');
+        $this->db->join('tbl_subjects as sub','sub.subject_code = attendance.subject_code');
         $this->db->join('tbl_class_timings_info as time','time.row_id = attendance.time_row_id');
         $this->db->where('attendance.student_id', $filter['student_id']);
         if(!empty($filter['date'])){
             $this->db->where('attendance.absent_date', $filter['date']);
         }
         if(!empty($filter['sub_code'])){
-            $this->db->where('attendance.subject_id', $filter['sub_code']);
+            $this->db->where('attendance.subject_code', $filter['sub_code']);
         }
         if(!empty($filter['time_id'])){
             $this->db->where('attendance.time_row_id', $filter['time_id']);
         }
         $this->db->where('attendance.is_deleted',0);
-        $this->db->where('attendance.office_verified_status',1);
+        $this->db->where('attendance.office_verified_status',0);
         $query = $this->db->get();
         return $query->num_rows();
     }

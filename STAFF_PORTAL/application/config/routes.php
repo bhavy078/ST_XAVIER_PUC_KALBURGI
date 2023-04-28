@@ -980,3 +980,7 @@ $route['viewAdminApplyLeavePage'] = "leave/viewAdminApplyLeavePage";
 $route['applyStaffLeaveByAdmin'] = "leave/applyStaffLeaveByAdmin";
 //ajax call leave info 
 $route['getStaffLeaveInfoByStaffId'] = "leave/getStaffLeaveInfoByStaffId";
+
+
+
+$route['deleteStudentRequestDetails'] = "students/deleteStudentRequestDetails";

@@ -80,7 +80,7 @@ if ($error) {
                                         Action
                                     </button>
                                     <div class="dropdown-menu p-0">
-                                        <a class="dropdown-item" href="#" id="study_certificate"><i class="fa fa-file"></i> Study Certificate</a>
+                                        <!-- <a class="dropdown-item" href="#" id="study_certificate"><i class="fa fa-file"></i> Study Certificate</a> -->
                                         <div class="dropdown-divider m-0"></div>
                                         <a class="dropdown-item" href="#" id="conduct_certificate"><i class="fa fa-file"></i> Conduct Certificate</a>
                                         <div class="dropdown-divider m-0"></div>

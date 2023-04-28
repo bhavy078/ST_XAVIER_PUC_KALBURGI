@@ -250,7 +250,7 @@ class Push_notification_model extends CI_Model{
         return json_decode($result,true);
     }
 
-    public function saveStaffNotification($title,$body){
+    public function saveStaffNotification($title,$body,$uploadedFile){
         $sent_by = $this->session->userdata('name');
         date_default_timezone_set('Asia/Kolkata');
         $format = "%Y-%m-%d %h:%i:%s";
@@ -261,6 +261,7 @@ class Push_notification_model extends CI_Model{
             'message' => $body,
             'sent_by'=> $sent_by,
             'date_time' => $cdate,
+            'filepath' => $uploadedFile
         ];
         $this->db->insert('tbl_staff_notifications', $data);
         if($this->db->affected_rows() <= 0){

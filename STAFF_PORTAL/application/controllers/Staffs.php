@@ -199,7 +199,7 @@ class Staffs extends BaseController
                     'password' => getHashedPassword($password), 
                     'password_text' => base64_encode($password), 
                     'role' => $roleId, 'name' => $name,
-                    'mobile_one' => $mobile, 
+                    'mobile' => $mobile, 
                     'address' => $address, 
                     'aadhar_no' => $aadhar_no,
                     'pan_no' => $pan_no,

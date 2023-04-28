@@ -88,12 +88,12 @@ class Push_Notification extends BaseController {
                 $title = $this->input->post('msg_subject');
                 $body = $this->input->post('message');
                 if($this->input->post("user_name") === "staff"){
-                    $this->sendPushNotificationToAllStaffs($title,$body);
+                    $this->sendPushNotificationToAllStaffs($title,$body,$uploadedFilePath);
                     $email_option = $this->input->post('send_email_option');
                     if(isset($email_option)){
                         $this->sendEmailToAllStaff($title,$body);
                     }
-                    $this->push_notification_model->saveStaffNotification($title,$body);
+                    $this->push_notification_model->saveStaffNotification($title,$body,$uploadedFilePath);
                 }else if($this->input->post("user_name") === "student"){
                     $filter['term_name'] = $this->input->post("term_name");
                     $filter['stream_name'] = $this->input->post("stream_name");
@@ -118,7 +118,7 @@ class Push_Notification extends BaseController {
         }
     }
     
-    private function sendPushNotificationToAllStaffs($title,$body){
+    private function sendPushNotificationToAllStaffs($title,$body,$uploadedFilePath){
         $all_users_token = $this->push_notification_model->getAllStaffsToken();
         $tokenBatch = array_chunk($all_users_token,500);
         for($itr = 0; $itr < count($tokenBatch); $itr++){

@@ -46,7 +46,7 @@ if ($success) {
                                 </span>
                             </div>
 
-                            <div class="col-lg-6 col-md-6 col-12 text-white" style="font-size: 20px;">
+                            <div class="col-lg-6 col-md-6 col-12 text-black" style="font-size: 20px;">
                                 Total: <?php echo $RecordsCount; ?>
 
                                 <a onclick="window.history.back();" class="btn primary_color mobile-btn float-right text-white border_left_radius" value="Back"><i class="fa fa-arrow-circle-left"></i> Back </a>

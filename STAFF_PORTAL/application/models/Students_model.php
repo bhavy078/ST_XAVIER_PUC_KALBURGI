@@ -1395,7 +1395,7 @@ class students_model extends CI_Model
             $this->db->join('tbl_request_form as request', 'request.student_row_id = std.row_id','left');
             $this->db->where_in('request.row_id', $row_id);
             $this->db->where('request.certificate_Id ', 2);
-            $this->db->where('std.is_active', 1);
+           // $this->db->where('std.is_active', 1);
             $this->db->where('std.is_deleted', 0);
             $this->db->where('request.is_deleted', 0);
             $query = $this->db->get();

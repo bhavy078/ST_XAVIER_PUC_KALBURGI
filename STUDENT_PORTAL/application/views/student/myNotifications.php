@@ -81,7 +81,7 @@
                                              <td class="text-center">
                                             <?php 
                                                 if($notification->filepath != ""){?>
-                                                    <a class='btn btn-sm btn-primary' href='<?php echo ADMIN_PORTAL; ?><?php echo $notification->filepath;?>' download><i class='fa fa-download'></i> Download</a>
+                                                    <a class='btn btn-sm btn-primary' href='<?php echo ADMIN_PATH; ?><?php echo $notification->filepath;?>' download><i class='fa fa-download'></i> Download</a>
                                                 <?php }
                                             ?>
                                             </td>                                            
@@ -122,7 +122,7 @@
                                              <td class="text-center">
                                             <?php 
                                                 if($notification->filepath != ""){?>
-                                                    <a class='btn btn-sm btn-primary' href='<?php echo ADMIN_PORTAL; ?><?php echo $notification->filepath;?>' download><i class='fa fa-download'></i> Download</a>
+                                                    <a class='btn btn-sm btn-primary' href='<?php echo ADMIN_PATH; ?><?php echo $notification->filepath;?>' download><i class='fa fa-download'></i> Download</a>
                                                 <?php }
                                             ?>
                                             </td>                                            

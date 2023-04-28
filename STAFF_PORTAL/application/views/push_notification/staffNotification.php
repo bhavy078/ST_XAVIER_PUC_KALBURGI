@@ -98,22 +98,31 @@ if ($error) {
                                 <th>Date</th>
                                 <th>Subject</th>
                                 <th>Message</th>
+                                <th>Attachment</th>
                                 <th>Sent By</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <tbody>                           
+                        <tbody>                          
                             <?php
                                 if(!empty($notifications)){
-                                    foreach($notifications as $notification){
-                                        echo "<tr>
-                                            <td>".$notification->date_time."</td>
-                                            <td>".$notification->subject."</td>
-                                            <td>".$notification->message."</td>
-                                            <td>".$notification->sent_by."</td>
-                                            <td><a class='btn btn-xs btn-danger deleteStaffNotification px-2 py-1' href='#' data-row_id='".$notification->row_id."' title='Delete'><i class='fa fa-trash'></i></a></td>
-                                        </tr>";
-                                    }
+                                    foreach($notifications as $notification){  ?>
+                                        <tr>
+                                            <td><?=date('d-m-Y h:i:s',strtotime($notification->date_time))?></td>
+                                            <td><?=strtoupper($notification->subject)?></td>
+                                            <td><?=$notification->message?></td>
+                                            <td class="text-center">
+                                                <?php 
+                                                    if($notification->filepath !=""){?>
+                                                        <a class='btn btn-primary' href='<?= base_url().$notification->filepath ?>' download><i class='fa fa-download'></i> Download</a>
+                                                    <?php }
+                                                ?>
+                                            </td>
+                                            <td><?=$notification->sent_by?></td>
+                                            <td><?php if($role == ROLE_ADMIN || $role == ROLE_PRINCIPAL || $role == ROLE_PRIMARY_ADMINISTRATOR ){ ?><a class="btn btn-xs btn-danger deleteStaffNotification px-2 py-1" href="#"
+                                                data-row_id="<?= $notification->row_id ?>" title="Delete"><i class="fa fa-trash"></i> <span class="text-white"></span></a><?php } ?></td>
+                                        </tr>
+                                    <?php }
                                 }
                             ?>
                         </tbody>
@@ -122,6 +131,7 @@ if ($error) {
                                 <th>Date</th>
                                 <th>Subject</th>
                                 <th>Message</th>
+                                <th>Attachment</th>
                                 <th>Sent By</th>
                             </tr>
                         </tfoot>

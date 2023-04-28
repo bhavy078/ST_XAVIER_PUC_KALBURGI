@@ -286,13 +286,13 @@ if ($error) {
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-6 pl-1"> 
+                            <!-- <div class="col-6 pl-1"> 
                                 <select class="form-control required selectpicker" id="class_type" name="class_type" readonly>
                                     <option value="Unaided">Unaided</option>
                                     <option value="Aided">Aided</option>
                                     <option value="Unaided">Unaided</option>
                                 </select>
-                            </div>
+                            </div> -->
                             <div class="col-6 pr-1">
                                 <select class="form-control required selectpicker" data-live-search="true" id="class_teacher" name="class_teacher">
                                     <option value="">Select Class Teacher</option>

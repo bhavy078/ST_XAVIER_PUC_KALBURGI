@@ -372,16 +372,16 @@
                                
                                 <li class="nav-item">
 
-                                    <a href="#studyMet" data-toggle="collapse" aria-expanded="false"
+                                    <!-- <a href="#studyMet" data-toggle="collapse" aria-expanded="false"
                                         class="nav-link  dropdown-toggle">
 
                                         <i class="fa fa-book"></i>
 
                                         <span>Study Materials</span>
 
-                                    </a>
+                                    </a> -->
 
-                                    <ul class="collapse list-unstyled ml-3" id="studyMet">
+                                    <!-- <ul class="collapse list-unstyled ml-3" id="studyMet"> -->
 
 
 
@@ -405,7 +405,7 @@
 
                                                 <i class="material-icons">book</i>
 
-                                                <span>Materials</span>
+                                                <span> Study Materials</span>
 
                                             </a>
 
@@ -425,7 +425,7 @@
 
 
 
-                                    </ul>
+                                    <!-- </ul> -->
 
                                 </li>
 
