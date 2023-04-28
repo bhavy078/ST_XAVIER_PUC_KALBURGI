@@ -956,15 +956,15 @@ class Settings extends BaseController {
             }
            
            //elective subject update
-            // if(!empty($student_id)){
-            //     $electiveInfo = array(
-            //     'elective_sub'=>$elective_sub,
-            //     'section_name'=>$section_name,
-            //     'updated_by'=>$this->staff_id,
-            //     'updated_date_time'=>date('Y-m-d H:i:s')
-            // );
-            //      $result = $this->student->updateStudentInfoBStdId($electiveInfo,trim($student_id));
-            //  }
+            if(!empty($student_id)){
+                $electiveInfo = array(
+                'elective_sub'=>$elective_sub,
+                'section_name'=>$section_name,
+                'updated_by'=>$this->staff_id,
+                'updated_date_time'=>date('Y-m-d H:i:s')
+            );
+                 $result = $this->student->updateStudentInfoBStdId($electiveInfo,trim($student_id));
+             }
 
              //elective subject update
             if(!empty($mobile_one)){
