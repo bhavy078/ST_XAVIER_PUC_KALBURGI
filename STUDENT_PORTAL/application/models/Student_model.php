@@ -652,9 +652,9 @@ public function updateCoursePaymentLogByRowId($paymentInfo,$order_id) {
         if(!empty($filter['term_name'])){
             $this->db->where_in('news.term_name',array($filter['term_name'], '','ALL'));
         }
-        if(!empty($filter['role']) || !empty($filter['role_one'])){
-            $this->db->where_in('role.visible_type',array($filter['role'], $filter['role_one']));
-        }
+        // if(!empty($filter['role']) || !empty($filter['role_one'])){
+            $this->db->where_in('role.visible_type',array('STUDENT', 'ALL'));
+        // }
         $this->db->where('news.is_deleted', 0);
         $this->db->where('role.is_deleted', 0);
         $this->db->order_by('news.date', 'DESC');
