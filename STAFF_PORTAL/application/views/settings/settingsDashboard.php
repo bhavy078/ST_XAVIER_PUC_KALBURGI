@@ -99,7 +99,7 @@ if ($error) {
                       <?php if(!empty($casteInfo)){
                         foreach($casteInfo as $caste){ ?>
                       <tr class="text-dark">
-                        <td><?php echo $caste->caste_name; ?></td>
+                        <td><?php echo $caste->name; ?></td>
                         <td>
                           <a class="btn btn-xs btn-danger deleteCaste" href="#" data-row_id="<?php echo $caste->row_id; ?>" title="Delete"><i class="fa fa-trash"></i></a>
                         </td>
@@ -147,7 +147,7 @@ if ($error) {
                       <?php if(!empty($religionInfo)){
                         foreach($religionInfo as $record){ ?>
                       <tr class="text-dark">
-                        <td><?php echo $record->religion_name; ?></td>
+                        <td><?php echo $record->name; ?></td>
                         <td>
                           <a class="btn btn-xs btn-danger deleteReligion" href="#" data-row_id="<?php echo $record->row_id; ?>" title="Delete"><i class="fa fa-trash"></i></a>
                         </td>
@@ -196,7 +196,7 @@ if ($error) {
                         <?php if(!empty($nationalityInfo)){
                             foreach($nationalityInfo as $record){ ?>
                         <tr class="text-dark">
-                            <td><?php echo $record->nationality_name; ?></td>
+                            <td><?php echo $record->name; ?></td>
                             <td>
                                 <a class="btn btn-xs btn-danger deleteNationality" href="#" data-row_id="<?php echo $record->row_id; ?>" title="Delete"><i class="fa fa-trash"></i></a>
                             </td>

@@ -83,7 +83,7 @@ class Settings_model extends CI_Model{
     }
     public function checkCasteExists($caste_name){
         $this->db->from('tbl_caste_details as caste');
-        $this->db->where('caste_name', $caste_name);
+        $this->db->where('name', $caste_name);
         $this->db->where('caste.is_deleted', 0);
         $query = $this->db->get();
         return $query->num_rows();

@@ -77,7 +77,7 @@ class Settings extends BaseController {
             $this->loadThis();
         }  else {
             $religion =$this->security->xss_clean($this->input->post('religion'));
-                $religionInfo = array('religion_name'=>$religion,'created_by'=>$this->staff_id,'created_date_time'=>date('Y-m-d H:i:s'));
+                $religionInfo = array('name'=>$religion,'created_by'=>$this->staff_id,'created_date_time'=>date('Y-m-d H:i:s'));
                 $result = $this->settings->addReligion($religionInfo);
             if($result > 0){
                 $this->session->set_flashdata('success', 'New Religion created successfully');
@@ -103,7 +103,7 @@ class Settings extends BaseController {
             if($isExist > 0){
                 $this->session->set_flashdata('warning', 'Caste already exists!');
             }else{
-                $castInfo = array('caste_name'=>$caste,
+                $castInfo = array('name'=>$caste,
                     'created_by'=>$this->staff_id,
                     'created_date_time'=>date('Y-m-d H:i:s'));
                 $result = $this->settings->addCaste($castInfo);
@@ -126,7 +126,7 @@ class Settings extends BaseController {
             $this->loadThis();
         }  else {
                 $nationality =$this->security->xss_clean($this->input->post('nationality'));
-            $nationalityInfo = array('nationality_name'=>$nationality,'created_by'=>$this->staff_id,'created_date_time'=>date('Y-m-d H:i:s'));
+            $nationalityInfo = array('name'=>$nationality,'created_by'=>$this->staff_id,'created_date_time'=>date('Y-m-d H:i:s'));
             $result = $this->settings->addNationality($nationalityInfo);
             if($result > 0){
                 $this->session->set_flashdata('success', 'New Nationality created successfully');
