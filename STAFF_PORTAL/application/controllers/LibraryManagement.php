@@ -570,7 +570,7 @@ class LibraryManagement extends BaseController
             $this->form_validation->set_rules('student_id','student id','required'); 
             $this->form_validation->set_rules('issue_date','issue date','required');
             $this->form_validation->set_rules('return_date', 'return date', 'trim|required');
-            $this->form_validation->set_rules('remarks', 'remarks', 'trim|required');
+           // $this->form_validation->set_rules('remarks', 'remarks', 'trim|required');
             $this->form_validation->set_rules('access_code', 'Access code', 'trim|required');
             if($this->form_validation->run() == FALSE) {
                 $this->libraryManagementSystem();
