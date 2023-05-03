@@ -554,6 +554,7 @@ class Staff_model extends CI_Model
         // $this->db->where('section.year', 2021);
         $this->db->where('staff.is_deleted', 0);
         $this->db->where('stream.is_deleted', 0);
+        $this->db->where('section.is_deleted', 0);
         // $this->db->where('staff.is_deleted', 0);
         $this->db->order_by('stream.row_id','asc');
         $this->db->order_by('section.term_name','asc');
@@ -569,7 +570,7 @@ class Staff_model extends CI_Model
         $this->db->where('class.term_name', $term_name);
         $this->db->where('class.section_name', $section_name);
         $this->db->where('class.stream_name', $stream_name);
-        $this->db->where('class.class_year', 2022);
+        $this->db->where('class.class_year', 2023);
         $this->db->where('class.is_deleted', 0);
         $query = $this->db->get();
         return $query->num_rows();
