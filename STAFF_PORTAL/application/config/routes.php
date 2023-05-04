@@ -861,6 +861,9 @@ $route['getStudentBiodata'] = "students/getStudentBiodata";
 
 $route['addAllApprovedStudent'] = "settings/addAllApprovedStudent";
 
+$route['updateStdInfo'] = "settings/updateStdInfo";
+$route['addLibData'] = "settings/addLibData";
+
 // routes for Stock Management
 $route['viewStockSettings'] = "stock/viewStockSettings";
 $route['addStockName'] = "stock/addStockName";

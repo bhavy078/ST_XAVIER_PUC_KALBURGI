@@ -771,57 +771,71 @@ class Settings extends BaseController {
         $headings = array();
         $cell_config = array(); 
         $row_count = 1;
-        $total_records = 0;
         $highestRow = $objWorksheet->getHighestDataRow(); 
         $highestColumn = $objWorksheet->getHighestDataColumn();
         $total_fields = 2;
-        $student_count = 0;
-        $studentNotExistCount = 0;
-        $student_update_count = 0;
-        $app_no = array();
+      $count = 0;
+        //$studentNotExistCount = 0;
+        //$student_update_count = 0;
+       // $app_no = array();
 
-        for($i=2;$i<=$highestRow;$i++){
+       for($i=3;$i<=$highestRow;$i++){
           
            
-            $access_code = $objWorksheet->getCellByColumnAndRow(0,$i)->getFormattedValue();
-            $book_title = $objWorksheet->getCellByColumnAndRow(1,$i)->getFormattedValue();
-            $category = $objWorksheet->getCellByColumnAndRow(2,$i)->getFormattedValue();
-            $publisher_name = $objWorksheet->getCellByColumnAndRow(3,$i)->getFormattedValue();
-            $author_name = $objWorksheet->getCellByColumnAndRow(4,$i)->getFormattedValue();
+        $access_code = $objWorksheet->getCellByColumnAndRow(0,$i)->getFormattedValue();
+        $book_title = $objWorksheet->getCellByColumnAndRow(1,$i)->getFormattedValue();
+        $category = $objWorksheet->getCellByColumnAndRow(2,$i)->getFormattedValue();
+        $publisher_name = $objWorksheet->getCellByColumnAndRow(3,$i)->getFormattedValue();
+        $author_name = $objWorksheet->getCellByColumnAndRow(4,$i)->getFormattedValue();
+        $price = $objWorksheet->getCellByColumnAndRow(5,$i)->getFormattedValue();
+        $no_of_copies = $objWorksheet->getCellByColumnAndRow(6,$i)->getFormattedValue();
+        $year = $objWorksheet->getCellByColumnAndRow(7,$i)->getFormattedValue();
+        $no_of_page = $objWorksheet->getCellByColumnAndRow(8,$i)->getFormattedValue();
 
-            // $date_of_admission = date('d-m-Y',strtotime($date_of_admission));
-            // log_message('debug','Info = '.print_r($studentInfo,true));
-            if(!empty($access_code)){
-                $book_info = array(
-                    'access_code'=>trim($access_code),
-                    'book_title'=>strtoupper($book_title),
-                    'category'=>strtoupper($category),
-                    'publisher_name'=>strtoupper($publisher_name),
-                     'author_name'=>strtoupper($author_name)
-                //     // 'student_no'=>$student_no,
-                //     // 'pu_board_number'=>$student_no,
-                //     // 'sat_number'=>$sat_no,
-                // // 'date_of_admission'=>$date_of_admission,
-                // // 'sat_number' => $sat_no,
-                // 'updated_by'=>$this->staff_id,
-                // 'updated_date_time'=>date('Y-m-d H:i:s')
-            );
-                    log_message('debug','Info std = '.print_r($book_info,true));
-                    // log_message('debug','student_id std = '.$student_id);
-                    // $result = $this->student->updateStudentInfoAdmissionNo($student_info,$application_no);
-                    $result = $this->settings->addBookInfo($book_info);
-                    $student_count++;
-            }else{
-                $studentNotExistCount++;
-              log_message('debug','student_id NotExist'.$student_id);
-                // array_push($app_no,$application_number);
-            }
+
+        // $date_of_admission = date('d-m-Y',strtotime($date_of_admission));
+        // log_message('debug','Info = '.print_r($studentInfo,true));
+        if(!empty($access_code)){
+            $book_info = array(
+                'access_code'=>trim($access_code),
+                'book_title'=>strtoupper($book_title),
+                'category'=>strtoupper($category),
+                'publisher_name'=>strtoupper($publisher_name),
+                 'author_name'=>strtoupper($author_name),
+                 'price' =>trim($price),
+                 'no_of_copies' =>trim($no_of_copies),
+                 'year' =>trim($year),
+                 'no_of_page' =>trim($no_of_page),
+            //     // 'student_no'=>$student_no,
+            //     // 'pu_board_number'=>$student_no,
+            //     // 'sat_number'=>$sat_no,
+            // // 'date_of_admission'=>$date_of_admission,
+            // // 'sat_number' => $sat_no,
+            // 'updated_by'=>$this->staff_id,
+            // 'updated_date_time'=>date('Y-m-d H:i:s')
+        );
+               
+                // log_message('debug','student_id std = '.$student_id);
+                // $result = $this->student->updateStudentInfoAdmissionNo($student_info,$application_no);
+                
+                //$result = $this->settings->updateBook($book_info,$access_code);
+                $result = $this->settings->addBookInfo($book_info);
+                $student_count++;
+                log_message('debug','Info std = '.print_r($book_info,true));
         }
-         log_message('debug','notUpdated '.$studentNotExistCount);
-        log_message('debug','Student NOT Count= '.$studentNotExistCount);
-        log_message('debug','Total Count= '.$student_count);
-        redirect('viewSettings');
-    }
+        //else{
+          //  $studentNotExistCount++;
+        //  log_message('debug','student_id NotExist'.$student_id);
+            // array_push($app_no,$application_number);
+        //}
+    }  log_message('debug','Info std = '.print_r($student_count,true));
+    // log_message('debug','Info std = '.print_r($student_count,true));
+    //  log_message('debug','notUpdated '.$studentNotExistCount);
+    // log_message('debug','Student NOT Count= '.$studentNotExistCount);
+    // log_message('debug','Total Count= '.$student_count);
+    redirect('viewSettings');
+}
+
 
 
 

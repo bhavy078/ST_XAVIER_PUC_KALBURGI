@@ -659,7 +659,7 @@ if ($error) {
           </div>
           <div class="card-body d-flex flex-column p-1">
           <?php $this->load->helper("form"); ?>
-            <form role="form" action="<?php echo base_url() ?>getNewAdmittedStudentsImport" method="POST" role="form" enctype="multipart/form-data" >
+            <form role="form" action="<?php echo base_url() ?>addLibData" method="POST" role="form" enctype="multipart/form-data" >
               <div class="row">
                 <div class="col-6">
                   <input type="file" class="form-control" id="excelFile" name="excelFile" >

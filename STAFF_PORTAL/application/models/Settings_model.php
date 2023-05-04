@@ -386,4 +386,10 @@ class Settings_model extends CI_Model{
         return $insert_id;
     }
 
+    public function updateBook($libraryInfo,$access_code){
+        $this->db->where('access_code', $access_code);
+        $this->db->update('tbl_library_managemnt',$libraryInfo);
+        return TRUE;
+    }
+
 }
