@@ -43,7 +43,7 @@ if ($error) {
                         <div class="row c-m-b">
                             <div class="col-lg-7 col-6 col-md-7 box-tools">
                                 <span class="page-title">
-                                    <i class="fas fa-rupee-sign"></i> Edit Concession
+                                    <i class="fas fa-rupee-sign"></i> Edit Scholarship
                                 </span>
                             </div>
                             <div class="col-lg-5 col-md-5 col-6">

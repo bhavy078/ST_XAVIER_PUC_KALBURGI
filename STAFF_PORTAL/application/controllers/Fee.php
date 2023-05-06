@@ -86,9 +86,9 @@ class Fee extends BaseController
                         'created_date_time'=>date('Y-m-d H:i:s'));
                     $result = $this->fee->addConcession($feeInfo);
                     if($result > 0){
-                        $this->session->set_flashdata('success', 'Concession Added successfully');
+                        $this->session->set_flashdata('success', 'Scholarship Added successfully');
                     } else{
-                        $this->session->set_flashdata('error', 'Failed to Add Concession');
+                        $this->session->set_flashdata('error', 'Failed to Add Scholarship');
                     }
                 redirect('viewFeeConcession');
             }
@@ -133,9 +133,9 @@ class Fee extends BaseController
                         'updated_date_time'=>date('Y-m-d H:i:s'));
                     $result = $this->fee->updateConcession($feeInfo,$row_id);
                     if($result > 0){
-                        $this->session->set_flashdata('success', 'Concession Updated successfully');
+                        $this->session->set_flashdata('success', 'Scholarship Updated successfully');
                     } else{
-                        $this->session->set_flashdata('error', 'Failed to Update Concession');
+                        $this->session->set_flashdata('error', 'Failed to Update Scholarship');
                     }
                 redirect('editConcession/'.$row_id);
             }
@@ -2448,6 +2448,8 @@ public function processTheFeePayment(){
             $dd_date = $this->security->xss_clean($this->input->post('dd_date'));
             $bank_name = $this->security->xss_clean($this->input->post('bank_name'));
 
+            $upi_number = $this->security->xss_clean($this->input->post('upi_number'));
+
             $tran_number = $this->security->xss_clean($this->input->post('tran_number'));
             $tran_date = $this->security->xss_clean($this->input->post('tran_date'));
             $tran_bank_name = $this->security->xss_clean($this->input->post('tran_bank_name'));
@@ -2556,6 +2558,7 @@ public function processTheFeePayment(){
                     'payment_count' => $paid_count,
                     'payment_year' => $filter['fee_year'],
                     'term_name' => $term_name,
+                    'upi_number' => $upi_number,
                     'created_by' => $this->staff_id,
                     'created_date_time' => date('Y-m-d H:i:s'));
                     $fee_year= $filter['fee_year'];

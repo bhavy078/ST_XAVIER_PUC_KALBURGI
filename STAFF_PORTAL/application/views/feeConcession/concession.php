@@ -67,7 +67,7 @@
                         <div class="row c-m-b">
                             <div class="col-lg-5 col-6 col-md-4 col-sm-4 box-tools">
                                 <span class="page-title">
-                                    <i class="fas fa-rupee-sign"></i> Concession
+                                    <i class="fas fa-rupee-sign"></i> Scholarship
                                 </span>
                             </div>
                             <div class="col-lg-3 col-6 col-md-4 col-sm-4">
@@ -175,7 +175,7 @@
                                 </tr>
                                 <?php } }else{  ?>
                                 <tr>
-                                    <th colspan="8" class="text-center">Fee Concession Record Not Found</th>
+                                    <th colspan="8" class="text-center">Scholarship Record Not Found</th>
                                 </tr>
                                 <?php } ?>
                             </tbody>
@@ -193,7 +193,7 @@
         <div class="modal-dialog modal-md">
             <div class="modal-content">
                 <div class="modal-header bg-primary" style="padding: 7px 15px;">
-                    <h4 class="modal-title">Add New Concession</h4>
+                    <h4 class="modal-title">Add New Scholarship</h4>
                     <button type="button" class="close float-right" data-dismiss="modal">&times;</button>
                 </div>
                 <!-- Modal body -->
@@ -218,9 +218,9 @@
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label>Enter Concession Amount <span class="text-danger">*</span></label>
+                                    <label>Enter Scholarship Amount <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control " id="fee_amount" name="fee_amount"
-                                        placeholder="Enter Concession Amount" onkeypress="return isNumberKey(event)"
+                                        placeholder="Enter Scholarship Amount" onkeypress="return isNumberKey(event)"
                                         required autocomplete="off">
                                 </div>
                                

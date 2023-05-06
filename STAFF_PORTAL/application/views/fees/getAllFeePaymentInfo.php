@@ -208,6 +208,7 @@ if ($error) {
                                                 <option value="CASH">CASH</option>
                                                 <option value="DD">DD</option>
                                                 <option value="CARD">CARD</option>
+                                                <option value="UPI">UPI</option>
                                             </select>
                                         </div>
                                     </td>

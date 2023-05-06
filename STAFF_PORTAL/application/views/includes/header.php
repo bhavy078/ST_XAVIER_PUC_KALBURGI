@@ -902,7 +902,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link " href="<?php echo base_url(); ?>viewFeeConcession">
                                         <i class="fas fa-rupee-sign"></i>
-                                        <span>Concession</span>
+                                        <span>Scholarship</span>
                                     </a>
                                 </li>
                                 <?php } ?>

@@ -119,7 +119,7 @@ class Fee_model extends CI_Model
         $this->db->select('fee.row_id,fee.fee_amt,fee.approved_status,fee.date,fee.description,fee.application_no,
         fee.payment_status,std.student_name');
         $this->db->from('tbl_student_fee_concession as fee');
-        $this->db->join('tbl_students_info as std','std.application_no = fee.application_no'); 
+        $this->db->join('tbl_students_info as std','std.row_id = fee.application_no'); 
         $this->db->where('fee.row_id', $row_id);
         $this->db->where('fee.is_deleted', 0); 
         $query = $this->db->get();

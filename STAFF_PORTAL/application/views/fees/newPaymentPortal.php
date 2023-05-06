@@ -308,6 +308,7 @@ if ($error) {
                                                             <option value="CASH" selected>CASH</option>
                                                             <option value="DD">DD</option>
                                                             <option value="CARD">CARD</option>
+                                                            <option value="UPI">UPI</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -398,6 +399,7 @@ if ($error) {
                                                             <option value="CASH">CASH</option>
                                                             <option value="DD">DD</option>
                                                             <option value="CARD">CARD</option>
+                                                            <option value="UPI">UPI</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -543,6 +545,18 @@ if ($error) {
                                 </div>
                             </div>
 
+                            <div class="upi_info">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group text-dark">
+                                            <label for="usr">Transaction Number:</label>
+                                            <input type="text" name="upi_number"
+                                                required class="form-control" Placeholder="Transaction Number"
+                                                id="upi_number" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
                             <div class="dd_info">
                                 <div class="row">
@@ -643,16 +657,24 @@ jQuery(document).ready(function() {
         if (payment_type == "DD") {
             $('.dd_info').show();
             $('.card_info').hide();
+            $('.upi_info').hide();
         } else if (payment_type == "CARD") {
             card_charges = (2.0 / 100) * paid_amount_display;
             $('.dd_info').hide();
             $('.card_info').show();
+            $('.upi_info').hide();
         } else if (payment_type == "CASH") {
             $('.dd_info').hide();
             $('.card_info').hide();
+            $('.upi_info').hide();
+        } else if (payment_type == "UPI") {
+            $('.dd_info').hide();
+            $('.card_info').hide();
+            $('.upi_info').show();
         } else {
             $('.dd_info').hide();
             $('.card_info').hide();
+            $('.upi_info').hide();
         }
 
 
@@ -702,16 +724,24 @@ jQuery(document).ready(function() {
         if (payment_type == "DD") {
             $('.dd_info').show();
             $('.card_info').hide();
+            $('.upi_info').hide();
         } else if (payment_type == "CARD") {
             card_charges = (2.0 / 100) * paid_amount_display;
             $('.dd_info').hide();
             $('.card_info').show();
+            $('.upi_info').hide();
         } else if (payment_type == "CASH") {
             $('.dd_info').hide();
+            $('.upi_info').hide();
             $('.card_info').hide();
+        } else if (payment_type == "UPI") {
+            $('.dd_info').hide();
+            $('.card_info').hide();
+            $('.upi_info').show();
         } else {
             $('.dd_info').hide();
             $('.card_info').hide();
+            $('.upi_info').hide();
         }
 
 
