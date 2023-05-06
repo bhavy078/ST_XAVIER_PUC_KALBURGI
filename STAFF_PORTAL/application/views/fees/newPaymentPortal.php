@@ -220,7 +220,7 @@ if ($error) {
 
                                                     <?php if($concession != 0){ ?>
                                                         <tr class="bg-secondary text-white">
-                                                            <th class="text-left" scope="col">Concession Amt</th>
+                                                            <th class="text-left" scope="col">Scholarship Amt</th>
                                                             <th class="text-left" scope="col">
                                                                 <?php echo number_format($concession,2); ?>
                                                             </th>
