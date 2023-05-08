@@ -214,13 +214,28 @@ class Library_model extends CI_Model
     }
 
     function getAllStudentInfo(){
-        $this->db->select('student.student_name,student.term_name,student.student_id,student.section_name,student.application_no');
+        $this->db->select('student.student_name,student.term_name,student.student_id,student.section_name,student.application_no,student.stream_name');
         $this->db->from('tbl_students_info as student'); 
         //$this->db->join('tbl_student_academic_info as academic', 'academic.application_no = student.application_no');
        // $this->db->where('academic.is_current', 1);
         $this->db->where('student.is_active', 1);
         $this->db->where('student.is_deleted', 0);
         //$this->db->where('academic.is_deleted', 0);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    public function getAllStaffInfo()
+    {
+        $this->db->select('staff.type, staff.row_id, staff.staff_id, 
+        staff.email, staff.name,dept.name as department,
+         staff.mobile, Role.role, staff.address');
+        $this->db->from('tbl_staff as staff'); 
+        $this->db->join('tbl_roles as Role', 'Role.roleId = staff.role','left');
+        $this->db->join('tbl_department as dept', 'dept.dept_id = staff.department_id','left');
+        $this->db->where('staff.staff_id !=', '123456');
+        $this->db->where('dept.is_deleted', 0);
+        $this->db->where('staff.is_deleted', 0);
         $query = $this->db->get();
         return $query->result();
     }
@@ -279,6 +294,7 @@ class Library_model extends CI_Model
     public function getAllIssuedBookCount($filter=''){
         $this->db->from('tbl_library_issue_info as issue'); 
         //$this->db->join('tbl_library_managemnt as mgmt','mgmt.access_code = issue.access_code','left');
+        if($filter['user_type'] == 'student'){
         if(!empty($filter['isbn'])){
             $this->db->where('issue.isbn', $filter['isbn']);
         }
@@ -303,7 +319,35 @@ class Library_model extends CI_Model
         if(!empty($filter['remarks'])){
             $this->db->where('issue.remarks', $filter['remarks']);
         }
+        $this->db->where_in('issue.user_type', ['student',' ']);
         
+    }else{
+        if(!empty($filter['isbn'])){
+            $this->db->where('issue.isbn', $filter['isbn']);
+        }
+        if(!empty($filter['student_id'])){
+            $this->db->where('issue.student_id', $filter['student_id']);
+        }
+        if(!empty($filter['issue_date'])){
+            $this->db->where('issue.issue_date', $filter['issue_date']);
+        }
+        if(!empty($filter['return_date'])){
+            $this->db->where('issue.return_date', $filter['return_date']);
+        }
+        if(!empty($filter['actual_return_date'])){
+            $this->db->where('issue.actual_return_date', $filter['actual_return_date']);
+        }
+        if(!empty($filter['fine'])){
+            $this->db->where('issue.fine', $filter['fine']);
+        }
+        if(!empty($filter['days_delayed'])){
+            $this->db->where('issue.days_delayed', $filter['days_delayed']);
+        }
+        if(!empty($filter['remarks'])){
+            $this->db->where('issue.remarks', $filter['remarks']);
+        }
+        $this->db->where('issue.user_type', 'staff');
+    }
         $this->db->where('issue.is_deleted', 0);
         $query = $this->db->get();
         return $query->num_rows();
@@ -312,7 +356,7 @@ class Library_model extends CI_Model
     public function getAllIssuedBookInfo($filter, $page, $segment){
         
         $this->db->from('tbl_library_issue_info as issue'); 
-       
+        if($filter['user_type'] == 'student'){
         if(!empty($filter['access_code'])){
             $this->db->where('issue.access_code', $filter['access_code']);
         }
@@ -340,7 +384,38 @@ class Library_model extends CI_Model
         if(!empty($filter['remarks'])){
             $this->db->where('issue.remarks', $filter['remarks']);
         }
+        $this->db->where_in('issue.user_type', ['student',' ']);
         
+    }else{
+        if(!empty($filter['access_code'])){
+            $this->db->where('issue.access_code', $filter['access_code']);
+        }
+        if(!empty($filter['isbn'])){
+            $this->db->where('issue.isbn', $filter['isbn']);
+        }
+        if(!empty($filter['student_id'])){
+            $this->db->where('issue.student_id', $filter['student_id']);
+        }
+        if(!empty($filter['issue_date'])){
+            $this->db->where('issue.issue_date', $filter['issue_date']);
+        }
+        if(!empty($filter['return_date'])){
+            $this->db->where('issue.return_date', $filter['return_date']);
+        }
+        if(!empty($filter['actual_return_date'])){
+            $this->db->where('issue.actual_return_date', $filter['actual_return_date']);
+        }
+        if(!empty($filter['fine'])){
+            $this->db->where('issue.fine', $filter['fine']);
+        }
+        if(!empty($filter['days_delayed'])){
+            $this->db->where('issue.days_delayed', $filter['days_delayed']);
+        }
+        if(!empty($filter['remarks'])){
+            $this->db->where('issue.remarks', $filter['remarks']);
+        }
+        $this->db->where('issue.user_type', 'staff');
+    }
         $this->db->where('issue.is_deleted', 0);
         $this->db->limit($filter['page'], $filter['segment']);
         $query = $this->db->get();

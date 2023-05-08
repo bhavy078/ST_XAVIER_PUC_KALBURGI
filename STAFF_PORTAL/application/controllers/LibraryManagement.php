@@ -306,6 +306,7 @@ class LibraryManagement extends BaseController
         } else {
             $data['accessInfo'] = $this->library->getAllAccessInfo();
             $data['studentInfo'] = $this->library->getAllStudentInfo();
+            $data['staffInfo'] = $this->library->getAllStaffInfo();
             $data['isbnInfo'] = $this->library->getAllIsbnInfo();
             $this->global['pageTitle'] = ''.TAB_TITLE.' : Issue Book';
             $this->loadViews("libraryManagement/issueBook", $this->global, $data, null);  
@@ -508,6 +509,7 @@ class LibraryManagement extends BaseController
             $fine = $this->security->xss_clean($this->input->post('fine'));
             $remarks = $this->security->xss_clean($this->input->post('remarks'));
             $access_code = $this->security->xss_clean($this->input->post('access_code'));
+            $user_type = $this->security->xss_clean($this->input->post('user_type'));
 
             if(!empty($issue_date)){
                 $filter['issue_date'] = date('Y-m-d',strtotime($issue_date));
@@ -530,8 +532,14 @@ class LibraryManagement extends BaseController
             }else{
                 $data['actual_return_date'] = '';
             }
-            
+            if(empty($user_type)){
+                $userType = 'student';
+            }else{
+                $userType = $user_type;
+            }
 
+            $filter['user_type'] = $userType;
+            $data['user_type'] = $userType;
             $data['isbn'] = $isbn;
             $data['student_id'] = $student_id;
             $data['fine'] = $fine;
@@ -567,7 +575,7 @@ class LibraryManagement extends BaseController
             $this->load->library('form_validation');
             $row_id = $this->input->post('row_id');
           
-            $this->form_validation->set_rules('student_id','student id','required'); 
+            //$this->form_validation->set_rules('student_id','student id','required'); 
             $this->form_validation->set_rules('issue_date','issue date','required');
             $this->form_validation->set_rules('return_date', 'return date', 'trim|required');
            // $this->form_validation->set_rules('remarks', 'remarks', 'trim|required');
@@ -576,14 +584,16 @@ class LibraryManagement extends BaseController
                 $this->libraryManagementSystem();
             } else {
                 $isbn =$this->security->xss_clean($this->input->post('isbn'));
-               
                 $student_id =$this->security->xss_clean($this->input->post('student_id'));
                 $issue_date = $this->security->xss_clean($this->input->post('issue_date'));
                 $return_date = $this->security->xss_clean($this->input->post('return_date'));
                 $remarks = $this->security->xss_clean($this->input->post('remarks'));
                 $access_code = $this->security->xss_clean($this->input->post('access_code'));
                 $renewal_date = $this->security->xss_clean($this->input->post('renewal_date'));
+                $staff_id =$this->security->xss_clean($this->input->post('staff_id'));
+                $user_type = $this->security->xss_clean($this->input->post('users_type'));
                 
+                if($user_type == 'student'){  
                 $issedInfo = array(
                     'access_code'=>$access_code,
                     'isbn'=>$isbn,
@@ -593,8 +603,23 @@ class LibraryManagement extends BaseController
                     'renewal_date'=>date('Y-m-d',strtotime($renewal_date)),
                     'remarks'=>$remarks,
                     'is_issued'=> 1,
+                    'user_type'=> 'student',
                     'created_by'=>$this->staff_id,
                     'created_date_time'=>date('Y-m-d H:i:s'));
+                }else {
+                    $issedInfo = array(
+                        'access_code'=>$access_code,
+                        'isbn'=>$isbn,
+                        'student_id'=>$staff_id,
+                        'issue_date'=>date('Y-m-d',strtotime($issue_date)),
+                        'return_date'=>date('Y-m-d',strtotime($return_date)),
+                        'renewal_date'=>date('Y-m-d',strtotime($renewal_date)),
+                        'remarks'=>$remarks,
+                        'is_issued'=> 1,
+                        'user_type'=>'staff',  
+                        'created_by'=>$this->staff_id,
+                        'created_date_time'=>date('Y-m-d H:i:s'));
+                    }
                
                 $libraryInfo = array(
                     'is_available'=>0,

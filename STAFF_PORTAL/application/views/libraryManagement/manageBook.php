@@ -93,14 +93,14 @@ if ($success) {
                                 <tr class="filter_row" class="text-center">
                                     <td>
                                         <div class="form-group mb-0">
-                                            <input type="text" value="<?php echo $bill_date; ?>" name="bill_date" id="date" class="form-control input-sm datepicker" placeholder="By Bill Date" autocomplete="off">
+                                            <input type="text" value="<?php echo $bill_date; ?>" name="bill_date"  id="date" class="form-control input-sm datepicker" placeholder="By Date" autocomplete="off">
                                         </div>
                                     </td>
-                                    <td>
+                                    <!-- <td>
                                         <div class="form-group mb-0">
                                             <input type="text" value="<?php echo $bill_no; ?>" name="bill_no" id="no" class="form-control input-sm " placeholder="By Bill No" autocomplete="off">
                                         </div>
-                                    </td>
+                                    </td> -->
                                     <td>
                                         <div class="form-group mb-0">
                                             <input type="text" value="<?php echo $price; ?>" name="price" id="price" class="form-control input-sm " placeholder="Price" autocomplete="off">
@@ -108,7 +108,7 @@ if ($success) {
                                     </td>
                                     <td>
                                         <div class="form-group mb-0">
-                                            <input type="text" value="<?php echo $access_no; ?>" name="access_no" id="access_no" class="form-control input-sm " placeholder="Access No." autocomplete="off">
+                                            <input type="text" value="<?php echo $access_no; ?>" name="access_no" id="access_no" class="form-control input-sm " placeholder="Accession No." autocomplete="off">
                                         </div>
                                     </td>
                                     <td>
@@ -153,17 +153,17 @@ if ($success) {
                             </form>
                             <thead>
                                 <tr class="table_row_background text-center">
-                                <th>Date</th>
-                                <th>Bill No.</th>
-                                <th>Price</th>
-                                <th>Access No.</th>
+                                    <th width="100">Bill Date/No.</th>
+                                    <!-- <th>Bill No.</th> -->
+                                    <th>Price</th>
+                                    <th>Accession No.</th>
                                     <!-- <th>ISBN</th> -->
                                     <th>Book Title</th>
                                     <th>Subject</th>
                                     <th>Author name</th>
                                     <th>Publisher Name</th>
                                     <th>No. of copies</th>
-                                    <th>Year</th>
+                                    <th>Year of Edition</th>
                                     <th>Shelf No.</th>
                                     <th width="100">Action</th>
                                 </tr>
@@ -173,11 +173,11 @@ if ($success) {
                                     foreach ($libraryMgmtInfo as $library) { ?>
                                         <tr>
                                         <th class="text-center"><?php if(empty($library->bill_date) || $library->bill_date == '0000-00-00'|| $library->bill_date == '1970-01-01'){
-                                                        echo "";
+                                                        echo $library->bill_no;
                                                     } else{
-                                                        echo date('d-m-Y',strtotime($library->bill_date));
-                                                    } ?> </th>
-                                        <th class="text-center"><?php echo $library->bill_no; ?></th>
+                                                        echo date('d-m-Y',strtotime($library->bill_date)). ' ' . $library->bill_no;
+                                                    } ?></th>
+                                        <!-- <th class="text-center"><?php echo $library->bill_no; ?></th> -->
                                         <th class="text-center"><?php echo $library->price; ?></th>
                                         <th><?php echo strtoupper($library->access_code); ?></th>
                                             <!-- <th><?php echo strtoupper($library->isbn); ?></th> -->
@@ -235,7 +235,6 @@ if ($success) {
             autoclose: true,
             orientation: "bottom",
             format: "dd-mm-yyyy"
-
         });
 
         jQuery(document).on("click", ".deleteLibraryDetails", function(){

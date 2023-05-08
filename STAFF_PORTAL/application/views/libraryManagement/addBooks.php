@@ -40,6 +40,20 @@ if ($warning) {
         <?php echo validation_errors('<div class="alert alert-danger alert-dismissable">', ' <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button></div>'); ?>
     </div>
 </div>
+<style>
+      input[type="date"]::-webkit-calendar-picker-indicator {
+        background: transparent;
+        bottom: 0;
+        color: transparent;
+        cursor: pointer;
+        height: auto;
+        left: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: auto;
+    }
+</style>
 <div class="main-content-container container-fluid px-4 pt-2">
     <div class="content-wrapper">
         <div class="row">
@@ -61,9 +75,9 @@ if ($warning) {
                                     <div class="row">
                                     <div class="col-md-4 col-12">
                                             <div class="form-group">
-                                                <label for="isbn">Access No.<span class="text-danger required_star">*</span><i class='fas fa-info-circle ml-2' data-toggle='tooltip' data-placement='top'  title='This is a unique Number Cannot be repeated.'></i></span></label>
-                                                <input type="text" class="form-control required accessCode" id="access_code" name="access_code" placeholder="Enter Access No." autocomplete="off" required autofocus/>
-                                                <h6 class="error-hint display-none accessHide">Access Number Already exists</h6>
+                                                <label for="isbn">Accession No.<span class="text-danger required_star">*</span><i class='fas fa-info-circle ml-2' data-toggle='tooltip' data-placement='top'  title='This is a unique Number Cannot be repeated.'></i></span></label>
+                                                <input type="text" class="form-control required accessCode" id="access_code" name="access_code" placeholder="Enter Accession No." autocomplete="off" required autofocus/>
+                                                <h6 class="error-hint display-none accessHide">Accession Number Already exists</h6>
                                             </div>
                                         </div>
                                         <div class="col-md-4 col-12">
@@ -139,7 +153,7 @@ if ($warning) {
                                         <div class="col-md-4 col-12">
                                             <div class="form-group">
                                                 <label for="book_title">Bill Date</label>
-                                                <input type="text" class="form-control required datepicker" id="bill_date" name="bill_date" placeholder="Enter Bill Date" autocomplete="off"  />
+                                                <input type="date" class="form-control required " id="bill_date" name="bill_date" placeholder="Enter Bill Date" autocomplete="off"  />
                                             </div>
                                         </div>
                                         <div class="col-md-4 col-12">
@@ -156,8 +170,8 @@ if ($warning) {
                                         </div>
                                         <div class="col-md-4 col-12">
                                             <div class="form-group">
-                                                <label for="book_title">Year</label>
-                                                <input type="text" class="form-control required" id="year" name="year" placeholder="Enter Year" autocomplete="off"  />
+                                                <label for="book_title">Year of Edition</label>
+                                                <input type="text" class="form-control required" id="year" name="year" placeholder="Enter Year of Edition" autocomplete="off"  />
                                             </div>
                                         </div>
                                         <div class="col-md-4 col-12">

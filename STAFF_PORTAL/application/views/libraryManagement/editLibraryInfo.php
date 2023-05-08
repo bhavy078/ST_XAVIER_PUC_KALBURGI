@@ -64,8 +64,8 @@ if ($warning) {
                                     <div class="row">
                                     <div class="col-md-4 col-12">
                                             <div class="form-group">
-                                                <label for="access_code">Access No.<span class="text-danger required_star">*</span><i class='fas fa-info-circle ml-2' data-toggle='tooltip' data-placement='top'  title='Its a unique no.'></i></span></label>
-                                                <input type="text" class="form-control required" id="access_code" name="access_code" value="<?php echo $libraryInfo->access_code; ?>" placeholder="Enter access No." autocomplete="off" required autofocus/>
+                                                <label for="access_code">Accession No.<span class="text-danger required_star">*</span><i class='fas fa-info-circle ml-2' data-toggle='tooltip' data-placement='top'  title='Its a unique no.'></i></span></label>
+                                                <input type="text" class="form-control required" id="access_code" name="access_code" value="<?php echo $libraryInfo->access_code; ?>" placeholder="Enter accession No." autocomplete="off" required autofocus/>
                                             </div>
                                         </div>
                                         <div class="col-md-4 col-12">
@@ -170,8 +170,8 @@ if ($warning) {
                                         </div>
                                         <div class="col-md-4 col-12">
                                             <div class="form-group">
-                                                <label for="book_title">Year</label>
-                                                <input type="text" class="form-control required" id="year" name="year" value="<?php echo $libraryInfo->year; ?>" placeholder="Enter Year" autocomplete="off"  />
+                                                <label for="book_title">Year of Edition</label>
+                                                <input type="text" class="form-control required" id="year" name="year" value="<?php echo $libraryInfo->year; ?>" placeholder="Enter Year of Edition" autocomplete="off"  />
                                             </div>
                                         </div>
                                         <div class="col-md-4 col-12">

@@ -64,16 +64,33 @@ if ($success) {
                 <div class="card card-small card_heading_title p-0 m-b-1">
                     <div class="card-body p-2">
                         <div class="row c-m-b">
-                            <div class="col-lg-5 col-12 col-md-12 box-tools">
+                            <div class="col-lg-4 col-12 col-md-12 box-tools">
                                 <span class="page-title">
                                     <i class="material-icons">book</i> Library Managment Details
                                 </span>
                             </div>
+                            <div class="col-lg-3 col-12 col-md-12">
+                                <form action="<?php echo base_url(); ?>viewIssuedBooks" method="POST" id="byFilterMethod">
+                                <div class="input-group">
+                                    <select class="form-control p-1 search_select" name="user_type" id="user_type">
+                                    <?php if(!empty($user_type)){ ?>
+                                                    <option value="<?php echo $user_type; ?>" selected><b>Selected: <?php echo $user_type; ?></b></option>
+                                                <?php } ?>
+                                            <option value="staff">STAFF</option>
+                                            <option value="student" >STUDENT</option>
+                                    </select>
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-success border_radius_left py-0">
+                                        <i class="fa fa-search"></i>
+                                    </div>
+                                </div>
+                                </form>
+                            </div> 
                             <div class="col-lg-3 col-12 col-md-6 col-sm-6">
                                 <b class="text-dark" style="font-size: 20px;">Total Entry: <?php echo $totalLibraryIssuedCount; ?></b>
                             </div>
-                            <div class="col-lg-4 col-12 col-md-6 col-sm-6">
-                            <a onclick="window.history.back();" class="btn primary_color mobile-btn float-right text-white border_left_radius"
+                            <div class="col-lg-2 col-12 col-md-6 col-sm-6">
+                            <a onclick="window.history.back();" class="btn primary_color mobile-btn float-right text-white "
                                     value="Back"><i class="fa fa-arrow-circle-left"></i> Back </a>
                             </div>
                         </div>
@@ -90,7 +107,7 @@ if ($success) {
                                 <tr class="filter_row" class="text-center">
                                 <td>
                                     <div class="form-group mb-0">
-                                        <input type="text" value="<?php echo $access_code; ?>" name="access_code" id="access_code" class="form-control input-sm " placeholder="By Access No." autocomplete="off">
+                                        <input type="text" value="<?php echo $access_code; ?>" name="access_code" id="access_code" class="form-control input-sm " placeholder="By Accession No." autocomplete="off">
                                     </div>
                                 </td>
                                     <td>
@@ -140,7 +157,7 @@ if ($success) {
                             </form>
                             <thead>
                                 <tr class="table_row_background text-center">
-                                    <th>Access No.</th>
+                                    <th>Accession No.</th>
                                     <th>Student ID</th>
                                     <th>Issue Date</th>
                                     <th>Renewal Date</th>

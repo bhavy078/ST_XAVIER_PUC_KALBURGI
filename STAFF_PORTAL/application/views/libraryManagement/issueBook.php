@@ -35,6 +35,20 @@ if ($warning) {
         <strong>warning!</strong> <?php echo $this->session->flashdata('warning'); ?>
     </div>
 <?php } ?>
+<style>
+      input[type="date"]::-webkit-calendar-picker-indicator {
+        background: transparent;
+        bottom: 0;
+        color: transparent;
+        cursor: pointer;
+        height: auto;
+        left: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: auto;
+    }
+</style>
 <div class="row">
     <div class="col-md-12">
         <?php echo validation_errors('<div class="alert alert-danger alert-dismissable">', ' <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button></div>'); ?>
@@ -50,7 +64,14 @@ if ($warning) {
                         <div class="row ">
                             <div class="col-md-6 col-8 text-black m-auto " style="font-size:22px;"><i class="material-icons">book</i> Issue Book
                             </div>
-                            <div class="col-md-6 col-4 m-auto"> <a href="#" onclick="GoBackWithRefresh();return false;" class="btn text-white btn-primary btn-bck float-right mobile-btn "><i class="fa fa-arrow-circle-left"></i>&nbsp;&nbsp;Back </a></div>
+                            <div class="col-md-2 col-4 text-black m-auto " style="font-size:22px;">
+                    
+                                <select class="form-control p-1 search_select" name="user_type" id="user_type">
+                                        <option value="staff">STAFF</option>
+                                        <option value="student" selected>STUDENT</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 col-4 m-auto"> <a href="#" onclick="GoBackWithRefresh();return false;" class="btn text-white btn-primary btn-bck float-right mobile-btn "><i class="fa fa-arrow-circle-left"></i>&nbsp;&nbsp;Back </a></div>
                         </div>
                     </div>
                     <div class="alertMessage">
@@ -59,6 +80,7 @@ if ($warning) {
                     <div class="card-body contents-body">
                         <?php $this->load->helper("form"); ?>
                         <form role="form" id="addIssueInfo" action="<?php echo base_url() ?>addLibraryIssueInfo" method="post" role="form" enctype="multipart/form-data">
+                        <input type="hidden" value="" id="user_type_name" name="users_type">
                             <div class="row form-contents">
                                 <div class="col-lg-3 px-4">
                                     <div class="row">
@@ -76,9 +98,9 @@ if ($warning) {
                                     <div class="row">
                                         <div class="col-md-6 col-9">
                                                 <div class="form-group">
-                                                    <label for="access_code">Access No.<span class="text-danger required_star">*</span></label>
+                                                    <label for="access_code">Accession No.<span class="text-danger required_star">*</span></label>
                                                     <select name="access_code" id="access_code" class="form-control input-sm selectpicker" data-live-search="true" required>
-                                                        <option value="">Select Access No.</option>
+                                                        <option value="">Select Accession No.</option>
                                                         <?php if (!empty($accessInfo)) {
                                                             foreach ($accessInfo as $access) { ?>
                                                                 <option value="<?php echo $access->access_code; ?>"><?php echo $access->access_code; ?></option>
@@ -103,20 +125,32 @@ if ($warning) {
                                         </div> -->
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-4 col-12">
-                                                <div class="form-group">
+                                        <div class="col-md-6 col-9">
+                                                <div class="form-group studentInfo">
                                                     <label for="student_id">Student Info<span class="text-danger required_star">*</span></label>
-                                                    <select name="student_id" id="student_id" class="form-control input-sm selectpicker" data-live-search="true" required>
+                                                    <select name="student_id" id="student_id" class="form-control input-sm selectpicker" data-live-search="true" >
                                                         <option value="">Select Student</option>
                                                         <?php if (!empty($studentInfo)) {
                                                             foreach ($studentInfo as $student) { ?>
-                                                                <option value="<?php echo $student->student_id; ?>"><?php echo $student->student_id ; ?> - <?php echo $student->student_name; ?> - <?php echo $student->term_name; ?> - <?php echo $student->section_name; ?></option>
+                                                                <option value="<?php echo $student->student_id; ?>"><?php echo $student->student_id ; ?> - <?php echo $student->student_name; ?> - <?php echo $student->term_name; ?> - <?php echo $student->stream_name; ?> - <?php echo $student->section_name; ?></option>
                                                         <?php }
                                                         } ?>
                                                     </select>
                                                 </div>
+                                        
+                                            <div class="form-group staffInfo">
+                                                <label for="staff_id">Staff Info</label>
+                                                <select name="staff_id" id="staff_id" class="form-control input-sm selectpicker" data-live-search="true" >
+                                                    <option value="">Select Staff</option>
+                                                    <?php if (!empty($staffInfo)) {
+                                                        foreach ($staffInfo as $staff) { ?>
+                                                            <option value="<?php echo $staff->staff_id; ?>"><?php echo $staff->staff_id; ?> - <?php echo $staff->name; ?></option>
+                                                    <?php }
+                                                    } ?>
+                                                </select>
                                             </div>
-                                        <div class="col-md-8 col-12">
+                                        </div>
+                                        <div class="col-md-6 col-12">
                                             <div class="form-group">
                                                 <label for="book_title">Book Title<span class="text-danger required_star">*</span></label>
                                                 <input type="text" class="form-control required" id="book_title" name="book_title" placeholder="Book title" autocomplete="off" readonly />
@@ -164,7 +198,7 @@ if ($warning) {
                                                     <div class="input-group-append">
                                                         <span class="input-group-text material-icons date-icon">date_range</span>
                                                     </div>
-                                                    <input id="return_date" type="text" name="return_date" class="form-control required datepicker" placeholder="Return Date" autocomplete="off" required />
+                                                    <input id="return_date" type="date" name="return_date" class="form-control required " placeholder="Return Date" autocomplete="off" required />
                                                 </div>
                                             </div>
                                         </div>
@@ -236,6 +270,37 @@ if ($warning) {
             orientation: "bottom",
             format: "dd-mm-yyyy"
 
+        });
+
+        $('.studentInfo').show();
+        $('#user_type_name').val('student');
+        $('#student_id').prop('required',true);
+        $('.staffInfo').hide();
+        
+
+        $('#user_type').on('change', function() {
+            $('#user_type_name').val(this.value);
+           
+            if (this.value == 'staff') {
+                $('.staffInfo').show();
+                $('#staff_id').prop('required',true);
+                $('.studentInfo').hide();
+                $('#student_id').prop('required',false);
+           
+            } else if (this.value == 'student') {
+                $('.studentInfo').show();   
+                $('#student_id').prop('required',true);
+                $('.staffInfo').hide();
+                $('#staff_id').prop('required',false);
+      
+            } else {
+               
+                $('.studentInfo').hide();
+                $('.staffInfo').hide();
+                $('#staff_id').prop('required',false);
+                $('#student_id').prop('required',false);
+               
+            }
         });
 
         $("#getIsbnDetails").click(function() {
