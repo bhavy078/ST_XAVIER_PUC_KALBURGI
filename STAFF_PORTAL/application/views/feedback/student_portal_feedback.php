@@ -309,16 +309,30 @@ $("#btn-chat").click(function() {
                     var toDateTime = value.updated_date_time;
                     var fromHour = new Date(fromDateTime).getHours();
                     var ampm = "AM";
-                    if(fromHour > 12 ) {
-                        fromHour -= 12;
-                        ampm = "PM";
-                    }
-                    var toHour = new Date(toDateTime).getHours();
-                    var toampm = "AM";
-                    if(toHour > 12 ) {
-                        toHour -= 12;
-                        toampm = "PM";
-                    }
+var fromHour = new Date(fromDateTime).getHours();
+if(fromHour >= 12 ) {
+    if(fromHour > 12) {
+        fromHour -= 12;
+    }
+    ampm = "PM";
+}
+var fromMinutes = new Date(fromDateTime).getMinutes();
+fromMinutes = (fromMinutes < 10 ? '0' : '') + fromMinutes;
+var fromTime = fromHour + ":" + fromMinutes + " " + ampm;
+
+var toHour = new Date(toDateTime).getHours();
+var toampm = "AM";
+if(toHour >= 12 ) {
+    if(toHour > 12) {
+        toHour -= 12;
+    }
+    toampm = "PM";
+}
+var toMinutes = new Date(toDateTime).getMinutes();
+toMinutes = (toMinutes < 10 ? '0' : '') + toMinutes;
+var toTime = toHour + ":" + toMinutes + " " + toampm;
+
+
                     $('.modal-title').html('Suggestion From <span style="">Student ID: '+ value.student_id + '</span>');
 
 
