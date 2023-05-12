@@ -216,7 +216,7 @@ $certificate_uploaded_name = array();
                                                             <div class="form-group"> 
                                                                 <label class="student_email mdc-text-field mdc-text-field--filled ">
                                                                     <span class="mdc-text-field__ripple"></span>
-                                                                    <input name="student_email" id="student_email" value="<?php echo $studentInfo->student_email; ?>" class="mdc-text-field__input" type="text" aria-labelledby="my-label-id" autocomplete="off" required>
+                                                                    <input name="student_email" id="student_email" value="<?php echo $studentInfo->student_email; ?>" class="mdc-text-field__input" type="text" aria-labelledby="my-label-id" autocomplete="off" >
                                                                     <span class="mdc-floating-label" id="my-label-id">Student Email</span>
                                                                     <span class="mdc-line-ripple"></span>
                                                                     </label>
@@ -795,7 +795,7 @@ $certificate_uploaded_name = array();
                                                             <div class="form-group">
                                                                 <label class="father_age mdc-text-field mdc-text-field--filled ">
                                                                 <span class="mdc-text-field__ripple"></span>
-                                                                <input type="tel" pattern="[0-9]*" name="father_age" id="father_age" value="<?php echo $studentInfo->father_age; ?>" class="mdc-text-field__input" maxlength="3" aria-labelledby="my-label-id" onkeypress="return isNumber(event)" autocomplete="off" required>
+                                                                <input type="tel" pattern="[0-9]*" name="father_age" id="father_age" value="<?php echo $studentInfo->father_age; ?>" class="mdc-text-field__input" maxlength="3" aria-labelledby="my-label-id" onkeypress="return isNumber(event)" autocomplete="off" >
                                                                 <span class="mdc-floating-label" id="my-label-id">Father's Age</span>
                                                                 <span class="mdc-line-ripple"></span>
                                                                 </label>
@@ -837,7 +837,7 @@ $certificate_uploaded_name = array();
                                                             <div class="form-group"> 
                                                                 <label class="mother_age mdc-text-field mdc-text-field--filled ">
                                                                 <span class="mdc-text-field__ripple"></span>
-                                                                <input type="tel" pattern="[0-9]*" name="mother_age" id="mother_age" value="<?php echo $studentInfo->mother_age; ?>" class="mdc-text-field__input" maxlength="3" aria-labelledby="my-label-id" onkeypress="return isNumber(event)" autocomplete="off" required>
+                                                                <input type="tel" pattern="[0-9]*" name="mother_age" id="mother_age" value="<?php echo $studentInfo->mother_age; ?>" class="mdc-text-field__input" maxlength="3" aria-labelledby="my-label-id" onkeypress="return isNumber(event)" autocomplete="off" >
                                                                 <span class="mdc-floating-label" id="my-label-id">Mother's Age</span>
                                                                 <span class="mdc-line-ripple"></span>
                                                                 </label>

@@ -429,7 +429,7 @@ if(!empty($documentInfo)){
                                                  <input name="student_email" id="student_email"
                                                      value="<?php echo $student_email; ?>" class="mdc-text-field__input"
                                                      type="text" aria-labelledby="my-label-id" autocomplete="off" placeholder="Student Email"
-                                                     required>
+                                                     >
                                                  <span class="mdc-floating-label" id="my-label-id">Student Email</span>
                                                  <span class="mdc-line-ripple"></span>
                                              </label>
@@ -1251,7 +1251,7 @@ if(!empty($documentInfo)){
                                          <input type="tel" pattern="[0-9]*" name="father_age" id="father_age" placeholder="Father's Age"
                                              value="<?php echo $father_age; ?>" class="mdc-text-field__input"
                                              maxlength="3" aria-labelledby="my-label-id"
-                                             onkeypress="return isNumber(event)" autocomplete="off" required>
+                                             onkeypress="return isNumber(event)" autocomplete="off" >
                                          <span class="mdc-floating-label" id="my-label-id">Father's Age</span>
                                          <span class="mdc-line-ripple"></span>
                                      </label>
@@ -1305,7 +1305,7 @@ if(!empty($documentInfo)){
                                          <input type="tel" pattern="[0-9]*" name="mother_age" id="mother_age" placeholder="Mother's Age"
                                              value="<?php echo $mother_age; ?>" class="mdc-text-field__input"
                                              maxlength="3" aria-labelledby="my-label-id"
-                                             onkeypress="return isNumber(event)" autocomplete="off" required>
+                                             onkeypress="return isNumber(event)" autocomplete="off" >
                                          <span class="mdc-floating-label" id="my-label-id">Mother's Age</span>
                                          <span class="mdc-line-ripple"></span>
                                      </label>
