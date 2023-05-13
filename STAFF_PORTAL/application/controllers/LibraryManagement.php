@@ -215,10 +215,11 @@ class LibraryManagement extends BaseController
 
             $this->form_validation->set_rules('access_code', 'Access Code', 'trim|required');
             $this->form_validation->set_rules('book_title','book title','required'); 
-            $this->form_validation->set_rules('category','category','required');
+          //  $this->form_validation->set_rules('category','category','required');
             $this->form_validation->set_rules('author_name', 'author name', 'trim|required');
             $this->form_validation->set_rules('publisher_name', 'publisher name', 'trim|required');
-            $this->form_validation->set_rules('shelf_no', 'shelf no', 'trim|required');
+           // $this->form_validation->set_rules('shelf_no', 'shelf no', 'trim|required');
+
             $row_id = $this->input->post('row_id');
            
             if($this->form_validation->run() == FALSE){
@@ -277,7 +278,6 @@ class LibraryManagement extends BaseController
                 }
 
                 $return_id = $this->library->updateBookInfo($row_id,$libraryInfo);
-                    
                 if($return_id == true){
                     $this->session->set_flashdata('success', 'Library info Updated Successfully');
                 }else{
