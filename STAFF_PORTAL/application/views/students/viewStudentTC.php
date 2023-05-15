@@ -408,12 +408,12 @@ h4{
                                         </tr>
 
                                         <tr>
-                                                <th colspan='2' rowspan='5'><br/>College DISE Code : &nbsp; &nbsp; &nbsp; 29040512405
+                                                <th colspan='2' rowspan='5'><br/>College DISE Code : &nbsp; &nbsp; &nbsp;29040512405
                                                 <!-- <th><?php echo date('d/m/Y',strtotime($record->dob)); ?></th> -->
                                             
                                               <br/>  Student No. &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : &nbsp; &nbsp; &nbsp;  <?php echo $record->student_id; ?> 
-                                               <br/>   Admission No.  &nbsp; &nbsp; &nbsp; : &nbsp; &nbsp; &nbsp; <?php echo $record->admission_no; ?>
-                                               <br/> Class Reg No. &nbsp; &nbsp; &nbsp; &nbsp; : &nbsp; &nbsp; &nbsp; <?php echo $record->register_no; ?>
+                                               <!-- <br/>   Admission No.  &nbsp; &nbsp; &nbsp; : &nbsp; &nbsp; &nbsp; <?php echo $record->admission_no; ?>
+                                               <br/> Class Reg No. &nbsp; &nbsp; &nbsp; &nbsp; : &nbsp; &nbsp; &nbsp; <?php echo $record->register_no; ?> -->
                                                <div class="col-12">
                                                 <h6 class="place_date" style="font-size: 16px;"> <span class="footer_sign"><br/><br/><br/><br/><br/><br/>PRINCIPAL</span></h6>
                                             </div>
