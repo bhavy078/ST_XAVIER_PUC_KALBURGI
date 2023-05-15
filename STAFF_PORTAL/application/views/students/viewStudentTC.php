@@ -343,8 +343,8 @@ h4{
                                             <th><?php echo $record->nationality; ?> <!--<?php echo $record->religion; ?> <?php echo $record->caste; ?>--></th>
                                         </tr>
                                         <tr>
-                                            <th>04. <span style="margin-left: 10px;">a. Father's Name</span>
-                                                <br><span style="margin-left: 40px;line-height: 2;">b. Mother's Name</span>
+                                            <th>04. <span style="margin-left: 10px;">a) Father's Name</span>
+                                                <br><span style="margin-left: 40px;line-height: 2;">b) Mother's Name</span>
                                             </th>
                                             <th>
                                                 <?php echo strtoupper($record->father_name); ?>
@@ -356,7 +356,7 @@ h4{
                                             <th><?php echo $record->religion; ?></th>
                                         </tr>
                                         <tr>
-                                            <th>06. <span class="spacing_left">Whether the candidate belongs to Scheduled Caste or Tribe</span>
+                                            <th>06. <span class="spacing_left">Whether the candidate belongs to Scheduled &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Caste or Tribe</span>
                                             </th>
                                             <th><?php echo $record->is_belongs_sc_st; ?></th>
                                         </tr>
@@ -369,14 +369,15 @@ h4{
                                             <th><?php echo date('d/m/Y',strtotime($record->leaving_date)); ?></th>
                                         </tr>
                                         <tr>
-                                            <th>09. <span class="spacing_left">Class in which the student was studying at the time of leaving</span></th>
+                                            <th>09. <span class="spacing_left">Class in which the student was studying at the &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;time of leaving</span></th>
                                             <th><?php echo $record->term_name; ?></th>
                                         </tr>
                                         <tr>
-                                            <th>10. <span class="spacing_left">Subjects studied at the time of leaving</span><span style="margin-left: 6px;"><br/><span style="margin-left: 50px;">a. Languages</span>
-                                                <br><span style="margin-left: 50px;">b. Optionals</span>
+                                            <th>10. <span class="spacing_left">Subjects studied at the time of leaving</span><span style="margin-left: 6px;"><br/><span style="margin-left: 50px;">a) Languages</span>
+                                                <br><span style="margin-left: 50px;">b) Optionals</span>
                                             </th>
                                             <th>
+                                              
                                                 <span>ENGLISH,<?php echo strtoupper($record->elective_sub); ?></span>
                                                 <br><span><?php echo strtoupper($subject); ?></span>
                                             </th>
@@ -387,7 +388,7 @@ h4{
                                         </tr>
                                     
                                         <tr>
-                                            <th>12. <span class="spacing_left">Whether Qualified for promotion to a higher class</span></th>
+                                            <th>12. <span class="spacing_left">Whether Qualified for promotion to a higher &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class</span></th>
                                             <th><?php echo $record->is_promoted; ?>
                                         <!--.' '.$record->reason_unqualified-->
                                         </th>
@@ -398,7 +399,7 @@ h4{
                                         </tr> -->
                                       
                                         <tr>
-                                            <th>13. <span class="spacing_left">Whether the student has paid all the fees due to the college</span></th>
+                                            <th>13. <span class="spacing_left">Whether the student has paid all the fees due &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;to the college</span></th>
                                             <th><?php echo $record->is_cleared_college_due; ?></th>
                                         </tr>
                                         <tr>
@@ -407,12 +408,12 @@ h4{
                                         </tr>
 
                                         <tr>
-                                                <th colspan='2' rowspan='5'><br/>College DISE Code :
+                                                <th colspan='2' rowspan='5'><br/>College DISE Code : &nbsp; &nbsp; &nbsp; 29040512405
                                                 <!-- <th><?php echo date('d/m/Y',strtotime($record->dob)); ?></th> -->
                                             
-                                              <br/>  Student No. &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : &nbsp; &nbsp; &nbsp;  <?php echo $record->student_no; ?> 
-                                               <br/>   Admission No.  &nbsp; &nbsp; &nbsp; : &nbsp; &nbsp; &nbsp; <?php echo $record->application_no; ?>
-                                               <br/> Class Reg No. &nbsp; &nbsp; &nbsp; &nbsp; : &nbsp; &nbsp; &nbsp; <?php echo $record->student_id; ?>
+                                              <br/>  Student No. &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : &nbsp; &nbsp; &nbsp;  <?php echo $record->student_id; ?> 
+                                               <br/>   Admission No.  &nbsp; &nbsp; &nbsp; : &nbsp; &nbsp; &nbsp; <?php echo $record->admission_no; ?>
+                                               <br/> Class Reg No. &nbsp; &nbsp; &nbsp; &nbsp; : &nbsp; &nbsp; &nbsp; <?php echo $record->register_no; ?>
                                                <div class="col-12">
                                                 <h6 class="place_date" style="font-size: 16px;"> <span class="footer_sign"><br/><br/><br/><br/><br/><br/>PRINCIPAL</span></h6>
                                             </div>
@@ -594,9 +595,10 @@ function getSubjectsName($stream_name){
     $MSBA = 'Basic Mathematics,Statistics,<br/>Business Studies,Accountancy';
     $CSBA = 'Computer Science,Statistics,<br/>Business Studies,Accountancy';
     $SEBA = 'Statistics,Economics,Business Studies,Accountancy';
-    $CEBA = 'Computer Science,Economics,<br/>Business Studies,Accountancy';
+    $EBAC = 'Computer Science,Economics,<br/>Business Studies,Accountancy';
     //art
     $HEPS ='History,Economics,Political Science,Sociology';
+    $HEPE = 'History,Economics,Political Science and Education';
     switch ($stream_name) {
         case "PCMB":
             return  $PCMB;
@@ -622,11 +624,14 @@ function getSubjectsName($stream_name){
         case "SEBA":
             return $SEBA;
             break;
-        case "CEBA":
-            return $CEBA;
+        case "EBAC":
+            return $EBAC;
             break;
         case "HEPS":
             return $HEPS;
+            break;
+        case "HEPE":
+            return $HEPE;
             break;
     }
 }
