@@ -103,7 +103,7 @@ class LibraryManagement extends BaseController
             $this->form_validation->set_rules('category','category','required');
             $this->form_validation->set_rules('author_name', 'author name', 'trim|required');
             $this->form_validation->set_rules('publisher_name', 'publisher name', 'trim|required');
-            $this->form_validation->set_rules('shelf_no', 'shelf no', 'trim|required');
+            //$this->form_validation->set_rules('shelf_no', 'shelf no', 'trim|required');
             $this->form_validation->set_rules('access_code', 'Access code', 'trim|required');
             if($this->form_validation->run() == FALSE) {
                 $this->libraryManagementSystem();
@@ -121,6 +121,7 @@ class LibraryManagement extends BaseController
                 $no_of_copies = $this->security->xss_clean($this->input->post('no_of_copies'));
                 $year = $this->security->xss_clean($this->input->post('year'));
                 $pages = $this->security->xss_clean($this->input->post('pages'));
+              
                 
                 $isAccessExist = $this->library->checkAccessNumberExists($access_code);
                 $image_path="";
@@ -139,8 +140,13 @@ class LibraryManagement extends BaseController
                     $post['image_path']=$image_path;
                 }
                
+               $books = array();
+                //$last_access_no = $this->library->getLastAccessId();
+             
+
+                for ($i = 0; $i < $no_of_copies; $i++) {
                 $libraryInfo = array(
-                    'access_code'=>$access_code,
+                    'access_code'=>$access_code + $i,
                     'isbn'=>$isbn,
                     'upload_pdf'=>$image_path,
                     'book_title'=>$book_title,
@@ -156,9 +162,12 @@ class LibraryManagement extends BaseController
                     'bill_date'=>date('Y-m-d',strtotime($bill_date)),
                     'created_by'=>$this->staff_id,
                     'created_date_time'=>date('Y-m-d H:i:s'));
-                
+                    array_push($books, $libraryInfo);
+                }
+               
+                //log_message('debug','lib'.print_r($books,true));
                 if($isAccessExist == 0){
-                    $returnId = $this->library->addLibraryMgmtInfo($libraryInfo);
+                    $returnId = $this->library->addLibraryMgmtInfo($books);
                 }
                 
                 if($returnId > 0 ){

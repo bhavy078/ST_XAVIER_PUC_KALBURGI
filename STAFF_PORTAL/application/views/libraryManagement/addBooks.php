@@ -131,6 +131,7 @@ if ($warning) {
                                                 </select>
                                             </div>
                                         </div>
+                                      
                                         <div class="col-md-4 col-12">
                                             <div class="form-group">
                                                 <label for="shelf_no">Shelf No.<span class="text-danger required_star"></span></label>
@@ -164,8 +165,8 @@ if ($warning) {
                                         </div>
                                         <div class="col-md-4 col-12">
                                             <div class="form-group">
-                                                <label for="book_title">No. of copies</label>
-                                                <input type="text" class="form-control required" id="no_of_copies" name="no_of_copies" placeholder="Enter No. of Copies" autocomplete="off"  />
+                                                <label for="book_title">No. of copies<span class="text-danger required_star">*</span></label>
+                                                <input type="text" class="form-control required" id="no_of_copies" name="no_of_copies" placeholder="Enter No. of Copies" autocomplete="off" required />
                                             </div>
                                         </div>
                                         <div class="col-md-4 col-12">
@@ -198,8 +199,6 @@ if ($warning) {
                                     </div>
                                     <input style="float:right;margin:10px;" type="submit" class="btn btn-primary" value="Submit" />
                                 </div>
-
-
                             </div>
                         </form>
                     </div>

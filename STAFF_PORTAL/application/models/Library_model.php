@@ -95,7 +95,7 @@ class Library_model extends CI_Model
 
     public function addLibraryMgmtInfo($libraryInfo) {
         $this->db->trans_start();
-        $this->db->insert('tbl_library_managemnt',$libraryInfo);
+        $this->db->insert_batch('tbl_library_managemnt',$libraryInfo);
         $insert_id = $this->db->insert_id();
         $this->db->trans_complete();
         return $insert_id;
@@ -354,9 +354,17 @@ class Library_model extends CI_Model
     }
 
     public function getAllIssuedBookInfo($filter, $page, $segment){
+     
         
         $this->db->from('tbl_library_issue_info as issue'); 
+       
         if($filter['user_type'] == 'student'){
+            $this->db->select('issue.access_code, issue.isbn, issue.student_id,issue.row_id, 
+            issue.issue_date, issue.return_date,issue.actual_return_date,student.student_name,
+            issue.fine, issue.days_delayed, issue.remarks');
+
+        $this->db->join('tbl_students_info as student','student.student_id = issue.student_id','left');
+
         if(!empty($filter['access_code'])){
             $this->db->where('issue.access_code', $filter['access_code']);
         }
@@ -387,6 +395,12 @@ class Library_model extends CI_Model
         $this->db->where_in('issue.user_type', ['student',' ']);
         
     }else{
+
+        $this->db->select('issue.access_code, issue.isbn, issue.student_id,issue.row_id,  
+        issue.issue_date, issue.return_date,issue.actual_return_date,staff.name as student_name,
+        issue.fine, issue.days_delayed, issue.remarks');
+        $this->db->join('tbl_staff as staff','staff.staff_id = issue.student_id','left');
+
         if(!empty($filter['access_code'])){
             $this->db->where('issue.access_code', $filter['access_code']);
         }
@@ -506,6 +520,16 @@ class Library_model extends CI_Model
         $this->db->where('library.is_deleted', 0);
         $query = $this->db->get();
         return $query->num_rows();
+    }
+
+    public function getLastAccessId(){
+        $this->db->select('library.access_code');
+        $this->db->from('tbl_library_managemnt as library');
+        $this->db->where('library.is_deleted', 0);
+        $this->db->order_by('library.row_id', 'DESC');
+        $this->db->limit(1);
+        $query = $this->db->get();
+        return $query->row()->access_code;
     }
 
 }

@@ -140,6 +140,7 @@ if ($warning) {
                                                 </select>
                                             </div>
                                         </div>
+                                        
                                         <div class="col-md-4 col-12">
                                             <div class="form-group">
                                                 <label for="book_title">Bill No.</label>
@@ -149,7 +150,7 @@ if ($warning) {
                                         <div class="col-md-4 col-12">
                                             <div class="form-group">
                                                 <label for="book_title">Bill Date</label>
-                                                <input type="text" class="form-control required datepicker" id="bill_date" name="bill_date" value= "<?php  if(empty($libraryInfo->bill_date) || $libraryInfo->bill_date == '0000-00-00'){
+                                                <input type="text" class="form-control required datepicker" id="bill_date" name="bill_date" value= "<?php  if(empty($libraryInfo->bill_date)|| $libraryInfo->bill_date == '1970-01-01' || $libraryInfo->bill_date == '0000-00-00'){
                                                        echo "";
                                                     } else{
                                                         echo date('d-m-Y',strtotime($libraryInfo->bill_date));

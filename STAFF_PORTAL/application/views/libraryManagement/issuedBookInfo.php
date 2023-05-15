@@ -117,6 +117,11 @@ if ($success) {
                                     </td>
                                     <td>
                                         <div class="form-group mb-0">
+                                            <input type="text" value="<?php echo $student_name; ?>" name="student_name" id="student_name" class="form-control input-sm" placeholder="By Name" autocomplete="off">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group mb-0">
                                             <input type="text" value="<?php echo $issue_date; ?>" name="issue_date" id="issue_date" class="form-control input-sm datepicker" placeholder="By issued date" autocomplete="off">
                                         </div>
                                     </td>
@@ -159,6 +164,7 @@ if ($success) {
                                 <tr class="table_row_background text-center">
                                     <th>Accession No.</th>
                                     <th>Student ID</th>
+                                    <th> Name</th>
                                     <th>Issue Date</th>
                                     <th>Renewal Date</th>
                                     <th>Given Date</th>
@@ -175,6 +181,7 @@ if ($success) {
                                         <tr>
                                         <th class="text-center"><?php echo strtoupper($library->access_code); ?></th>
                                             <th class="text-center"><?php echo $library->student_id; ?></th>
+                                            <th class="text-center"><?php echo $library->student_name; ?></th>
                                             <th class="text-center"><?php echo date('d-m-Y',strtotime($library->issue_date)); ?></th>
                                             <?php if($library->renewal_date == NULL || $library->renewal_date == '1970-01-01'){
                                                     $RD = '';

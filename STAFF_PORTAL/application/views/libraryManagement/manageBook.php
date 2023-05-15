@@ -153,7 +153,7 @@ if ($success) {
                             </form>
                             <thead>
                                 <tr class="table_row_background text-center">
-                                    <th width="100">Bill Date/No.</th>
+                                    <th width="100">Bill No./Date</th>
                                     <!-- <th>Bill No.</th> -->
                                     <th>Price</th>
                                     <th>Accession No.</th>
