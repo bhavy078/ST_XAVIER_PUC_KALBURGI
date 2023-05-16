@@ -181,7 +181,110 @@ class User extends BaseController
                 Search by Staff ID 
             </div>';
         }
-        
+
+        $current_date_month =date('m-d');
+        $staffDob = array();
+        $staffbirthDate = $this->staff->getAllStaffInfo();
+        //log_message('debug','data'.print_r($staffbirthDate,true));
+        for($i=0;$i<count($staffbirthDate);$i++) {
+            $staff_dob = date('m-d',strtotime($staffbirthDate[$i]->dob));
+            //log_message('debug','data'.print_r($staff_dob,true));
+                if($staffbirthDate[$i]->dob != '0000-00-00' && $staffbirthDate[$i]->dob != ''){
+                 if($staff_dob == $current_date_month){
+                    $staffDob[$i] = $staffbirthDate[$i]->staff_id;
+                 }
+    
+               }
+            }
+
+            if(!empty($staffDob)){
+                $data['staffsBirthday'] = $this->staff->getStaffBirthdayInfoById($staffDob);
+               // log_message('debug','data'.print_r($data['staffsBirthday'],true));
+                }else{
+                    $data['staffDob'] =  '';
+                    $data['staffsBirthday'] = '';
+                    $data['staffbirthdayMsg'] = '<div class=" p-1 mb-0" role="alert">
+                            No Birthdays Today!
+                          </div>';
+                }
+
+                $studentDob = array();
+           $studentbirthDate = $this->student->getstudentInfo();
+            for($j=0;$j<count($studentbirthDate);$j++) {
+               if(!empty($studentbirthDate[$j]->dob)){
+                 if($studentbirthDate[$i]->dob != '0000-00-00' && $studentbirthDate[$i]->dob != ''){
+               $student_dob = date('m-d',strtotime($studentbirthDate[$j]->dob));
+                     if($student_dob == $current_date_month){
+                       
+                        $studentDob[$j] = $studentbirthDate[$j]->dob;
+                     }  
+               }
+            }   
+           }
+
+           if(!empty($studentDob)){
+            $data['studentsBirthday'] = $this->student->getStudentsBirthdayNotification($studentDob);
+            }else{
+                $data['studentDob'] =  '';
+                $data['studentsBirthday'] = '';
+                $data['studentbirthdayMsg'] = '<div class=" p-1 mb-0" role="alert">
+                        No Birthdays Today!
+                      </div>';
+            }
+                
+                $start_date = date('d')+1;
+            $end_date = date('d')+6;
+            // log_message('debug','data'.print_r($end_date,true));
+            $fromDate = date('m').'-'.$start_date;
+            $toDate = date('m').'-'.$end_date;
+
+            $staff_upcoming = array();
+            $staffUpcomingBday =  $this->staff->getAllStaffInfo();
+
+            for($i=0;$i<count($staffUpcomingBday);$i++) {
+                $staff_up = date('m-d',strtotime($staffUpcomingBday[$i]->dob));
+                if($staffUpcomingBday[$i]->dob != '0000-00-00' && $staffUpcomingBday[$i]->dob != ''){
+                        if($staff_up >= $fromDate && $staff_up <= $toDate){
+                            $staff_upcoming[$i] = $staffUpcomingBday[$i]->staff_id;
+                        }
+                        }
+           }
+
+           if(!empty($staff_upcoming)){
+            $data['staffUpcomingBday'] = $this->staff->getStaffBirthdayInfoById($staff_upcoming);
+            }else{
+                $data['staff_upcoming'] =  '';
+                $data['staffUpcomingBday'] = '';
+                $data['staffUpcomingbirthdayMsg'] = '<div class=" p-1 mb-0" role="alert">
+                        No Upcoming Birthdays!
+                      </div>';
+            }
+
+            $student_upcoming = array();
+       $studentUpcomingBday = $this->student->getstudentInfo();
+        for($j=0;$j<count($studentUpcomingBday);$j++) {
+            if(!empty($studentUpcomingBday[$j]->dob)){
+           $student_up = date('m-d',strtotime($studentUpcomingBday[$j]->dob));
+                 if($student_up >= $fromDate && $student_up <= $toDate){
+                   
+                    $student_upcoming[$j] = $studentUpcomingBday[$j]->dob;
+                    
+                 }
+            }
+
+       }
+
+       if(!empty($student_upcoming)){
+        $data['studentUpcomingBday'] = $this->student->getStudentsBirthdayNotification($student_upcoming);
+
+        }else{
+            $data['student_upcoming'] =  '';
+            $data['studentUpcomingBday'] = '';
+            $data['studentUpcomingbirthdayMsg'] = '<div class=" p-1 mb-0" role="alert">
+                    No Upcoming Birthdays!
+                  </div>';
+        }
+    
         if($this->role == ROLE_TEACHING_STAFF){
             $filter['role'] = 'Staff';
             $filter['role_one'] = 'ALL';

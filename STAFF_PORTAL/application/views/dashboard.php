@@ -1639,6 +1639,120 @@ if ($warning) {
         </div>
     <?php } ?>
 
+    <?php if($role == ROLE_ADMIN || $role == ROLE_PRINCIPAL || $role == ROLE_TEACHING_STAFF || $role == ROLE_VICE_PRINCIPAL || $role == ROLE_PRIMARY_ADMINISTRATOR || $role == ROLE_OFFICE ) { ?>
+
+    <div class="col-lg-6 col-md-6 col-12 mb-2 padding_left_right_null">
+            <div class="card-header border-bottom card_head_dashboard settings_card" style="display: flex;flex-wrap: wrap;justify-content: space-between;">
+                <h6 class="mb-0 text-dark">Today's Staff Birthdays</h6>
+                
+            </div>
+            <div class="card card-small">
+                <div class="card-body p-0" id="demo" class="collapse">
+                    <div class="row  p-1">
+                        <div class="col-12">
+                            <?php if (!empty($staffsBirthday)) {
+                                foreach ($staffsBirthday as $birth) { ?>
+                                    <div class="col-12">
+                                        <h6 class="mb-0" style="font-weight: 600;"><i class="material-icons">cake</i> <?php echo $birth->name; ?> - <?php echo $birth->role; ?></h6>
+                                        <hr class="m-1">
+                                    </div>
+
+                                <?php }
+                            } else { ?>
+                                <div class="col-12 text-center">
+                                    <h6 class="mb-0" style="font-weight: 600;"><?php echo $staffbirthdayMsg; ?></h6>
+                                </div>
+
+                            <?php }  ?>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12" data-toggle="collapse" data-target="#birth">
+                            <a class="float-right mb-0  mr-2 mt-2 setting_pointer">Click here </a>
+                            <h6 class="mb-0 text-left dash_upcoming_birthday_title"><b>Upcoming Birthday</b></h6>
+
+                        </div>
+                        <div class="col-12 collapse" id="birth">
+
+                            <?php if (!empty($staffUpcomingBday)) {
+                                foreach ($staffUpcomingBday as $birth) { ?>
+                                    <div class="col-12">
+                                        <h6 class="mb-0" style="font-weight: 600;"><i class="material-icons">cake</i> <?php $result = strtotime($birth->dob);
+                                                                                                                        echo date('d-F', $result);;
+                                                                                                                        ?> - <?php echo $birth->name; ?> - <?php echo $birth->role; ?></h6>
+                                        <hr class="m-1">
+                                    </div>
+
+                                <?php }
+                            } else { ?>
+                                <div class="col-12 text-center">
+                                    <h6 class="mb-0" style="font-weight: 600;"><?php echo $staffUpcomingbirthdayMsg; ?></h6>
+                                </div>
+                            <?php }  ?>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 col-md-6 col-12 mb-2 padding_left_right_null">
+            <div class="card-header border-bottom card_head_dashboard settings_card" style="display: flex;flex-wrap: wrap;justify-content: space-between;">
+                <h6 class="mb-0 text-dark">Today's Students Birthday</h6>
+                <!-- <button class="btn btn-sm btn-primary birthDayWishBtn" data-target="student">Wish</button> -->
+            </div>
+            <div class="card card-small">
+                <div class="card-body p-0" id="demo" class="collapse">
+                    <div class="row  p-1">
+                        <div class="col-12">
+                            <?php if (!empty($studentsBirthday)) {
+                                foreach ($studentsBirthday as $birth) { ?>
+                                    <div class="col-12">
+                                        <h6 class="mb-0" style="font-weight: 600;"><i class="material-icons">cake</i> <?php echo $birth->student_name; ?> - <?php echo $birth->term_name; ?></h6>
+                                        <hr class="m-1">
+                                    </div>
+
+                                <?php }
+                            } else { ?>
+                                <div class="col-12 text-center">
+                                    <h6 class="mb-0" style="font-weight: 600;"><?php echo $studentbirthdayMsg; ?></h6>
+                                </div>
+                            <?php }  ?>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-12" data-toggle="collapse" data-target="#stdbirth">
+                            <a class="float-right mb-0  mr-2 mt-2 setting_pointer">Click here </a>
+                            <h6 class="mb-0 text-left dash_upcoming_birthday_title"><b>Upcoming Birthday</b></h6>
+
+                        </div>
+                        <div class="col-12 collapse" id="stdbirth">
+
+                            <?php if (!empty($studentUpcomingBday)) {
+                                foreach ($studentUpcomingBday as $birth) { ?>
+                                    <div class="col-12">
+                                        <h6 class="mb-0" style="font-weight: 600;"><i class="material-icons">cake</i> <?php $result = strtotime($birth->dob);
+                                                                                                                                                        echo date('d-F', $result);;
+                                                                                                                                            ?> - <?php echo $birth->student_name; ?> - <?php echo $birth->term_name; ?></h6>
+                                        <hr class="m-1">
+                                    </div>
+
+                                <?php }
+                            } else { ?>
+                                <div class="col-12 text-center">
+                                    <h6 class="mb-0" style="font-weight: 600;"><?php echo $studentUpcomingbirthdayMsg; ?></h6>
+                                </div>
+                            <?php }  ?>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <?php } ?>
+
     <!-- <?php if ($role == ROLE_NON_TEACHING_STAFF || $role == ROLE_ADMIN) { ?>
         <div class="col-lg-6 col-md-6 col-12 mt-1 mb-2 padding_left_right_null">
             <div class="card card-small h-100">
@@ -1761,6 +1875,8 @@ if ($warning) {
     </div> -->
     <!-- End of Event Calendar -->
 </div>
+
+
 <!-- Event Calendar Scripts -->
 <link href="<?= base_url() ?>assets/calendar/main.css" rel='stylesheet' />
 <script src="<?= base_url() ?>assets/calendar/main.js"></script>

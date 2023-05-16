@@ -215,7 +215,7 @@ class Staff_model extends CI_Model
     {
         $this->db->select('staff.type, staff.row_id, staff.staff_id, 
         staff.email, staff.name,dept.name as department,
-         staff.mobile, Role.role, staff.address');
+         staff.mobile, Role.role, staff.address,staff.dob');
         $this->db->from('tbl_staff as staff'); 
         $this->db->join('tbl_roles as Role', 'Role.roleId = staff.role','left');
         $this->db->join('tbl_department as dept', 'dept.dept_id = staff.department_id','left');
@@ -718,4 +718,18 @@ class Staff_model extends CI_Model
         $query = $this->db->get();
         return $query->result();
     }
+
+    function getStaffBirthdayInfoById($staff_id){
+        $this->db->select('staff.user_name, staff.doj, staff.gender, staff.dob, staff.type, staff.row_id, 
+           staff.staff_id, staff.email, staff.name, staff.mobile, 
+           Role.role, staff.role as role_id, staff.photo_url, staff.address, staff.department_id,staff.aadhar_no,staff.voter_no,
+           staff.pan_no,staff.blood_group');
+           $this->db->from('tbl_staff as staff');
+           $this->db->join('tbl_roles as Role', 'Role.roleId = staff.role','left');
+           $this->db->where_in('staff.staff_id', $staff_id); 
+           $this->db->where('staff.is_deleted', 0);
+           $query = $this->db->get();
+           return $query->result();
+       }
+   
 }

@@ -843,8 +843,10 @@ class students_model extends CI_Model
         std.date_of_admission,
         std.elective_sub,
         std.hall_ticket_no,
-        std.student_no,
+        std.student_id,
+        std.register_no,
         std.application_no,
+        std.admission_no
        ');
         $this->db->from('tbl_students_info as std');
         $this->db->join('tbl_applied_students_tc_info as tc','tc.student_id = std.student_id','left');
@@ -1390,7 +1392,7 @@ class students_model extends CI_Model
 
         public function getInfoForStudyCertificate($row_id){
             $this->db->select('std.intake_year,request.row_id as receipt_id,std.student_name,std.section_name,std.student_id,std.mother_tongue,std.gender,
-            std.mother_name,request.row_id as receipt_no,std.father_name,request.classes_from,request.classes_to,request.college_from,request.college_to');
+            std.mother_name,request.row_id as receipt_no,std.father_name,request.classes_from,request.classes_to,request.college_from,request.college_to,std.dob,std.program_name,std.term_name');
             $this->db->from('tbl_students_info as std');
             $this->db->join('tbl_request_form as request', 'request.student_row_id = std.row_id','left');
             $this->db->where_in('request.row_id', $row_id);
@@ -1454,4 +1456,33 @@ class students_model extends CI_Model
             return TRUE;
         }
 
+
+        public function getstudentInfo(){   
+            $this->db->select('student.row_id,student.student_id, student.student_name, student.dob, student.gender, student.mobile,
+            student.application_no,student.intake_year,student.term_name,student.stream_name,student.section_name');
+            $this->db->from('tbl_students_info as student'); 
+            // $this->db->join('tbl_student_academic_info as academic', 'academic.rel_student_row_id = student.row_id');
+            $this->db->where('student.is_active', 1);
+           // $this->db->where('academic.is_current', 1);
+            $this->db->where('student.is_deleted', 0);
+            $this->db->order_by('student.term_name','asc');
+            $query = $this->db->get();
+            return $query->result();
+        }
+        
+
+        function getStudentsBirthdayNotification($dob){
+            $this->db->select('student.row_id,student.student_id, student.student_name, student.dob, student.gender, student.mobile,
+            student.application_no,student.intake_year,student.term_name,student.stream_name,student.section_name');
+            $this->db->from('tbl_students_info as student'); 
+            // $this->db->join('tbl_student_academic_info as academic', 'academic.rel_student_row_id = student.row_id');
+            $this->db->where_in('student.dob', $dob);
+            $this->db->where('student.is_active', 1);
+           // $this->db->where('academic.is_current', 1);
+            $this->db->where('student.is_deleted', 0);
+            $this->db->order_by('student.term_name','asc');
+            $query = $this->db->get();
+            $result = $query->result();        
+            return $result;
+        }
 }
