@@ -115,7 +115,7 @@ foreach ($studentInfo as $std) {
         
             <p width="100%" style="text-align: justify;font-size: 14pt; font-family: times new roman;">This is to certify that <?php echo strtoupper($std->student_name) ?>&nbsp;
                 <?php if(!empty($std->gender == "MALE")){ echo "S/o"; } else{ echo "D/o";} ?>
-                  &nbsp;<?php if(!empty($std->father_name)){ echo strtoupper($std->father_name); } else{ echo strtoupper($std->mother_name);}?> is a bonafide student of St Xavier's P U College studying in <?php echo $std->term_name?> <?php echo $std->program_name?> for the academic year 2023-24. <?php if(!empty($std->gender == "MALE")){ echo "His"; } else{ echo "Her";} ?> date of birth is <?php echo date('d-m-Y',strtotime($std->dob)) ?> as per college record.
+                  &nbsp;<?php if(!empty($std->father_name)){ echo strtoupper($std->father_name); } else{ echo strtoupper($std->mother_name);}?> is bonafide student of St Xavier's P U College studying in <?php echo $std->term_name?> <?php echo $std->program_name?> for the academic year 2023-24. <?php if(!empty($std->gender == "MALE")){ echo "His"; } else{ echo "Her";} ?> date of birth is <?php echo date('d-m-Y',strtotime($std->dob)) ?> as per college record.
             </p>
             <p width="100%" style="text-align: left;font-size: 14pt; font-family: times new roman;"> 
             Admission Registration No. <?php echo $std->student_id?>
