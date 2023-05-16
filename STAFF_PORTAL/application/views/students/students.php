@@ -84,8 +84,6 @@ if ($error) {
                                         <div class="dropdown-divider m-0"></div> -->
                                         <!-- <a class="dropdown-item" href="#" id="study_certificate"><i class="fa fa-file"></i> Study Certificate</a>
                                         <div class="dropdown-divider m-0"></div>
-                                        <a class="dropdown-item" href="#" id="conduct_certificate"><i class="fa fa-file"></i> Conduct Certificate</a>
-                                        <div class="dropdown-divider m-0"></div>
                                         <a class="dropdown-item" href="#" id="mark_card_print"><i class="fa fa-file"></i> Mark Card</a>
                                         <div class="dropdown-divider m-0"></div>
                                         <a class="dropdown-item" href="#" id="excellencia_cetificate"><i class="fa fa-file"></i>Excellencia Certificate</a>
@@ -101,6 +99,8 @@ if ($error) {
                                         <a class="dropdown-item" href="#" id="conduct_certificate"><i class="fa fa-file"></i> Conduct Certificate</a>
                                         <div class="dropdown-divider m-0"></div>
                                         <a class="dropdown-item" href="#" id="mark_card_print"><i class="fa fa-file"></i> Mark Card</a>
+                                        <!-- <a class="dropdown-item" href="#" id="first_year_hall_ticket"><i class="fa fa-file"></i> Hall ticket</a> -->
+                                        
                                         <a class="dropdown-item" href="#" data-toggle="modal" data-target="#downloadReport" class="btn btn-md btn-primary">
                                         <i class="fa fa-download"></i> Export</a>
                                         <!-- <a id="studentBatchModel" class="dropdown-item " href="#"><i class="fa fa-user"></i> Add Batch</a>
@@ -611,7 +611,7 @@ if ($error) {
                     <div class="col-lg-4 col-md-4 col-xs-6">
                         <div class="form-group">
                             <label for="leaving_date" class="col-form-label">Date of Leaving:</label>
-                            <input type="text" placeholder="Select Student Leaving Date" class="form-control " name="leaving_date" id="leaving_date">
+                            <input type="text" placeholder="Select Student Leaving Date" class="form-control datepicker" name="leaving_date" id="leaving_date">
                         </div>
                     </div>
                 </div>

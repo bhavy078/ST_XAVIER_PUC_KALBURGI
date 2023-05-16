@@ -92,8 +92,9 @@ foreach ($studentInfo as $std) {
                     <th class="text-center" style="border-right: 1px solid white !important;">
                        <br/> <img src="<?php echo base_url(); ?>assets/dist/img/logo_stxpuc.jpg" width="80" height="70" alt="PHOTO" class="shcm_logo" />
                     </th>
-                    <td style="font-size:14pt" class="text-center">ST XAVIER'S PRE-UNIVERSITY COLLEGE<br>
-                        <p style="font-size:8pt">&emsp;&ensp;NH 50, FARHATABAD POST, SIRNOOR KALABURAGI - 585308</p>
+                    <td style="font-size:17pt" class="text-center"><b>&emsp;&ensp;&emsp;&ensp;ST XAVIER'S PRE-UNIVERSITY COLLEGE</b><br>
+                        <p style="font-size:10pt">&emsp;&ensp;&emsp;&ensp;&emsp;&ensp;&emsp;&ensp;&emsp;&ensp;
+                        <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>NH 50, SIRNOOR POST, FARHATABAD, KALABURAGI - 585308</b></p>
                         <!-- <p style="margin-top:-45px;">Phone No – 080-4101 0013</p> -->
                 </tr>
                 <tr>
@@ -102,44 +103,32 @@ foreach ($studentInfo as $std) {
             </table>
             <!-- <hr style="color:black"> -->
         </div>
+        <br>
         <div class="row">
             <table>
                 <tr>
-                    <td width="100%" style="text-align:center;font-size:12pt;font-family:times new roman;;">PROFORMA FOR STUDY CERTIFICATE</td>
+                    <td width="100%" style="text-align:center;font-size:16pt;font-family:times new roman;"> <b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STUDY CERTIFICATE<b></td>
                 </tr>
             </table>
         </div>
         <div class="row">
-        <p style="font-size: 12px;text-align:right;">Date:<?php echo date('d-m-Y')?> </p>
-            <p width="100%" style="text-align: justify;font-size: 14pt; font-family: times new roman;">This is to certify that 
-            <?php if(!empty($std->gender == "MALE")){ echo 'Sri'; } else{ echo 'Kum';} ?><u>
-                <?php echo strtoupper($std->student_name) ?>&nbsp;</u> 
+        
+            <p width="100%" style="text-align: justify;font-size: 14pt; font-family: times new roman;">This is to certify that <?php echo strtoupper($std->student_name) ?>&nbsp;
                 <?php if(!empty($std->gender == "MALE")){ echo "S/o"; } else{ echo "D/o";} ?>
-                  <u>&nbsp;<?php if(!empty($std->father_name)){ echo strtoupper($std->father_name); } else{ echo strtoupper($std->mother_name);}?>&nbsp;</u> 
-                has Studied from <u>&nbsp;<?php echo strtoupper($std->classes_from)?>&nbsp;</u> to <u>&nbsp;<?php echo strtoupper($std->classes_to)?>&nbsp;</u> <b>SCIENCE</b> in our institution from 
-            <u>&nbsp;<?php echo $std->college_from?>&nbsp;</u> To <u>&nbsp;<?php echo $std->college_to?>&nbsp;</u> academic years.
-                
+                  &nbsp;<?php if(!empty($std->father_name)){ echo strtoupper($std->father_name); } else{ echo strtoupper($std->mother_name);}?> is a bonafide student of St Xavier's P U College studying in <?php echo $std->term_name?> <?php echo $std->program_name?> for the academic year 2023-24. <?php if(!empty($std->gender == "MALE")){ echo "His"; } else{ echo "Her";} ?> date of birth is <?php echo date('d-m-Y',strtotime($std->dob)) ?> as per college record.
             </p>
-            <p width="100%" style="text-align: justify;text-indent: 50pt;font-size: 14pt; font-family: times new roman;"> The mother tongue of the candidate is <u>&nbsp;<?php echo $std->mother_tongue?>&nbsp;</u>as per the admission register of the institution.
-	The above details are true and correct to the best of my knowledge.
+            <p width="100%" style="text-align: left;font-size: 14pt; font-family: times new roman;"> 
+            Admission Registration No. <?php echo $std->student_id?>
 
             </p>
-           <div class="oval">
-            <p class="oval">Institution Seal</p></div>
-            <p style="font-size: 14px;text-align:right;">Signature of Head of the Institution</p>
-            <br/>
-            <p style="font-size: 14px;text-align:center;">(Name in Block Letters:<?php echo strtoupper($std->student_name) ?>)</p>
-               <hr class="hr_line">
-               <br/>
-               <p style="font-size: 14px;text-align:center;"><br/>COUNTER SIGNED BY ME<br/>Address, Seal & Office Telephone Number<br/>Of the Block Educational Officer / DDPU.
-					    <br/>Mobile Number:
-</p>
-
+          <br>
         </div>
-        <!-- <div class="row">
-        <p style="text-align: justify;font-size: 14pt; font-family: times new roman;">Place :  Mangaluru</p>
-            <p style="text-align: justify;font-size: 14pt; font-family: times new roman;line-height:0.8">Date : <?php echo date('d-m-Y')?></p>
-        </div> -->
+        <div class="row">
+            <p style="text-align: justify;font-size: 14pt; font-family: times new roman;">Date: <?php echo date('d-m-Y')?></p>
+            <p style="text-align: justify;font-size: 14pt; font-family: times new roman;line-height:0.8">Place : Kalaburagi</p>
+
+            <p style="text-align: left;font-size: 14pt; font-family: times new roman;line-height:0.8">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b> Principal</b></p>
+        </div>
     </div>
 <?php
     if ($totalCount != 0) {

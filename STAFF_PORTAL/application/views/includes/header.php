@@ -390,12 +390,12 @@
                                     <span>Issue Certificate</span>
                                 </a>
                             </li>
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a class="nav-link" href="<?php echo base_url(); ?>getAlumniStudentTc">
                                 <i class="material-icons">group</i>
                                 <span>Alumni Tc</span>
                             </a>
-                        </li>
+                        </li> -->
                         <!-- <li class="nav-item">
                             <a class="nav-link" href="<?php echo base_url(); ?>studentRegisterListing">
                                 <i class="material-icons">language</i>
