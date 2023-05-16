@@ -92,7 +92,7 @@
                     </th>
                     <td style="font-size:17pt" class="text-center"><b><i>&emsp;&ensp;&emsp;&ensp;ST XAVIER'S PRE-UNIVERSITY COLLEGE</i></b><br>
                         <p style="font-size:10pt">&emsp;&ensp;&emsp;&ensp;&emsp;&ensp;&emsp;&ensp;&emsp;&ensp;
-                        <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>NH 218, SIRNUR POST - 585 308 - GULBARGA DIST.</b></p>
+                        <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>NH 218, SIRNOOR POST - 585 308 - GULBARGA DIST.</b></p>
                         <!-- <p style="margin-top:-45px;">Phone No – 080-4101 0013</p> -->
                 </tr>
                 <tr>
