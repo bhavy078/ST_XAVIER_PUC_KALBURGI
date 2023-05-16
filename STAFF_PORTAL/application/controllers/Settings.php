@@ -33,6 +33,7 @@ class Settings extends BaseController {
             // $data['sectionInfo'] = $this->settings->getSectionInfo($filter);
             $data['classTimingsInfo'] = $this->settings->getAllClassTimingsInfo();
             $data['timetableShiftInfo'] = $this->settings->getAllTimetableDayShiftingInfo();
+            $data['remarkNameInfo'] = $this->settings->getRemarkNameInfo();
             $data['feeNameInfo'] ="";// $this->settings->getAllFeeNameInfo();
             $data['postInfo'] = "";// $this->settings->getAllPostInfo();
             $data['feeTypeInfo'] = "";//$this->settings->getAllFeeTypeInfo();
@@ -1017,7 +1018,41 @@ class Settings extends BaseController {
         log_message('debug','Total Count= '.$student_count);
         redirect('viewSettings');
        
+    }
 
+
+    function addRemarkName(){
+        if($this->isAdmin() == TRUE){
+            $this->loadThis();
+        }  else {
+                $remark_name =$this->security->xss_clean($this->input->post('remark_name'));
+                $remarkInfo = array('remark_name'=>$remark_name,
+                    'created_by'=>$this->staff_id,
+                    'created_date_time'=>date('Y-m-d H:i:s'));
+                    $result = $this->settings->addRemarkName($remarkInfo);
+                if($result > 0){
+                    $this->session->set_flashdata('success', 'New Student Remark created successfully');
+                } else{
+                    $this->session->set_flashdata('error', 'Student Remark creation failed');
+                }
+                redirect('viewSettings');
+        }
+        
+    }
+
+
+    public function deleteRemarkName(){
+        if($this->isAdmin() == TRUE){
+            $this->loadThis();
+        } else {   
+            $row_id = $this->input->post('row_id');
+            $remarkInfo = array('is_deleted' => 1,
+            'updated_date_time' => date('Y-m-d H:i:s'),
+            'updated_by' => $this->staff_id
+            );
+            $result = $this->settings->deleteRemarkName($remarkInfo, $row_id);
+            if ($result == true) {echo (json_encode(array('status' => true)));} else {echo (json_encode(array('status' => false)));}
+        } 
     }
 
 

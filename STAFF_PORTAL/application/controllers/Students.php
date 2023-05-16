@@ -13,6 +13,7 @@ class Students extends BaseController
         $this->load->model('students_model','student');
         $this->load->model('settings_model','settings');
         $this->load->model('subjects_model','subject');
+        $this->load->model('staff_model','staff');
         $this->load->library('pagination');
         $this->load->library('excel');
         $this->isLoggedIn();   
@@ -54,13 +55,52 @@ class Students extends BaseController
                 $data['by_dob'] = '';
             }
             $data['streamInfo'] = $this->student->getAllStreamName();
-            $count = $this->student->getAllstudentInfoCount($filter);
+
+            // TEACHING STAFF
+            $class_name = array();
+            $section = array(); 
+            $studentData = array(); 
+            $student_row_id = array();
+            $filter['class'] = '';
+            $i = 0;
+            if($this->role == ROLE_TEACHING_STAFF){
+                $staffClassInfo = $this->staff->getSectionByStaffId($this->staff_id);
+                foreach($staffClassInfo as $class){
+                     if($class->section_name == 'ALL'){
+                       $sectionName = '';
+                       }else{
+                       $sectionName = $class->section_name;  
+                    }
+          
+                    $filter['by_term_T'] = $class->term_name;
+            
+                    $filter['by_stream_T'] = $class->stream_name;
+                    
+                $filter['by_Section_T'] = $sectionName;
+                $studentInfo = $this->student->getAllstudentInfoRowId($filter);
+                array_push($studentData,$studentInfo);
+                    // array_push($class_name,trim($class->term_name));
+                    // array_push($section,$sectionName);
+                    // $i++;
+                }
+              
+                 $studentData=array_merge(...$studentData);
+                 $j=0;
+                 foreach($studentData as $std){
+                  $student_row_id[$j] = $std->row_id;
+                  $j++;
+                 }
+                }else{
+  
+                }
+               // ENDDD
+            $count = $this->student->getAllstudentInfoCount($filter,$student_row_id);
             $returns = $this->paginationCompress("studentDetails/", $count, 100);
             $data['totalCount'] = $count;
-            log_message('debug','as'.print_r( $data['totalCount'],true));
+            // log_message('debug','as'.print_r( $data['totalCount'],true));
             $filter['page'] = $returns["page"];
             $filter['segment'] = $returns["segment"];
-            $data['studentInfo'] = $this->student->getAllstudentInfo($filter);
+            $data['studentInfo'] = $this->student->getAllstudentInfo($filter,$student_row_id);
             $this->global['pageTitle'] = ''.TAB_TITLE.' : Student Details';
             $this->loadViews("students/students", $this->global,$data, NULL);
 
@@ -205,6 +245,8 @@ class Students extends BaseController
             $data['subject_attendance'] = $subject_attendance;
             $data['subject_code'] = $subjects_code;
             $data['studentInfo'] = $student;
+            $data['remarkNameInfo'] = $this->settings->getRemarkNameInfo();
+            $data['remarkInfo'] = $this->student->getRemarksData($row_id);
             // $data['studentFamilyInfo'] = $this->student->getStudentFamilyInfoById($row_id);
             // $data['studentImage'] = $this->student->getStudentImageById($row_id);
      
@@ -1649,6 +1691,133 @@ class Students extends BaseController
     }
 
     
+
+    public function addRemarks(){
+        if ($this->isAdmin() == true) {
+            $this->loadThis();
+        } else { 
+
+                
+                $filter = array();
+                $student_Id = $this->security->xss_clean($this->input->post('row_id'));
+                $remarks_type_id = $this->security->xss_clean($this->input->post('remarks_type_id'));
+                $date = $this->security->xss_clean($this->input->post('date'));
+                $description = $this->security->xss_clean($this->input->post('description'));
+               
+                $image_path="";
+                $target_dir="upload/remarks/";
+                if(!file_exists($target_dir)){
+                    mkdir($target_dir,0777);
+                }
+                $config=['upload_path' => $target_dir,
+                'allowed_types' => 'pdf|jpeg|jpg|png','overwrite' => TRUE,'max_size' => '2048',
+                'overwrite' => TRUE,'file_ext_tolower' => TRUE];
+                $this->load->library('upload', $config);
+                if($this->upload->do_upload()) {
+                    $post=$this->input->post();
+                    $data=$this->upload->data();
+                    $image_path=$target_dir.$data['raw_name'].$data['file_ext'];
+                    $post['image_path'] = $image_path;
+                }
+                
+                // $studSemInfo = $this->student->getStudentInfoByStdRowId($student_Id);
+                $student = $this->student->getStudentInfoById($student_Id);
+
+                $remarkInfo= array(
+                    'student_id' => $student_Id,
+                    'type_id' => $remarks_type_id,
+                    'date' =>date('Y-m-d',strtotime($date)),
+                    'year' => date('Y'),
+                    'term_name' => $student->term_name,
+                    'file_path' => $image_path,
+                    'description' => $description,
+                    'created_by' => $this->staff_id,
+                    'created_date_time' => date('Y-m-d h:i:s'));
+
+                $return_id = $this->student->addRemarks($remarkInfo);
+                    
+                if($return_id > 0){
+                    $studInfo = $this->student->getStudentInfoById($student_Id);
+                    // $this->sendNotificationForRemark($studInfo->sat_number);
+                    $this->session->set_flashdata('success', 'Remarks Added Successfully');
+                }else{
+                    $this->session->set_flashdata('error', 'Failed to add ');
+                }
+                redirect('viewStudentInfoById/'.$student_Id);  
+            
+            
+        }
+    }
+
+
+    public function updateRemarksInfo(){
+        if ($this->isAdmin() == true) {
+            $this->loadThis();
+        } else { 
+
+                
+                $filter = array();
+                $remark_id = $this->security->xss_clean($this->input->post('remark_id'));
+                $student_Id = $this->security->xss_clean($this->input->post('row_id'));
+                log_message('debug','remarkId'.$remark_id);
+                log_message('debug','student_Id'.$student_Id);
+                $remarks_type_id = $this->security->xss_clean($this->input->post('remarks_type_id'));
+                $date = $this->security->xss_clean($this->input->post('date'));
+                $description = $this->security->xss_clean($this->input->post('description'));
+               
+                $image_path="";
+                $target_dir="upload/remarks/";
+                if(!file_exists($target_dir)){
+                    mkdir($target_dir,0777);
+                }
+                $config=['upload_path' => $target_dir,
+                'allowed_types' => 'pdf|jpeg|jpg|png','overwrite' => TRUE,'max_size' => '2048',
+                'overwrite' => TRUE,'file_ext_tolower' => TRUE];
+                $this->load->library('upload', $config);
+                if($this->upload->do_upload()) {
+                    $post=$this->input->post();
+                    $data=$this->upload->data();
+                    $image_path=$target_dir.$data['raw_name'].$data['file_ext'];
+                    $post['image_path'] = $image_path;
+                }
+                log_message('debug','imagePath'.$image_path);
+                // $studSemInfo = $this->student->getStudentInfoByStdRowId($student_Id);
+                $student = $this->student->getStudentInfoById($student_Id);
+               if(!empty($image_path)){
+                $remarkInfo= array(
+                    'student_id' => $student_Id,
+                    'type_id' => $remarks_type_id,
+                    'date' =>date('Y-m-d',strtotime($date)),
+                    'year' => date('Y'),
+                    'file_path' => $image_path,
+                    'description' => $description,
+                    'created_by' => $this->staff_id,
+                    'created_date_time' => date('Y-m-d h:i:s'));
+                }else{
+                    $remarkInfo= array(
+                        'student_id' => $student_Id,
+                        'type_id' => $remarks_type_id,
+                        'date' =>date('Y-m-d',strtotime($date)),
+                        'year' => date('Y'),
+                        'description' => $description,
+                        'created_by' => $this->staff_id,
+                        'created_date_time' => date('Y-m-d h:i:s')); 
+                }
+
+                $return_id = $this->student->updateRemarksInfo($remarkInfo,$remark_id);
+                    
+                if($return_id > 0){
+                    $studInfo = $this->student->getStudentInfoById($student_Id);
+                    // $this->sendNotificationForRemark($studInfo->sat_number);
+                    $this->session->set_flashdata('success', 'Remarks Updated Successfully');
+                }else{
+                    $this->session->set_flashdata('error', 'Failed to Update Remarks');
+                }
+                redirect('viewStudentInfoById/'.$student_Id);  
+            
+            
+        }
+    }
 }
 
 ?>

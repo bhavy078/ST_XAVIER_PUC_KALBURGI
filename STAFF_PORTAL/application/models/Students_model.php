@@ -5,7 +5,7 @@
 class students_model extends CI_Model
 {
 
-    public function getAllstudentInfo($filter){
+    public function getAllstudentInfo($filter,$student){
         $this->db->select('student.row_id,student.blood_group,student.student_no,student.application_no,student.register_no, 
         student.student_id,student.hall_ticket_no,student.student_name,student.elective_sub,student.dob,student.mobile,student.email,
         student.date_of_admission,student.roll_number,student.gender,student.student_status,student.residential_address,
@@ -35,6 +35,9 @@ class students_model extends CI_Model
         if(!empty($filter['by_Section'])){
             $this->db->where('student.section_name', $filter['by_Section']);
         }
+        if(!empty($student)){
+            $this->db->where_in('student.row_id', $student);
+        }
         $this->db->where('student.is_deleted', 0);
         $this->db->where('student.is_active', 1);
         $this->db->order_by('student.student_id', 'ASC');
@@ -42,7 +45,7 @@ class students_model extends CI_Model
         $query = $this->db->get();
         return $query->result();
     }
-    public function getAllstudentInfoCount($filter){
+    public function getAllstudentInfoCount($filter,$student){
         $this->db->from('tbl_students_info as student'); 
         // $this->db->join('tbl_student_academic_info as academic', 'student.application_no = student.application_no');
             
@@ -65,6 +68,9 @@ class students_model extends CI_Model
         }
         if(!empty($filter['by_Section'])){
             $this->db->where('student.section_name', $filter['by_Section']);
+        }
+        if(!empty($student)){
+            $this->db->where_in('student.row_id', $student);
         }
         $this->db->where('student.is_deleted', 0);
         $this->db->where('student.is_active', 1);
@@ -1484,5 +1490,109 @@ class students_model extends CI_Model
             $query = $this->db->get();
             $result = $query->result();        
             return $result;
+        }
+
+
+        public function getRemarksData($row_id){
+            $this->db->select('student.row_id as student_row_id,student.student_name,student.application_no,
+            remark.row_id,remark.student_id,
+            remark.date,remark.type_id,remark.file_path,remark.year,remark.description,
+            type.row_id as typRowid,type.remark_name');
+            
+            $this->db->from('tbl_student_remark_info as remark'); 
+            $this->db->join('tbl_student_remarks_type as type','type.row_id = remark.type_id','left');
+            $this->db->join('tbl_students_info as student', 'student.row_id = remark.student_id');
+    
+            // if(!empty($filter['student_Id'])){
+            //     $this->db->where('remark.student_id', $filter['student_Id']);
+            // }
+            // if(!empty($filter['remark_type'])){
+            //     $this->db->where('remark.type_id', $filter['remark_type']);
+            // } 
+            // if(!empty($filter['file_path'])){
+            //     $this->db->where('remark.file_path', $filter['file_path']);
+            // } 
+            // if(!empty($filter['year'])){
+            //     $this->db->where('remark.year', $filter['year']);
+            // } 
+            // if(!empty($filter['name'])){
+            //     $likeCriteria = "(student.student_name  LIKE '%" . $filter['name'] . "%')";
+            //     $this->db->where($likeCriteria);
+            // } 
+            
+            // if(!empty($filter['description'])){
+            //     $likeCriteria = "(remark.description  LIKE '%" . $filter['description'] . "%')";
+            //     $this->db->where($likeCriteria);
+            // }
+            // if(!empty($filter['date'])){
+            //     $this->db->where('remark.date', $filter['date']);
+            // }
+    
+            $this->db->where('remark.student_id', $row_id);
+            $this->db->order_by('remark.date', 'DESC');
+            $this->db->where('remark.is_deleted', 0);
+            $this->db->where('student.is_deleted', 0);
+            $this->db->where('student.is_active', 1);
+            $query = $this->db->get();
+            $result = $query->result();        
+            return $result;
+        }
+    
+
+        function addRemarks($remarkInfo){
+            $this->db->trans_start();
+            $this->db->insert('tbl_student_remark_info', $remarkInfo);
+            $insert_id = $this->db->insert_id();
+            $this->db->trans_complete();
+            return $insert_id;
+        }
+
+        function updateRemarksInfo($remarkInfo, $row_id){
+            $this->db->where('row_id', $row_id);
+            $this->db->update('tbl_student_remark_info', $remarkInfo);
+            return TRUE;
+        }
+
+        
+        public function getAllstudentInfoRowId($filter){
+            $this->db->select('student.row_id'); 
+            $this->db->from('tbl_students_info as student'); 
+            // $this->db->join('tbl_student_academic_info as academic', 'student.application_no = student.application_no');
+                
+            // if(!empty($filter['student_id'])){
+            //     $likeCriteria = "(student.student_id  LIKE '%" . $filter['student_id'] . "%')";
+            //     $this->db->where($likeCriteria);
+            // }
+            // if(!empty($filter['application_no'])){
+            //     $this->db->where('student.application_no', $filter['application_no']);
+            // }
+            // if(!empty($filter['by_name'])){
+            //     $likeCriteria = "(student.student_name  LIKE '%" . $filter['by_name'] . "%')";
+            //     $this->db->where($likeCriteria);
+            // }
+            // if(!empty($filter['by_term'])){
+            //     $this->db->where('student.term_name', $filter['by_term']);
+            // }
+            // if(!empty($filter['by_stream'])){
+            //     $this->db->where('student.stream_name', $filter['by_stream']);
+            // }
+            // if(!empty($filter['by_Section'])){
+            //     $this->db->where('student.section_name', $filter['by_Section']);
+            // }
+    
+            if(!empty($filter['by_term_T'])){
+                $this->db->where('student.term_name', $filter['by_term_T']);
+            }
+            if(!empty($filter['by_stream_T'])){
+                $this->db->where('student.stream_name', $filter['by_stream_T']);
+            }
+            if(!empty($filter['by_Section_T'])){
+                $this->db->where('student.section_name', $filter['by_Section_T']);
+            }
+            $this->db->where('student.is_deleted', 0);
+            $this->db->where('student.is_active', 1);
+            $this->db->order_by('student.student_id', 'ASC');
+            $query = $this->db->get();
+            return $query->result();
         }
 }

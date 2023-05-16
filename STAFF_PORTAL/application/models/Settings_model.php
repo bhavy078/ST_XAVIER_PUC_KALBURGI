@@ -392,4 +392,29 @@ class Settings_model extends CI_Model{
         return TRUE;
     }
 
+    public function addRemarkName($remarkInfo)
+    {
+        $this->db->trans_start();
+        $this->db->insert('tbl_student_remarks_type', $remarkInfo);
+        $insert_id = $this->db->insert_id();
+        $this->db->trans_complete();
+        return $insert_id;
+    }
+
+    public function getRemarkNameInfo()
+    {
+        $this->db->from('tbl_student_remarks_type as remark');
+        $this->db->where('remark.is_deleted', 0);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+
+    function deleteRemarkName($remarkInfo, $row_id)
+    {
+        $this->db->where('row_id', $row_id);
+        $this->db->update('tbl_student_remarks_type', $remarkInfo);
+        return TRUE;
+    }
+
 }

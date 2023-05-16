@@ -76,10 +76,13 @@ if ($error) {
                                 <a onclick="window.history.back();" class="btn primary_color mobile-btn float-right text-white border_left_radius"
                                     value="Back"><i class="fa fa-arrow-circle-left"></i> Back </a>
                                 <div class="dropdown mobile-btn float-right">
+                                <?php if($role == ROLE_ADMIN || $role == ROLE_PRINCIPAL || $role == ROLE_PRIMARY_ADMINISTRATOR || $role == ROLE_OFFICE){ ?>
                                     <button type="button" class="btn btn-primary dropdown-toggle border_right_radius" data-toggle="dropdown">
                                         Action
                                     </button>
+                                    <?php }  ?>
                                     <div class="dropdown-menu p-0">
+                                        
                                         <!-- <a class="dropdown-item disabled" href="#"><i class="fa fa-mobile"></i> Send SMS</a>
                                         <div class="dropdown-divider m-0"></div> -->
                                         <!-- <a class="dropdown-item" href="#" id="study_certificate"><i class="fa fa-file"></i> Study Certificate</a>
@@ -179,6 +182,7 @@ if ($error) {
                                                 <option value="B">B</option>
                                                 <option value="C">C</option>
                                                 <option value="D">D</option>
+                                                
                                                 <!-- <option value="E">E</option>
                                                 <option value="F">F</option>
                                                 <option value="G">G</option>

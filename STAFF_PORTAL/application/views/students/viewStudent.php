@@ -70,6 +70,12 @@
                                                 role="tab" aria-controls="preparatory" aria-selected="true">Preparatory
                                             </a>
                                         </li>
+
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="remarks-tab" data-toggle="tab" href="#remarksqw"
+                                                role="tab" aria-controls="remarks" aria-selected="true">  Remarks
+                                            </a>
+                                        </li>
                                     </ul>
                                     <div class="tab-content personal-tab" id="myTabContent">
                                         <div class="tab-pane fade show active" id="personal" role="tabpanel"
@@ -357,7 +363,7 @@
 
 
                                       
-<!-- II UNIT TEST -->
+                                        <!-- II UNIT TEST -->
                                       <div class="tab-pane fade" id="second_unit_test" role="tabpanel" aria-labelledby="second_unit_test-tab">
                                          <div class=" table-responsive">
                                                 <table class="table table-bordered">
@@ -748,6 +754,57 @@
                                             </div>
                                         </div>
 
+                                        <div class="tab-pane fade" id="remarksqw" role="tabpanel"
+                                            aria-labelledby="remarks-tab">
+
+                                            <button class="btn btn-primary float-right mobile-btn border_right_radius mr-1"
+                                                data-toggle="modal" data-target="#addNewDocModel"><i
+                                                    class="fa fa-plus"></i>
+                                                Add Remark</button>
+
+                                            <div class="table-responsive pt-1">
+                                                <table class="table table-bordered table_edit_student ">
+                                                    <tr>
+                                                        <th class="tbl-head" width="100">Date</th>
+                                                        <!-- <th class="tbl-head" width="100">Semester</th> -->
+                                                        <th class="tbl-head" width="100">Type</th>
+                                                        <th class="tbl-head" width="100">Description</th>
+                                                        <th class="tbl-head" width="100">Action</th>
+                                                    </tr>
+                                                    <?php foreach($remarkInfo as $record){ ?>
+                                                    <tr>
+                                                        <td style="color:black">
+                                                            <b><?php echo date('d-m-Y', strtotime($record->date)); ?></b>
+                                                        </td>
+                                                        <!-- <td style="color:black">
+                                                            <b><?php echo $record->semester; ?></b></td> -->
+                                                        <td style="color:black">
+                                                            <b><?php echo $record->remark_name; ?></b>
+                                                        </td>
+                                                        <td style="color:black">
+                                                            <b><?php echo $record->description; ?></b>
+                                                        </td>
+                                                        <td><?php if (!empty($record->file_path)) { ?>
+                                                            <a href="<?php echo base_url(); ?><?php echo $record->file_path; ?>"
+                                                                download target="_blank" class="btn btn_download p-2"><i
+                                                                    class="fa fa-download"></i></a>
+                                                            <a href="<?php echo base_url(); ?><?php echo $record->file_path; ?>"
+                                                                target="_blank" class="btn btn-primary p-2"><i
+                                                                    class="fa fa-eye"></i> View</a>
+
+                                                            <?php } ?>
+                                                            <a class="btn  btn-sm btn-info" href="#"
+                                                                onclick="openRemarksModel('<?php echo $record->type_id ?>','<?php echo date('d-m-Y',strtotime($record->date)) ?>','<?php echo $record->remark_name ?>','<?php echo $record->description ?>','<?php echo  base_url().$record->file_path ?>','<?php echo $record->student_row_id ?>','<?php echo $record->row_id ?>')"
+                                                                title="Edit"><i class="fas fa-edit"></i></i></a>
+                                                        </td>
+                                                    </tr>
+                                                    <?php } ?>
+
+                                                </table>
+                                            </div>
+
+                                        </div>
+
                                         <div class="tab-pane fade" id="firstPreparartory" role="tabpanel" aria-labelledby="firstPreparartory-tab">
                                             <div class=" table-responsive">
                                                 <table class="table table-bordered">
@@ -893,6 +950,168 @@
         <?php } ?>
     </div>
 </div>
+
+<div class="modal" id="addNewDocModel">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content ">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Add Remarks Details</h4>
+                <button type="button" class="close float-right" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body p-2 m-1">
+                <form action="<?php echo base_url() ?>addRemarks" method="POST" role="form"
+                    enctype="multipart/form-data">
+                    <input type="hidden" name="row_id" value="<?php echo $studentInfo->row_id ?>">
+                    <div class="text-center" id="alertMsg"></div>
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <label>Date</label>
+                            <div class="form-group">
+                                <input type="text" value="<?php echo date('d-m-Y') ?>" name="date"
+                                    class="form-control input-sm remarks_date" placeholder="Date" autocomplete="off"
+                                    required>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Remarks Type</label>
+                                <select class="form-control input-sm selectpicker" id="remarks_type_id"
+                                    name="remarks_type_id" data-live-search="true" required>
+                                    <option value="">Select Remarks</option>
+                                    <?php if (!empty($remarkNameInfo)) {
+                                        foreach ($remarkNameInfo as $obsinfo) { ?>
+                                    <option value="<?php echo $obsinfo->row_id; ?>">
+                                        <?php echo $obsinfo->remark_name; ?></option>
+                                    <?php }
+                                    } ?>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="form-group">
+
+                                <img src="<?php echo base_url(); ?>assets/dist/img/file_upload.png"
+                                    class="avatar rounded-circle img-thumbnail" width="130" height="130" src="#"
+                                    id="uploadedImage3" name="userfile" width="130" height="130" alt="File">
+                                <div class="observeFile">
+                                    <div class="file btn btn-sm">
+                                        <input type="file" class="form-control-sm" id="oFile" name="userfile"
+                                            accept="*.jpg,*.png,*.jpeg,,*.pdf">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label>Description</label>
+                                <textarea name="description" id="description" class="form-control"
+                                    placeholder="Enter Description" autocomplete="off" required></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer pt-2 pb-0">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        <button id="staffInfoDownload" type="submit" class="btn btn-md btn-success"> SAVE</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="remarksModel" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg ">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header modal-call-report p-2">
+                <div class=" col-md-10 col-10">
+                    <span class="mobile-title" style="font-size : 20px;color:white">Edit Remarks
+                        </span>
+                </div>
+                <div class=" col-md-2 col-2">
+                    <button type="button" class="text-white close" data-dismiss="modal">&times;</button>
+                </div>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body m-0">
+                <?php $this->load->helper("form"); ?>
+                <form role="form" id="" action="<?php echo base_url() ?>updateRemarksInfo" method="post" role="form" enctype="multipart/form-data">
+                    <input type="hidden" name="remark_id" id="remark_id" value="" />
+                    <input type="hidden" name="row_id" id="student_row_id" value="" />
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <label>Date</label>
+                            <div class="form-group">
+                                <input type="text" value="" name="date" id="editDate"
+                                    class="form-control input-sm remarks_date" placeholder="Date" autocomplete="off"
+                                    required>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Remarks Type</label>
+                                <select class="form-control input-sm" id="edit_remarks_type_id"
+                                    name="remarks_type_id" required>
+                                    <!-- <option value="">Select Remarks</option> -->
+                                    <?php if (!empty($remarkNameInfo)) {
+                                        foreach ($remarkNameInfo as $obsinfo) { ?>
+                                    <option value="<?php echo $obsinfo->row_id; ?>">
+                                        <?php echo $obsinfo->remark_name; ?></option>
+                                    <?php }
+                                    } ?>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="form-group">
+
+                                <img 
+                                    class="avatar rounded-circle img-thumbnail" width="130" height="130" src="#"
+                                    id="uploadedImage1" name="userfile" width="130" height="130" alt="File">
+                                <div class="observeFile">
+                                    <div class="file btn btn-sm">
+                                        <input type="file" class="form-control-sm" id="editFile" name="userfile"
+                                            accept="*.jpg,*.png,*.jpeg,,*.pdf">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label>Description</label>
+                                <textarea name="description" id="editdescription" class="form-control"
+                                    placeholder="Enter Description" autocomplete="off" required></textarea>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <input style="float:right;" type="submit" class="btn btn-primary" value="Update" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
 function GoBackWithRefresh(event) {
     showLoader();
@@ -910,6 +1129,57 @@ jQuery(document).ready(function() {
         $(this).closest('form').find("input[type=text]").val("");
     })
 });
+
+
+function openRemarksModel(row_id, date, remark_name, description, file_path,studentId,remarkId) {
+    // $('#subject_name_u option').remove();
+
+      $('#editDate').val(date);
+      $('#edit_remarks_type_id').val(row_id);
+      $("#uploadedImage1").attr("src",file_path);
+      $('.selectpicker').selectpicker('refresh');
+      $('#editdescription').val(description);
+      $('#student_row_id').val(studentId);
+      $('#remark_id').val(remarkId);
+
+    // $('#time_row_id_u').val(start_time);
+    // $('#staff_id_u').val(staff_id);
+    // // $('#subject_name_u').val(subject_code);
+
+    // $("#edit_remarks_type_id").append(new Option(remark_name , staff_sub_row_id));
+    $('#remarksModel').modal('show');
+
+}
+
+
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            $('#uploadedImage3').attr('src', e.target.result);
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+$("#oFile").change(function() {
+    readURL(this);
+});
+
+function readURL1(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            $('#uploadedImage1').attr('src', e.target.result);
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+$("#editFile").change(function() {
+    readURL1(this);
+});
+
 </script>
 
 <?php
@@ -927,4 +1197,6 @@ function calculateResult($total_marks){
         return "III Class";
     }
 }
+
+
 ?>

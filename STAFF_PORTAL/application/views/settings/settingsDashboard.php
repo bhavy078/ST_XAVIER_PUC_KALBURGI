@@ -547,56 +547,63 @@ if ($error) {
       </div>
       
 
-      <!-- <div class="col-lg-6 col-md-6 col-12 mb-2 column_padding_card">
-        <div class="card-header border-bottom card_head_dashboard settings_card" data-toggle="collapse" data-target="#postName">
-          <a class="float-right mb-0 setting_pointer">Click here </a>
-          <h6 class="m-0 text-dark">Post Info</h6>
-        </div>
-        <div id="postName" class="collapse">
-          <div class="card card-small h-100">
-            <div class="card-body d-flex flex-column p-1">
-              <?php $this->load->helper("form"); ?>
-              <form role="form" id="addPost" action="<?php echo base_url() ?>addPost" method="post" role="form">
-                <div class="row form-contents">
-                  <div class="col-8">
-                    <div class="form-group mb-0">
-                      <input type="text" class="form-control" id="post_name" name="post_name" placeholder="Enter Post" autocomplete="off" required>
-                    </div>
-                  </div>
-                  <div class="col-4 mb-1">
-                    <input style="float:right;" type="submit" class="btn btn-block btn-success" value="Add" />
-                  </div>
-                </div>
-              </form>
-              <div class="row mx-0">
-                <div class="col-lg-12 col-12 p-0 mt-0 ">
-                  <table class="table table-bordered text-dark mb-0">
-                    <thead class="text-center">
-                        <tr class="table_row_background">
-                            <th>Post</th>
-                            <th>Action</th>
-                        </tr>
-                        <?php if(!empty($postInfo)){
-                            foreach($postInfo as $post){ ?>
-                        <tr class="text-dark">
-                          <td><?php echo $post->post_name; ?></td>
-                          <td>
-                            <a class="btn btn-xs btn-danger deletePost" href="#" data-post_id="<?php echo $post->post_id; ?>" title="Delete"><i class="fa fa-trash"></i></a>
-                          </td>
-                        </tr>
-                        <?php } }else{ ?>
-                          <tr class="text-dark">
-                            <td colspan="2" style="background-color: #e3cfff;">Post Info Not Found</td>
-                          </tr>
-                        <?php } ?>
-                    </thead>
-                  </table>
-                </div>
-              </div>
+      <div class="col-lg-6 col-md-6 col-12 mb-2 padding_left_right_null">
+            <div class="card-header border-bottom card_head_dashboard settings_card" data-toggle="collapse"
+                data-target="#addRemarkName">
+                <a class="float-right mb-0 setting_pointer">Click here </a>
+                <h6 class="m-0 text-dark">Remarks Type Info</h6>
             </div>
-          </div>
+            <div id="addRemarkName" class="collapse">
+                <div class="card card-small h-100">
+                    <div class="card-body d-flex flex-column p-1">
+                        <?php $this->load->helper("form"); ?>
+                        <form role="form" id="addRemarkName" action="<?php echo base_url() ?>addRemarkName"
+                            method="post">
+                            <div class="row form-contents">
+                                <div class="col-8">
+                                    <div class="form-group mb-0">
+                                        <input type="text" class="form-control" id="remark_name" name="remark_name"
+                                            placeholder="Enter Remark Name" autocomplete="off" required>
+                                    </div>
+                                </div>
+                                <div class="col-4 mb-1">
+                                    <input type="submit" class="btn btn-block btn-success float-right" value="Save" />
+                                </div>
+                            </div>
+                        </form>
+                        <div class="col-lg-12 col-12 p-0 mt-0 ">
+                            <table class="table table-bordered text-dark mb-0">
+                                <thead class="text-center">
+                                    <tr class="table_row_background">
+                                        <th>Remarks Name</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-center">
+                                    <?php if(!empty($remarkNameInfo)){
+                                        foreach($remarkNameInfo as $remark){ ?>
+                                    <tr class="text-dark">
+                                        <td><?php echo $remark->remark_name; ?></td>
+                                        <td>
+                                            <a class="btn btn-xs btn-danger deleteRemarkName" href="#"
+                                                data-row_id="<?php echo $remark->row_id; ?>" title="Delete"><i
+                                                    class="fa fa-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                    <?php } }else{ ?>
+                                    <tr class="text-dark card_head_dashboard">
+                                        <td colspan="2">Remarks Info Not Found!</td>
+                                    </tr>
+                                    <?php } ?>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+                <!-- End Quick Post -->
         </div>
-      </div> -->
 
       
 
@@ -751,6 +758,8 @@ if ($error) {
           
     </div>
   </div>
+
+  
 </div>
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/common.js" charset="utf-8"></script>
 

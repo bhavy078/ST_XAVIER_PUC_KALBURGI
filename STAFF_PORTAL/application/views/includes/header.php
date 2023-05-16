@@ -356,7 +356,19 @@
 
                     </ul>
                 </li>
+                
+                
                 <?php }
+                if ($role == ROLE_TEACHING_STAFF){ ?>
+                    <li class="nav-item">
+                        <a class="nav-link " href="<?php echo base_url(); ?>studentDetails">
+                            <i class="material-icons">group</i>
+                            <span>Student</span>
+                        </a>
+                    </li>
+                    <?php }
+
+                
                 if ($role == ROLE_ADMIN || $role == ROLE_PRINCIPAL || $role == ROLE_PRIMARY_ADMINISTRATOR || $role == ROLE_VICE_PRINCIPAL || $role == ROLE_OFFICE || $role == ROLE_ACCOUNT || $role == ROLE_RECEPTION) { ?>
                 <li class="nav-item">
                     <a href="#student_link" data-toggle="collapse" aria-expanded="false"
@@ -413,6 +425,7 @@
                     </ul>
                 </li>
                 <?php } ?>
+                
 
                <?php if ($role == ROLE_ADMIN || $role == ROLE_PRINCIPAL || $role == ROLE_PRIMARY_ADMINISTRATOR || $role == ROLE_VICE_PRINCIPAL) { ?>
 

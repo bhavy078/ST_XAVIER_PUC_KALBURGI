@@ -987,3 +987,12 @@ $route['getStaffLeaveInfoByStaffId'] = "leave/getStaffLeaveInfoByStaffId";
 
 
 $route['deleteStudentRequestDetails'] = "students/deleteStudentRequestDetails";
+
+//remarks 
+$route['addRemarkName'] = "settings/addRemarkName";
+
+$route['deleteRemarkName'] = "settings/deleteRemarkName";
+
+$route['addRemarks'] = 'students/addRemarks';
+
+$route['updateRemarksInfo'] = "students/updateRemarksInfo";
