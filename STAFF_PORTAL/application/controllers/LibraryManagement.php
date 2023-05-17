@@ -511,6 +511,7 @@ class LibraryManagement extends BaseController
             $filter = array();
             $isbn = $this->security->xss_clean($this->input->post('isbn'));
             $student_id = $this->security->xss_clean($this->input->post('student_id'));
+            $student_name = $this->security->xss_clean($this->input->post('student_name'));
             $issue_date = $this->security->xss_clean($this->input->post('issue_date'));
             $return_date = $this->security->xss_clean($this->input->post('return_date'));
             $actual_return_date = $this->security->xss_clean($this->input->post('actual_return_date'));
@@ -551,6 +552,7 @@ class LibraryManagement extends BaseController
             $data['user_type'] = $userType;
             $data['isbn'] = $isbn;
             $data['student_id'] = $student_id;
+            $data['student_name'] = $student_name;
             $data['fine'] = $fine;
             $data['days_delayed'] = $days_delayed;
             $data['remarks'] = $remarks;
@@ -558,6 +560,7 @@ class LibraryManagement extends BaseController
             
             $filter['isbn'] = $isbn;
             $filter['student_id'] = $student_id;
+            $filter['student_name'] = $student_name;
             $filter['fine'] = $fine;
             $filter['days_delayed'] = $days_delayed;
             $filter['remarks'] = $remarks;

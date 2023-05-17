@@ -295,11 +295,21 @@ class Library_model extends CI_Model
         $this->db->from('tbl_library_issue_info as issue'); 
         //$this->db->join('tbl_library_managemnt as mgmt','mgmt.access_code = issue.access_code','left');
         if($filter['user_type'] == 'student'){
-        if(!empty($filter['isbn'])){
-            $this->db->where('issue.isbn', $filter['isbn']);
+            $this->db->select('issue.access_code, issue.isbn, issue.student_id,issue.row_id, 
+            issue.issue_date, issue.return_date,issue.actual_return_date,student.student_name,
+            issue.fine, issue.days_delayed, issue.remarks,issue.is_issued');
+
+        $this->db->join('tbl_students_info as student','student.student_id = issue.student_id','left');
+
+
+        if(!empty($filter['access_code'])){
+            $this->db->where('issue.access_code', $filter['access_code']);
         }
         if(!empty($filter['student_id'])){
             $this->db->where('issue.student_id', $filter['student_id']);
+        }
+        if(!empty($filter['student_name'])){
+            $this->db->where('student.student_name', $filter['student_name']);
         }
         if(!empty($filter['issue_date'])){
             $this->db->where('issue.issue_date', $filter['issue_date']);
@@ -322,11 +332,19 @@ class Library_model extends CI_Model
         $this->db->where_in('issue.user_type', ['student',' ']);
         
     }else{
-        if(!empty($filter['isbn'])){
-            $this->db->where('issue.isbn', $filter['isbn']);
+        $this->db->select('issue.access_code, issue.isbn, issue.student_id,issue.row_id,  
+        issue.issue_date, issue.return_date,issue.actual_return_date,staff.name as student_name,
+        issue.fine, issue.days_delayed, issue.remarks,issue.is_issued');
+        $this->db->join('tbl_staff as staff','staff.staff_id = issue.student_id','left');
+
+        if(!empty($filter['access_code'])){
+            $this->db->where('issue.access_code', $filter['access_code']);
         }
         if(!empty($filter['student_id'])){
             $this->db->where('issue.student_id', $filter['student_id']);
+        }
+        if(!empty($filter['student_name'])){
+            $this->db->where('staff.name', $filter['student_name']);
         }
         if(!empty($filter['issue_date'])){
             $this->db->where('issue.issue_date', $filter['issue_date']);
@@ -374,6 +392,9 @@ class Library_model extends CI_Model
         if(!empty($filter['student_id'])){
             $this->db->where('issue.student_id', $filter['student_id']);
         }
+        if(!empty($filter['student_name'])){
+            $this->db->where('student.student_name', $filter['student_name']);
+        }
         if(!empty($filter['issue_date'])){
             $this->db->where('issue.issue_date', $filter['issue_date']);
         }
@@ -398,7 +419,7 @@ class Library_model extends CI_Model
 
         $this->db->select('issue.access_code, issue.isbn, issue.student_id,issue.row_id,  
         issue.issue_date, issue.return_date,issue.actual_return_date,staff.name as student_name,
-        issue.fine, issue.days_delayed, issue.remarks');
+        issue.fine, issue.days_delayed, issue.remarks,issue.is_issued');
         $this->db->join('tbl_staff as staff','staff.staff_id = issue.student_id','left');
 
         if(!empty($filter['access_code'])){
@@ -409,6 +430,11 @@ class Library_model extends CI_Model
         }
         if(!empty($filter['student_id'])){
             $this->db->where('issue.student_id', $filter['student_id']);
+        }
+       
+        if(!empty($filter['student_name'])) {
+            $like = "(staff.name  LIKE '%".$filter['student_name']."%')";
+            $this->db->where($like);
         }
         if(!empty($filter['issue_date'])){
             $this->db->where('issue.issue_date', $filter['issue_date']);

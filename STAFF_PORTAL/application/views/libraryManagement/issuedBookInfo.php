@@ -84,7 +84,7 @@ if ($success) {
                                         <i class="fa fa-search"></i>
                                     </div>
                                 </div>
-                                </form>
+                                <!-- </form> -->
                             </div> 
                             <div class="col-lg-3 col-12 col-md-6 col-sm-6">
                                 <b class="text-dark" style="font-size: 20px;">Total Entry: <?php echo $totalLibraryIssuedCount; ?></b>
@@ -103,7 +103,7 @@ if ($success) {
                 <div class="card card-small mb-4">
                     <div class="card-body p-1 pb-2 table-responsive">
                         <table class="display table table-bordered table-striped table-hover w-100">
-                            <form action="<?php echo base_url(); ?>viewIssuedBooks" method="POST" id="byFilterMethod">
+                            <!-- <form action="<?php echo base_url(); ?>viewIssuedBooks" method="POST" id="byFilterMethod"> -->
                                 <tr class="filter_row" class="text-center">
                                 <td>
                                     <div class="form-group mb-0">
