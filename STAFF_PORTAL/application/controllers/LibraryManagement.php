@@ -442,16 +442,14 @@ class LibraryManagement extends BaseController
                 $fine_id =$this->security->xss_clean($this->input->post('fine_id'));
                 $remarks =$this->security->xss_clean($this->input->post('remarks'));
                 $fine_amt = $this->library->getFineById($fine_id);
-                $date1 = date("Y-m-d",strtotime($return_date));
+                $date1 = date("Y-m-d",strtotime($return_date));           
                 $date2 = date("Y-m-d",strtotime($actual_return_date));
-
                 $diff = abs(strtotime($date2) - strtotime($date1));
-
                 $years = floor($diff / (365*60*60*24));
                 $months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
                 $days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
 
-                if($days > 0){
+                if($days > 0 &&  $date2 > $date1){
                     $days_delayed = $days;
                     $fine = $days_delayed * $fine_amt->fine_amount;
                 }else{
@@ -520,6 +518,7 @@ class LibraryManagement extends BaseController
             $remarks = $this->security->xss_clean($this->input->post('remarks'));
             $access_code = $this->security->xss_clean($this->input->post('access_code'));
             $user_type = $this->security->xss_clean($this->input->post('user_type'));
+            $book_title = $this->security->xss_clean($this->input->post('book_title'));
 
             if(!empty($issue_date)){
                 $filter['issue_date'] = date('Y-m-d',strtotime($issue_date));
@@ -557,6 +556,7 @@ class LibraryManagement extends BaseController
             $data['days_delayed'] = $days_delayed;
             $data['remarks'] = $remarks;
             $data['access_code'] = $access_code;
+            $data['book_title'] = $book_title;
             
             $filter['isbn'] = $isbn;
             $filter['student_id'] = $student_id;
@@ -565,6 +565,7 @@ class LibraryManagement extends BaseController
             $filter['days_delayed'] = $days_delayed;
             $filter['remarks'] = $remarks;
             $filter['access_code'] = $access_code;
+            $filter['book_title'] = $book_title;
             
             $this->load->library('pagination');
             $count = $this->library->getAllIssuedBookCount($filter);

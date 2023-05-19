@@ -110,6 +110,11 @@ if ($success) {
                                         <input type="text" value="<?php echo $access_code; ?>" name="access_code" id="access_code" class="form-control input-sm " placeholder="By Accession No." autocomplete="off">
                                     </div>
                                 </td>
+                                <td>
+                                    <div class="form-group mb-0">
+                                        <input type="text" value="<?php echo $book_title; ?>" name="book_title" id="book_title" class="form-control input-sm " placeholder="By Book Title" autocomplete="off">
+                                    </div>
+                                </td>
                                     <td>
                                         <div class="form-group mb-0">
                                             <input type="text" value="<?php echo $student_id; ?>" name="student_id" id="student_id" class="form-control input-sm" placeholder="By student Id" autocomplete="off">
@@ -163,6 +168,7 @@ if ($success) {
                             <thead>
                                 <tr class="table_row_background text-center">
                                     <th>Accession No.</th>
+                                    <th>Book Title</th>
                                     <th>Student ID</th>
                                     <th> Name</th>
                                     <th>Issue Date</th>
@@ -180,6 +186,7 @@ if ($success) {
                                     foreach ($libraryIssuedInfo as $library) { ?>
                                         <tr>
                                         <th class="text-center"><?php echo strtoupper($library->access_code); ?></th>
+                                        <th class="text-center"><?php echo $library->book_title; ?></th>
                                             <th class="text-center"><?php echo $library->student_id; ?></th>
                                             <th class="text-center"><?php echo $library->student_name; ?></th>
                                             <th class="text-center"><?php echo date('d-m-Y',strtotime($library->issue_date)); ?></th>
