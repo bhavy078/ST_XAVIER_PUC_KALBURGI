@@ -863,6 +863,7 @@ $route['addAllApprovedStudent'] = "settings/addAllApprovedStudent";
 
 $route['updateStdInfo'] = "settings/updateStdInfo";
 $route['addLibData'] = "settings/addLibData";
+$route['addStudentMissingData'] = "settings/addStudentMissingData";
 
 // routes for Stock Management
 $route['viewStockSettings'] = "stock/viewStockSettings";

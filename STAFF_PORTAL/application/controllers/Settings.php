@@ -687,13 +687,14 @@ class Settings extends BaseController {
         $student_update_count = 0;
         $app_no = array();
 
-        for($i=2;$i<=$highestRow;$i++){
+        for($i=3;$i<=$highestRow;$i++){
           
            
-            $student_id = $objWorksheet->getCellByColumnAndRow(1,$i)->getFormattedValue();
-            $name = $objWorksheet->getCellByColumnAndRow(2,$i)->getFormattedValue();
-            $fname = $objWorksheet->getCellByColumnAndRow(3,$i)->getFormattedValue();
-            $mname = $objWorksheet->getCellByColumnAndRow(4,$i)->getFormattedValue();
+             $student_id = $objWorksheet->getCellByColumnAndRow(1,$i)->getFormattedValue();
+             $student_id_new = $objWorksheet->getCellByColumnAndRow(2,$i)->getFormattedValue();
+            // $name = $objWorksheet->getCellByColumnAndRow(2,$i)->getFormattedValue();
+            // $fname = $objWorksheet->getCellByColumnAndRow(3,$i)->getFormattedValue();
+            // $mname = $objWorksheet->getCellByColumnAndRow(4,$i)->getFormattedValue();
             // $application_no = $objWorksheet->getCellByColumnAndRow(2,$i)->getFormattedValue();
             // $section = $objWorksheet->getCellByColumnAndRow(5,$i)->getFormattedValue();
             // $sat_no = $objWorksheet->getCellByColumnAndRow(3,$i)->getFormattedValue();
@@ -704,10 +705,11 @@ class Settings extends BaseController {
             // log_message('debug','Info = '.print_r($studentInfo,true));
             if(!empty($student_id)){
                 $student_info = array(
-                    'student_name'=>$name,
-                    'father_name'=>$fname,
-                    'mother_name'=>$mname,
-                    // 'student_id'=>$student_id,
+                    // 'student_name'=>$name,
+                    // 'father_name'=>$fname,
+                    // 'mother_name'=>$mname,
+                     'elective_sub'=>trim($student_id_new),
+                     
                     //  'section_name' => $section,
                     // 'student_no'=>$student_no,
                     // 'pu_board_number'=>$student_no,
@@ -723,16 +725,17 @@ class Settings extends BaseController {
                     $result = $this->student->updateStudentInfoBStdId($student_info,$student_id);
                     $student_count++;
             }else{
-                $studentNotExistCount++;
-              log_message('debug','student_id NotExist'.$student_id);
+              //  $studentNotExistCount++;
+            //  log_message('debug','student_id NotExist'.$student_id);
                 // array_push($app_no,$application_number);
             }
         }
-         log_message('debug','notUpdated '.$studentNotExistCount);
-        log_message('debug','Student NOT Count= '.$studentNotExistCount);
-        log_message('debug','Total Count= '.$student_count);
+        // log_message('debug','notUpdated '.$studentNotExistCount);
+       // log_message('debug','Student NOT Count= '.$studentNotExistCount);
+     log_message('debug','Total Count= '.$student_count);
         redirect('viewSettings');
     }
+
 
 
     // // update missing fields
