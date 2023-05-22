@@ -996,4 +996,4 @@ $route['addRemarks'] = 'students/addRemarks';
 $route['updateRemarksInfo'] = "students/updateRemarksInfo";
 $route['deleteStudentRemarkDetails'] = "students/deleteStudentRemarkDetails";
 
-// $route['getNameByStudentNumber'] = "students/getNameByStudentNumber";
+ $route['getNameByStudentNumber'] = "students/getNameByStudentNumber";

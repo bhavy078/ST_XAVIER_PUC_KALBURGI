@@ -156,12 +156,12 @@ if ($success) {  ?>
                                 </thead>
                             </table>
                             <div class="msgAlert"></div>
-                            <?php //if(!empty($classCompletedInfo)){ 
-                            //if($staff_id == $classCompletedInfo->staff_id){ ?>
+                            <?php if(!empty($classCompletedInfo)){ 
+                            if($staff_id == $classCompletedInfo->staff_id){ ?>
                                 <button onclick="confirmAbsentedStudents()" type="button" class="btn btn-success float-right mt-1">Confirm</button>
-                            <?php //} }else{ ?>
-                                <!-- <button onclick="confirmAbsentedStudents()" type="button" class="btn btn-success float-right mt-1">Confirm</button> -->
-                            <?php //} ?>
+                            <?php } }else{ ?>
+                                 <button onclick="confirmAbsentedStudents()" type="button" class="btn btn-success float-right mt-1">Confirm</button>
+                            <?php }?>
                         </form>
                     </div>
                 </div>
@@ -205,6 +205,7 @@ if ($success) {  ?>
                 <table class="table table-hover table-bordered">
                     <tr class="table-primary">
                         <th width="90">Student ID</th>
+                        <th width="90">Name</th>
                         <th width="50">Attendance</th>
                     </tr>
                     <tbody class="absentList">
@@ -311,7 +312,7 @@ function confirmAbsentedStudents(){
     $(".absentList").html('');
     var formData = $('#selectedAbsentStudents').serializeArray();
     
-    $.each(formData, function(i, field){
+    $.each(formData, async function(i, field){
         
         if(field.name == "term_name"){
         $("#term_nameConfirm").html(field.value);
@@ -323,19 +324,49 @@ function confirmAbsentedStudents(){
         $("#subject_nameConfirm").html(field.value);
         }else if(field.name == "attendance_date"){
         $('#attendanceDateConfirm').html(field.value);
-        }else if(field.name == "student_batch"){
-        $("#student_batchConfirm").html(field.value);
         }else if(field.value == 'true'){
         total_absent_count++;
-        $(".absentList").append("<tr><td>" + field.name + "</td>" + "<td style='color:red'> Absent </td></tr>");
+        var str = field.name;  
+        var student_id = str.split(" ",1);
+        var name = str.split(" /").pop(); 
+        // alert(name)
+        let std_name = "";
+        try{
+            std_name = await getNameByAdmissionNo(student_id[0]);
+        }catch(err){
+            std_name = "";
+        }
+        $(".absentList > tr.all-present").remove()
+        $(".absentList").append("<tr><td>" + student_id + "</td><td>" + std_name + "</td><td style='color:red'> Absent </td></tr>");
         }
     });
     $("#countAbsent").html(total_absent_count);
     if($('.absentList').text() == ""){
-        $(".absentList").html("<tr class='text-center'> <td colspan='2' style='color:green'> All student are present? </td></tr>");
+        $(".absentList").html("<tr class='text-center all-present'> <td colspan='2' style='color:green'> All student are present? </td></tr>");
     }
     $('#attendanceModel').modal('show');
 }
+</script>
+
+<script>
+    const getNameByAdmissionNo = student_id =>{
+        return new Promise((resolve, reject)=>{
+            try{
+                $.post('<?=base_url()?>getNameByStudentNumber', { student_id })
+                .then(result=>{
+                    if(result === '0'){
+                        reject('404');
+                    }else{
+                        resolve(result);
+                    }
+                }).catch(err2=>{
+                    reject(err2);
+                });;
+            }catch(err){
+                reject(err);
+            }
+        });
+    }
 </script>
 
 <?php

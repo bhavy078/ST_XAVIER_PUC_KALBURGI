@@ -1824,17 +1824,17 @@ class Students extends BaseController
         }
     }
 
-    // public function getNameByStudentNumber(){
-    //     $student_id = trim($this->input->post('student_id'));
+    public function getNameByStudentNumber(){
+        $student_id = trim($this->input->post('student_id'));
 
-    //     $filter['student_id'] =  $student_id;
-    //     if(!empty($student_id)){
-    //         $result = $this->student->getStudentInfoByStudentId($filter);
-    //         if(!empty($result)) echo $result->student_name;
-    //         // log_message('debug','info'.print_r($result->student_name,true));}
-    //         else echo 0;
-    //     }else echo 0;
-    // }
+        $filter['student_id'] =  $student_id;
+        if(!empty($student_id)){
+            $result = $this->student->getStudentInfoByStudentId($filter);
+            if(!empty($result)) echo $result->student_name;
+            // log_message('debug','info'.print_r($result->student_name,true));}
+            else echo 0;
+        }else echo 0;
+    }
 
 
     public function deleteStudentRemarkDetails(){
