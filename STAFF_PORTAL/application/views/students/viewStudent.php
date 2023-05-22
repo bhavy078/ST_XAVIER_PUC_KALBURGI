@@ -771,6 +771,7 @@
                                                         <th class="tbl-head" width="100">Description</th>
                                                         <th class="tbl-head" width="100">Action</th>
                                                     </tr>
+                                                   
                                                     <?php foreach($remarkInfo as $record){ ?>
                                                     <tr>
                                                         <td style="color:black">
@@ -784,6 +785,7 @@
                                                         <td style="color:black">
                                                             <b><?php echo $record->description; ?></b>
                                                         </td>
+                                                        
                                                         <td><?php if (!empty($record->file_path)) { ?>
                                                             <a href="<?php echo base_url(); ?><?php echo $record->file_path; ?>"
                                                                 download target="_blank" class="btn btn_download p-2"><i
@@ -793,9 +795,13 @@
                                                                     class="fa fa-eye"></i> View</a>
 
                                                             <?php } ?>
+                                                            <?php if ($this->staff_id == $record->created_by || $role == ROLE_PRIMARY_ADMINISTRATOR) { ?>
                                                             <a class="btn  btn-sm btn-info" href="#"
                                                                 onclick="openRemarksModel('<?php echo $record->type_id ?>','<?php echo date('d-m-Y',strtotime($record->date)) ?>','<?php echo $record->remark_name ?>','<?php echo $record->description ?>','<?php echo  base_url().$record->file_path ?>','<?php echo $record->student_row_id ?>','<?php echo $record->row_id ?>')"
                                                                 title="Edit"><i class="fas fa-edit"></i></i></a>
+                                                             
+                                                                <a class="btn btn-xs btn-danger deleteStudentRemarkDetails" href="#" data-row_id="<?php echo $record->row_id; ?>" title="Delete"><i class="fa fa-trash"></i></a>
+                                                                <?php } ?>
                                                         </td>
                                                     </tr>
                                                     <?php } ?>
@@ -1112,6 +1118,7 @@
     </div>
 </div>
 
+<script src="<?php echo base_url(); ?>assets/js/common.js" type="text/javascript"></script>
 <script type="text/javascript">
 function GoBackWithRefresh(event) {
     showLoader();

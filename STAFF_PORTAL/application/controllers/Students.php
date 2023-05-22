@@ -1791,8 +1791,11 @@ class Students extends BaseController
                     'year' => date('Y'),
                     'file_path' => $image_path,
                     'description' => $description,
-                    'created_by' => $this->staff_id,
-                    'created_date_time' => date('Y-m-d h:i:s'));
+                    // 'created_by' => $this->staff_id,
+                    // 'created_date_time' => date('Y-m-d h:i:s')),
+                    'updated_by' => $this->staff_id,
+                    'updated_date_time' => date('Y-m-d h:i:s'));
+                    
                 }else{
                     $remarkInfo= array(
                         'student_id' => $student_Id,
@@ -1800,8 +1803,10 @@ class Students extends BaseController
                         'date' =>date('Y-m-d',strtotime($date)),
                         'year' => date('Y'),
                         'description' => $description,
-                        'created_by' => $this->staff_id,
-                        'created_date_time' => date('Y-m-d h:i:s')); 
+                        // 'created_by' => $this->staff_id,
+                        // 'created_date_time' => date('Y-m-d h:i:s')); 
+                        'updated_by' => $this->staff_id,
+                        'updated_date_time' => date('Y-m-d h:i:s'));
                 }
 
                 $return_id = $this->student->updateRemarksInfo($remarkInfo,$remark_id);
@@ -1818,6 +1823,37 @@ class Students extends BaseController
             
         }
     }
+
+    // public function getNameByStudentNumber(){
+    //     $student_id = trim($this->input->post('student_id'));
+
+    //     $filter['student_id'] =  $student_id;
+    //     if(!empty($student_id)){
+    //         $result = $this->student->getStudentInfoByStudentId($filter);
+    //         if(!empty($result)) echo $result->student_name;
+    //         // log_message('debug','info'.print_r($result->student_name,true));}
+    //         else echo 0;
+    //     }else echo 0;
+    // }
+
+
+    public function deleteStudentRemarkDetails(){
+        if($this->isAdmin() == TRUE){
+            $this->loadThis();
+        } else {   
+            $row_id = $this->input->post('row_id');
+            
+            $remarkInfo = array('is_deleted' => 1,
+                'updated_date_time' => date('Y-m-d H:i:s'),
+                'updated_by' => $this->staff_id
+            );
+            $result = $this->student->updateRemarksInfo($remarkInfo, $row_id);
+           
+            if ($result == true) {echo (json_encode(array('status' => true)));} else {echo (json_encode(array('status' => false)));}
+        } 
+    }
+
+    
 }
 
 ?>
