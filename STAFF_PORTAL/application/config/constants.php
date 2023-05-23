@@ -175,6 +175,9 @@ define('SENDERID_TEXTLOCAL',                            '');
 
 
 /************************* FCM PUSH-NOTIFICATION CONSTANTS ****************************/
-define('FCM_SERVER_KEY',                               'AAAAcTdMV2E:APA91bEcPflRQmSq3LzXuzx4T052Zw1sEwTAq7oZdzJJL2WKZZKN54DgI4ZdWdLmNyPIJXnaWKibCH2Ie-eh2kxASfqBfWrX9q4Olp2BxOZ3ANeoQEtT1FNYcUdb4x0n-uiD_uqtujKt');
-define('NOTIFICATION_LOGO',                            '');
+define('FCM_SERVER_KEY',                               'AAAAR6IqTfE:APA91bHt25LobZMbUDvlQ-m2bLbBwkOSkTj_pMkR-jxEx7LTNZjdruBOo-FQw9TsUPWYR1w9wkRmBYTBl-nsGzzllfww07MS3xj6CrxIg4YEtBIvOIwbyp6dL2fW4QOnIusNpSmoAHB_');
+define('NOTIFICATION_LOGO',                            ' ');
 define('FCM_URL',                                      'https://fcm.googleapis.com/fcm/send');
+define('PUBLIC_FCM_SERVER_VAPID_KEY',                  'BPcLD-4QUQOxDb9WGszkEP6pF-e5A0EEInEg28MejZePAGXWAzZsDWVGwwF5-U5q2e_Jniyysgi1fFWfBNMP2gU');
+
+define('PROJECT_ID',                                   'flutter-notification-2-9aac6');

@@ -154,6 +154,7 @@ class Login_model extends CI_Model
     
     function dashboardInfo(){
         $this->db->from('app_dashboard_menu');
+        $this->db->order_by('id','ASC');
         $this->db->where('is_deleted', 0);
         $query = $this->db->get();
         return $query->result();

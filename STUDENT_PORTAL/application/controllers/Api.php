@@ -396,6 +396,7 @@ class Api extends CI_Controller
         $obj = json_decode($json,true);
         $student_id = $obj['student_id'];
         $studentInfo = $this->student_model->getStudentInfoByStudentId($student_id);
+        //log_message('debug','fff'.print_r($studentInfo,true));
 
         // if($studentInfo->term_name == "I PUC"){ 
             $absent_date_from = date("Y-m-d", strtotime($studentInfo->doj));
@@ -420,6 +421,8 @@ class Api extends CI_Controller
         }
         array_push($subjects_code, '02');
         $subjects = $this->getSubjectCodes($studentInfo->stream_name);
+       // log_message('debug','subjects'.print_r($subjects,true));
+
         $subjects_code = array_merge($subjects_code,$subjects);
         $total_class_held_all = 0;
         $total_class_attended_all = 0;
@@ -428,11 +431,15 @@ class Api extends CI_Controller
             $absent_count_lab = 0;
             $batch_name = '';
             $subject_info = $this->attendance_model->getSubjectInfo($subjects_code[$i]);
+           // log_message('debug','subject_info'.print_r($subject_info,true));
+
             if($subject_info->lab_status == 'true'){
                 $batch_name = $studentInfo->batch;
             }                    
             $subject_class_held_theory = $this->attendance_model->getTotalClassHeld($subjects_code[$i],$studentInfo->term_name,$studentInfo->section_name,'THEORY','',$absent_date_from,$attendance_date_to);
+           // log_message('debug','subject_class_held_theory'.print_r($subject_class_held_theory,true));
             $total_dates_held_theory = $this->attendance_model->getTotalClassCompletedDates($subjects_code[$i],$studentInfo->term_name,$studentInfo->section_name,'THEORY','',$absent_date_from,$attendance_date_to);
+           // log_message('debug','total_dates_held_theory '.print_r($total_dates_held_theory ,true));
             $absent_count_theory = $this->attendance_model->getStudentAbsentCount($subjects_code[$i],$student_id,$absent_date_from,$attendance_date_to,'THEORY');
             $absent_count += $absent_count_theory;
             $subject_class_held_lab = $this->attendance_model->getTotalClassHeld($subjects_code[$i],$studentInfo->term_name,$studentInfo->section_name,'LAB',$batch_name,$absent_date_from,$attendance_date_to);
@@ -443,7 +450,11 @@ class Api extends CI_Controller
                 $absent_count += ($absent_count_lab * 2);
             }
             $total_class_presnts = $total_class_held-$absent_count;
-            $attendance_percentage = ($total_class_presnts/$total_class_held)*100;
+            if($total_class_held>0){
+                $attendance_percentage = ($total_class_presnts/$total_class_held)*100;
+            }else{
+                $attendance_percentage=0;
+            }
             $total_class_held_all += $total_class_held;
             $total_class_attended_all += $total_class_presnts;
             array_push($subject_name,$subject_info->name); 
@@ -468,12 +479,15 @@ class Api extends CI_Controller
         $stream_name = $obj['stream_name'];
         $student_id = $obj['student_id'];
         $row_id = $obj['row_id'];
+        $student = $this->student_model->getStudentInfoBystudId($student_id);
+        //log_message('debug','student'.print_r($student,true));
         // $term_name='KG II';
         // $section_name='C';
         // $student_id = '565464';
         // $row_id = '2';
-        $notifications = $this->student_model->getStudentNotifications($term_name,$section_name,$stream_name);
-    
+        $notifications = $this->student_model->getStudentNotifications($student->term_name,$student->section_name,$student->stream_name);
+        //log_message('debug','notii'.print_r($notifications,true));
+         
         ////
         // $date = date('Y-m-d');
         // $notificationMsg = $this->student_model->getStudentNotification($student_id,$date);
@@ -525,6 +539,7 @@ class Api extends CI_Controller
         $filter['stream_name'] = $stream_name;
         $filter['stream_name1'] = 'ALL';
         $studyMaterialInfo = $this->studymaterial_model->getStudyMaterial($filter);
+        $db_data = array();
         foreach($studyMaterialInfo as $info){
             if($info->created_date_time!=null){
                 $info->created_date_time =date('d-m-Y',strtotime($info->created_date_time));
@@ -1506,71 +1521,70 @@ class Api extends CI_Controller
 
     
 	
- function getSubjectCodes($stream_name){
-                //science
-                $PCMB = array("33", "34", "35", '36');
-                $PCMC = array("33", "34", "35", '41');
-                $PCME = array("33", "34", "35", '40');
-                $PCMS = array("33", "34", "35", '31');
-                //commarce
-                $BEBA = array("75", "22", "27", '30');
-                $BSBA = array("75", "31", "27", '30');
-                $CSBA = array("41", "31", "27", '30');
-                $SEBA = array("31", "22", "27", '30');
-                $CEBA = array("41", "22", "27", '30');
-                $PEBA = array("29", "22", "27", '30');
-                //art
-                $HEPP = array("21", "22", "32", '29');
-                $MEBA = array("75", "22", "27", '30');
-                $MSBA = array("75", "31", "27", '30');
-                $HEPS = array("21", "22", "29", '28');
-              
-                switch ($stream_name) {
-                    case "PCMB":
-                        return  $PCMB;
-                        break;
-                    case "PCMC":
-                        return $PCMC;
-                        break;
-                    case "PCME":
-                        return $PCME;
-                        break;
-                    case "PCMS":
-                        return $PCMS;
-                        break;
-                    case "PEBA":
-                        return $PEBA;
-                        break;
-                    case "BEBA":
-                        return $BEBA;
-                        break;
-                    case "BSBA":
-                        return $BSBA;
-                        break;
-                    case "CSBA":
-                        return $CSBA;
-                        break;
-                    case "SEBA":
-                        return $SEBA;
-                        break;
-                    case "CEBA":
-                        return $CEBA;
-                        break;
-                    case "HEPP":
-                        return $HEPP;
-                        break;
-                    case "HEPS":
-                        return $HEPS;
-                        break;
-                    case "MEBA":
-                        return $MEBA;
-                        break;
-                    case "MSBA":
-                        return $MSBA;
-                        break;
-                }
-        }
+    public function getSubjectCodes($stream_name){
+        //science
+        $PCMB = array("33", "34", "35", '36');
+        $PCMC = array("33", "34", "35", '41');
+        $PCME = array("33", "34", "35", '40');
+        $PCMS = array("33", "34", "35", '31');
+        //commarce
+        $BEBA = array("75", "22", "27", '30');
+        $BSBA = array("75", "31", "27", '30');
+        $CSBA = array("41", "31", "27", '30');
+        $SEBA = array("31", "22", "27", '30');
+        $CEBA = array("41", "22", "27", '30');
+        $PEBA = array("29", "22", "27", '30');
+        //art
+        $HEPP = array("21", "22", "32", '29');
+        $MEBA = array("75", "22", "27", '30');
+        $MSBA = array("75", "31", "27", '30');
+        $HEPS = array("21", "22", "29", '28');
 
+        switch ($stream_name) {
+            case "PCMB":
+                return  $PCMB;
+                break;
+            case "PCMC":
+                return $PCMC;
+                break;
+            case "PCME":
+                return $PCME;
+                break;
+            case "PCMS":
+                return $PCMS;
+                break;
+            case "PEBA":
+                return $PEBA;
+                break;
+            case "BEBA":
+                return $BEBA;
+                break;
+            case "BSBA":
+                return $BSBA;
+                break;
+            case "CSBA":
+                return $CSBA;
+                break;
+            case "SEBA":
+                return $SEBA;
+                break;
+            case "CEBA":
+                return $CEBA;
+                break;
+            case "HEPP":
+                return $HEPP;
+                break;
+            case "HEPS":
+                return $HEPS;
+                break;
+            case "MEBA":
+                return $MEBA;
+                break;
+            case "MSBA":
+                return $MSBA;
+                break;
+        }
+    }
 
 
 
