@@ -980,7 +980,7 @@
                             <label>Date</label>
                             <div class="form-group">
                                 <input type="text" value="<?php echo date('d-m-Y') ?>" name="date"
-                                    class="form-control input-sm remarks_date" placeholder="Date" autocomplete="off"
+                                    class="form-control datepicker input-sm remarks_date" placeholder="Date" autocomplete="off"
                                     required>
                             </div>
                         </div>
@@ -1061,7 +1061,7 @@
                             <label>Date</label>
                             <div class="form-group">
                                 <input type="text" value="" name="date" id="editDate"
-                                    class="form-control input-sm remarks_date" placeholder="Date" autocomplete="off"
+                                    class="form-control datepicker_edit input-sm remarks_date" placeholder="Date" autocomplete="off"
                                     required>
                             </div>
                         </div>
@@ -1131,6 +1131,12 @@ function GoBackWithRefresh(event) {
     }
 }
 jQuery(document).ready(function() {
+
+    jQuery('.datepicker, .datepicker_edit').datepicker({
+        autoclose: true,
+        format: "dd-mm-yyyy",
+        endDate: "today"
+    });
 
     jQuery('.resetFilters').click(function() {
         $(this).closest('form').find("input[type=text]").val("");
