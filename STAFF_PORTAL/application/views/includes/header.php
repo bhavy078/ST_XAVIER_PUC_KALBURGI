@@ -992,6 +992,13 @@
                     </ul>
                 </li>
                 <?php } ?>
+                <li class="nav-item">
+                                <a class="nav-link " href="<?php echo base_url(); ?>calendar">
+                                    <i class="material-icons">today</i>
+                                    <span>Calendar</span>
+                            </a>
+                    </li>
+
                 <?php if ($role == ROLE_OFFICE || $role == ROLE_ADMIN || $role == ROLE_PRINCIPAL || $role == ROLE_PRIMARY_ADMINISTRATOR || $role == ROLE_VICE_PRINCIPAL) { ?>
                 <li class="nav-item">
                     <a href="#analytics" data-toggle="collapse" aria-expanded="false" class="nav-link  dropdown-toggle">
