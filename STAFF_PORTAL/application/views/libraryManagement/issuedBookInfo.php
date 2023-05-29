@@ -66,7 +66,7 @@ if ($success) {
                         <div class="row c-m-b">
                             <div class="col-lg-4 col-12 col-md-12 box-tools">
                                 <span class="page-title">
-                                    <i class="material-icons">book</i> Library Managment Details
+                                    <i class="material-icons">book</i> Issued Book Details
                                 </span>
                             </div>
                             <div class="col-lg-3 col-12 col-md-12">
@@ -145,11 +145,11 @@ if ($success) {
                                             <input type="text" value="<?php echo $actual_return_date; ?>" name="actual_return_date" id="actual_return_date" class="form-control input-sm datepicker" placeholder="By actual return date" autocomplete="off">
                                         </div>
                                     </td>
-                                    <td>
+                                    <!-- <td>
                                         <div class="form-group mb-0">
-                                            <input type="text" value="<?php echo $days_delayed; ?>" name="days_delayed" id="days_delayed" class="form-control input-sm" placeholder="Days delayed" autocomplete="off">
+                                            <input type="text" value="<?php // echo $days_delayed; ?>" name="days_delayed" id="days_delayed" class="form-control input-sm" placeholder="Days delayed" autocomplete="off">
                                         </div>
-                                    </td>
+                                    </td> -->
                                     <td>
                                         <div class="form-group mb-0">
                                             <input type="text" value="<?php echo $fine; ?>" name="fine" id="fine" class="form-control input-sm" placeholder="By fine" autocomplete="off">
@@ -175,7 +175,7 @@ if ($success) {
                                     <th>Renewal Date</th>
                                     <th>Given Date</th>
                                     <th>Returned Date</th>
-                                    <th>Days Delayed</th>
+                                    <!-- <th>Days Delayed</th> -->
                                     <th>Fine</th>
                                     <th>Remarks</th>
                                     <th width="130">Action</th>
@@ -205,7 +205,7 @@ if ($success) {
                                                 }
                                             ?>
                                             <th class="text-center"><?php echo $DD; ?></th>
-                                            <th class="text-center"><?php echo $library->days_delayed; ?></th>
+                                            <!-- <th class="text-center"><?php echo $library->days_delayed; ?></th> -->
                                             <th class="text-center"><?php echo $library->fine; ?></th>
                                             <th class="text-left"><?php echo $library->remarks; ?></th>
                                             <th class="text-left">
