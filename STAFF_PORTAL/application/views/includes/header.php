@@ -695,7 +695,7 @@
                 </li>
 
                 <?php } ?>
-                <?php if ($role == ROLE_LIBRARY || $role == ROLE_PRIMARY_ADMINISTRATOR || $role == ROLE_PRINCIPAL || $role == ROLE_ADMIN || $role == ROLE_TEACHING_STAFF || $role == ROLE_OFFICE) { ?>
+                <?php if ( $role == ROLE_PRIMARY_ADMINISTRATOR || $role == ROLE_PRINCIPAL || $role == ROLE_ADMIN || $role == ROLE_TEACHING_STAFF || $role == ROLE_OFFICE) { ?>
                 <li class="nav-item">
                     <!-- <a href="#study_items" data-toggle="collapse" aria-expanded="false"
                         class="nav-link  dropdown-toggle">
@@ -818,6 +818,7 @@
                     </ul>
                 </li>  -->
                 <?php } ?>
+                <?php if($role != ROLE_LIBRARY){ ?>
                 <li class="nav-item">
                     <a href="#notification_items" data-toggle="collapse" aria-expanded="false" class="nav-link  dropdown-toggle">
                         <i class="material-icons">chat</i>
@@ -879,6 +880,7 @@
                         <?php } ?>
                     </ul>
                 </li>
+                <?php } ?>
 
                 <?php if ($role == ROLE_ADMIN || $role == ROLE_PRINCIPAL || $role == ROLE_PRIMARY_ADMINISTRATOR || $role == ROLE_ACCOUNT) { ?>
                 <li class="nav-item">
@@ -992,13 +994,14 @@
                     </ul>
                 </li>
                 <?php } ?>
+                <?php if($role != ROLE_LIBRARY){ ?>
                 <li class="nav-item">
                                 <a class="nav-link " href="<?php echo base_url(); ?>calendar">
                                     <i class="material-icons">today</i>
                                     <span>Calendar</span>
                             </a>
                     </li>
-
+                <?php } ?>
                 <?php if ($role == ROLE_OFFICE || $role == ROLE_ADMIN || $role == ROLE_PRINCIPAL || $role == ROLE_PRIMARY_ADMINISTRATOR || $role == ROLE_VICE_PRINCIPAL) { ?>
                 <li class="nav-item">
                     <a href="#analytics" data-toggle="collapse" aria-expanded="false" class="nav-link  dropdown-toggle">
