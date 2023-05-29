@@ -78,12 +78,12 @@
         });
     </script>
     <style>
-        .back_home_page {
+        /* .back_home_page {
     background-image: url(assets/images/bg.png) !important;
     background-position: center;
     background-repeat: no-repeat;
-    background-size: cover;
-}
+    background-size: cover; */
+/* } */
         /* Absolute Center Spinner */
         .custom_loader {
             position: fixed;
@@ -202,6 +202,16 @@
                 transform: rotate(360deg);
             }
         }
+
+        @keyframes marquee {
+      0% {
+        background-position: 0;
+      }
+
+      100% {
+        background-position: -1190px;
+      }
+    }
     </style>
 </head>
 

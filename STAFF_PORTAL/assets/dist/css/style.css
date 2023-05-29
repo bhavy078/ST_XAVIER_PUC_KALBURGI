@@ -654,9 +654,15 @@ tfoot {
 }
 
 .back_home_page {
-    /* background-image: url("../../dist/img/bg1.jpg"); */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100%;
+    background-image: url("../../dist/img/xavier\ puc.jpg");
     background-position: center;
-    background-repeat: no-repeat;
+    background-repeat: repeat;
+    animation: marquee 30s infinite linear;
     background-size: cover;
 }
 
