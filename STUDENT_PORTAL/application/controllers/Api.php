@@ -263,13 +263,14 @@ class Api extends CI_Controller
             $oldPassword = $obj['old_password'];
             $password = $obj['password'];
             $student_id=$obj['student_id'];
+            //log_message('debug','ggg'.print_r($obj,true));
             $resultPas = $this->student_model->matchOldPassword($student_id, $oldPassword);
             if(empty($resultPas)) {
                 $msg= 'Your old password is not correct';
             }
             else{
-                $usersData = array('password'=>getHashedPassword($password), 'updated_by'=>$student_id,
-                                'updatedDtm'=>date('Y-m-d H:i:s'));
+                $usersData = array('password'=>getHashedPassword($password)
+                               );
                 $result = $this->student_model->changePassword($student_id, $usersData);
                 if($result > 0) { 
                     $msg='success'; 
@@ -1727,6 +1728,7 @@ public function absentDetails(){
     $obj = json_decode($json,true);
     $student_id = $obj['student_id'];
     $absentInfo= $this->student_model->getabsentDetails($student_id);
+    log_message('debug','dwfw'.print_r($absentInfo,true));
     $data = json_encode($absentInfo);
     echo $data;
     
