@@ -41,6 +41,8 @@ class User extends BaseController
         $data['staffInfo'] = $this->staff->getStaffInfoForProfile($this->staff_id);
         $data['allStudentInfo'] = $this->student->getAllCurrentStudentInfo();
         $data['AllstaffInfo'] = $this->staff->getAllStaffInfo();
+        $subjects_code = array();
+
         // $filter['by_role'] = ROLE_TEACHING_STAFF;
         // $data['teaching_staffs_total']= $this->staff->staffListingCount($filter);
         // $filter['by_role'] = ROLE_NON_TEACHING_STAFF;
@@ -116,31 +118,100 @@ class User extends BaseController
             $filter['student_id'] = $student_id;
             $studentRecord = $this->student->getStudentInfoByStudentId($filter); 
             if(!empty($studentRecord)){
+                $std_batch = $studentRecord->batch;
+                $filter['doj'] = '';
+                if(date('Y-m-d',strtotime($studentRecord->doj))){
+                    $filter['doj'] = date('Y-m-d',strtotime($studentRecord->doj));
+                } else{
+                    $filter['doj'] = '';
+                }
                 $data['studentsRecords'] = $studentRecord;
                 $elective_sub = strtoupper($studentRecord->elective_sub);            
-                if($elective_sub == 'KANNADA'){
+                if($elective_sub == "KANNADA"){
                     array_push($subjects_code, '01');
                 }else if($elective_sub == 'HINDI'){
                     array_push($subjects_code, '03');
                 } else if($elective_sub == 'FRENCH'){
                     array_push($subjects_code, '12');
+                }else{
+                    array_push($subject_mark_chart,0);
+                    array_push($subject_names, 'EXM');
                 }
-                log_message('debug','steamNme'.$studentRecord->stream_name);
+                array_push($subjects_code, '02');
                 $subjects = $this->getSubjectCodes($studentRecord->stream_name);
+                log_message('debug','subjectsss'.print_r($subjects,true));
+                log_message('debug','subjectssscodeee'.print_r($subjects_code,true));
+
                 $subjects_code = array_merge($subjects_code,$subjects);
                 $data['subject_code'] = $subjects;
+                // $filter['term_name'] = $studentRecord->term_name; 
+                $filter['term'] = '';
+
                 for($i=0;$i<count($subjects_code);$i++){
-                $subject_attendance[$subjects_code[$i]]['sub_name'] = $this->subject->getSubjectInfoById($subjects_code[$i]);
-                $subject_attendance[$subjects_code[$i]]['class_held'] = $this->student->getClassHeldInfo($filter,$subjects_code[$i]);
-                $class_absent = $this->student->getStudentAbsentInfo($student->student_id,$subjects_code[$i]);
-                $subject_attendance[$subjects_code[$i]]['class_attended'] = $subject_attendance[$subjects_code[$i]]['class_held'] - $class_absent;
-                if($subject_attendance[$subjects_code[$i]]['class_held'] == 0){
-                    $subject_attendance[$subjects_code[$i]]['percentage'] = 0;
-                }else{
-                    $subject_attendance[$subjects_code[$i]]['percentage'] = ($subject_attendance[$subjects_code[$i]]['class_attended'] / $subject_attendance[$subjects_code[$i]]['class_held']) * 100;
-                }
-                $total_class_held += $subject_attendance[$subjects_code[$i]]['class_held'];
-                $total_class_attended += $subject_attendance[$subjects_code[$i]]['class_attended'];
+
+                $class_held[] = 0;
+                $class_held_lab[]  = 0;
+                $class_attended = 0;
+                $absent_count[] = 0;
+                $std_absent_count[] = 0;
+                $absent_count_theory[] = 0;
+                $absent_count_lab[] = 0;
+                $absent_countLab[] = 0;
+                $subInfo[$subjects_code[$i]] = $this->subject->getAllSubjectByID($subjects_code[$i]);
+
+                    $type="THEORY";
+                    $filter['std_batch'] = '';
+                    $class_held[$subjects_code[$i]]+= $this->attendance->getClassInfoAttendanceReportStudent($subjects_code[$i],$filter,$type);
+                    
+                    $type="LAB";
+                    $filter['std_batch'] = $std_batch;
+                    $class_held_lab[$subjects_code[$i]]+= $this->attendance->getClassInfoAttendanceReportStudent($subjects_code[$i],$filter,$type);
+
+                    // if($class_held_lab != 0){
+                        $class_held[$subjects_code[$i]]+= ($class_held_lab[$subjects_code[$i]] * 2);
+                    // }
+                    // $data['classHeldDate'] = $this->attendance->getTotalClassHeldByStaff($subjects_code[$i],$filter,$type);
+                    
+                    // foreach($data['classHeldDate'] as $classdata){
+                    $type="THEORY";
+                    $absent_count_theory[$subjects_code[$i]] = $this->attendance->isStudentIsAbsentForClass($studentRecord->student_id,$subjects_code[$i],$filter,$type);
+                    
+                    // log_message('debug','absent_count_theory='.print_r($absent_count_theory,true));
+                    $type="LAB";
+                    $absent_count_lab[$subjects_code[$i]] = $this->attendance->isStudentIsAbsentForClass($studentRecord->student_id,$subjects_code[$i],$filter,$type);
+                    $absent_countLab[$subjects_code[$i]] = $absent_count_lab[$subjects_code[$i]] * 2;
+
+                    $std_absent_count[$subjects_code[$i]] = $absent_count_theory[$subjects_code[$i]] + $absent_countLab[$subjects_code[$i]];
+                    //     if($absent_count_theory != NULL){
+                    //         $absent_count += 1;
+                    //     }
+                    
+                    // }
+                
+                    
+                    //no change
+                    // $total_class_held_per_std+= $class_held;
+                    $absent_count[$subjects_code[$i]] = $class_held[$subjects_code[$i]] - $std_absent_count[$subjects_code[$i]];
+                    $absentCount[$subjects_code[$i]]+= $std_absent_count[$subjects_code[$i]];
+                    // $total_attd_class_std = $absentCount[$subjects_code[$i]];
+
+                    $data['class_held'] = $class_held;
+                    $data['class_attended'] = $absent_count;
+                    $data['subjects'] = $subInfo;
+                    
+                    // if($class_held != 0){
+                    //     $avg = ($absent_count)/$class_held;
+                    //     $percentage = round($avg*100, 2);
+                    // }else{
+                    //     $percentage = 0;
+                    // }
+                    // if(!empty($percentage_sort)){
+                    //     if($percentage <= $percentage_sort){
+                    //         $percentage_active = true;
+                    //     }
+                    // }
+
+              
                 }
 
             } else {

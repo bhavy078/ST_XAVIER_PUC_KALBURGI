@@ -14,6 +14,7 @@ class Students extends BaseController
         $this->load->model('settings_model','settings');
         $this->load->model('subjects_model','subject');
         $this->load->model('staff_model','staff');
+        $this->load->model('studentAttendance_model','attendance');
         $this->load->library('pagination');
         $this->load->library('excel');
         $this->isLoggedIn();   
@@ -179,6 +180,13 @@ class Students extends BaseController
             $total_class_attended = 0;
             $total_attendance_percentage = 0;
             $student = $this->student->getStudentInfoById($row_id);
+            $std_batch = $student->batch;
+            $filter['doj'] = '';
+            if(date('Y-m-d',strtotime($student->doj))){
+                $filter['doj'] = date('Y-m-d',strtotime($student->doj));
+            } else{
+                $filter['doj'] = '';
+            }
             $filter['stream_name'] = $student->stream_name;
             if($student->section_name != ''){
                 $filter['section_name'] = $student->section_name;
@@ -202,7 +210,69 @@ class Students extends BaseController
             array_push($subjects_code, '02');
             $subjects = $this->getSubjectCodes($student->stream_name);
             $subjects_code = array_merge($subjects_code,$subjects);
+            $total_class_held_per_std = 0;
             for($i=0;$i<count($subjects_code);$i++){
+                $class_held[] = 0;
+                $class_held_lab[]  = 0;
+                $class_attended = 0;
+                $absent_count[] = 0;
+                $std_absent_count[] = 0;
+                $absent_count_theory[] = 0;
+                $absent_count_lab[] = 0;
+                $absent_countLab[] = 0;
+                $subInfo[$subjects_code[$i]] = $this->subject->getAllSubjectByID($subjects_code[$i]);
+
+                    $type="THEORY";
+                    $filter['std_batch'] = '';
+                    $class_held[$subjects_code[$i]]+= $this->attendance->getClassInfoAttendanceReportStudent($subjects_code[$i],$filter,$type);
+                    
+                    $type="LAB";
+                    $filter['std_batch'] = $std_batch;
+                    $class_held_lab[$subjects_code[$i]]+= $this->attendance->getClassInfoAttendanceReportStudent($subjects_code[$i],$filter,$type);
+
+                    // if($class_held_lab != 0){
+                        $class_held[$subjects_code[$i]]+= ($class_held_lab[$subjects_code[$i]] * 2);
+                    // }
+                    // $data['classHeldDate'] = $this->attendance->getTotalClassHeldByStaff($subjects_code[$i],$filter,$type);
+                    
+                    // foreach($data['classHeldDate'] as $classdata){
+                    $type="THEORY";
+                    $absent_count_theory[$subjects_code[$i]] = $this->attendance->isStudentIsAbsentForClass($student->student_id,$subjects_code[$i],$filter,$type);
+                    
+                    // log_message('debug','absent_count_theory='.print_r($absent_count_theory,true));
+                    $type="LAB";
+                    $absent_count_lab[$subjects_code[$i]] = $this->attendance->isStudentIsAbsentForClass($student->student_id,$subjects_code[$i],$filter,$type);
+                    $absent_countLab[$subjects_code[$i]] = $absent_count_lab[$subjects_code[$i]] * 2;
+
+                    $std_absent_count[$subjects_code[$i]] = $absent_count_theory[$subjects_code[$i]] + $absent_countLab[$subjects_code[$i]];
+                    //     if($absent_count_theory != NULL){
+                    //         $absent_count += 1;
+                    //     }
+                    
+                    // }
+                
+                    
+                    //no change
+                    // $total_class_held_per_std+= $class_held;
+                    $absent_count[$subjects_code[$i]] = $class_held[$subjects_code[$i]] - $std_absent_count[$subjects_code[$i]];
+                    $absentCount[$subjects_code[$i]]+= $std_absent_count[$subjects_code[$i]];
+                    $total_attd_class_std = $absentCount[$subjects_code[$i]];
+                    
+                    // if($class_held != 0){
+                    //     $avg = ($absent_count)/$class_held;
+                    //     $percentage = round($avg*100, 2);
+                    // }else{
+                    //     $percentage = 0;
+                    // }
+                    // if(!empty($percentage_sort)){
+                    //     if($percentage <= $percentage_sort){
+                    //         $percentage_active = true;
+                    //     }
+                    // }
+
+
+
+
                 // $getMarkOfFirstUnitTest = $this->student->getFirstInternaltMark($student->student_id,$subjects_code[$i]);
                 // $exam_mark_first_test[$i] = $getMarkOfFirstUnitTest;
 
@@ -249,7 +319,10 @@ class Students extends BaseController
             $data['remarkInfo'] = $this->student->getRemarksData($row_id);
             // $data['studentFamilyInfo'] = $this->student->getStudentFamilyInfoById($row_id);
             // $data['studentImage'] = $this->student->getStudentImageById($row_id);
-     
+            $data['class_held'] = $class_held;
+            $data['class_attended'] = $absent_count;
+            $data['subjects'] = $subInfo;
+
             $data['active'] = '';
             $this->global['pageTitle'] = ''.TAB_TITLE.' : View Student Details';
             $this->loadViews("students/viewStudent", $this->global, $data, null);

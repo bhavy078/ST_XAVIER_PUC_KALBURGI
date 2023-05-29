@@ -554,7 +554,7 @@ class StudentAttendance_model extends CI_Model{
         if(!empty($filter['std_batch'])){
             $this->db->where('class.batch',$filter['std_batch']); 
         }
-        $this->db->where('class.class_year', 2022);
+        $this->db->where('class.class_year', 2023);
         $this->db->where('class.is_deleted', 0);
         $this->db->where('class.subject_type', $type);
         $query = $this->db->get();
@@ -580,7 +580,7 @@ class StudentAttendance_model extends CI_Model{
         $this->db->where('abclass.subject_code', $subject_code);
         // $this->db->where('abclass.absent_date', date("Y-m-d", strtotime($date)));
         // $this->db->where('abclass.office_verified_status', 0);
-        $this->db->where('abclass.year', 2022);
+        $this->db->where('abclass.year', 2023);
         $this->db->where('abclass.is_deleted', 0);
         $query = $this->db->get();
         return $query->num_rows();  

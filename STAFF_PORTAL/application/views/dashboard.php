@@ -357,12 +357,12 @@ if ($warning) {
                                                 Info</a>
                                         </li>
                                         
-                                        <!-- <li class="nav-item">
+                                        <li class="nav-item">
                                             <a class="nav-link" id="attendance-tab" data-toggle="tab"
                                                 href="#attendanceqw" role="tab" aria-controls="attendance"
                                                 aria-selected="true">Attendance
                                             </a>
-                                        </li> -->
+                                        </li>
                                         <!-- <li class="nav-item">
                                             <a class="nav-link" id="first_unit_test-tab" data-toggle="tab" href="#first_unit_test"
                                                 role="tab" aria-controls="first_unit_test" aria-selected="true">I Unit Test
@@ -390,6 +390,11 @@ if ($warning) {
                                                 aria-selected="true">Preparatory
                                             </a>
                                         </li> -->
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="remarks-tab" data-toggle="tab" href="#remarksqw"
+                                                role="tab" aria-controls="remarks" aria-selected="true">  Remarks
+                                            </a>
+                                        </li>
                                     </ul>
                                     <div class="tab-content personal-tab" id="myTabContent">
                                         <div class="tab-pane fade show active" id="personal" role="tabpanel"
@@ -709,49 +714,42 @@ if ($warning) {
                                         <div class="tab-pane fade" id="attendanceqw" role="tabpanel"
                                             aria-labelledby="attendance-tab">
                                             <div class="table-responsive mt-1">
-                                                <table class="table table-bordered table_info">
-                                                    <thead>
-                                                        <tr class="table-success">
-                                                            <th class="text-center">SUBJECTS</th>
-                                                            <th class="text-center">Classes Held</th>
-                                                            <th class="text-center">Classes Present</th>
-                                                            <th class="text-center">Percentage</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <?php for($i=0;$i<count($subject_code);$i++){  ?>
+                                                <table class="table table-bordered table_edit_student ">
                                                     <tr>
-                                                        <th><?php echo $subject_attendance[$subject_code[$i]]['sub_name']->name; ?>
-                                                        </th>
-                                                        <th class="text-center">
-                                                            <?php echo $subject_attendance[$subject_code[$i]]['class_held']; ?>
-                                                        </th>
-                                                        <th class="text-center">
-                                                            <?php echo $subject_attendance[$subject_code[$i]]['class_attended']; ?>
-                                                        </th>
-                                                        <?php if(round($subject_attendance[$subject_code[$i]]['percentage'],2) < 85.00){ ?>
-                                                        <th width="300" style="background:#f76a7ebf"
-                                                            class="text-center">
-                                                            <?php echo round($subject_attendance[$subject_code[$i]]['percentage'],2);?>
-                                                        </th>
-                                                        <?php }else{ ?>
-                                                        <th width="300" class="text-center">
-                                                            <?php echo round($subject_attendance[$subject_code[$i]]['percentage'],2);?>
-                                                        </th>
-                                                        <?php  } ?>
+                                                        <th class="tbl-head" width="100">Subject</th>
+                                                        <th class="tbl-head" width="100">Class Held</th>
+                                                        <th class="tbl-head" width="100">Class Attended</th>
                                                     </tr>
-                                                    <?php }  ?>
+                                                    <?php foreach($subjects as $subject){ 
+                                                        //  if(strtoupper($subject->sub_name) == 'HINDI'){
+                                                        //     if(strtoupper($studentInfo->elective_language) == 'HINDI'){
+                                                        //         $subject_name = $subject->sub_name;
+                                                        //     } else{
+                                                        //         continue;
+                                                        //     }
+                                                        // } else if(strtoupper($subject->sub_name) == 'KANNADA'){
+                                                        //     if(strtoupper($studentInfo->elective_language) == 'KANNADA'){
+                                                        //         $subject_name = $subject->sub_name;
+                                                        //      } else{
+                                                        //         continue;
+                                                        //      }
+                                                        // } else{
+                                                            $subject_name = $subject->sub_name;
+                                                        // }
+                                                        ?>
 
                                                     <tr>
-                                                        <th colspan="4" class="total_row">Total Percentage:
-                                                            <?php if(round($total_attendance_percentage,2) < 85.00){ ?>
-                                                            <span colspan="3"
-                                                                class="total_row text_fail"><?php echo round($total_attendance_percentage,2).'%'; ?></span>
-                                                            <?php }else{ ?>
-                                                            <span colspan="3"
-                                                                class="total_row"><?php echo round($total_attendance_percentage,2).'%'; ?></span>
-                                                            <?php  } ?>
-                                                        </th>
+                                                        <td style="color:black"><b><?php echo $subject_name; ?></b>
+                                                        </td>
+                                                        <td style="color:black">
+                                                            <b><?php echo $class_held[$subject->subject_code]; ?></b>
+                                                        </td>
+                                                        <td style="color:black">
+                                                            <b><?php echo $class_attended[$subject->subject_code]; ?></b>
+                                                        </td>
                                                     </tr>
+                                                    <?php } ?>
+
                                                 </table>
                                             </div>
                                         </div>
@@ -1313,6 +1311,50 @@ if ($warning) {
                                                     </tr>
                                                 </table>
                                             </div>
+                                        </div>
+                                        <div class="tab-pane fade" id="remarksqw" role="tabpanel"
+                                            aria-labelledby="remarks-tab">                                            
+                                            <div class="table-responsive pt-1">
+                                                <table class="table table-bordered table_edit_student ">
+                                                    <tr>
+                                                        <th class="tbl-head" width="100">Date</th>
+                                                        <!-- <th class="tbl-head" width="100">Semester</th> -->
+                                                        <th class="tbl-head" width="100">Type</th>
+                                                        <th class="tbl-head" width="100">Description</th>
+                                                        <th class="tbl-head" width="100">Action</th>
+                                                    </tr>
+                                                   
+                                                    <?php foreach($remarkInfo as $record){ ?>
+                                                    <tr>
+                                                        <td style="color:black">
+                                                            <b><?php echo date('d-m-Y', strtotime($record->date)); ?></b>
+                                                        </td>
+                                                        <!-- <td style="color:black">
+                                                            <b><?php echo $record->semester; ?></b></td> -->
+                                                        <td style="color:black">
+                                                            <b><?php echo $record->remark_name; ?></b>
+                                                        </td>
+                                                        <td style="color:black">
+                                                            <b><?php echo $record->description; ?></b>
+                                                        </td>
+                                                        
+                                                        <td><?php if (!empty($record->file_path)) { ?>
+                                                            <a href="<?php echo base_url(); ?><?php echo $record->file_path; ?>"
+                                                                download target="_blank" class="btn btn_download p-2"><i
+                                                                    class="fa fa-download"></i></a>
+                                                            <a href="<?php echo base_url(); ?><?php echo $record->file_path; ?>"
+                                                                target="_blank" class="btn btn-primary p-2"><i
+                                                                    class="fa fa-eye"></i> View</a>
+
+                                                            <?php } ?>
+                                                            
+                                                        </td>
+                                                    </tr>
+                                                    <?php } ?>
+
+                                                </table>
+                                            </div>
+
                                         </div>
                                 </div>
                                

@@ -46,6 +46,12 @@
                                                 Info</a>
                                         </li>
                                         <li class="nav-item">
+                                            <a class="nav-link" id="attendance-tab" data-toggle="tab"
+                                                href="#attendanceqw" role="tab" aria-controls="attendance"
+                                                aria-selected="true">Attendance
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
                                             <a class="nav-link" id="first_unit_test-tab" data-toggle="tab" href="#first_unit_test"
                                                 role="tab" aria-controls="first_unit_test" aria-selected="true">I Unit Test
                                             </a>
@@ -944,6 +950,50 @@
                                                 </table>  
                                             </div>
                                         </div>
+
+                                        <div class="tab-pane fade" id="attendanceqw" role="tabpanel"
+                                            aria-labelledby="attendance-tab">
+                                            <div class="table-responsive mt-1">
+                                                <table class="table table-bordered table_edit_student ">
+                                                    <tr>
+                                                        <th class="tbl-head" width="100">Subject</th>
+                                                        <th class="tbl-head" width="100">Class Held</th>
+                                                        <th class="tbl-head" width="100">Class Attended</th>
+                                                    </tr>
+                                                    <?php foreach($subjects as $subject){ 
+                                                        //  if(strtoupper($subject->sub_name) == 'HINDI'){
+                                                        //     if(strtoupper($studentInfo->elective_language) == 'HINDI'){
+                                                        //         $subject_name = $subject->sub_name;
+                                                        //     } else{
+                                                        //         continue;
+                                                        //     }
+                                                        // } else if(strtoupper($subject->sub_name) == 'KANNADA'){
+                                                        //     if(strtoupper($studentInfo->elective_language) == 'KANNADA'){
+                                                        //         $subject_name = $subject->sub_name;
+                                                        //      } else{
+                                                        //         continue;
+                                                        //      }
+                                                        // } else{
+                                                            $subject_name = $subject->sub_name;
+                                                        // }
+                                                        ?>
+
+                                                    <tr>
+                                                        <td style="color:black"><b><?php echo $subject_name; ?></b>
+                                                        </td>
+                                                        <td style="color:black">
+                                                            <b><?php echo $class_held[$subject->subject_code]; ?></b>
+                                                        </td>
+                                                        <td style="color:black">
+                                                            <b><?php echo $class_attended[$subject->subject_code]; ?></b>
+                                                        </td>
+                                                    </tr>
+                                                    <?php } ?>
+
+                                                </table>
+                                            </div>
+                                        </div>
+
                                 </div>
                             </div>
                         </li>
