@@ -38,7 +38,7 @@ class Student_model extends CI_Model
         $this->db->select('student_id, password');
         $this->db->where('student_id', $student_id);        
         $this->db->where('is_deleted', 0);
-        $query = $this->db->get('tbl_student_app_registration');
+        $query = $this->db->get('tbl_students_info');
         
         $user = $query->result();
 
@@ -62,7 +62,7 @@ class Student_model extends CI_Model
     {
         $this->db->where('student_id', $student_id);
         $this->db->where('is_deleted', 0);
-        $this->db->update('tbl_student_app_registration', $usersData);
+        $this->db->update('tbl_students_info', $usersData);
         return $this->db->affected_rows();
     }
 
