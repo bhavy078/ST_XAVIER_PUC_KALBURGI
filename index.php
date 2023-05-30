@@ -89,7 +89,7 @@ body {
 }
 
 .background{
-    /* background-image: url(back.jpeg); */
+    background-image: url(xavierpuc.jpg);
     background-size: 100% 100vh;
     background-repeat: no-repeat;
     background-color: #fff;
@@ -99,7 +99,7 @@ body {
 <body class="text-center background">
     <form class="form-signin">
         <img class="mb-3" src="logo_stxpuc.jpg" alt="STXPUC" width="122" height="122">
-        <h2 class="h3 mb-3 font-weight-bold text-black">Welcome to STXPUC Portal</h2>
+        <h2 class="h3 mb-3 font-weight-bold text-white">Welcome to STXPUC Portal</h2>
         <a style="color:black" href="https://sjpuchassan.schoolphins.com/staff" class="btn btn-lg btn-primary btn-block"
             type="submit">Faculty Login</a>
         <a style="color:black" href="https://sjpuchassan.schoolphins.com/student" class="btn btn-lg btn-primary btn-block" type="submit">Student/Parent Login</a>
