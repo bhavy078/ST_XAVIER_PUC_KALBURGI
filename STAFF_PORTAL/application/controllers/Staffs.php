@@ -176,7 +176,7 @@ class Staffs extends BaseController
                 }
                 $name = $this->security->xss_clean($this->input->post('fname'));
                 $email = strtolower($this->security->xss_clean($this->input->post('email')));
-                $password = 'agnes@123';
+                $password = 'kxpuc@123';
 
                 // $shift_code = $this->input->post('shift_id');
                 $roleId = $this->input->post('role');
