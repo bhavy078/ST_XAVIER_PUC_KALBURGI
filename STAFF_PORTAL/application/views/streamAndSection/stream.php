@@ -150,8 +150,8 @@ if ($error) {
                                         <option value="J">J</option>
                                         <option value="K">K</option>
                                         <option value="L">L</option>
-                                        <option value="M">M</option>
-                                        <option value="ALL">ALL (No Section)</option> -->
+                                        <option value="M">M</option>-->
+                                        <option value=" ">ALL (No Section)</option>
                                     </select>
                                     </div>
                                 </td>
@@ -165,7 +165,7 @@ if ($error) {
                                         <option value="Unaided" selected>Unaided</option> -->
                                     <!-- </select> -->
                                 <!-- </td>  -->
-                                <td class="p-0">
+                                <!-- <td class="p-0">
                                 <div class="form-group m-0">
                                     <select class="form-control" data-live-search="true" id="by_class_teacher" name="by_class_teacher">
                                         <?php if(!empty($by_class_teacher)){ ?>
@@ -178,7 +178,7 @@ if ($error) {
                                         <?php } } ?>
                                     </select>
                                 </div>
-                                </td>
+                                </td> -->
                                 <td class="p-0">    
                                     <button type="submit"class="btn btn-success btn-block mobile-width"> Search</button>
                                 </td>
@@ -189,7 +189,7 @@ if ($error) {
                                 <th>Stream</th>
                                 <th>Section</th>
                                 <!-- <th>Class Type</th> -->
-                                <th>Class Teacher</th>
+                                <!-- <th>Class Teacher</th> -->
                                 <th>Action</th>
                             </tr>
                             <?php if(!empty($sectionInfo)){
@@ -199,7 +199,7 @@ if ($error) {
                                 <td><?php echo $section->stream_name; ?></td>
                                 <td class="text-center"><?php echo $section->section_name; ?></td>
                                 <!-- <td><?php echo $section->class_type; ?></td> -->
-                                <td><?php echo $section->name; ?></td>
+                                <!-- <td><?php echo $section->name; ?></td> -->
                                 <td class="text-center">  
                                 <a class="btn btn-xs btn-danger deleteSection" href="#" data-row_id="<?php echo $section->row_id; ?>" title="Delete"><i class="fa fa-trash"></i></a>
                                 </td>
@@ -277,8 +277,8 @@ if ($error) {
                                         <option value="P">P</option>
                                         <option value="Q">Q</option>
                                         <option value="R">R</option>
-                                        <option value="S">S</option>
-                                        <option value="ALL">ALL (No Section)</option> -->
+                                        <option value="S">S</option>-->
+                                        <option value=" ">ALL (No Section)</option>
                                     </select>
                                 </div>
                             </div>
@@ -289,7 +289,7 @@ if ($error) {
                                     <option value="Unaided">Unaided</option>
                                 </select>
                             </div> -->
-                            <div class="col-6 pr-1">
+                            <!-- <div class="col-6 pr-1">
                                 <select class="form-control required selectpicker" data-live-search="true" id="class_teacher" name="class_teacher">
                                     <option value="">Select Class Teacher</option>
                                     <?php if(!empty($staffInfo)){
@@ -297,7 +297,7 @@ if ($error) {
                                             <option value="<?php echo $staff->staff_id; ?>"><?php echo $staff->name; ?></option>
                                     <?php } } ?>
                                 </select>
-                            </div>
+                            </div> -->
                         </div>
                     </form>
                 </div>

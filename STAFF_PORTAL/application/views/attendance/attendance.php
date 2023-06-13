@@ -113,7 +113,7 @@ if ($success) {  ?>
                                                     <div class="form-group mb-0">
                                                         <label>Date</label>
                                                         <input id="attendance_date" type="text" name="attendance_date" class="form-control form-control-sm datepicker"
-                                                        placeholder="Attendance Date" autocomplete="off" required readonly/>
+                                                        placeholder="Attendance Date" autocomplete="off" required/>
                                                     </div>
                                                 </div>
                                             </div>

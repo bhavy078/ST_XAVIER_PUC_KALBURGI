@@ -459,7 +459,7 @@ if ($error) {
                                                                         <option value="Q">Q</option>
                                                                         <option value="R">R</option>
                                                                         <option value="S">S</option>
-                                                                        <option value="ALL">ALL (No Section)</option>
+                                                                        <option value=" ">ALL (No Section)</option>
                                                                     </select>
                                                                 </div>
                                                             </th>

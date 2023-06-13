@@ -182,7 +182,7 @@ if ($error) {
                                                 <option value="B">B</option>
                                                 <option value="C">C</option>
                                                 <option value="D">D</option>
-                                                
+                                                <option value=" ">ALL(No Section)</option>
                                                 <!-- <option value="E">E</option>
                                                 <option value="F">F</option>
                                                 <option value="G">G</option>
