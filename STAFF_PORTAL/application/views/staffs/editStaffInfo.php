@@ -153,7 +153,7 @@ if ($error) {
                                                                     value="<?php echo $staffInfo->staff_id; ?>"
                                                                     id="staff_id" name="staff_id" maxlength="128"
                                                                     placeholder="Enter Staff ID" autocomplete="off"
-                                                                    required>
+                                                                    required readonly>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="fname">Full Name<span class="text-danger">*</span></label>
