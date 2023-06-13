@@ -57,8 +57,8 @@ class Api extends CI_Controller
         $student_id = $obj['studentid'];
         $dob = $obj['dob'];
 
-            $isExist = $this->login_model->isStudentAlreadyRegisterd($student_id);
-            if($isExist > 0){
+            // $isExist = $this->login_model->isStudentAlreadyRegisterd($student_id);
+            // if($isExist > 0){
                 $dob_from_db = str_replace('/', '-', $dob);
                 if((date('Y-m-d',strtotime($dob_from_db))) == (date('Y-m-d',strtotime($dob)))){
                     $result = $this->login_model->resetPasswordUser($student_id,date('Y-m-d',strtotime($dob)));
@@ -70,9 +70,9 @@ class Api extends CI_Controller
                 }else{
                     $msg = 'Date of Birth is Invalid';
                 }
-            }else{
-                $msg = $student_id .' is Not Registered.';
-            }
+            // }else{
+            //     $msg = $student_id .' is Not Registered.';
+            // }
             $jsonmsg = json_encode($msg);
             echo $jsonmsg ;
     }
@@ -89,7 +89,7 @@ class Api extends CI_Controller
             $studentInfo = array(
                 'password'=>getHashedPassword($password),
                 'password_text' => base64_encode($password),
-                'updated_by'=>$student_id,'updatedDtm'=>date('Y-m-d H:i:s'));
+                );
            
             $result = $this->login_model->resetPasswordConfirmUser($studentInfo,$student_id);
             if($result > 0)
