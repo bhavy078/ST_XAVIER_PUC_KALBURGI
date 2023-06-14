@@ -634,6 +634,13 @@ public function updateCoursePaymentLogByRowId($paymentInfo,$order_id) {
             return $result;
         }
 
+        public function deleteToken($id){
+            $this->db->where('device_id', $id);
+            $this->db->delete('tbl_token');
+            return true;
+        }
+    
+
         public function getabsentDetails($student_id){
             $this->db->select('attendance.absent_date,sub.name,time.start_time,time.end_time');
             $this->db->from('tbl_student_attendance_details as attendance');

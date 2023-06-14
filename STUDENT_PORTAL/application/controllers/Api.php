@@ -397,7 +397,7 @@ class Api extends CI_Controller
         $obj = json_decode($json,true);
         $student_id = $obj['student_id'];
         $studentInfo = $this->student_model->getStudentInfoByStudentId($student_id);
-        //log_message('debug','fff'.print_r($studentInfo,true));
+        
 
         // if($studentInfo->term_name == "I PUC"){ 
             $absent_date_from = date("Y-m-d", strtotime($studentInfo->doj));
@@ -405,7 +405,9 @@ class Api extends CI_Controller
         //     $absent_date_from = '2022-07-01';
         // } 
         $attendance_date_to = date("Y-m-d");
-        $elective_sub = strtoupper($studentInfo->elective_sub);
+        $elective_sub = strtoupper($studentInfo->language_two);
+        
+
         $subjects_code = array();
         $subject_name = array();
         $classes = array();
@@ -422,7 +424,7 @@ class Api extends CI_Controller
         }
         array_push($subjects_code, '02');
         $subjects = $this->getSubjectCodes($studentInfo->stream_name);
-       // log_message('debug','subjects'.print_r($subjects,true));
+       
 
         $subjects_code = array_merge($subjects_code,$subjects);
         $total_class_held_all = 0;
@@ -432,7 +434,7 @@ class Api extends CI_Controller
             $absent_count_lab = 0;
             $batch_name = '';
             $subject_info = $this->attendance_model->getSubjectInfo($subjects_code[$i]);
-           // log_message('debug','subject_info'.print_r($subject_info,true));
+          
 
             if($subject_info->lab_status == 'true'){
                 $batch_name = $studentInfo->batch;
@@ -453,14 +455,13 @@ class Api extends CI_Controller
             $total_class_presnts = $total_class_held-$absent_count;
             if($total_class_held>0){
                 $attendance_percentage = ($total_class_presnts/$total_class_held)*100;
-            }else{
-                $attendance_percentage=0;
-            }
+            
             $total_class_held_all += $total_class_held;
             $total_class_attended_all += $total_class_presnts;
             array_push($subject_name,$subject_info->name); 
             array_push($classes,$total_class_held.'/'.$total_class_presnts); 
-            array_push($percentages,round($attendance_percentage,2));                   
+            array_push($percentages,round($attendance_percentage,2));
+            }                    
         }
         $i=0;
         foreach($subject_name as $sub){
@@ -1450,6 +1451,17 @@ class Api extends CI_Controller
         echo $data;
     }
 
+    public function deleteToken(){
+        $json = file_get_contents('php://input'); 
+        $obj = json_decode($json,true);
+        $student_id = $obj['student_id'];
+        $token = $obj['token'];
+        $id = $obj['id'];
+        $return = $this->student_model->deleteToken($id);
+        $data = json_encode($return);
+        echo $data;
+    }
+
     function sendSingleNumberSMS($mobile,$msg){
         $message = $msg;
         $message = rawurlencode($message);  
@@ -1586,7 +1598,6 @@ class Api extends CI_Controller
                 break;
         }
     }
-
 
 
 

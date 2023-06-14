@@ -221,3 +221,5 @@ $route['apiupcomingEvent'] = "api/upcomingEvent";
 $route['apicalender'] = "api/calender";
 //absentinfo
 $route['apiabsentDetails']="api/absentDetails";
+//deleteToken
+$route['apideleteToken'] = "api/deleteToken";

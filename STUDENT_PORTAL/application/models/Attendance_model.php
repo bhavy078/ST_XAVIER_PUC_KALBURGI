@@ -5,6 +5,7 @@ class Attendance_model extends CI_Model
     function getSubjectInfo($subject_id){
         $this->db->from("tbl_subjects as sub");
         $this->db->where('sub.subject_code',$subject_id);
+        $this->db->where('sub.is_deleted',0);
         $query = $this->db->get();
         return $query->row();
     }
