@@ -848,32 +848,7 @@ if(!empty($documentInfo)){
                                      </div>
                                  </div>
                              </div>
-                             <div class="col-lg-3 col-md-6 col-sm-6">
-                                 <div class="form-group">
-                                     <label class="caste_no mdc-text-field mdc-text-field--filled ">
-                                         <span class="mdc-text-field__ripple"></span>
-                                         <input name="caste_no" id="caste_no"
-                                             value="<?php echo $caste_no; ?>"
-                                             class="mdc-text-field__input" type="text" aria-labelledby="my-label-id" placeholder="Caste Certificate No."
-                                             autocomplete="off" required>
-                                         <span class="mdc-floating-label" id="my-label-id">Caste Certificate No.</span>
-                                         <span class="mdc-line-ripple"></span>
-                                     </label>
-                                 </div>
-                             </div>
-                             <div class="col-lg-3 col-md-6 col-sm-6">
-                                 <div class="form-group">
-                                     <label class="income_no mdc-text-field mdc-text-field--filled ">
-                                         <span class="mdc-text-field__ripple"></span>
-                                         <input name="income_no" id="income_no"
-                                              value="<?php echo $income_no; ?>"
-                                             class="mdc-text-field__input" type="text" aria-labelledby="my-label-id" placeholder="Income Certificate No."
-                                             autocomplete="off" required>
-                                         <span class="mdc-floating-label" id="my-label-id">Income Certificate No.</span>
-                                         <span class="mdc-line-ripple"></span>
-                                     </label>
-                                 </div>
-                             </div>
+                             
 
                              <div class="col-lg-3 col-md-4 col-sm-4">
                                  <div class="form-group">
@@ -943,7 +918,32 @@ if(!empty($documentInfo)){
                                      </div>
                                  </div>
                              </div>
-
+                             <div class="col-lg-3 col-md-6 col-sm-6">
+                                 <div class="form-group">
+                                     <label class="caste_no mdc-text-field mdc-text-field--filled ">
+                                         <span class="mdc-text-field__ripple"></span>
+                                         <input name="caste_no" id="caste_no"
+                                             value="<?php echo $caste_no; ?>"
+                                             class="mdc-text-field__input" type="text" aria-labelledby="my-label-id" placeholder="Caste Certificate No."
+                                             autocomplete="off" >
+                                         <span class="mdc-floating-label" id="my-label-id">Caste Certificate No.</span>
+                                         <span class="mdc-line-ripple"></span>
+                                     </label>
+                                 </div>
+                             </div>
+                             <div class="col-lg-3 col-md-6 col-sm-6">
+                                 <div class="form-group">
+                                     <label class="income_no mdc-text-field mdc-text-field--filled ">
+                                         <span class="mdc-text-field__ripple"></span>
+                                         <input name="income_no" id="income_no"
+                                              value="<?php echo $income_no; ?>"
+                                             class="mdc-text-field__input" type="text" aria-labelledby="my-label-id" placeholder="Income Certificate No."
+                                             autocomplete="off">
+                                         <span class="mdc-floating-label" id="my-label-id">Income Certificate No.</span>
+                                         <span class="mdc-line-ripple"></span>
+                                     </label>
+                                 </div>
+                             </div>
 
                              <div class="col-lg-3 col-md-6 col-sm-6 boarding_point">
                                  <div class="form-group">
@@ -1771,7 +1771,8 @@ const dyslexia = mdc.select.MDCSelect.attachTo(document.querySelector('.mdc-sele
 const physically = mdc.select.MDCSelect.attachTo(document.querySelector('.mdc-select-physically'));
 mdc.select.MDCSelect.attachTo(document.querySelector('.mdc-select-hostel'));
 const bus_facility = mdc.select.MDCSelect.attachTo(document.querySelector('.mdc-select-bus'));
-
+$('.income_no').hide();
+$('.caste_no').hide();
 dyslexia.listen('MDCSelect:change', () => {
     if (dyslexia.value == "YES") {
         $('.dyslexiaCertificate').show();
@@ -1954,10 +1955,18 @@ caste.listen('MDCSelect:change', () => {
         $('.caste_category_certificate').show();
         $('#caste_certificate').prop('required', false);
         $('#casteLabel').html("Upload");
+        $('.caste_no').show();
+        $('#caste_no').prop('required', true);
+        $('.income_no').show();
+        $('#income_no').prop('required', true);
     } else {
         $('.caste_category_certificate').hide();
         $('#caste_certificate').prop('required', false);
         $('#casteLabel').html("Upload");
+        $('.caste_no').hide();
+        $('#caste_no').prop('required', false);
+        $('.income_no').hide();
+        $('#income_no').prop('required', false);
     }
 
 });
