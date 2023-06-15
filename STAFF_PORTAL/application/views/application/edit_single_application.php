@@ -2095,9 +2095,9 @@ $certificate_uploaded_name = array();
             $('.caste_category_certificate').hide();
             $('#caste_certificate').prop('required',false); 
             $('#casteLabel').html("Upload"); 
-            $('.caste_no').hide();
+            $('.caste_no').show();
             $('#caste_no').prop('required', false);
-            $('.income_no').hide();
+            $('.income_no').show();
             $('#income_no').prop('required', false);
         }
 

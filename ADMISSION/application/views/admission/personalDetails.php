@@ -1771,8 +1771,8 @@ const dyslexia = mdc.select.MDCSelect.attachTo(document.querySelector('.mdc-sele
 const physically = mdc.select.MDCSelect.attachTo(document.querySelector('.mdc-select-physically'));
 mdc.select.MDCSelect.attachTo(document.querySelector('.mdc-select-hostel'));
 const bus_facility = mdc.select.MDCSelect.attachTo(document.querySelector('.mdc-select-bus'));
-$('.income_no').hide();
-$('.caste_no').hide();
+// $('.income_no').hide();
+// $('.caste_no').hide();
 dyslexia.listen('MDCSelect:change', () => {
     if (dyslexia.value == "YES") {
         $('.dyslexiaCertificate').show();
@@ -1963,9 +1963,9 @@ caste.listen('MDCSelect:change', () => {
         $('.caste_category_certificate').hide();
         $('#caste_certificate').prop('required', false);
         $('#casteLabel').html("Upload");
-        $('.caste_no').hide();
+        $('.caste_no').show();
         $('#caste_no').prop('required', false);
-        $('.income_no').hide();
+        $('.income_no').show();
         $('#income_no').prop('required', false);
     }
 
