@@ -519,7 +519,8 @@ class LibraryManagement extends BaseController
             $access_code = $this->security->xss_clean($this->input->post('access_code'));
             $user_type = $this->security->xss_clean($this->input->post('user_type'));
             $book_title = $this->security->xss_clean($this->input->post('book_title'));
-
+            $renewal_date = $this->security->xss_clean($this->input->post('renewal_date'));
+           
             if(!empty($issue_date)){
                 $filter['issue_date'] = date('Y-m-d',strtotime($issue_date));
                 $data['issue_date'] = date('d-m-Y',strtotime($issue_date));
@@ -532,6 +533,13 @@ class LibraryManagement extends BaseController
                 $data['return_date'] = date('d-m-Y',strtotime($return_date));
             }else{
                 $data['return_date'] = '';
+            }
+
+            if(!empty($renewal_date)){
+                $filter['renewal_date'] = date('Y-m-d',strtotime($renewal_date));
+                $data['renewal_date'] = date('d-m-Y',strtotime($renewal_date));
+            }else{
+                $data['renewal_date'] = '';
             }
 
 
@@ -557,6 +565,7 @@ class LibraryManagement extends BaseController
             $data['remarks'] = $remarks;
             $data['access_code'] = $access_code;
             $data['book_title'] = $book_title;
+           
             
             $filter['isbn'] = $isbn;
             $filter['student_id'] = $student_id;
@@ -566,6 +575,7 @@ class LibraryManagement extends BaseController
             $filter['remarks'] = $remarks;
             $filter['access_code'] = $access_code;
             $filter['book_title'] = $book_title;
+          
             
             $this->load->library('pagination');
             $count = $this->library->getAllIssuedBookCount($filter);

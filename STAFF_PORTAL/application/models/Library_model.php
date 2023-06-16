@@ -325,6 +325,9 @@ class Library_model extends CI_Model
         if(!empty($filter['actual_return_date'])){
             $this->db->where('issue.actual_return_date', $filter['actual_return_date']);
         }
+        if(!empty($filter['renewal_date'])){
+            $this->db->where('issue.renewal_date', $filter['renewal_date']);
+        }
         if(!empty($filter['fine'])){
             $this->db->where('issue.fine', $filter['fine']);
         }
@@ -362,6 +365,9 @@ class Library_model extends CI_Model
         if(!empty($filter['return_date'])){
             $this->db->where('issue.return_date', $filter['return_date']);
         }
+        if(!empty($filter['renewal_date'])){
+            $this->db->where('issue.renewal_date', $filter['renewal_date']);
+        }
         if(!empty($filter['actual_return_date'])){
             $this->db->where('issue.actual_return_date', $filter['actual_return_date']);
         }
@@ -387,7 +393,7 @@ class Library_model extends CI_Model
         $this->db->from('tbl_library_issue_info as issue'); 
        
         if($filter['user_type'] == 'student'){
-            $this->db->select('issue.access_code, issue.isbn, issue.student_id,issue.row_id, 
+            $this->db->select('issue.access_code, issue.isbn, issue.student_id,issue.row_id,issue.renewal_date,
             issue.issue_date, issue.return_date,issue.actual_return_date,student.student_name,library.book_title,
             issue.fine, issue.days_delayed, issue.remarks,issue.is_issued');
 
@@ -414,6 +420,9 @@ class Library_model extends CI_Model
         if(!empty($filter['issue_date'])){
             $this->db->where('issue.issue_date', $filter['issue_date']);
         }
+        if(!empty($filter['renewal_date'])){
+            $this->db->where('issue.renewal_date', $filter['renewal_date']);
+        }
         if(!empty($filter['return_date'])){
             $this->db->where('issue.return_date', $filter['return_date']);
         }
@@ -433,7 +442,7 @@ class Library_model extends CI_Model
         
     }else{
 
-        $this->db->select('issue.access_code, issue.isbn, issue.student_id,issue.row_id,  
+        $this->db->select('issue.access_code, issue.isbn, issue.student_id,issue.row_id,issue.renewal_date,  
         issue.issue_date, issue.return_date,issue.actual_return_date,staff.name as student_name,library.book_title,
         issue.fine, issue.days_delayed, issue.remarks,issue.is_issued');
         $this->db->join('tbl_staff as staff','staff.staff_id = issue.student_id','left');
@@ -462,6 +471,9 @@ class Library_model extends CI_Model
         }
         if(!empty($filter['return_date'])){
             $this->db->where('issue.return_date', $filter['return_date']);
+        }
+        if(!empty($filter['renewal_date'])){
+            $this->db->where('issue.renewal_date', $filter['renewal_date']);
         }
         if(!empty($filter['actual_return_date'])){
             $this->db->where('issue.actual_return_date', $filter['actual_return_date']);
