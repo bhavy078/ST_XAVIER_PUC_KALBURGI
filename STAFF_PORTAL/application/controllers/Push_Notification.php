@@ -45,13 +45,45 @@ class Push_Notification extends BaseController {
     }
 
     public function getStaffNotifications(){
-        $data['notifications'] = $this->push_notification_model->getStaffNotifications();
+        $date_to = $this->input->post('date_to');
+        $date_from = $this->input->post('date_from');
+        if (empty($date_from))
+        {
+            $filter['date_from'] = date('Y-m-d', strtotime('2023-06-01'));
+            $data['date_from'] = date('d-m-Y', strtotime('01-06-2023'));
+        }else {
+            $filter['date_from'] = date('Y-m-d', strtotime($date_from));
+            $data['date_from'] = date('d-m-Y', strtotime($date_from));
+        }
+        if (!empty($date_to)) {
+        //     $filter['date_to'] = date('Y-m-d');
+        //     $data['date_to'] = date('d-m-Y');
+        // }else{
+            $filter['date_to'] = date('Y-m-d', strtotime($date_to . ' +1 day'));
+        }
+        $data['notifications'] = $this->push_notification_model->getStaffNotifications($filter);
         $this->global['pageTitle'] = ''.TAB_TITLE.' : Staff Notification ';
         $this->loadViews("push_notification/staffNotification", $this->global, $data, NULL);
     }
 
-    public function getStudentNotifications(){
-        $data['notifications'] = $this->push_notification_model->getStudentNotifications();
+    public function studentNotifications(){
+        $date_to = $this->input->post('date_to');
+        $date_from = $this->input->post('date_from');
+        if (empty($date_from))
+        {
+            $filter['date_from'] = date('Y-m-d', strtotime('2023-06-01'));
+            $data['date_from'] = date('d-m-Y', strtotime('01-06-2023'));
+        }else {
+            $filter['date_from'] = date('Y-m-d', strtotime($date_from));
+            $data['date_from'] = date('d-m-Y', strtotime($date_from));
+        }
+        if (!empty($date_to)) {
+        //     $filter['date_to'] = date('Y-m-d');
+        //     $data['date_to'] = date('d-m-Y');
+        // }else{
+            $filter['date_to'] = date('Y-m-d', strtotime($date_to . ' +1 day'));
+        }
+        $data['notifications'] = $this->push_notification_model->getStudentNotifications($filter);
         $this->global['pageTitle'] = ''.TAB_TITLE.' : Student Notification ';
         $this->loadViews("push_notification/studentNotification", $this->global, $data, NULL);
     }
@@ -169,79 +201,102 @@ class Push_Notification extends BaseController {
     }
 
  // Student Notification Listing
-    function studentNotifications() {
-        if($this->isAdmin() == TRUE ){
-            $this->loadThis();
-        } else {
-            $filter = array();
-            $by_date = $this->security->xss_clean($this->input->post('by_date'));
-            $by_term = $this->security->xss_clean($this->input->post('by_term'));
-            $by_stream = $this->security->xss_clean($this->input->post('by_stream'));
-            $by_Section = $this->security->xss_clean($this->input->post('by_Section'));
-            $by_subject = $this->security->xss_clean($this->input->post('by_subject'));
-            $by_message = $this->security->xss_clean($this->input->post('by_message'));
-            $sent_by = $this->security->xss_clean($this->input->post('sent_by'));
+    // function studentNotifications() {
+    //     if($this->isAdmin() == TRUE ){
+    //         $this->loadThis();
+    //     } else {
+    //         $filter = array();
+    //         $by_date = $this->security->xss_clean($this->input->post('by_date'));
+    //         $by_term = $this->security->xss_clean($this->input->post('by_term'));
+    //         $by_stream = $this->security->xss_clean($this->input->post('by_stream'));
+    //         $by_Section = $this->security->xss_clean($this->input->post('by_Section'));
+    //         $by_subject = $this->security->xss_clean($this->input->post('by_subject'));
+    //         $by_message = $this->security->xss_clean($this->input->post('by_message'));
+    //         $sent_by = $this->security->xss_clean($this->input->post('sent_by'));
 
-            $data['by_subject'] = $by_subject;
-            $data['by_term'] = $by_term;
-            $data['by_stream'] = $by_stream;
-            $data['by_Section'] = $by_Section;
-            $data['sent_by'] = $sent_by;
-            $data['by_message'] = $by_message;
+    //         $data['by_subject'] = $by_subject;
+    //         $data['by_term'] = $by_term;
+    //         $data['by_stream'] = $by_stream;
+    //         $data['by_Section'] = $by_Section;
+    //         $data['sent_by'] = $sent_by;
+    //         $data['by_message'] = $by_message;
 
-            $filter['by_subject'] = $by_subject;
-            $filter['by_term'] = $by_term;
-            $filter['by_stream'] = $by_stream;
-            $filter['by_Section'] = $by_Section;
-            $filter['by_message'] = $by_message;
-            $filter['sent_by'] = $sent_by;
+    //         $filter['by_subject'] = $by_subject;
+    //         $filter['by_term'] = $by_term;
+    //         $filter['by_stream'] = $by_stream;
+    //         $filter['by_Section'] = $by_Section;
+    //         $filter['by_message'] = $by_message;
+    //         $filter['sent_by'] = $sent_by;
 
-            if(!empty($by_date)){
-                $filter['by_date'] = date('Y-m-d',strtotime($by_date));
-                $data['by_date'] = date('d-m-Y',strtotime($by_date));
-            }else{
-                $data['by_date'] = '';
-                $filter['by_date'] = '';
-            }
+    //         if(!empty($by_date)){
+    //             $filter['by_date'] = date('Y-m-d',strtotime($by_date));
+    //             $data['by_date'] = date('d-m-Y',strtotime($by_date));
+    //         }else{
+    //             $data['by_date'] = '';
+    //             $filter['by_date'] = '';
+    //         }
 
-            $data['streamInfo'] = $this->students_model->getAllStreamName();
-            $count = $this->push_notification_model->getAllstudentNotificationCount($filter);
-            $returns = $this->paginationCompress("studentNotifications/", $count, 100);
-            $data['totalCount'] = $count;
-            $filter['page'] = $returns["page"];
-            $filter['segment'] = $returns["segment"];
-            $data['notifications'] = $this->push_notification_model->getAllstudentNotification($filter);
-            $this->global['pageTitle'] = ''.TAB_TITLE.' : Student Details';
-            $this->loadViews("push_notification/studentNotification", $this->global,$data, NULL);
+    //         $data['streamInfo'] = $this->students_model->getAllStreamName();
+    //         $count = $this->push_notification_model->getAllstudentNotificationCount($filter);
+    //         $returns = $this->paginationCompress("studentNotifications/", $count, 100);
+    //         $data['totalCount'] = $count;
+    //         $filter['page'] = $returns["page"];
+    //         $filter['segment'] = $returns["segment"];
+    //         $data['notifications'] = $this->push_notification_model->getAllstudentNotification($filter);
+    //         $this->global['pageTitle'] = ''.TAB_TITLE.' : Student Details';
+    //         $this->loadViews("push_notification/studentNotification", $this->global,$data, NULL);
 
-        }
-    }
+    //     }
+    // }
 
-         //delete an Notification info
-     public function deleteStudentNotification(){
-        if ($this->isAdmin() == true) {
-            echo (json_encode(array('status' => 'access')));
-        } else {
-            $row_id = $this->input->post('row_id');
-            $notifications = array('is_deleted' => 1,
-            'updated_by' => $this->staff_id,
-            'updated_date_time' => date('Y-m-d h:i:s'));
-            $result = $this->push_notification_model->updateNotification($row_id, $notifications);
-            if ($result > 0) {echo (json_encode(array('status' => true)));} else {echo (json_encode(array('status' => false)));}
-        }
-    } 
+    //      //delete an Notification info
+    //  public function deleteStudentNotification(){
+    //     if ($this->isAdmin() == true) {
+    //         echo (json_encode(array('status' => 'access')));
+    //     } else {
+    //         $row_id = $this->input->post('row_id');
+    //         $notifications = array('is_deleted' => 1,
+    //         'updated_by' => $this->staff_id,
+    //         'updated_date_time' => date('Y-m-d h:i:s'));
+    //         $result = $this->push_notification_model->updateNotification($row_id, $notifications);
+    //         if ($result > 0) {echo (json_encode(array('status' => true)));} else {echo (json_encode(array('status' => false)));}
+    //     }
+    // } 
     
-    public function deleteStaffNotification(){
-        // if ($this->isAdmin() == true) {
-        //     echo (json_encode(array('status' => 'access')));
-        // } else {
-            $row_id = $this->input->post('row_id');
-            $notInfo = array('is_deleted' => 1,
-            'updated_by' => $this->staff_id,
-            'updated_date_time' => date('Y-m-d h:i:s'));
-            $result = $this->push_notification_model->updatedStaffNotification($row_id, $notInfo);
-            if ($result > 0) {echo (json_encode(array('status' => true)));} else {echo (json_encode(array('status' => false)));}
-        //}
+    // public function deleteStaffNotification(){
+    //     // if ($this->isAdmin() == true) {
+    //     //     echo (json_encode(array('status' => 'access')));
+    //     // } else {
+    //         $row_id = $this->input->post('row_id');
+    //         $notInfo = array('is_deleted' => 1,
+    //         'updated_by' => $this->staff_id,
+    //         'updated_date_time' => date('Y-m-d h:i:s'));
+    //         $result = $this->push_notification_model->updatedStaffNotification($row_id, $notInfo);
+    //         if ($result > 0) {echo (json_encode(array('status' => true)));} else {echo (json_encode(array('status' => false)));}
+    //     //}
+    // } 
+    public function deleteStudentNotification() {
+        if($this->isAdmin() == TRUE){
+            $this->loadThis();
+        } else {   
+            if($this->input->server("REQUEST_METHOD") == "POST"){
+                $rowID = trim($this->input->post('rowID'));
+                $stdNotification = array('is_deleted' => 1,
+                'updated_date_time' => date('Y-m-d H:i:s'),
+                'updated_by' => $this->staff_id
+                );
+                echo $this->push_notification_model->updateNotification($rowID,$stdNotification);
+            }else echo 0;
+        } 
     } 
-
+    function deleteStaffNotification(){
+        if($this->input->server("REQUEST_METHOD") == "POST"){
+            $rowID = trim($this->input->post('rowID'));
+            $stdNotification = array('is_deleted' => 1,
+            'updated_date_time' => date('Y-m-d H:i:s'),
+            'updated_by' => $this->staff_id
+            );
+            echo $this->push_notification_model->updatedStaffNotification($rowID,$stdNotification);
+        }else echo 0;
+    } 
 }

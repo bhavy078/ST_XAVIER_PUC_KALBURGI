@@ -9,18 +9,42 @@ class Push_notification_model extends CI_Model{
         $this->load->helper('date');
     }
 
-    public function getStaffNotifications(){
+    public function getStaffNotifications($filter){
         $this->db->from('tbl_staff_notifications');
+        if(!empty($filter['date'])){
+            $likeCriteria = "(date_time  LIKE '" . $filter['date'] . "%')";
+            $this->db->where($likeCriteria);
+        }
+        if(!empty($filter['date_from']) && !empty($filter['date_to'])){
+            $this->db->where('date_time >=', $filter['date_from']);
+            $this->db->where('date_time <=', $filter['date_to']);
+        }
+        if(!empty($filter['date_from']) ){
+            $this->db->where('date_time >=', $filter['date_from']);
+        }
+        if(!empty($filter['date_to'])){
+            $this->db->where('date_time <=', $filter['date_to']);
+        }
         $this->db->where('is_deleted',0);
-        $this->db->order_by("date_time", "desc");
+        $this->db->order_by("row_id", "desc");
         $query = $this->db->get(); 
         return $query->result();
     }
 
-    public function getStudentNotifications(){
+    public function getStudentNotifications($filter){
         $this->db->from('tbl_student_notifications');
-        $this->db->where('is_deleted',0);
-        $this->db->order_by("date_time", "desc");
+        if(!empty($filter['date_from']) && !empty($filter['date_to'])){
+            $this->db->where('date_time >=', $filter['date_from']);
+            $this->db->where('date_time <=', $filter['date_to']);
+        }
+        if(!empty($filter['date_from']) ){
+            $this->db->where('date_time >=', $filter['date_from']);
+        }
+        if(!empty($filter['date_to'])){
+            $this->db->where('date_time <=', $filter['date_to']);
+        }
+        $this->db->order_by("row_id", "desc");
+        $this->db->where('is_deleted', 0);
         $query = $this->db->get(); 
         return $query->result();
     }

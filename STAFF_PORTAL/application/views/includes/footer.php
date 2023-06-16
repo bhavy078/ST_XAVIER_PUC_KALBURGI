@@ -33,6 +33,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
 <script src="<?php echo base_url();?>assets/plugins/jquery/jquery.cookie.min.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script src="<?=base_url()?>assets/plugins/sweetalert/sweetalert2.0.js"></script>
 
 <script type="text/javascript">
 $('.loaderScreen').hide();
