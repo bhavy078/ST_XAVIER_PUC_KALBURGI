@@ -236,6 +236,8 @@ class StudentAttendance extends BaseController
             $this->attendance->deleteAllStudents($subject_code,$attendanceDate,$time_row_id,$section_row_id,$student_batch);
             //,$staff_subject_row_id       
             $data['studentRecords'] = $this->student->getStudentInfoForInternal($filter);
+            $subName = $this->subject->getAllSubjectByID($subject_code);
+            $timeID = $this->timetable->getTimeInfoByRowID($time_row_id);
             //$this->attendance->getStudentInfoForAttendance($filter);
             foreach($data['studentRecords'] as $student){
                 if($students[$student->student_id] == $student->student_id){
@@ -256,12 +258,13 @@ class StudentAttendance extends BaseController
                     $result =  $this->attendance->addAbsentStudentInfo($attendanceInfo);
                     $sub_name = $this->subject->getSubjectInfoById($subject_code);
                     //FCM////////////
+                    $notification_message = "Dear Parent,Your ward ".$student->student_name." was absent for the ".$subName->sub_name." class on ".date('d-m-Y',strtotime($attendanceDate))." between ".$timeID->start_time." to ".$timeID->end_time." .- ST XAVIER'S PRE–UNIVERSITY COLLEGE";
                     // $message = 'Your ward is absent for '.$sub_name->name.' on '.date('d-m-Y');
-                    // $all_users_token = $this->push_notification_model->getSingleStudentsToken($student->student_id);
-                    // $tokenBatch = array_chunk($all_users_token,500);
-                    // for($itr = 0; $itr < count($tokenBatch); $itr++){
-                    //     $this->push_notification_model->sendMessage('Absent For Class',$message,$tokenBatch[$itr],"student");
-                    // }
+                    $all_users_token = $this->push_notification_model->getSingleStudentsToken($student->student_id);
+                    $tokenBatch = array_chunk($all_users_token,500);
+                    for($itr = 0; $itr < count($tokenBatch); $itr++){
+                        $this->push_notification_model->sendMessage('Absent For Class',$message,$tokenBatch[$itr],"student");
+                    }
                     //FCM///////////
                 }
             }

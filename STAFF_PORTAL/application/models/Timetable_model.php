@@ -203,4 +203,11 @@ class Timetable_model extends CI_Model
         $this->db->update('tbl_student_attendance_details', $attendanceInfo);
         return $this->db->affected_rows();
     }
+    public function getTimeInfoByRowID($row_id) {
+        $this->db->from('tbl_class_timings as t');
+        $this->db->where('t.row_id', $row_id);
+        $this->db->where('t.is_deleted', 0);
+        $query = $this->db->get();
+        return $query->row();
+    }
 }
