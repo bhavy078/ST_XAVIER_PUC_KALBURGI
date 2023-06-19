@@ -455,13 +455,15 @@ class Api extends CI_Controller
             $total_class_presnts = $total_class_held-$absent_count;
             if($total_class_held>0){
                 $attendance_percentage = ($total_class_presnts/$total_class_held)*100;
-            
+            }else{
+                $attendance_percentage=0;
+            }
             $total_class_held_all += $total_class_held;
             $total_class_attended_all += $total_class_presnts;
             array_push($subject_name,$subject_info->name); 
             array_push($classes,$total_class_held.'/'.$total_class_presnts); 
             array_push($percentages,round($attendance_percentage,2));
-            }                    
+                                
         }
         $i=0;
         foreach($subject_name as $sub){
