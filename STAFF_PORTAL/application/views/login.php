@@ -12,17 +12,17 @@
     <meta name="theme-color" content="#317EFB"/>
     <link rel="manifest" href="manifest.webmanifest?version=1.1">
     <script src="index.js?version=1.1" defer></script>
-    <link rel="icon" type="image/png" href="icons/sjpuch_192.png" sizes="192x192"/>
-    <link rel="icon" type="image/png" href="icons/sjpuch_128.png" sizes="128x128"/>
-    <link rel="apple-touch-icon" href="icons/sjpuch_180.png">
+    <link rel="icon" type="image/png" href="icons/XAVIER_192.png" sizes="192x192"/>
+    <link rel="icon" type="image/png" href="icons/XAVIER_128.png" sizes="128x128"/>
+    <link rel="apple-touch-icon" href="icons/XAVIER_180.png">
 
-    <link rel="apple-touch-icon" sizes="64x64" href="icons/sjpuch_64.png">
-    <link rel="apple-touch-icon" sizes="96x96" href="icons/sjpuch_96.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="icons/sjpuch_120.png">
-    <link rel="apple-touch-icon" sizes="128x128" href="icons/sjpuch_128.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="icons/sjpuch_152.png">
-    <link rel="apple-touch-icon" sizes="167x167" href="icons/sjpuch_167.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="icons/sjpuch_180.png">
+    <link rel="apple-touch-icon" sizes="64x64" href="icons/XAVIER_64.png">
+    <link rel="apple-touch-icon" sizes="96x96" href="icons/XAVIER_96.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="icons/XAVIER_120.png">
+    <link rel="apple-touch-icon" sizes="128x128" href="icons/XAVIER_128.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="icons/XAVIER_152.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="icons/XAVIER_167.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/XAVIER_180.png">
 
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -38,7 +38,7 @@
     <link href="splashscreens/ipadpro3_splash.png" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
     <link href="splashscreens/ipadpro2_splash.png" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
     
-    <meta name="apple-mobile-web-app-title" content="SJPUC, MANGALORE">
+    <meta name="apple-mobile-web-app-title" content="ST XAVIER'S PRE–UNIVERSITY COLLEGE">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <style>
       body {
