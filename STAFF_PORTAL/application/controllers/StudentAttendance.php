@@ -263,7 +263,7 @@ class StudentAttendance extends BaseController
                     $all_users_token = $this->push_notification_model->getSingleStudentsToken($student->student_id);
                     $tokenBatch = array_chunk($all_users_token,500);
                     for($itr = 0; $itr < count($tokenBatch); $itr++){
-                        $this->push_notification_model->sendMessage('Absent For Class',$message,$tokenBatch[$itr],"student");
+                        $this->push_notification_model->sendMessage('Absent For Class',$notification_message,$tokenBatch[$itr],"student");
                     }
                     //FCM///////////
                 }
