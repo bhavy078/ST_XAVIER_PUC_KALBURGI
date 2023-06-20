@@ -397,7 +397,7 @@ class Api extends CI_Controller
         $obj = json_decode($json,true);
         $student_id = $obj['student_id'];
         $studentInfo = $this->student_model->getStudentInfoByStudentId($student_id);
-        
+        //log_message('debug','fff'.print_r($studentInfo,true));
 
         // if($studentInfo->term_name == "I PUC"){ 
             $absent_date_from = date("Y-m-d", strtotime($studentInfo->doj));
@@ -406,8 +406,7 @@ class Api extends CI_Controller
         // } 
         $attendance_date_to = date("Y-m-d");
         $elective_sub = strtoupper($studentInfo->elective_sub);
-        
-
+        //log_message('debug','df'.print_r($elective_sub,true));
         $subjects_code = array();
         $subject_name = array();
         $classes = array();
@@ -424,7 +423,7 @@ class Api extends CI_Controller
         }
         array_push($subjects_code, '02');
         $subjects = $this->getSubjectCodes($studentInfo->stream_name);
-       
+        
 
         $subjects_code = array_merge($subjects_code,$subjects);
         $total_class_held_all = 0;
@@ -434,19 +433,19 @@ class Api extends CI_Controller
             $absent_count_lab = 0;
             $batch_name = '';
             $subject_info = $this->attendance_model->getSubjectInfo($subjects_code[$i]);
-          
+            //log_message('debug','ggh'.print_r($subject_info,true));
 
             if($subject_info->lab_status == 'true'){
                 $batch_name = $studentInfo->batch;
             }                    
-            $subject_class_held_theory = $this->attendance_model->getTotalClassHeld($subjects_code[$i],$studentInfo->term_name,$studentInfo->section_name,'THEORY','',$absent_date_from,$attendance_date_to);
+            $subject_class_held_theory = $this->attendance_model->getTotalClassHeld($subjects_code[$i],$studentInfo->term_name,$studentInfo->stream_name,$studentInfo->section_name,'THEORY','',$absent_date_from,$attendance_date_to);
            // log_message('debug','subject_class_held_theory'.print_r($subject_class_held_theory,true));
-            $total_dates_held_theory = $this->attendance_model->getTotalClassCompletedDates($subjects_code[$i],$studentInfo->term_name,$studentInfo->section_name,'THEORY','',$absent_date_from,$attendance_date_to);
+            $total_dates_held_theory = $this->attendance_model->getTotalClassCompletedDates($subjects_code[$i],$studentInfo->term_name,$studentInfo->stream_name,$studentInfo->section_name,'THEORY','',$absent_date_from,$attendance_date_to);
            // log_message('debug','total_dates_held_theory '.print_r($total_dates_held_theory ,true));
             $absent_count_theory = $this->attendance_model->getStudentAbsentCount($subjects_code[$i],$student_id,$absent_date_from,$attendance_date_to,'THEORY');
             $absent_count += $absent_count_theory;
-            $subject_class_held_lab = $this->attendance_model->getTotalClassHeld($subjects_code[$i],$studentInfo->term_name,$studentInfo->section_name,'LAB',$batch_name,$absent_date_from,$attendance_date_to);
-            $total_dates_held_lab = $this->attendance_model->getTotalClassCompletedDates($subjects_code[$i],$studentInfo->term_name,$studentInfo->section_name,'LAB',$batch_name,$absent_date_from,$attendance_date_to);
+            $subject_class_held_lab = $this->attendance_model->getTotalClassHeld($subjects_code[$i],$studentInfo->term_name,$studentInfo->stream_name,$studentInfo->section_name,'LAB',$batch_name,$absent_date_from,$attendance_date_to);
+            $total_dates_held_lab = $this->attendance_model->getTotalClassCompletedDates($subjects_code[$i],$studentInfo->term_name,$studentInfo->stream_name,$studentInfo->section_name,'LAB',$batch_name,$absent_date_from,$attendance_date_to);
             $total_class_held = $subject_class_held_theory + ($subject_class_held_lab*2);               
             $absent_count_lab = $this->attendance_model->getStudentAbsentCount($subjects_code[$i],$student_id,$absent_date_from,$attendance_date_to,'LAB');
             if($absent_count_lab != 0){
@@ -462,8 +461,7 @@ class Api extends CI_Controller
             $total_class_attended_all += $total_class_presnts;
             array_push($subject_name,$subject_info->name); 
             array_push($classes,$total_class_held.'/'.$total_class_presnts); 
-            array_push($percentages,round($attendance_percentage,2));
-                                
+            array_push($percentages,round($attendance_percentage,2));                   
         }
         $i=0;
         foreach($subject_name as $sub){
@@ -473,7 +471,6 @@ class Api extends CI_Controller
         $data = json_encode($data);                 
         echo $data;
     }
-
     //----------------NOTIFICATION----------------
     public function myNotificationsApi(){
         $json = file_get_contents('php://input'); 

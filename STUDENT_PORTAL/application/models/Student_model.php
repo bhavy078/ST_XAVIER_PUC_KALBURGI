@@ -649,6 +649,8 @@ public function updateCoursePaymentLogByRowId($paymentInfo,$order_id) {
             $this->db->where('attendance.student_id', $student_id);
             $this->db->where('attendance.year',CURRENT_YEAR);
             $this->db->where('attendance.is_deleted',0);
+            $this->db->where('sub.is_deleted',0);
+            $this->db->where('time.is_deleted',0);
             // $this->db->where('attendance.office_verified_status',1);
             $this->db->order_by('attendance.absent_date', 'DESC');
             $query = $this->db->get();

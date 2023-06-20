@@ -10,11 +10,12 @@ class Attendance_model extends CI_Model
         return $query->row();
     }
 
-    function getTotalClassHeld($subject_id,$term_name,$section_name,$type,$batch_name,$absent_date_from,$attendance_date_to){
+    function getTotalClassHeld($subject_id,$term_name,$stream_name,$section_name,$type,$batch_name,$absent_date_from,$attendance_date_to){
         $this->db->from('tbl_class_completed_by_staff as class');
         $this->db->where('class.subject_code',$subject_id);
         $this->db->where('class.class_year','2023');
         $this->db->where('class.term_name',$term_name);
+        $this->db->where('class.stream_name',$stream_name);
         $this->db->where_in('class.section_name',array($section_name,'ALL'));
         $this->db->where('class.subject_type',$type);
         $this->db->where('class.is_deleted',0);
@@ -26,11 +27,12 @@ class Attendance_model extends CI_Model
         return $query->num_rows();
     }
 
-    function getTotalClassCompletedDates($subject_id,$term_name,$section_name,$type,$batch_name,$absent_date_from,$attendance_date_to){
+    function getTotalClassCompletedDates($subject_id,$term_name,$stream_name,$section_name,$type,$batch_name,$absent_date_from,$attendance_date_to){
         $this->db->from('tbl_class_completed_by_staff as class');
         $this->db->where('class.subject_code',$subject_id);
         $this->db->where('class.class_year','2023');
         $this->db->where('class.term_name',$term_name);
+        $this->db->where('class.stream_name',$stream_name);
         $this->db->where_in('class.section_name',array($section_name,'ALL'));
         $this->db->where('class.subject_type',$type);
         $this->db->where('class.is_deleted',0);
