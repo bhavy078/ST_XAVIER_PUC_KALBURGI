@@ -405,7 +405,7 @@ class Api extends CI_Controller
         //     $absent_date_from = '2022-07-01';
         // } 
         $attendance_date_to = date("Y-m-d");
-        $elective_sub = strtoupper($studentInfo->language_two);
+        $elective_sub = strtoupper($studentInfo->elective_sub);
         
 
         $subjects_code = array();

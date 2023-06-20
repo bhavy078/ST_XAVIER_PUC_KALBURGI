@@ -15,7 +15,7 @@ class Attendance_model extends CI_Model
         $this->db->where('class.subject_code',$subject_id);
         $this->db->where('class.class_year','2023');
         $this->db->where('class.term_name',$term_name);
-        $this->db->where('class.section_name',$section_name);
+        $this->db->where_in('class.section_name',array($section_name,'ALL'));
         $this->db->where('class.subject_type',$type);
         $this->db->where('class.is_deleted',0);
         $this->db->where('class.date BETWEEN "'.$absent_date_from. '" and "'.$attendance_date_to.'"');
@@ -31,7 +31,7 @@ class Attendance_model extends CI_Model
         $this->db->where('class.subject_code',$subject_id);
         $this->db->where('class.class_year','2023');
         $this->db->where('class.term_name',$term_name);
-        $this->db->where('class.section_name',$section_name);
+        $this->db->where_in('class.section_name',array($section_name,'ALL'));
         $this->db->where('class.subject_type',$type);
         $this->db->where('class.is_deleted',0);
         $this->db->where('class.date BETWEEN "'.$absent_date_from. '" and "'.$attendance_date_to.'"');
