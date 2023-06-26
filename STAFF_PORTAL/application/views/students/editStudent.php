@@ -529,6 +529,20 @@ jQuery(document).ready(function() {
         endDate: "today"
     });
 
+            // Get the ID of the active tab from local storage
+            var activeTabId = localStorage.getItem('vincentpuTabIdStudE');
+
+            // If the ID is not null or undefined, activate the corresponding tab
+            if (activeTabId) {
+            $('#myTab a[href="#' + activeTabId + '"]').tab('show');
+            }
+
+            // Store the ID of the clicked tab in local storage
+            $('#myTab a').on('click', function() {
+                var tabId = $(this).attr('href').substring(1);
+                localStorage.setItem('vincentpuTabIdStudE', tabId);
+            });
+
 });
 
 

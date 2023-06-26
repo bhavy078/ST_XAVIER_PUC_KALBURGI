@@ -847,6 +847,12 @@
                                 <span>Staff</span>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?php echo base_url(); ?>studentIndividualNotifications">
+                                <i class="material-icons">supervisor_account</i>
+                                <span>Student Individual Notification</span>
+                            </a>
+                        </li>
                     </ul>
                 </li> 
                 <li class="nav-item">

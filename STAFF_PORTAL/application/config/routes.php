@@ -997,3 +997,9 @@ $route['updateRemarksInfo'] = "students/updateRemarksInfo";
 $route['deleteStudentRemarkDetails'] = "students/deleteStudentRemarkDetails";
 
  $route['getNameByStudentNumber'] = "students/getNameByStudentNumber";
+
+$route['sendStudentNotification'] = 'push_Notification/sendStudentNotification';
+$route['studentIndividualNotifications'] = 'push_Notification/studentIndividualNotifications';
+$route['deleteStudentIndividualNotification'] = 'push_Notification/deleteStudentIndividualNotification';
+$route['editStudentIndividualNotification'] = 'push_Notification/editStudentIndividualNotification';
+$route['StudentIndividualNotificationEdit'] = 'push_Notification/StudentIndividualNotificationEdit';

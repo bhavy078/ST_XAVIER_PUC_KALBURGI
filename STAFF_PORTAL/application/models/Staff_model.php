@@ -731,5 +731,20 @@ class Staff_model extends CI_Model
            $query = $this->db->get();
            return $query->result();
        }
+
+       public function getDistinctStaffClassInfo($staff_id){
+        $this->db->select('section.stream_id,stream.stream_name,section.term_name,section.section_name,staff.row_id,staff.staff_id');
+        $this->db->from('tbl_section_info as section');
+        $this->db->join('tbl_stream_info as stream', 'stream.row_id = section.stream_id','right');
+        $this->db->join('tbl_staff_sections as staff', 'staff.section_id = section.row_id','right');
+        $this->db->where('staff.staff_id', $staff_id);
+        $this->db->where('staff.is_deleted', 0);
+        $this->db->where('stream.is_deleted', 0);
+        $this->db->order_by('stream.row_id','asc');
+        $this->db->order_by('section.term_name','asc');
+        $this->db->group_by('section.row_id');
+        $query = $this->db->get();
+        return $query->result();
+    }
    
 }

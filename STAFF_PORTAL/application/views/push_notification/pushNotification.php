@@ -100,7 +100,7 @@ if ($error) {
                                                     <select class="form-control" name="user_name" id="user_name_select"
                                                         required>                                                       
                                                         <option value="student" selected>Student</option>
-                                                        <option value="selectedStud">Selected Student</option>
+                                                        <!-- <option value="selectedStud">Selected Student</option> -->
                                                         <option value="staff">Staff</option>
                                                     </select>
                                                 </div>

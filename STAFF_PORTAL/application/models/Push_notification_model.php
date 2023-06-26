@@ -448,4 +448,131 @@ class Push_notification_model extends CI_Model{
             return 1;
         }
     }
+
+    function getStudentInfoForNotificationById($student_id){
+        $this->db->select('student.row_id,student.student_id');
+         $this->db->from('tbl_students_info as student'); 
+        $this->db->where('student.student_id',$student_id);
+        $this->db->where('student.is_deleted', 0);
+        $query = $this->db->get();
+        return $query->row();
+    }
+
+    public function saveBulkStudentNotification($data){
+        if(!empty($data)){
+            $this->db->insert('tbl_student_bulk_notification', $data);
+            if($this->db->affected_rows() <= 0){
+                return 0;
+            }else{
+                return 1;
+            }
+        }
+    }
+
+    function updateStudentIndividualNotification($info, $row_id){
+        $this->db->where('row_id', $row_id);
+        $this->db->update('tbl_student_bulk_notification', $info);
+        return $this->db->affected_rows();
+    }
+
+    public function getStudentIndividualNotificationByID($row_id){
+        $this->db->where('notification.row_id', $row_id);
+        $this->db->from('tbl_student_bulk_notification as notification');
+        $this->db->where('notification.is_Deleted', 0);
+        $query = $this->db->get(); 
+        return $query->row();
+
+    }
+
+    public function getStudentIndividualNotifications($filter,$student){
+        $this->db->select('notification.row_id, notification.active_date, notification.message, notification.filepath,student.student_name,student.term_name,student.stream_name,student.section_name,notification.sent_by');
+        $this->db->from('tbl_student_bulk_notification as notification');
+        $this->db->join('tbl_students_info as student', 'student.student_id = notification.userId');
+        if(!empty($student)){
+            $this->db->where_in('notification.row_id', $student);
+        }
+        if(!empty($filter['date_from']) && !empty($filter['date_to'])){
+            $this->db->where('notification.active_date >=', $filter['date_from']);
+            $this->db->where('notification.active_date <=', $filter['date_to']);
+        }
+        if(!empty($filter['date_from']) ){
+            $this->db->where('notification.active_date >=', $filter['date_from']);
+        }
+        if(!empty($filter['date_to'])){
+            $this->db->where('notification.active_date <=', $filter['date_to']);
+        }
+        if(!empty($filter['term'])){
+            $this->db->where_in('student.term_name', $filter['term']);
+        }
+        if(!empty($filter['stream'])){
+            $this->db->where_in('student.stream_name', $filter['stream']);
+        }
+        if (!empty($filter['section'])) {
+                $this->db->where_in('student.section_name', $filter['section']);
+        }
+        if(!empty($filter['staff_id']) ){
+            $this->db->where('notification.updated_by', $filter['staff_id']);
+        }
+        if (!empty($filter['Student_Name'])) {
+            $likeCriteria = "(student.student_name  LIKE '%" . $filter['Student_Name'] . "%')";
+            $this->db->where($likeCriteria);
+        }
+        $this->db->where('student.is_deleted',0);
+        $this->db->where('notification.is_deleted',0);
+        $this->db->order_by('notification.row_id', 'DESC');
+        $query = $this->db->get(); 
+        return $query->result();
+    }
+
+    public function getAllstudentInfoRowId($filter){
+        $this->db->select('notification.row_id');
+        $this->db->from('tbl_student_bulk_notification as notification');
+        $this->db->join('tbl_students_info as student', 'student.student_id = notification.userId');
+        if(!empty($filter['term'])){
+            $this->db->where_in('student.term_name', $filter['term']);
+        }
+        if(!empty($filter['stream'])){
+            $this->db->where_in('student.stream_name', $filter['stream']);
+        }
+        if (!empty($filter['section'])) {
+                $this->db->where_in('student.section_name', $filter['section']);
+        }
+        if(!empty($filter['staff_id']) ){
+            $this->db->where('notification.updated_by', $filter['staff_id']);
+        }
+       
+        $this->db->where('student.is_deleted',0);
+        $this->db->where('notification.is_deleted',0);
+        $this->db->order_by('notification.row_id', 'DESC');
+        $query = $this->db->get(); 
+        return $query->result();
+    }
+
+    public function getStudentIndividualNotificationsforView($filter,$row_id){
+        $this->db->select('notification.row_id, notification.active_date, notification.message, notification.filepath,student.student_name,notification.filepath_two,notification.sent_by');
+        $this->db->from('tbl_student_bulk_notification as notification');
+        $this->db->join('tbl_students_info as student', 'student.student_id = notification.userId');
+
+        $this->db->where_in('student.row_id', $row_id);
+
+        if(!empty($filter['date_from']) && !empty($filter['date_to'])){
+            $this->db->where('notification.active_date >=', $filter['date_from']);
+            $this->db->where('notification.active_date <=', $filter['date_to']);
+        }
+        if(!empty($filter['date_from']) ){
+            $this->db->where('notification.active_date >=', $filter['date_from']);
+        }
+        if(!empty($filter['date_to'])){
+            $this->db->where('notification.active_date <=', $filter['date_to']);
+        }
+        
+        if(!empty($filter['staff_id']) ){
+            $this->db->where('notification.updated_by', $filter['staff_id']);
+        }
+        $this->db->where('student.is_deleted',0);
+        $this->db->where('notification.is_deleted',0);
+        $this->db->order_by('notification.row_id', 'DESC');
+        $query = $this->db->get(); 
+        return $query->result();
+    }
 }

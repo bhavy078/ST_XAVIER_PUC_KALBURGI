@@ -76,7 +76,7 @@ if ($error) {
                                 <a onclick="window.history.back();" class="btn primary_color mobile-btn float-right text-white border_left_radius"
                                     value="Back"><i class="fa fa-arrow-circle-left"></i> Back </a>
                                 <div class="dropdown mobile-btn float-right">
-                                <?php if($role == ROLE_ADMIN || $role == ROLE_PRINCIPAL || $role == ROLE_PRIMARY_ADMINISTRATOR || $role == ROLE_OFFICE){ ?>
+                                <?php if($role == ROLE_ADMIN || $role == ROLE_PRINCIPAL || $role == ROLE_PRIMARY_ADMINISTRATOR || $role == ROLE_OFFICE || $role == ROLE_TEACHING_STAFF){ ?>
                                     <button type="button" class="btn btn-primary dropdown-toggle border_right_radius" data-toggle="dropdown">
                                         Action
                                     </button>
@@ -99,6 +99,7 @@ if ($error) {
                                         <div class="dropdown-divider m-0"></div> -->
                                         <!-- <a class="dropdown-item" href="#" id="study_certificate"><i class="fa fa-file"></i> Study Certificate</a>
                                         <div class="dropdown-divider m-0"></div> -->
+                                        <?php if($role != ROLE_TEACHING_STAFF){ ?>
                                         <a class="dropdown-item" href="#" id="conduct_certificate"><i class="fa fa-file"></i> Conduct Certificate</a>
                                         <div class="dropdown-divider m-0"></div>
                                         <a class="dropdown-item" href="#" id="mark_card_print"><i class="fa fa-file"></i> Mark Card</a>
@@ -106,6 +107,7 @@ if ($error) {
                                         
                                         <a class="dropdown-item" href="#" data-toggle="modal" data-target="#downloadReport" class="btn btn-md btn-primary">
                                         <i class="fa fa-download"></i> Export</a>
+                                        <?php }  ?>
                                         <!-- <a id="studentBatchModel" class="dropdown-item " href="#"><i class="fa fa-user"></i> Add Batch</a>
                                         <div class="dropdown-divider m-0"></div>
                                         <a class="dropdown-item" href="#" id="unit_test_mark_card"><i class="fa fa-file"></i> Unit Test Mark Card</a>
@@ -114,6 +116,7 @@ if ($error) {
                                         <div class="dropdown-divider m-0"></div> -->
                                         <!-- <a class="dropdown-item" href="#" id="promoteStudent"><i class="fa fa-file"></i>Promote Student</a>
                                         <div class="dropdown-divider m-0"></div> -->
+                                        <a class="dropdown-item" id="sendNotification" href="#"> <i class="material-icons text-dark">send</i> Send Notification</a>
                                     </div>
                                 </div>
                             </div>
@@ -902,6 +905,55 @@ if ($error) {
     </div>
 </div>
 
+<!-- The Modal send sms  -->
+<div class="modal fade-scale" id="sendNotificationView">
+    <div class="modal-dialog ">
+        <div class="modal-content ">
+
+            <!-- Modal Header -->
+            <div class="modal-header bg-blue ">
+                <h4 class="modal-title">Send Notifiation to Students</h4>
+                <button type="button" class="close float-right" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body p-2"> 
+                <form  action="<?php echo base_url() ?>sendStudentNotification" role="form" method="post" id="sendNotification"  enctype="multipart/form-data">
+                    <input type="hidden" name="student_id" id="students1">
+                    <div class="text-center" id="alertMsg"></div>
+                       <div class="form-group">
+                            <label for="exampleInputEmail1">Date</label>
+                           <input type="text" class="form-control required datepicker" id="date"  name="date"   placeholder="Date" autocomplete="off" required/>
+                        </div>
+                    
+                    <hr class="mt-1 mb-2">
+                    <div class="form-group">
+                        <textarea type="text" class="w-100" name="message" id="messageValue" rows="6" placeholder="Type Message Here..." required></textarea>
+                    </div>
+                    <div class="col-12">
+                       <div class="form-group" id="msg_file">
+                          <img src="<?php echo base_url(); ?>assets/dist/img/pdf.png" class="avatar"
+                                    width="30" height="40" src="#" id="uploadedImage" name="msg_file" width="80"
+                                    height="80" alt="avatar">
+                                <label for="fname">File </label>
+                                <input type="file" class="form-control" id="msg_file" name="msg_file" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg">
+                        </div>
+                    </div>
+
+                    <div class="modal-footer pb-0 px-2">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal"><span
+                                aria-hidden="true">&times;</span> Close</button>
+                        <button type="submit" class="btn btn-success">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <script src="<?php echo base_url(); ?>assets/js/student.js" type="text/javascript"></script>
 <script type="text/javascript">
 jQuery(document).ready(function() {
@@ -1000,6 +1052,31 @@ jQuery(document).ready(function() {
         $('#countStudents').html($('.singleSelect:checkbox:checked').length);
     });
 
+    $('#sendNotification').click(function() {
+            var students = [];
+        if ($('.singleSelect:checkbox:checked').length == 0) {
+            alert("Select atleast one Student to send notification!");
+            return;
+        } else {
+            
+            // alert(students.length);
+            $('#sendNotificationView').modal('show');
+              $('.singleSelect:checked').each(function(i) {
+            students.push($(this).val());
+          
+            //  students = JSON.stringify(students);
+
+        });
+            $('#students1').val(JSON.stringify(students));
+        }
+        $('.singleSelect:checked').each(function(i) {
+            // students.push($(this).val());
+           
+             students = JSON.stringify(students);
+
+        });
+        $('#countStudents').html($('.singleSelect:checkbox:checked').length);
+    });
     
     $('#updateStudentBatchInfo').click(function() {
         var class_batch = $("#batch_selected").val();

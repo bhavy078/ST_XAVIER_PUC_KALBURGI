@@ -15,6 +15,7 @@ class Students extends BaseController
         $this->load->model('subjects_model','subject');
         $this->load->model('staff_model','staff');
         $this->load->model('studentAttendance_model','attendance');
+        $this->load->model('push_notification_model');
         $this->load->library('pagination');
         $this->load->library('excel');
         $this->isLoggedIn();   
@@ -322,6 +323,28 @@ class Students extends BaseController
             $data['class_held'] = $class_held;
             $data['class_attended'] = $absent_count;
             $data['subjects'] = $subInfo;
+
+            $date_to = $this->input->post('date_to');
+            $date_from = $this->input->post('date_from');
+           
+            
+            if($this->role == ROLE_TEACHING_STAFF){
+                $filter['staff_id'] = $this->staff_id;
+            }
+            if (empty($date_from))
+            {
+                $filter['date_from'] = date('Y-m-d', strtotime('2023-06-01'));
+                $data['date_from'] = date('d-m-Y', strtotime('01-06-2023'));
+            }else {
+                $filter['date_from'] = date('Y-m-d', strtotime($date_from));
+                $data['date_from'] = date('d-m-Y', strtotime($date_from));
+            }
+            if (!empty($date_to)) {
+                $filter['date_to'] = date('Y-m-d', strtotime($date_to .' +1 day'));
+                $data['date_to'] = date('d-m-Y', strtotime($date_to));
+            }
+            $data['notifications'] = $this->push_notification_model->getStudentIndividualNotificationsforView($filter,$row_id);
+
 
             $data['active'] = '';
             $this->global['pageTitle'] = ''.TAB_TITLE.' : View Student Details';
