@@ -161,12 +161,16 @@ class Api extends CI_Controller
         $obj = json_decode($json,true);
 
         $student_id = $obj['user_id'];
+        $studentInfo = $this->student_model->getStudentInfoByStudentId($student_id);
         $dashboardInfo = $this->login_model->dashboardInfo();
-        
+        if(!empty($studentInfo)){
         $db_data = array();
         foreach($dashboardInfo as $info){
             $db_data[] = $info;
         }
+    }else{
+        $db_data = "logout";
+    }
         $data = json_encode($db_data);
         echo $data;
     }
@@ -493,20 +497,20 @@ class Api extends CI_Controller
         // $date = date('Y-m-d');
         // $notificationMsg = $this->student_model->getStudentNotification($student_id,$date);
 
-        // $bulkNotifications = $this->push_notification_model->getStudentBulkNotificationsApi($date,$row_id);        
+         $bulkNotifications = $this->student_model->getStudentBulkNotificationsApi($date,$student_id);        
         /////
         // log_message('debug','old='.print_r($notifications,true));
 
         // log_message('debug','mss='.print_r($notificationMsg,true));
         // log_message('debug','aaw='.print_r($bulkNotifications,true));
         $db_data = array();
-            // foreach($bulkNotifications as $info){
-            //     if($info->active_date!=null){
-            //         $info->date_time =date('d-m-Y',strtotime($info->active_date));
-            //         $info->subject = "Notification";
-            //     }
-            //     $db_data[] = $info;
-            // }
+            foreach($bulkNotifications as $info){
+                if($info->active_date!=null){
+                    $info->date_time =date('d-m-Y',strtotime($info->active_date));
+                    $info->subject = "Notification";
+                }
+                $db_data[] = $info;
+            }
             foreach($notifications as $info){
                 if($info->date_time!=null){
                     $info->date_time =date('d-m-Y H:i',strtotime($info->date_time));
@@ -523,6 +527,53 @@ class Api extends CI_Controller
             // }
             
             $data = json_encode($db_data);
+        echo $data;
+    }
+
+    public function personalNotificationsApi(){
+        $json = file_get_contents('php://input'); 
+        $obj = json_decode($json,true);
+        $term_name=$obj['term_name'];
+        $section_name=$obj['section_name'];
+        $student_id = $obj['student_id'];
+        $row_id = $obj['row_id'];
+        $date = date('Y-m-d');
+       // log_message('debug','wesf'.print_r($obj,true));
+       // $notificationMsg = $this->student_model->getNotification($student_id,$date);
+        //log_message('debug','sass'.print_r($obj,true));
+        
+        $bulkNotifications = $this->student_model->getStudentBulkNotificationsApi($date,$student_id); 
+        //log_message('debug','bulkNotifications->'.print_r($bulkNotifications,true));
+         
+        $db_data = array();
+        
+    
+            foreach($bulkNotifications as $info){
+                if($info->active_date!=null){
+                    $info->date_time =date('d-m-Y',strtotime($info->updated_date_time));
+                    $info->subject = "Notification";
+                }
+                $db_data[] = $info;
+            }
+            // foreach($notificationMsg as $info){
+            //     if($info->date_time!=null){
+            //         $info->date_time =date('d-m-Y H:i',strtotime($info->date_time));
+            //         $info->subject = "Notification";
+            //         $info->filepath = "";
+            //     }
+            //     $data2[] = $info;
+            // }
+    
+            // $db_data = array_merge($data);
+            // usort($db_data, function ($element1) {
+            //     $datetime1 = strtotime($element1->date_time);
+            //    // $datetime2 = strtotime($element2->date_time);
+            //     return $datetime1;
+            // });
+            
+            $data = json_encode($db_data);
+            // log_message('debug','data->'.print_r($data,true));
+    
         echo $data;
     }
 

@@ -499,6 +499,7 @@ public function getStudentInfoByStudentId($student_id){
     $this->db->from('tbl_students_info as std');
     $this->db->where('std.student_id', $student_id);
     $this->db->where('std.is_deleted', 0);
+    $this->db->where('std.is_active',1);
     $query = $this->db->get();
     return $query->row();
 }
@@ -707,6 +708,22 @@ public function updateCoursePaymentLogByRowId($paymentInfo,$order_id) {
         $query = $this->db->get(); 
         return $query->result();
     }
+
+    public function getStudentBulkNotificationsApi($todayDate,$studentRowId){  
+        
+        $this->db->from('tbl_student_bulk_notification as notification');
+        if(!empty($studentRowId)){
+            $this->db->where_in('notification.userId',array($studentRowId,"ALL"));
+        }else{
+            $this->db->where('notification.userId',"ALL");
+        }
+        $this->db->where('notification.active_date >=', date('Y-m-d',strtotime($todayDate)));
+        $this->db->order_by("updated_date_time","DESC");
+        $this->db->limit($limit);
+        $query = $this->db->get(); 
+        return($query->result());
+    }
+
  
 }
 ?>

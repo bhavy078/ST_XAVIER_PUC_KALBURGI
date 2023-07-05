@@ -223,3 +223,5 @@ $route['apicalender'] = "api/calender";
 $route['apiabsentDetails']="api/absentDetails";
 //deleteToken
 $route['apideleteToken'] = "api/deleteToken";
+//singleNotification
+$route['apipersonalNotificationsApi'] = "api/personalNotificationsApi";
