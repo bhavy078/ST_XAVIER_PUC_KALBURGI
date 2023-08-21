@@ -45,23 +45,23 @@ class Settings extends BaseController {
             $this->global['pageTitle'] = ''.TAB_TITLE.' : Settings';
             $this->loadViews("settings/settingsDashboard", $this->global, $data, null);  
           
-            $feeInfo = $this->fee->getOverallFeeInfo();
-            foreach($feeInfo as $fee){
-                $studentInfo = $this->student->getStudentInfoByRowId($fee->application_no);
-                $filter['stream_name'] = $studentInfo->stream_name;
-                $filter['term_name'] = $studentInfo->term_name;
-                $filter['fee_year'] = CURRENT_YEAR;
-                $total_fee_obj = $this->fee->getTotalFeeAmount($filter);
-                $paid_amt = $this->fee->getFeesPaidInfo($fee->application_no,CURRENT_YEAR,$fee->row_id);
-                $total_amt = $total_fee_obj->total_fee - $paid_amt;
-                if(($total_amt - $fee->paid_amount) == 0){
-                    $status = 0;
-                }else{
-                    $status = 1;
-                }
-                $feeInfo = array('total_amount'=>$total_amt,'pending_balance'=>$total_amt - $fee->paid_amount,'fee_pending_status' => $status);
-                $result = $this->fee->updateOverallFee($feeInfo,$fee->row_id);
-            }
+            // $feeInfo = $this->fee->getOverallFeeInfo();
+            // foreach($feeInfo as $fee){
+            //     $studentInfo = $this->student->getStudentInfoByRowId($fee->application_no);
+            //     $filter['stream_name'] = $studentInfo->stream_name;
+            //     $filter['term_name'] = $studentInfo->term_name;
+            //     $filter['fee_year'] = CURRENT_YEAR;
+            //     $total_fee_obj = $this->fee->getTotalFeeAmount($filter);
+            //     $paid_amt = $this->fee->getFeesPaidInfo($fee->application_no,CURRENT_YEAR,$fee->row_id);
+            //     $total_amt = $total_fee_obj->total_fee - $paid_amt;
+            //     if(($total_amt - $fee->paid_amount) == 0){
+            //         $status = 0;
+            //     }else{
+            //         $status = 1;
+            //     }
+            //     $feeInfo = array('total_amount'=>$total_amt,'pending_balance'=>$total_amt - $fee->paid_amount,'fee_pending_status' => $status);
+            //     $result = $this->fee->updateOverallFee($feeInfo,$fee->row_id);
+            // }
         }
     }
 
