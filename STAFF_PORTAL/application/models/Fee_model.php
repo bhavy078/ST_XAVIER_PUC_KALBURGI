@@ -1353,6 +1353,19 @@ class Fee_model extends CI_Model
         return $result->paid_amount;
     }
 
+    public function getFeesPaidInfo($application_no,$payment_year,$row_id){
+        $this->db->select('SUM(paid_amount) as paid_amount');
+        $this->db->from('tbl_students_overall_fee_payment_info_i_puc_2021 as fee'); 
+        $this->db->where('fee.application_no', $application_no);
+        $this->db->where('fee.payment_year',$payment_year);
+        $this->db->where('fee.row_id <',$row_id);
+        $this->db->where('fee.is_deleted', 0);
+        $query = $this->db->get();
+        $result = $query->row();
+        return $result->paid_amount;
+    }
+
+
     public function getStdLastPaidDetailsByApplicationNo($application_no,$year){
         $this->db->select('fee.paid_amount,fee.payment_count,fee.pending_balance');
         $this->db->from('tbl_students_overall_fee_payment_info_i_puc_2021 as fee');
@@ -1385,6 +1398,22 @@ class Fee_model extends CI_Model
         $query = $this->db->get();
         return $query->row()->paid_amount;
     }
+
+    public function getOverallFeeInfo(){
+        $this->db->from('tbl_students_overall_fee_payment_info_i_puc_2021 as fee'); 
+        $this->db->where('fee.is_deleted', 0);
+        $query = $this->db->get();
+        $result = $query->result();
+        return $result;
+    }
+
+    public function updateOverallFee($feeInfo, $row_id) {
+        $this->db->where('row_id', $row_id);
+        $this->db->update('tbl_students_overall_fee_payment_info_i_puc_2021', $feeInfo);
+        return TRUE;
+    }
+
+    
     
 }
 ?>
