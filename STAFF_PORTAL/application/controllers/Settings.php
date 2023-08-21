@@ -14,6 +14,7 @@ class Settings extends BaseController {
         $this->load->model('students_model','student');
         $this->load->model('timetable_model','timetable');
         $this->load->model('admission_model','admission');
+        $this->load->model('transport_model', 'transport');
         $this->isLoggedIn();
     }
     public function viewSettings(){
@@ -34,6 +35,7 @@ class Settings extends BaseController {
             $data['classTimingsInfo'] = $this->settings->getAllClassTimingsInfo();
             $data['timetableShiftInfo'] = $this->settings->getAllTimetableDayShiftingInfo();
             $data['remarkNameInfo'] = $this->settings->getRemarkNameInfo();
+            $data['settingInfo'] = $this->transport->getTransportNameInfo();
             $data['feeNameInfo'] ="";// $this->settings->getAllFeeNameInfo();
             $data['postInfo'] = "";// $this->settings->getAllPostInfo();
             $data['feeTypeInfo'] = "";//$this->settings->getAllFeeTypeInfo();

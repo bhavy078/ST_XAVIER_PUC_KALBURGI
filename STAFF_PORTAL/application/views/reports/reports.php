@@ -67,6 +67,38 @@
                 </div>
             </a>
         </div>
+        <div class="col-lg-3 col-6 mb-2 column_padding_card">
+            <a data-toggle="modal" data-target="#transportFeePaidReport" class="more-info text-white dashboard_link" href="#">
+                <div class="card card-small dash-card" style="background: #3e50b3;">
+                    <div class="card-body pt-1 pb-1">
+                        <h6 class="stats-small__value text-uppercase text-white">Transport Fee Paid Report</h6>
+                        <div class="icon pull-right mt-4">
+                            <i class="fas fa-file dash-icons"></i></i>
+                        </div>
+                    </div>
+                    <div class="card-footer text-center dash-footer p-1">
+                        <div class="more-info text-white"></div>
+                        <span class="text-center">Download</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-lg-3 col-6 mb-2 column_padding_card">
+            <a data-toggle="modal" data-target="#transportFeeDueReport" class="more-info text-white dashboard_link" href="#">
+                <div class="card card-small dash-card" style="background: #3e50b3;">
+                    <div class="card-body pt-1 pb-1">
+                        <h6 class="stats-small__value text-uppercase text-white">Transport Fee Due Report</h6>
+                        <div class="icon pull-right mt-4">
+                            <i class="fas fa-file dash-icons"></i></i>
+                        </div>
+                    </div>
+                    <div class="card-footer text-center dash-footer p-1">
+                        <div class="more-info text-white"></div>
+                        <span class="text-center">Download</span>
+                    </div>
+                </div>
+            </a>
+        </div>
         <!-- <div class="col-lg-3 col-6 mb-2 column_padding_card">
             <a data-toggle="modal" data-target="#IpucMarkSheetSubjectWise" class="more-info text-white dashboard_link" href="#">
                 <div class="card card-small dash-card" style="background: #3e50b3;">
@@ -525,6 +557,111 @@
                     </div>
 
                 </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- transport fee paid report -->
+<div class="modal" id="transportFeePaidReport">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header" style="padding: 10px;">
+                <h6 class="modal-title">Transport Fee Paid Report</h6>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body" style="padding: 10px;">
+                <form method="POST" data-download_form="true"
+                    action="<?php echo base_url(); ?>downloadTransportFeeInfoReport">
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <label for="inputEmail4">Term</label>
+                            <select class="form-control input-md required" name="term_name" required>
+                                <option value="">Select Term</option>
+                                <option value="I PUC">I PUC</option>
+                                <option value="II PUC">II PUC</option>
+                            </select>
+                        </div>
+
+                        <!-- <div class="col-lg-12 mt-2">
+                            <label>By Payment Type</label>
+                            <select class="form-control input-md required" name="payment_type">
+                                <option value="ALL">ALL</option>
+                                <option value="FULL_PAYMENT">Full Payment</option>
+                                <option value="HALF_PAYMENT">Half Payment</option>
+                                <option value="NOT_PAID">Not Paid</option>
+                            </select>
+                        </div> -->
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="modal-footer" style="padding:5px;">
+                        <div class="row">
+                            <div class="col-lg-12 col-12">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                <button type="submit" id="applicationRejectedReport"
+                                    class="btn btn-success">Download</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="transportFeeDueReport">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header" style="padding: 10px;">
+                <h6 class="modal-title">Transport Fee Due Report</h6>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body" style="padding: 10px;">
+                <form method="POST" data-download_form="true"
+                    action="<?php echo base_url(); ?>downloadTransportDueInfoReport">
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <label for="inputEmail4">Term</label>
+                            <select class="form-control input-md required" name="term_name_select" required>
+                                <option value="">Select Term</option>
+                                <option value="I PUC">I PUC</option>
+                                <option value="II PUC">II PUC</option>
+                            </select>
+                        </div>
+
+                        <!-- <div class="col-lg-12 mt-2">
+                            <label>By Payment Type</label>
+                            <select class="form-control input-md required" name="payment_type">
+                                <option value="ALL">ALL</option>
+                                <option value="FULL_PAYMENT">Full Payment</option>
+                                <option value="HALF_PAYMENT">Half Payment</option>
+                                <option value="NOT_PAID">Not Paid</option>
+                            </select>
+                        </div> -->
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="modal-footer" style="padding:5px;">
+                        <div class="row">
+                            <div class="col-lg-12 col-12">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                <button type="submit" id="applicationRejectedReport"
+                                    class="btn btn-success">Download</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
             </div>
         </div>
     </div>

@@ -16,6 +16,7 @@ class Students extends BaseController
         $this->load->model('staff_model','staff');
         $this->load->model('studentAttendance_model','attendance');
         $this->load->model('push_notification_model');
+        $this->load->model('transport_model', 'transport');
         $this->load->library('pagination');
         $this->load->library('excel');
         $this->isLoggedIn();   
@@ -359,7 +360,8 @@ class Students extends BaseController
             if ($row_id == null) {
                 redirect('studentDetails');
             }
-            $data['studentInfo'] = $this->student->getStudentInfoById($row_id);
+            $data['studentInfo'] = $this->student->getStudentsInfoById($row_id);
+           
             $data['religionInfo'] = $this->settings->getAllReligionInfo();
             $data['nationalityInfo'] = $this->settings->getAllNationalityInfo();
             // $data['stateInfo'] = $this->student_model->getStateInfo();
@@ -367,6 +369,8 @@ class Students extends BaseController
             $data['categoryInfo'] = $this->settings->getAllCategoryInfo();
             // $data['motherTongueInfo'] = $this->student->getMotherTongueInfo();
             $data['streamInfo'] = $this->student->getAllStreamName();
+            $data['routeInfo'] = $this->transport->getTransportNameInfo();
+           
             
             $this->global['pageTitle'] = ''.TAB_TITLE.' : Edit Student Details';
             $this->loadViews("students/editStudent", $this->global, $data, null);
@@ -417,6 +421,7 @@ class Students extends BaseController
                 $is_dyslexic = $this->security->xss_clean($this->input->post('is_dyslexic'));
                 $dob = $this->security->xss_clean($this->input->post('dob'));
                 $sub_caste = $this->security->xss_clean($this->input->post('sub_caste'));
+                $route = $this->input->post('route');
 
                 
                 $father_name = $this->security->xss_clean($this->input->post('father_name'));
@@ -471,6 +476,7 @@ class Students extends BaseController
                     'mother_annual_income' => $mother_annual_income,
                     'mother_mobile' => $mother_mobile,
                     'mother_email' => $mother_email,
+                    'route_id' => $route,
                     'updated_by'=>$this->staff_id, 
                     'updated_date_time'=>date('Y-m-d H:i:s'),
                     'photo_url' => $image_path

@@ -244,6 +244,24 @@ if ($error) {
                                                             </th>
                                                           
                                                         </tr>
+                                                        <tr>
+                                                            <th class="tbl-head" >Transport Route</th>
+                                                            <th width="240">
+                                                                <div class="form-group mb-0 input_mobile_width">
+                                                                    <select class="form-control " id="route" name="route" autocomplete="off">
+                                                                        <?php if (!empty($studentInfo->route_name)) { ?>
+                                                                            <option value="<?php echo $studentInfo->route_id; ?>">
+                                                                                Selected: <?php echo $studentInfo->route_name; ?>
+                                                                            </option>
+                                                                        <?php } ?>
+                                                                        <option value="">Select Transport Route</option>
+                                                                        <?php foreach($routeInfo as $route){ ?>
+                                                                            <option value="<?php echo $route->row_id; ?>"><?php echo $route->name; ?></option>
+                                                                        <?php } ?>
+                                                                    </select>
+                                                                </div>
+                                                            </th>
+                                                        </tr>
                                                     </table>
                                                 </div>
                                                 <div class="table-responsive mt-1">

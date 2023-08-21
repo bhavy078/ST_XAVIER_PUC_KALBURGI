@@ -657,6 +657,72 @@ if ($error) {
           </div>
         </div>
       </div>
+
+      <div class="col-lg-6 col-md-6 col-12 mb-2 padding_left_right_null">
+            <div class="card-header border-bottom card_head_dashboard settings_card" data-toggle="collapse"
+                data-target="#addTransportName">
+                <a class="float-right mb-0 setting_pointer">Click here </a>
+                <h6 class="m-0 text-dark">Transport Info</h6>
+            </div>
+            <div id="addTransportName" class="collapse">
+                <div class="card card-small h-100">
+                    <div class="card-body d-flex flex-column p-1">
+                        <?php $this->load->helper("form"); ?>
+                        <form role="form" id="addTransportName" action="<?php echo base_url() ?>addTransportName"
+                            method="post">
+                            <div class="row form-contents">
+                                <div class="col-4">
+                                    <div class="form-group mb-0">
+                                        <input type="text" class="form-control" id="addTransportName" name="name"
+                                            placeholder="Enter Name" autocomplete="off" required>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group mb-0">
+                                        <input type="text" class="form-control" id="rate" name="rate"
+                                            placeholder="Enter rate"  onkeypress="return isNumberKey(event)" autocomplete="off" required>
+                                    </div>
+                                </div>
+                                <div class="col-4 mb-1">
+                                    <input type="submit" class="btn btn-block btn-success float-right" value="Save" />
+                                </div>
+                            </div>
+                        </form>
+                        <div class="col-lg-12 col-12 p-0 mt-0 ">
+                            <table class="table table-bordered text-dark mb-0">
+                                <thead class="text-center">
+                                    <tr class="table_row_background">
+                                        <th>Name</th>
+                                        <th>Rate</th>
+                                        <!-- <th>Action</th> -->
+                                    </tr>
+                                </thead>
+                                <tbody class="text-center">
+                                    <?php if(!empty($settingInfo)){
+                                        foreach($settingInfo as $record){ ?>
+                                    <tr class="text-dark">
+                                        <td><?php echo $record->name; ?></td>
+                                        <td><?php echo $record->rate; ?></td>
+                                        <!-- <td>
+                                            <a class="btn btn-xs btn-danger deleteTransportName" href="#"
+                                                data-row_id="<?php echo $record->row_id; ?>" title="Delete"><i
+                                                    class="fa fa-trash"></i></a>
+                                        </td> -->
+                                    </tr>
+                                    <?php } }else{ ?>
+                                    <tr class="text-dark card_head_dashboard">
+                                        <td colspan="3">Transport Record Not Found!</td>
+                                    </tr>
+                                    <?php } ?>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+                <!-- End Quick Post -->
+        </div>
       
       <?php if($role == ROLE_PRIMARY_ADMINISTRATOR || $role == ROLE_ADMIN){ ?>
       <div class="col-lg-6 col-md-6 col-12 mb-2">

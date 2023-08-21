@@ -463,6 +463,44 @@ $route['addBankSettlementSubmit'] = "account/addBankSettlementSubmit";
 //fee report
 $route['download_II_PUC_StudentFeePaidReport'] = "fee/download_II_PUC_StudentFeePaidReport";
 
+//bus fee
+$route['addTransportName'] = "transport/addTransportName";
+
+// routes for Transport Management- Bus
+$route['viewBusListing'] = "transport/viewBusListing";
+$route['viewBusListing/(:any)'] = "transport/viewBusListing/$1";
+$route['deleteBus'] = "transport/deleteBus";
+$route['addNewBus'] = "transport/addNewBus";
+$route['editBus/(:any)'] = "transport/editBus/$1";
+$route['updateBus'] = "transport/updateBus";
+$route['addTyreInfo'] = "transport/addTyreInfo";
+$route['addSpareInfo'] = "transport/addSpareInfo";
+$route['addServiceInfo'] = "transport/addServiceInfo";
+$route['addFuelInfo'] = "transport/addFuelInfo";
+$route['deleteTyre'] = "transport/deleteTyre";
+$route['deleteSpare'] = "transport/deleteSpare";
+$route['deleteService'] = "transport/deleteService";
+$route['deleteFuel'] = "transport/deleteFuel";
+$route['addTripInfo'] = "transport/addTripInfo";
+$route['deleteTrip'] = "transport/deleteTrip";
+
+//transport fee
+$route['transFeePayNow'] = "transport/transFeePayNow";
+$route['getStudentTransFeePaymentInfo'] = "transport/getStudentTransFeePaymentInfo";
+$route['addTransFeePaymentInfo'] = "transport/addTransFeePaymentInfo";
+$route['deleteFeeReceipt'] = "transport/deleteFeeReceipt";
+$route['addTransportName'] = "transport/addTransportName";
+$route['deleteTransportName'] = "transport/deleteTransportName"; 
+$route['printStudentTransportBill/(:any)'] = "transport/printStudentTransportBill/$1";
+
+// routes for Transport Management- Student Bus
+$route['viewStudentTransportListing'] = "transport/viewStudentTransportListing";
+$route['viewStudentTransportListing/(:any)'] = "transport/viewStudentTransportListing/$1";
+
+//transport report 
+$route['downloadTransportFeeInfoReport'] = "reports/downloadTransportFeeInfoReport";
+$route['downloadTransportDueInfoReport'] = "reports/downloadTransportDueInfoReport";
+
 // this routes for Push Notification
 $route['pushNotification'] = 'push_Notification';
 $route['push_notification/sendNotification'] = "push_Notification/validateForm"; 

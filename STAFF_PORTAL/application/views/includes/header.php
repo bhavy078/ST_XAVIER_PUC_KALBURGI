@@ -919,7 +919,7 @@
                                 <span>Instalment</span>
                             </a>
                         </li>
-                        <?php if($role == ROLE_PRINCIPAL || $role == ROLE_PRIMARY_ADMINISTRATOR || $role == ROLE_ADMIN ){ ?>
+                        <?php if($role == ROLE_PRINCIPAL || $role == ROLE_PRIMARY_ADMINISTRATOR || $role == ROLE_ADMIN  ){ ?>
                                 <li class="nav-item">
                                     <a class="nav-link " href="<?php echo base_url(); ?>viewFeeConcession">
                                         <i class="fas fa-rupee-sign"></i>
@@ -930,6 +930,42 @@
                     </ul>
                 </li>
                 <?php } ?>
+
+                <?php if($role == ROLE_ADMIN || $role == ROLE_PRINCIPAL || $role == ROLE_PRIMARY_ADMINISTRATOR || $role == ROLE_ACCOUNT ) { ?>
+                    <li class="nav-item">
+                    <a href="#transport_items" data-toggle="collapse" aria-expanded="false"
+                        class="nav-link  dropdown-toggle">
+                        <i class="material-icons">directions_bus</i>
+                        <span> Transport Management</span>
+                    </a>
+                    <ul class="collapse list-unstyled ml-3" id="transport_items">
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?php echo base_url(); ?>viewBusListing">
+                                <i class="material-icons">directions_bus</i>
+                                <span> Bus Detail</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " href="<?php echo base_url(); ?>transFeePayNow">
+                                <i class="material-icons">money</i>
+                                <span>Transport FeePayNow</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?php echo base_url(); ?>viewStudentTransportListing">
+                                <i class="material-icons">description</i>
+                                <span>Transport Fee Paid</span>
+                            </a>
+                        </li>
+                        <!-- <li class="nav-item">
+                            <a class="nav-link" href="<?php echo base_url(); ?>viewTransportSettings">
+                                <i class="material-icons">settings</i>
+                                <span> Transport Setting</span>
+                            </a>
+                        </li> -->
+                    </ul>
+                </li>
+            <?php } ?>
 
                 <?php 
                 if ($role == ROLE_ADMIN || $role == ROLE_PRINCIPAL || $role == ROLE_PRIMARY_ADMINISTRATOR) { ?>
