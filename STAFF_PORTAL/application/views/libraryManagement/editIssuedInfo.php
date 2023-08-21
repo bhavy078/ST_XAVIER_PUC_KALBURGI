@@ -60,7 +60,7 @@ if ($warning) {
                         <form role="form" id="editIssuedInfo" action="<?php echo base_url() ?>updateIssuedInfo" method="post" role="form" enctype="multipart/form-data">
                             <input type="hidden" value="<?php echo $libraryInfo->row_id; ?>" id="row_id" name="row_id">
                             <input type="hidden" value="<?php echo $libraryInfo->return_date; ?>" id="return_date" name="return_date">
-                            <input type="hidden" value="<?php echo $libraryInfo->isbn; ?>" id="isbn" name="isbn">
+                            <input type="hidden" value="<?php echo $libraryInfo->access_code; ?>" id="isbn" name="isbn">
                             <div class="row form-contents">
                                 <div class="col-lg-12">
                                     <div class="row">
