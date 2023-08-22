@@ -1274,7 +1274,7 @@ class Transport extends BaseController
                 $tran_date = '';
             }
             
-            $studentInfo = $this->student->getStudentInfoById($student_row_id);
+            $studentInfo = $this->student->getStudentsInfoById($student_row_id);
             $total_fee = $studentInfo->rate;
 
             $total_fee_pending_to_pay = $total_fee;
@@ -1309,6 +1309,7 @@ class Transport extends BaseController
             $overallFee = array(
                     'student_id' => $student_row_id,
                     'receipt_no' => $receipt_no,
+                    'total_amount' => $total_fee_pending_to_pay,
                     'payment_date' => date('Y-m-d',strtotime($payment_date)),
                     'bus_fees' => $paid_fee_amount,
                     'pending_balance' => $pending_fee_balance,

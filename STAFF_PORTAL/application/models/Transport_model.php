@@ -408,7 +408,7 @@ class Transport_model extends CI_Model
 
     //student Bus
     public function getAllStudentTransportInfo($filter, $page, $segment){
-        $this->db->select('studentBus.row_id, studentBus.receipt_no,studentBus.ref_receipt_no, studentBus.bus_number, studentBus.payment_date,studentBus.month,
+        $this->db->select('studentBus.row_id, studentBus.receipt_no, studentBus.bus_number, studentBus.payment_date, 
         studentBus.bus_fees, studentBus.route_from, studentBus.route_to, studentBus.from_date,studentBus.payment_type,
         studentBus.to_date,student.sat_number,student.student_name,transName.name as route_name,transName.rate,transName.bus_no,student.student_id');
         $this->db->from('tbl_student_bus_management_details as studentBus'); 
@@ -417,7 +417,7 @@ class Transport_model extends CI_Model
         $this->db->join('tbl_student_transport_rate_info as transName','transName.row_id = student.route_id','left');
         
         if(!empty($filter['receipt_no'])){
-            $likeCriteria = "(studentBus.ref_receipt_no  LIKE '%" . $filter['receipt_no'] . "%')";
+            $likeCriteria = "(studentBus.receipt_no  LIKE '%" . $filter['receipt_no'] . "%')";
             $this->db->where($likeCriteria);
         }
         if(!empty($filter['student_id'])){
@@ -449,10 +449,6 @@ class Transport_model extends CI_Model
             $likeCriteria = "(student.student_name  LIKE '%" . $filter['by_name'] . "%')";
             $this->db->where($likeCriteria);
         }
-        if(!empty($filter['month'])){
-            $likeCriteria = "(studentBus.month  LIKE '%" . $filter['month'] . "%')";
-            $this->db->where($likeCriteria);
-        }
         if(!empty($filter['payment_date'])){
             $this->db->where('studentBus.payment_date', $filter['payment_date']);
         }
@@ -473,14 +469,16 @@ class Transport_model extends CI_Model
         $this->db->join('tbl_student_transport_rate_info as transName','transName.row_id = student.route_id','left');
 
         if(!empty($filter['receipt_no'])){
-            $likeCriteria = "(studentBus.ref_receipt_no  LIKE '%" . $filter['receipt_no'] . "%')";
+            $likeCriteria = "(studentBus.receipt_no  LIKE '%" . $filter['receipt_no'] . "%')";
             $this->db->where($likeCriteria);
         }
         if(!empty($filter['student_id'])){
             $likeCriteria = "(student.student_id  LIKE '%" . $filter['student_id'] . "%')";
             $this->db->where($likeCriteria);
         }
-       
+        // if(!empty($filter['bus_number'])) {
+        //     $this->db->where_in('studentBus.bus_number',$filter['bus_number']);
+        // }
          if(!empty($filter['route_from'])){
             $likeCriteria = "(transName.name  LIKE '%" . $filter['route_from'] . "%')";
             $this->db->where($likeCriteria);
@@ -488,11 +486,16 @@ class Transport_model extends CI_Model
         if(!empty($filter['payment_type'])){
             $this->db->where('studentBus.payment_type', $filter['payment_type']);
         }
-        if(!empty($filter['month'])){
-            $likeCriteria = "(studentBus.month  LIKE '%" . $filter['month'] . "%')";
-            $this->db->where($likeCriteria);
-        }
-       
+        // if(!empty($filter['route_to'])){
+        //     $likeCriteria = "(studentBus.route_to  LIKE '%" . $filter['route_to'] . "%')";
+        //     $this->db->where($likeCriteria);
+        // }
+        // if(!empty($filter['from_date'])){
+        //     $this->db->where('studentBus.from_date', $filter['from_date']);
+        // }
+        //  if(!empty($filter['to_date'])){
+        //     $this->db->where('studentBus.to_date', $filter['to_date']);
+        // }
         if(!empty($filter['bus_fees'])){
             $likeCriteria = "(studentBus.bus_fees  LIKE '%" . $filter['bus_fees'] . "%')";
             $this->db->where($likeCriteria);
@@ -519,7 +522,7 @@ class Transport_model extends CI_Model
     }
 
     public function getStudentTransportInfoById($row_id) {
-        $this->db->select('stdbus.row_id, stdbus.bus_number, stdbus.receipt_no,stdbus.ref_receipt_no,stdbus.payment_date,  stdbus.bus_fees, stdbus.route_from,student.admission_no,stdbus.upi_ref_no,stdbus.transaction_number,stdbus.dd_number,student.register_no,student.application_no,stdbus.month,
+        $this->db->select('stdbus.row_id, stdbus.bus_number, stdbus.receipt_no,stdbus.payment_date,  stdbus.bus_fees, stdbus.route_from,student.admission_no,stdbus.upi_ref_no,stdbus.transaction_number,stdbus.dd_number,student.register_no,student.application_no,
         stdbus.route_to, stdbus.from_date, stdbus.to_date, bus.vehicle_number,student.sat_number,student.student_name,stdbus.intake_year,stdbus.payment_type,stdbus.payment_status,student.term_name,stdbus.created_date_time,rate.bus_no,student.student_id,rate.name as route_name');
         $this->db->from('tbl_student_bus_management_details as stdbus');
         $this->db->join('tbl_bus_management_details as bus', 'bus.vehicle_number = stdbus.bus_number','left');
@@ -791,6 +794,16 @@ class Transport_model extends CI_Model
 
     public function getTransportTotalPaidAmount($stud_id,$year){
         $this->db->select('SUM(fee.bus_fees) as paid_amount');
+        $this->db->from('tbl_student_bus_management_details as fee');
+        $this->db->where('fee.is_deleted', 0);
+        $this->db->where('fee.student_id', $stud_id);
+        $this->db->where('fee.intake_year',$year);
+        $query = $this->db->get();
+        return $query->row();
+    }
+
+    public function getTransportFeePaid($stud_id,$year){
+        $this->db->select('fee.bus_fees,fee.total_amount,fee.pending_balance');
         $this->db->from('tbl_student_bus_management_details as fee');
         $this->db->where('fee.is_deleted', 0);
         $this->db->where('fee.student_id', $stud_id);

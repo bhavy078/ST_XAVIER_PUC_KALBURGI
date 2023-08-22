@@ -4130,31 +4130,20 @@ public function downloadTransportFeeInfoReport()
         // foreach($feeTypeInfo as $type){
       
             $studentInfo = $this->student->getCurrentStudentInfoForTransReport($filter);
-
+           // log_message('debug','fee'.print_r($studentInfo,true));
             if (!empty($studentInfo)) {
                 foreach ($studentInfo as $std) {
                     $routeInfo = $this->transport->getTranportRateById($std->route_id);
-                   
-                    $total_fee = $routeInfo->rate;
-                    log_message('debug','routeInfo'.$total_fee);
-                    $feePaidInfo = $this->transport->getTransportTotalPaidAmount($std->student_row_id,$year);
-                    
-                   // $monthInfo = $this->transport->getTransportFeePaidMonth($std->row_id,$year);
-                    if(!empty($feePaidInfo->paid_amount)){
-                        $paid_amt = $feePaidInfo->paid_amount;
-                    }else{
-                        $paid_amt = 0;
-                    }
-                    $pending_bal = $total_fee - $paid_amt;
-                    if($paid_amt != 0){
+                
+               
                     $spreadsheet->getActiveSheet()->getStyle("A" . $excel_row)->getFont()->setSize(14);
                     $spreadsheet->getActiveSheet()->setCellValue('A' . $excel_row,  $sl_number);
                     $spreadsheet->getActiveSheet()->setCellValue('B' . $excel_row,  $std->student_id);
                     $spreadsheet->getActiveSheet()->setCellValue('C' . $excel_row,  $std->student_name);
                     $spreadsheet->getActiveSheet()->setCellValue('D' . $excel_row,  $std->stream_name);
-                    $spreadsheet->getActiveSheet()->setCellValue('E' . $excel_row,  $total_fee);
-                    $spreadsheet->getActiveSheet()->setCellValue('F' . $excel_row,  $paid_amt);
-                    $spreadsheet->getActiveSheet()->setCellValue('G' . $excel_row,  $pending_bal);
+                    $spreadsheet->getActiveSheet()->setCellValue('E' . $excel_row,  $std->total_amount);
+                    $spreadsheet->getActiveSheet()->setCellValue('F' . $excel_row,  $std->bus_fees);
+                    $spreadsheet->getActiveSheet()->setCellValue('G' . $excel_row,  $std->pending_balance);
                     $spreadsheet->getActiveSheet()->setCellValue('H' . $excel_row,  $std->month);
                     $spreadsheet->getActiveSheet()->setCellValue('I' . $excel_row,  $routeInfo->name);
                     $spreadsheet->getActiveSheet()->setCellValue('J' . $excel_row,  $routeInfo->bus_no);
@@ -4162,7 +4151,7 @@ public function downloadTransportFeeInfoReport()
 
                     $sl_number++;
                     $excel_row++;
-                    }
+                  //  }
                 }
             }
    

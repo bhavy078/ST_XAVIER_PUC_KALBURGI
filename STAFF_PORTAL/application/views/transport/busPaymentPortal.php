@@ -639,7 +639,10 @@ jQuery(document).ready(function() {
         var payment_type = $('#payment_type_select').val();
         var month = $('#month').val();
         var receipt_number = $('#receipt_number').val();
-        if (paid_amount_display == "") {
+        if (receipt_number == "") {
+            alert("Please Enter Receipt No.");
+            return;
+        }else if (paid_amount_display == "") {
             alert("Please Enter Paid Amount");
             return;
         }else if (transaction_date == "") {
