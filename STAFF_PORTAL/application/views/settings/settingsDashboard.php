@@ -671,16 +671,22 @@ if ($error) {
                         <form role="form" id="addTransportName" action="<?php echo base_url() ?>addTransportName"
                             method="post">
                             <div class="row form-contents">
-                                <div class="col-4">
+                                <div class="col-4 pr-1">
                                     <div class="form-group mb-0">
                                         <input type="text" class="form-control" id="addTransportName" name="name"
                                             placeholder="Enter Name" autocomplete="off" required>
                                     </div>
                                 </div>
-                                <div class="col-4">
+                                <div class="col-2 pr-1 pl-1">
                                     <div class="form-group mb-0">
                                         <input type="text" class="form-control" id="rate" name="rate"
                                             placeholder="Enter rate"  onkeypress="return isNumberKey(event)" autocomplete="off" required>
+                                    </div>
+                                </div>
+                                <div class="col-2 pr-1 pl-1">
+                                    <div class="form-group mb-0">
+                                        <input type="text" class="form-control" id="bus_number" name="bus_no"
+                                            placeholder="Enter No."  onkeypress="return isNumberKey(event)" autocomplete="off" required>
                                     </div>
                                 </div>
                                 <div class="col-4 mb-1">
@@ -694,7 +700,8 @@ if ($error) {
                                     <tr class="table_row_background">
                                         <th>Name</th>
                                         <th>Rate</th>
-                                        <!-- <th>Action</th> -->
+                                        <th>Bus No.</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody class="text-center">
@@ -703,11 +710,10 @@ if ($error) {
                                     <tr class="text-dark">
                                         <td><?php echo $record->name; ?></td>
                                         <td><?php echo $record->rate; ?></td>
-                                        <!-- <td>
-                                            <a class="btn btn-xs btn-danger deleteTransportName" href="#"
-                                                data-row_id="<?php echo $record->row_id; ?>" title="Delete"><i
-                                                    class="fa fa-trash"></i></a>
-                                        </td> -->
+                                        <td><?php echo $record->bus_no; ?></td>
+                                        <td>
+                                          <a class="btn btn-xs btn-secondary" onclick="openModel(<?php echo $record->row_id; ?>,/<?php echo $record->name; ?>/,<?php echo $record->rate; ?>,<?php echo $record->bus_no; ?>)" title="Edit" href='#'><i class="fas fa-edit"></i></a> 
+                                        </td>
                                     </tr>
                                     <?php } }else{ ?>
                                     <tr class="text-dark card_head_dashboard">
@@ -827,9 +833,70 @@ if ($error) {
 
   
 </div>
+
+
+<div class="modal" id="transportFeeEdit">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Transport Info</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body p-2">
+                    <?php $this->load->helper("form"); ?>
+                    <form role="form" id="editTransportFee" action="<?php echo base_url() ?>editTransportInfo" method="post" role="form">
+                    <input type="hidden" name="row_id" id="row_id" value="" />
+                      <div class="row form-contents">
+                        <div class="col-lg-12 col-12">
+                            <div class="form-group">
+                            <label>Place</label>
+                              <input type="text" class="form-control text-capitalize" id="place_name" name="transport_name" placeholder="Enter Name" autocomplete="off" required>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-12">
+                          <div class="form-group">
+                          <label>Rate</label>
+                            <input type="text" class="form-control" id="fee_rate" name="fee_rate" placeholder="Enter Rate" autocomplete="off" required>
+                          </div>
+                        </div>
+                        <div class="col-lg-6 col-12">
+                          <div class="form-group">
+                          <label>Bus No.</label>
+                            <input type="text" class="form-control" id="bus_no" name="bus_number" placeholder="Enter Bus No." autocomplete="off" required>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <input type="submit" form="editTransportFee" class="btn btn-success float-right" value="Save" />
+                </div>
+
+            </div>
+        </div>
+    </div>
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/common.js" charset="utf-8"></script>
 
 <script>
+
+function openModel(row_id, name, rate, bus_no) {
+  
+        $('#row_id').val(row_id);
+        $('#fee_rate').val(rate);
+        $('#bus_no').val(bus_no);
+        var yourString = String(name);
+        var result = yourString.substring(1, yourString.length-1);
+        $('#place_name').val(result);
+        $('#transportFeeEdit').modal('show');
+}
+
 jQuery(document).ready(function() {
     jQuery('#datepicker').datepicker({
         autoclose: true,

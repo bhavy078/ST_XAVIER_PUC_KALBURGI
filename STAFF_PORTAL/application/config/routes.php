@@ -465,6 +465,7 @@ $route['download_II_PUC_StudentFeePaidReport'] = "fee/download_II_PUC_StudentFee
 
 //bus fee
 $route['addTransportName'] = "transport/addTransportName";
+$route['editTransportInfo'] = "transport/editTransportInfo";
 
 // routes for Transport Management- Bus
 $route['viewBusListing'] = "transport/viewBusListing";

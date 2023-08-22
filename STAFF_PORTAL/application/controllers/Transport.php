@@ -1063,9 +1063,11 @@ class Transport extends BaseController
         } else {
             $name = $this->security->xss_clean($this->input->post('name'));
             $rate = $this->security->xss_clean($this->input->post('rate'));
+            $bus_no = $this->security->xss_clean($this->input->post('bus_no'));
             $transportInfo = array(
                 'name' => $name,
                 'rate' => $rate,
+                'bus_no' => $bus_no,
                 'created_by' => $this->staff_id,
                 'created_date_time' => date('Y-m-d H:i:s')
             );
@@ -1078,6 +1080,35 @@ class Transport extends BaseController
             redirect('viewSettings');
         }
     }
+
+    public function editTransportInfo(){
+        if($this->isAdmin() == TRUE){
+            $this->loadThis();
+        } else {   
+            $row_id = $this->input->post('row_id');
+            $transport_name = $this->security->xss_clean($this->input->post('transport_name'));
+            $fee_rate = $this->security->xss_clean($this->input->post('fee_rate'));
+            $bus_number = $this->security->xss_clean($this->input->post('bus_number'));
+           
+            $transportFee = array(
+                    'name' => $transport_name,
+                    'rate' => $fee_rate,
+                    'bus_no' => $bus_number,
+                    'updated_by' => $this->staff_id,
+                    'updated_date_time' => date('Y-m-d H:i:s'));
+    
+            $result = $this->transport->updateTransportInfo($transportFee,$row_id);
+                    
+            if($result > 0){
+                $this->session->set_flashdata('success', 'Transport Fee Updated Successfully');
+            }else{
+                $this->session->set_flashdata('error', 'Transport Fee Update Failed!');
+            }
+            redirect('viewSettings');
+
+        }
+    }
+
     public function deleteTransportName()
     {
         if ($this->isAdmin() == TRUE) {

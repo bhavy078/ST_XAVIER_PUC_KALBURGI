@@ -523,10 +523,11 @@ class Transport_model extends CI_Model
 
     public function getStudentTransportInfoById($row_id) {
         $this->db->select('stdbus.row_id, stdbus.bus_number, stdbus.receipt_no,stdbus.payment_date,  stdbus.bus_fees, stdbus.route_from,student.admission_no,stdbus.upi_ref_no,stdbus.transaction_number,stdbus.dd_number,student.register_no,student.application_no,
-        stdbus.route_to, stdbus.from_date, stdbus.to_date, bus.vehicle_number,student.sat_number,student.student_name,stdbus.intake_year,stdbus.payment_type,stdbus.payment_status,student.term_name,stdbus.created_date_time');
+        stdbus.route_to, stdbus.from_date, stdbus.to_date, bus.vehicle_number,student.sat_number,student.student_name,stdbus.intake_year,stdbus.payment_type,stdbus.payment_status,student.term_name,stdbus.created_date_time,rate.bus_no');
         $this->db->from('tbl_student_bus_management_details as stdbus');
         $this->db->join('tbl_bus_management_details as bus', 'bus.vehicle_number = stdbus.bus_number','left');
         $this->db->join('tbl_students_info as student', 'student.row_id = stdbus.student_id','left');
+        $this->db->join('tbl_student_transport_rate_info as rate', 'rate.row_id = student.route_id','left');
         $this->db->where('stdbus.row_id', $row_id);
         $this->db->where('stdbus.is_deleted', 0);
         $query = $this->db->get();
@@ -581,6 +582,12 @@ class Transport_model extends CI_Model
         $insert_id = $this->db->insert_id();
         $this->db->trans_complete();
         return $insert_id;
+    }
+
+    function updateTransportInfo($transportInfo,$row_id){
+        $this->db->where('row_id', $row_id);
+        $this->db->update('tbl_student_transport_rate_info', $transportInfo);
+        return TRUE;
     }
 
      function deleteTransportName($transportInfo,$row_id){

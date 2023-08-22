@@ -4072,6 +4072,7 @@ public function downloadTransportFeeInfoReport()
         $spreadsheet->getActiveSheet()->setCellValue('F3', 'Paid Amt.');
         $spreadsheet->getActiveSheet()->setCellValue('G3', 'Pending Amt.');
         $spreadsheet->getActiveSheet()->setCellValue('H3', 'Route');
+        $spreadsheet->getActiveSheet()->setCellValue('I3', 'Bus No.');
         
             
         $spreadsheet->getActiveSheet()->getStyle("A3:J3")->applyFromArray($font_style_total);
@@ -4144,7 +4145,7 @@ public function downloadTransportFeeInfoReport()
                     $spreadsheet->getActiveSheet()->setCellValue('F' . $excel_row,  $paid_amt);
                     $spreadsheet->getActiveSheet()->setCellValue('G' . $excel_row,  $pending_bal);
                     $spreadsheet->getActiveSheet()->setCellValue('H' . $excel_row,  $routeInfo->name);
-
+                    $spreadsheet->getActiveSheet()->setCellValue('I' . $excel_row,  $routeInfo->bus_no);
                     $spreadsheet->getActiveSheet()->getStyle('A' . $excel_row)->getAlignment()->setWrapText(true);
 
                     $sl_number++;
@@ -4161,7 +4162,7 @@ public function downloadTransportFeeInfoReport()
 
         $writer = new Xlsx($spreadsheet);
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment;filename="fee_structure_' . $term_name . '.xlsx"');
+        header('Content-Disposition: attachment;filename="Transport_fee_paid_' . $term_name . '.xlsx"');
         header('Cache-Control: max-age=0');
         setcookie('isDownLoaded', 1);
         $writer->save("php://output");
@@ -4223,6 +4224,7 @@ public function downloadTransportDueInfoReport()
         $spreadsheet->getActiveSheet()->setCellValue('F3', 'Paid Amt.');
         $spreadsheet->getActiveSheet()->setCellValue('G3', 'Pending Amt.');
         $spreadsheet->getActiveSheet()->setCellValue('H3', 'Route');
+        $spreadsheet->getActiveSheet()->setCellValue('I3', 'Bus No.');
         
             
         $spreadsheet->getActiveSheet()->getStyle("A3:J3")->applyFromArray($font_style_total);
@@ -4295,7 +4297,7 @@ public function downloadTransportDueInfoReport()
                     $spreadsheet->getActiveSheet()->setCellValue('F' . $excel_row,  $paid_amt);
                     $spreadsheet->getActiveSheet()->setCellValue('G' . $excel_row,  $pending_bal);
                     $spreadsheet->getActiveSheet()->setCellValue('H' . $excel_row,  $routeInfo->name);
-
+                    $spreadsheet->getActiveSheet()->setCellValue('I' . $excel_row,  $routeInfo->bus_no);
                     $spreadsheet->getActiveSheet()->getStyle('A' . $excel_row)->getAlignment()->setWrapText(true);
 
                     $sl_number++;
@@ -4312,7 +4314,7 @@ public function downloadTransportDueInfoReport()
 
         $writer = new Xlsx($spreadsheet);
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment;filename="fee_structure_' . $term_name . '.xlsx"');
+        header('Content-Disposition: attachment;filename="transport_fee_due_' . $term_name . '.xlsx"');
         header('Cache-Control: max-age=0');
         setcookie('isDownLoaded', 1);
         $writer->save("php://output");
