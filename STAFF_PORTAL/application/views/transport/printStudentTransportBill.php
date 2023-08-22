@@ -56,7 +56,7 @@ table{
      if(!empty($studentTransportInfo->upi_ref_no)) {
         $transaction_id =  $studentTransportInfo->upi_ref_no;
      }
-     
+     log_message('debug','test'.$studentTransportInfo->month);
      
 ?>
 <!--  -->
@@ -78,11 +78,9 @@ table{
             <hr class="border_bottom hr_line">
             <table class="table" style="font-size: 13px;">
                  <tr>
-                    <td colspan="2">Receipt No.: <span style="color: red;"><?php echo $studentTransportInfo->receipt_no; ?></span></td>
+                    <td colspan="2">Receipt No.: <span style="color: red;"><?php echo $studentTransportInfo->ref_receipt_no; ?></span></td>
                 </tr>
-                <!-- <tr>
-                    <td colspan="2">Bus No.: <?php echo  $studentTransportInfo->bus_number; ?></span></td>
-                </tr> -->
+                
                 <tr>
                     <td colspan="2">Name of the student : <?php echo strtoupper($studentTransportInfo->student_name); ?></td>
                 </tr>
@@ -93,8 +91,9 @@ table{
                     <td width="220">Class  : <?php echo strtoupper($studentTransportInfo->term_name); ?></td> 
                 </tr>
                 <tr>
-                    <td colspan="2">Year : <?php echo $studentTransportInfo->intake_year;?></td>
+                    <td colspan="2">Month & Year : <?php echo $studentTransportInfo->month .' '. $studentTransportInfo->intake_year;?></td>
                 </tr>
+
                 <tr>
                     <td colspan="2">Bus No. : <?php echo $studentTransportInfo->bus_no;?></td>
                 </tr>

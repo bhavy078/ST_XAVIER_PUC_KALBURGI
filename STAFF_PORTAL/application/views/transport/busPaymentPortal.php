@@ -249,6 +249,30 @@ if ($error) {
                                                         Placeholder="Transaction Date" id="transaction_date_first"
                                                         autocomplete="off" readonly>
                                                 </div>
+                                                <div class="form-group  mb-2 month_wise">
+                                                    <select class="form-control text-dark" id="month"
+                                                        name="month">
+                                                        <option value="">Select Month</option>
+                                                        <option value="January">January</option>
+                                                        <option value="February">February</option>
+                                                        <option value="March">March</option>
+                                                        <option value="April">April</option>
+                                                        <option value="May">May</option>
+                                                        <option value="June">June</option>
+                                                        <option value="July">July</option>
+                                                        <option value="August">August</option>
+                                                        <option value="September">September</option>
+                                                        <option value="October">October</option>
+                                                        <option value="November">November</option>
+                                                        <option value="December">December</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <input type="text" class="form-control " id="receipt_number"
+                                                        name="receipt_number" placeholder="Reference Receipt No."
+                                                        onkeypress="return isNumberKey(event)" required
+                                                        autocomplete="off" >
+                                                </div>
                                                 <div class="form-group mb-2">
                                                     <input type="text" class="form-control " id="paid_amount"
                                                         name="paid_amount" placeholder="Paid Amount"
@@ -297,6 +321,7 @@ if ($error) {
                                                     <th>Receipt No.</th>
                                                     <!-- <th>Order ID.</th> -->
                                                     <th>Amount</th>
+                                                    <th>Month</th>
                                                     <!-- <th>Pending Amt</th> -->
                                                     <th>Payment Type</th>
                                                     <!-- <th>Bank</th> -->
@@ -309,9 +334,10 @@ if ($error) {
                                                         <!-- <th class="text-center"><?php echo $fee->admission_no; ?></th> -->
                                                         <!-- <th class="text-center"><?php echo $fee->term_name; ?></th> -->
                                                         <!-- <th class="text-center"><?php echo $fee->section_name; ?></th> -->
-                                                        <th class="text-center"><?php echo $fee->receipt_no; ?></th>
+                                                        <th class="text-center"><?php echo $fee->ref_receipt_no; ?></th>
                                                         <!-- <th class="text-center"><?php echo $fee->order_id; ?></th> -->
                                                         <th class="text-center"><?php echo $fee->bus_fees; ?></th>
+                                                        <th class="text-center"><?php echo $fee->month; ?></th>
                                                         <!-- <th class="text-center"><?php if($fee->pending_balance == 0){ ?>
                                                             <b style="color:green"><?php echo $fee->pending_balance; ?></b>
                                                             <?php }else{
@@ -538,7 +564,8 @@ if ($error) {
                     <input type="hidden" name="student_row_id" value="<?php echo $studentData->row_id; ?>" required />
                     <input type="hidden" name="year" value="<?php echo $year; ?>" required />
                     <input type="hidden" id="paid_fee_amount" name="paid_fee_amount" value="" required />
-                  
+                    <input type="hidden" id="month_input" name="month_input" value="" required />
+                    <input type="hidden" id="receipt_no" name="receipt_no" value="" required />
                     <input type="hidden" id="payment_type_input" name="payment_type" value="" required />
                    
                 </form>
@@ -610,6 +637,8 @@ jQuery(document).ready(function() {
         var paid_amount_display = Number($('#paid_amount').val());
         var transaction_date = $('#transaction_date_first').val();
         var payment_type = $('#payment_type_select').val();
+        var month = $('#month').val();
+        var receipt_number = $('#receipt_number').val();
         if (paid_amount_display == "") {
             alert("Please Enter Paid Amount");
             return;
@@ -684,7 +713,8 @@ jQuery(document).ready(function() {
         $('#paid_fee_amount').val(paid_amount_display);
         $('#payment_type_input').val(payment_type);
        
-
+        $('#month_input').val(month);
+        $('#receipt_no').val(receipt_number);
         $('#payment_date_selected').val(transaction_date);
 
         

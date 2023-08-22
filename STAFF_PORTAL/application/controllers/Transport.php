@@ -562,6 +562,7 @@ class Transport extends BaseController
             $to_date = $this->security->xss_clean($this->input->post('to_date'));
             $payment_date = $this->security->xss_clean($this->input->post('payment_date'));
             $payment_type = $this->security->xss_clean($this->input->post('payment_type'));
+            $month = $this->security->xss_clean($this->input->post('month'));
 
             $data['receipt_no'] = $receipt_no;
             $data['student_id'] = $student_id;
@@ -571,6 +572,7 @@ class Transport extends BaseController
             $data['route_from'] = $route_from;
             $data['route_to'] = $route_to;
             $data['payment_type'] = $payment_type;
+            $data['month'] = $month;
 
             $filter['receipt_no'] = $receipt_no;
             $filter['student_id'] = $student_id;
@@ -580,6 +582,7 @@ class Transport extends BaseController
             $filter['route_from'] = $route_from;
             $filter['route_to'] = $route_to;
             $filter['payment_type'] = $payment_type;
+            $filter['month'] = $month;
 
             if (!empty($payment_date)) {
                 $filter['payment_date'] = date('Y-m-d', strtotime($payment_date));
@@ -1245,6 +1248,8 @@ class Transport extends BaseController
             // $payment_option = $this->security->xss_clean($this->input->post('payment_option'));
 
             $payment_date = $this->security->xss_clean($this->input->post('payment_date'));
+            $month = $this->security->xss_clean($this->input->post('month_input'));
+            $ref_receipt_no = $this->security->xss_clean($this->input->post('receipt_no'));
 
             // $ref_number = $this->security->xss_clean($this->input->post('ref_number'));
             // $neft_date = $this->security->xss_clean($this->input->post('neft_date'));
@@ -1315,6 +1320,8 @@ class Transport extends BaseController
                     'dd_number' => $dd_number,
                     'dd_date' => $dd_date,
                     'intake_year' => $year,
+                    'month' => $month,
+                    'ref_receipt_no' => $ref_receipt_no,
                     'created_by' => $this->staff_id,
                     'created_date_time' => date('Y-m-d H:i:s'));
     

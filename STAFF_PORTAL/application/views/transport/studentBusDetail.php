@@ -141,6 +141,11 @@ if ($error) {
                                             <input type="text" value="<?php echo $payment_date; ?>" name="payment_date" id="payment_date" class="form-control input-sm datepicker" placeholder="Search From Date" autocomplete="off">
                                         </div>
                                     </td>
+                                    <td>
+                                        <div class="form-group mb-0">
+                                            <input type="text" value="<?php echo $month; ?>" name="month" id="month" class="form-control input-sm" placeholder="Search Month" autocomplete="off">
+                                        </div>
+                                    </td>
 
                                     <td>
                                         <div class="form-group mb-0">
@@ -207,6 +212,7 @@ if ($error) {
                                     <th class="text-center">Name</th>
                                     <!-- <th class="text-center">Vehicle Number</th> -->
                                     <th class="text-center">Payment Date</th>
+                                    <th class="text-center">Month</th>
                                     <th class="text-center">Route</th>
                                     <th class="text-center">Bus No.</th>
                                     <th class="text-center">Payment Type</th>
@@ -219,14 +225,16 @@ if ($error) {
                                 <?php if(!empty($studentTransportInfo)){
                                     foreach($studentTransportInfo as $trans){ ?>
                                     <tr>
-                                        <th class="text-center"><?php echo $trans->receipt_no; ?></th>
+                                        <th class="text-center"><?php echo $trans->ref_receipt_no; ?></th>
                                         <th class="text-center"><?php echo $trans->student_id; ?></th>
                                          <th><?php echo strtoupper($trans->student_name); ?></th>
                                         <!-- <th class="text-center"><?php echo $trans->vehicle_number; ?></th> -->
                                         <th class="text-center"><?php echo date('d-m-Y',strtotime($trans->payment_date)); ?></th>
+                                        <th class="text-center"><?php echo $trans->month; ?></th>
                                         <th><?php echo $trans->route_name; ?></th>
                                         <th class="text-center"><?php echo $trans->bus_no; ?></th>
                                         <th class="text-center"><?php echo $trans->payment_type; ?></th>
+                                        
                                         <!-- <th><?php echo $trans->route_to; ?></th> -->
                                         <!-- <th class="text-center"><?php echo date('d-m-Y',strtotime($trans->from_date)); ?></th>
                                          <th class="text-center"><?php echo date('d-m-Y',strtotime($trans->to_date)); ?></th> -->

@@ -1632,10 +1632,33 @@ class students_model extends CI_Model
 
     public function getCurrentStudentInfoForTransReport($filter)
     {
+        $this->db->select('student.row_id as student_row_id,student.student_name,student.student_id,
+        student.stream_name,bus.month,student.route_id');
         $this->db->from('tbl_students_info as student'); 
+        $this->db->join(' tbl_student_bus_management_details as bus','bus.student_id = student.row_id','left');
         if(!empty($filter['term_name'])){
             $this->db->where('student.term_name', $filter['term_name']);
         }
+        if(!empty($filter['month'])){
+            $this->db->where('bus.month', $filter['month']);
+        }
+        $this->db->where('student.is_active', 1);
+        $this->db->where('student.is_deleted', 0);
+        $this->db->where('bus.is_deleted', 0);
+        $this->db->where('student.route_id!=', 0);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    public function getStudentInfoForTransReport($filter)
+    {
+       
+        $this->db->from('tbl_students_info as student'); 
+       
+        if(!empty($filter['term_name'])){
+            $this->db->where('student.term_name', $filter['term_name']);
+        }
+      
         $this->db->where('student.is_active', 1);
         $this->db->where('student.is_deleted', 0);
         $this->db->where('student.route_id!=', 0);

@@ -4025,6 +4025,7 @@ public function downloadTransportFeeInfoReport()
     } else {
         $filter = array();
         $term_name = $this->security->xss_clean($this->input->post('term_name'));
+        $month = $this->security->xss_clean($this->input->post('month'));
         $year = CURRENT_YEAR;
         $spreadsheet = new Spreadsheet();
         $headerFontSize = [
@@ -4040,6 +4041,7 @@ public function downloadTransportFeeInfoReport()
             ]
         ];
         $filter['term_name'] = $term_name;
+        $filter['month'] = $month;
 
         $spreadsheet->getProperties()
             ->setCreator("SJPUC")
@@ -4071,8 +4073,9 @@ public function downloadTransportFeeInfoReport()
         $spreadsheet->getActiveSheet()->setCellValue('E3', 'Total Amt.');
         $spreadsheet->getActiveSheet()->setCellValue('F3', 'Paid Amt.');
         $spreadsheet->getActiveSheet()->setCellValue('G3', 'Pending Amt.');
-        $spreadsheet->getActiveSheet()->setCellValue('H3', 'Route');
-        $spreadsheet->getActiveSheet()->setCellValue('I3', 'Bus No.');
+        $spreadsheet->getActiveSheet()->setCellValue('H3', 'Month');
+        $spreadsheet->getActiveSheet()->setCellValue('I3', 'Route');
+        $spreadsheet->getActiveSheet()->setCellValue('J3', 'Bus No.');
         
             
         $spreadsheet->getActiveSheet()->getStyle("A3:J3")->applyFromArray($font_style_total);
@@ -4112,12 +4115,18 @@ public function downloadTransportFeeInfoReport()
         $spreadsheet->getActiveSheet()->getColumnDimension('E')->setWidth(18);
         $spreadsheet->getActiveSheet()->getColumnDimension('F')->setWidth(18);
         $spreadsheet->getActiveSheet()->getColumnDimension('G')->setWidth(20);
-        $spreadsheet->getActiveSheet()->getColumnDimension('H')->setWidth(25);
-        $spreadsheet->getActiveSheet()->getColumnDimension('I')->setWidth(15);
+        $spreadsheet->getActiveSheet()->getColumnDimension('H')->setWidth(20);
+        $spreadsheet->getActiveSheet()->getColumnDimension('I')->setWidth(25);
         $spreadsheet->getActiveSheet()->getColumnDimension('J')->setWidth(15);
        
         $filter = array();
         $filter['term_name'] = $term_name;
+        
+        if($month == 'ALL'){
+            $filter['month'] = '';
+        }else{
+            $filter['month'] = $month;
+        }
         // foreach($feeTypeInfo as $type){
       
             $studentInfo = $this->student->getCurrentStudentInfoForTransReport($filter);
@@ -4127,8 +4136,10 @@ public function downloadTransportFeeInfoReport()
                     $routeInfo = $this->transport->getTranportRateById($std->route_id);
                    
                     $total_fee = $routeInfo->rate;
-                    $feePaidInfo = $this->transport->getTransportTotalPaidAmount($std->row_id,$year);
-
+                    log_message('debug','routeInfo'.$total_fee);
+                    $feePaidInfo = $this->transport->getTransportTotalPaidAmount($std->student_row_id,$year);
+                    
+                   // $monthInfo = $this->transport->getTransportFeePaidMonth($std->row_id,$year);
                     if(!empty($feePaidInfo->paid_amount)){
                         $paid_amt = $feePaidInfo->paid_amount;
                     }else{
@@ -4144,8 +4155,9 @@ public function downloadTransportFeeInfoReport()
                     $spreadsheet->getActiveSheet()->setCellValue('E' . $excel_row,  $total_fee);
                     $spreadsheet->getActiveSheet()->setCellValue('F' . $excel_row,  $paid_amt);
                     $spreadsheet->getActiveSheet()->setCellValue('G' . $excel_row,  $pending_bal);
-                    $spreadsheet->getActiveSheet()->setCellValue('H' . $excel_row,  $routeInfo->name);
-                    $spreadsheet->getActiveSheet()->setCellValue('I' . $excel_row,  $routeInfo->bus_no);
+                    $spreadsheet->getActiveSheet()->setCellValue('H' . $excel_row,  $std->month);
+                    $spreadsheet->getActiveSheet()->setCellValue('I' . $excel_row,  $routeInfo->name);
+                    $spreadsheet->getActiveSheet()->setCellValue('J' . $excel_row,  $routeInfo->bus_no);
                     $spreadsheet->getActiveSheet()->getStyle('A' . $excel_row)->getAlignment()->setWrapText(true);
 
                     $sl_number++;
@@ -4272,7 +4284,7 @@ public function downloadTransportDueInfoReport()
         $filter['term_name'] = $term_name;
         // foreach($feeTypeInfo as $type){
       
-            $studentInfo = $this->student->getCurrentStudentInfoForTransReport($filter);
+            $studentInfo = $this->student->getStudentInfoForTransReport($filter);
 
             if (!empty($studentInfo)) {
                 foreach ($studentInfo as $std) {

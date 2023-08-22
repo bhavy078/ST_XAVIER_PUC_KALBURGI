@@ -579,7 +579,7 @@
                     action="<?php echo base_url(); ?>downloadTransportFeeInfoReport">
 
                     <div class="row">
-                        <div class="col-lg-12">
+                        <div class="col-lg-6">
                             <label for="inputEmail4">Term</label>
                             <select class="form-control input-md required" name="term_name" required>
                                 <option value="">Select Term</option>
@@ -588,15 +588,26 @@
                             </select>
                         </div>
 
-                        <!-- <div class="col-lg-12 mt-2">
-                            <label>By Payment Type</label>
-                            <select class="form-control input-md required" name="payment_type">
-                                <option value="ALL">ALL</option>
-                                <option value="FULL_PAYMENT">Full Payment</option>
-                                <option value="HALF_PAYMENT">Half Payment</option>
-                                <option value="NOT_PAID">Not Paid</option>
+                        <div class="col-lg-6">
+                            <label for="inputEmail4">Month</label>
+                            <select class="form-control text-dark" id="month"
+                                name="month">
+                                <option value="">Select Month</option>
+                                <option value="ALL">All</option>
+                                <option value="January">January</option>
+                                <option value="February">February</option>
+                                <option value="March">March</option>
+                                <option value="April">April</option>
+                                <option value="May">May</option>
+                                <option value="June">June</option>
+                                <option value="July">July</option>
+                                <option value="August">August</option>
+                                <option value="September">September</option>
+                                <option value="October">October</option>
+                                <option value="November">November</option>
+                                <option value="December">December</option>
                             </select>
-                        </div> -->
+                        </div>
                     </div>
                     <!-- Modal footer -->
                     <div class="modal-footer" style="padding:5px;">
