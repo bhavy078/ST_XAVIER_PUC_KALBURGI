@@ -87,7 +87,7 @@ table{
                     <td colspan="2">Name of the student : <?php echo strtoupper($studentTransportInfo->student_name); ?></td>
                 </tr>
                 <tr>
-                    <td>Application/Register no. : <?php if(!empty($studentTransportInfo->register_no) && $studentTransportInfo->term_name == 'II PUC'){ echo $studentTransportInfo->register_no; }else{ echo $studentTransportInfo->application_no; } ?></td>
+                    <td>Student ID : <?php echo $studentTransportInfo->student_id;?></td>
                 </tr>
                 <tr>
                     <td width="220">Class  : <?php echo strtoupper($studentTransportInfo->term_name); ?></td> 
