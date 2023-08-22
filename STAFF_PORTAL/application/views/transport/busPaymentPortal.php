@@ -194,13 +194,14 @@ if ($error) {
                                                             <th class="text-left" scope="col">Stud ID</th>
                                                             <th class="text-left" scope="col"><?php echo $studentData->student_id; ?></th>
                                                         </tr>
-                                                        <tr class="table-primary">
-                                                            <th class="text-left" scope="col">Fee Year</th>
-                                                            <th class="text-left" scope="col"><?php echo $year; ?></th>
-                                                        </tr>
+                                                        
                                                         <tr class="table-primary">
                                                             <th class="text-left" scope="col">Bus Pick Point</th>
                                                             <th class="text-left" scope="col"><?php echo $studentData->route_name; ?></th>
+                                                        </tr>
+                                                        <tr class="table-primary">
+                                                            <th class="text-left" scope="col">Bus No.</th>
+                                                            <th class="text-left" scope="col"><?php echo $studentData->bus_no; ?></th>
                                                         </tr>
                                                         <tr class="bg-primary text-white">
                                                             <th class="text-left" scope="col">Total Fee</th>

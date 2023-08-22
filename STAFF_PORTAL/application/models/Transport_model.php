@@ -410,7 +410,7 @@ class Transport_model extends CI_Model
     public function getAllStudentTransportInfo($filter, $page, $segment){
         $this->db->select('studentBus.row_id, studentBus.receipt_no, studentBus.bus_number, studentBus.payment_date, 
         studentBus.bus_fees, studentBus.route_from, studentBus.route_to, studentBus.from_date,studentBus.payment_type,
-        studentBus.to_date,student.sat_number,student.student_name,transName.name as route_name,transName.rate,student.student_id');
+        studentBus.to_date,student.sat_number,student.student_name,transName.name as route_name,transName.rate,transName.bus_no,student.student_id');
         $this->db->from('tbl_student_bus_management_details as studentBus'); 
         // $this->db->join('tbl_bus_management_details as bus', 'bus.vehicle_number = studentBus.bus_number','left');
         $this->db->join('tbl_students_info as student', 'student.row_id = studentBus.student_id','left');
@@ -523,7 +523,7 @@ class Transport_model extends CI_Model
 
     public function getStudentTransportInfoById($row_id) {
         $this->db->select('stdbus.row_id, stdbus.bus_number, stdbus.receipt_no,stdbus.payment_date,  stdbus.bus_fees, stdbus.route_from,student.admission_no,stdbus.upi_ref_no,stdbus.transaction_number,stdbus.dd_number,student.register_no,student.application_no,
-        stdbus.route_to, stdbus.from_date, stdbus.to_date, bus.vehicle_number,student.sat_number,student.student_name,stdbus.intake_year,stdbus.payment_type,stdbus.payment_status,student.term_name,stdbus.created_date_time,rate.bus_no,student.student_id');
+        stdbus.route_to, stdbus.from_date, stdbus.to_date, bus.vehicle_number,student.sat_number,student.student_name,stdbus.intake_year,stdbus.payment_type,stdbus.payment_status,student.term_name,stdbus.created_date_time,rate.bus_no,student.student_id,rate.name as route_name');
         $this->db->from('tbl_student_bus_management_details as stdbus');
         $this->db->join('tbl_bus_management_details as bus', 'bus.vehicle_number = stdbus.bus_number','left');
         $this->db->join('tbl_students_info as student', 'student.row_id = stdbus.student_id','left');

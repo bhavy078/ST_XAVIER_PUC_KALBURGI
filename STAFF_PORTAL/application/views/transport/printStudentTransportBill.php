@@ -99,6 +99,9 @@ table{
                     <td colspan="2">Bus No. : <?php echo $studentTransportInfo->bus_no;?></td>
                 </tr>
                 <tr>
+                    <td colspan="2">Bus Pick Point : <?php echo $studentTransportInfo->route_name;?></td>
+                </tr>
+                <tr>
                     <td>Date : <?php echo date('d-m-Y',strtotime($studentTransportInfo->created_date_time)); ?></td>
                 </tr>
                  <tr>

@@ -162,7 +162,7 @@ class students_model extends CI_Model
         student.date_of_admission,student.roll_number,student.gender,student.student_status,student.residential_address,student.nationality,student.mother_educational_qualification,student.mother_annual_income,
         student.pu_board_number,student.category,student.last_board_name,student.present_address,student.permanent_address,student.religion,student.father_email,student.mother_profession,student.mother_email,
         student.father_name,student.father_mobile,student.mother_name,student.mother_mobile,student.program_name,student.stream_name,student.father_profession,student.father_annual_income,
-        student.route_id,route.name as route_name,route.rate,student.caste,student.sub_caste,student.mother_tongue,student.is_dyslexic,student.father_educational_qualification,
+        student.route_id,route.name as route_name,route.rate,route.bus_no,student.caste,student.sub_caste,student.mother_tongue,student.is_dyslexic,student.father_educational_qualification,
         student.intake_year,student.term_name,student.section_name');
         $this->db->from('tbl_students_info as student'); 
         $this->db->join('tbl_student_transport_rate_info as route', 'route.row_id = student.route_id','left');
