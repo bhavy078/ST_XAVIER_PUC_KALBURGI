@@ -204,6 +204,18 @@ if ($error) {
                                             </select>
                                         </div>
                                    </td>
+                                   <td width="180">
+                                        <div class="form-group mb-0">
+                                            <select class="form-control" name="by_elective" id="by_elective">
+                                                <?php if(!empty($by_elective)){ ?>
+                                                    <option value="<?php echo $by_elective; ?>" selected><b>Selected: <?php echo $by_elective; ?></b></option>
+                                                <?php } ?>
+                                                <option value="">Search Elective</option>
+                                                <option value="KANNADA">KANNADA</option>
+                                                <option value="HINDI">HINDI</option>
+                                            </select>
+                                        </div>
+                                    </td>
                                     <td>
                                         <button type="submit"class="btn btn-success btn-block mobile-width"><i class="fa fa-filter"></i> Filter</button>
                                     </td>
@@ -218,6 +230,7 @@ if ($error) {
                                     <th width="50">Term</th>
                                     <th width="110">Stream</th>
                                     <th width="90">Section</th>
+                                    <th width="90">Elective</th>
                                     <!-- <th>Fee Status</th> -->
                                     <th>Action</th>
                                 </tr>
@@ -253,6 +266,7 @@ if ($error) {
                                         <th class="text-center"><?php echo $std->term_name; ?></th>
                                         <th class="text-center"><?php echo $std->stream_name; ?></th>
                                         <th class="text-center"><?php echo $std->section_name; ?></th>
+                                        <th class="text-center"><?php echo $std->elective_sub; ?></th>
                                         <!-- <th class="text-center"><?php echo $fee_status; ?></th> -->
                                         <th class="text-center" width="140">
                                             <a class="btn btn-xs btn-primary mb-1" target="_blank"

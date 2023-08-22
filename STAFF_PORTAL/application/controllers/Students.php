@@ -34,6 +34,7 @@ class Students extends BaseController
             $by_term = $this->security->xss_clean($this->input->post('by_term'));
             $by_stream = $this->security->xss_clean($this->input->post('by_stream'));
             $by_Section = $this->security->xss_clean($this->input->post('by_Section'));
+            $by_elective = $this->security->xss_clean($this->input->post('by_elective'));
             $year = $this->input->post('admission_year');
 
             $data['student_id'] = $student_id;
@@ -42,6 +43,7 @@ class Students extends BaseController
             $data['by_term'] = $by_term;
             $data['by_stream'] = $by_stream;
             $data['by_Section'] = $by_Section;
+            $data['by_elective'] = $by_elective;
 
             $filter['student_id'] = $student_id;
             $filter['application_no'] = $application_no;
@@ -49,6 +51,7 @@ class Students extends BaseController
             $filter['by_term'] = $by_term;
             $filter['by_stream'] = $by_stream;
             $filter['by_Section'] = $by_Section;
+            $filter['by_elective'] = $by_elective;
             $filter['year'] = $year;
 
             if(!empty($by_dob)){

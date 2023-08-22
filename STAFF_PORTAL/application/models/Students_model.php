@@ -11,7 +11,7 @@ class students_model extends CI_Model
         student.date_of_admission,student.roll_number,student.gender,student.student_status,student.residential_address,
         student.pu_board_number,student.category,student.last_board_name,student.present_address,student.permanent_address,
         student.father_name,student.father_mobile,student.mother_name,student.mother_mobile,student.program_name,student.stream_name,
-        student.intake_year,student.term_name,student.section_name');
+        student.intake_year,student.term_name,student.section_name,student.elective_sub');
         $this->db->from('tbl_students_info as student'); 
         // $this->db->join('tbl_student_academic_info as academic', 'student.application_no = student.application_no');
             
@@ -34,6 +34,9 @@ class students_model extends CI_Model
         }
         if(!empty($filter['by_Section'])){
             $this->db->where('student.section_name', $filter['by_Section']);
+        }
+        if(!empty($filter['by_elective'])){
+            $this->db->where('student.elective_sub', $filter['by_elective']);
         }
         if(!empty($student)){
             $this->db->where_in('student.row_id', $student);
@@ -68,6 +71,9 @@ class students_model extends CI_Model
         }
         if(!empty($filter['by_Section'])){
             $this->db->where('student.section_name', $filter['by_Section']);
+        }
+        if(!empty($filter['by_elective'])){
+            $this->db->where('student.elective_sub', $filter['by_elective']);
         }
         if(!empty($student)){
             $this->db->where_in('student.row_id', $student);
