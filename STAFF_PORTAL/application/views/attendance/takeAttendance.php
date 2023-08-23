@@ -125,12 +125,15 @@ if ($success) {  ?>
                                     <input type="hidden" name="subject_type" value="<?php echo $subject_type; ?>" />
                                     <input type="hidden" name="student_batch" value="<?php echo $class_batch; ?>" />
                                     <tr class="table_row_background text-center">
+                                    <th width="10%">SL No.</th>
                                         <th>Student ID</th>
                                         <th>Name</th>
                                         <th>Action</th>
                                     </tr>
                                     <?php if(!empty($studentRecord)){
+                                        $s = 0;
                                         foreach($studentRecord as $std){ 
+                                            $s++;
                                             $absentDate = date('Y-m-d',strtotime($attendance_date));
                                             $absentData = getAbsentStudentList($con,$std->student_id,$section_row_id,$time_row_id,$absentDate,$subject_code,$class_batch);
                                             if(!empty($absentData)){
@@ -140,6 +143,7 @@ if ($success) {  ?>
                                             }
                                         ?>
                                         <tr>
+                                            <td class="text-center"><?php echo $s ?></td>
                                             <td class="text-center"><?php echo $std->student_id; ?></td>
                                             <td><?php echo $std->student_name; ?></td>
                                             <th class="text-center">
