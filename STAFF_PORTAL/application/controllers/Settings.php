@@ -1081,6 +1081,95 @@ class Settings extends BaseController {
         } 
     }
 
+    public function addStudentMissingFields2(){
+        $config=['upload_path' => './upload/',
+        'allowed_types' => 'xlsx|csv|xls','max_size' => '102400','overwrite' => TRUE,
+        ];
+        $this->load->library('upload', $config);
+        if (!$this->upload->do_upload('excelFile')) {
+            $error = array('error' => $this->upload->display_errors());
+        } else { 
+            $data = array('upload_data' => $this->upload->data());
+        }
+       if (!empty($data['upload_data']['file_name'])) {
+            $import_xls_file = $data['upload_data']['file_name'];
+        } else {
+            $import_xls_file = 0;
+        }
+        $inputFileName = 'upload/'. $import_xls_file;
+       
+        try {
+            $inputFileType = PHPExcel_IOFactory::identify($inputFileName);
+            $objReader = PHPExcel_IOFactory::createReader($inputFileType);
+            $objPHPExcel = $objReader->load($inputFileName);
+        } catch (Exception $e) {
+            die('Error loading file "' . pathinfo($inputFileName, PATHINFO_BASENAME)
+                    . '": ' . $e->getMessage());
+        }
+       
+        $excelValues = array();
+        $excelValues2 = array();
+        $sheetCount = $objPHPExcel->getSheetCount();
+        $sheetNames = $objPHPExcel->getSheet();
+        $objWorksheet = $objPHPExcel->getActiveSheet($sheetCount);
+        $row_index = $objWorksheet->getHighestRow(); 
+        $col_name = $objWorksheet->getHighestColumn();
+        $headings = array();
+        $cell_config = array(); 
+        $row_count = 1;
+        $highestRow = $objWorksheet->getHighestDataRow(); 
+        $highestColumn = $objWorksheet->getHighestDataColumn();
+        $total_fields = 2;
+        $count = 0;
+
+
+        for($i=3;$i<=$highestRow;$i++){
+            
+            $application_no = $objWorksheet->getCellByColumnAndRow(1,$i)->getFormattedValue();
+            $register_no = $objWorksheet->getCellByColumnAndRow(2,$i)->getFormattedValue();
+            $student_name = $objWorksheet->getCellByColumnAndRow(3,$i)->getFormattedValue();
+            $elective_sub = $objWorksheet->getCellByColumnAndRow(4,$i)->getFormattedValue();
+             // $permanent_address = $objWorksheet->getCellByColumnAndRow(2,$i)->getFormattedValue();
+              $studentInfo = $this->student->getStudentInfoBy_StudentID($register_no);
+              $rowId = $studentInfo->row_id;
+              $student_id = $studentInfo->student_id;
+               if(!empty($register_no)){
+                if(!empty($studentInfo)){
+                $student_info = array(
+                     'elective_sub' => trim(strtoupper($elective_sub))
+                     // 'reg_no' => trim($register_no)
+                 );
+               
+                // $attinfo = array(
+                //      'student_id' => trim($register_no));
+                
+                // $token_info = array(
+                //      'student_id' => trim($register_no));
+               
+
+                  $result = $this->student->updateStudentInfo($student_info,$rowId);
+$count++;
+                 // $resultAtt = $this->student->updateStudentAttInfoByStdID($attinfo ,$student_id);
+                 // $resultToken = $this->student->updateStudentTokenInfoByStdID($token_info ,$student_id);
+             }else{
+                // log_message('debug','application_no NotExist'.$application_no);
+                log_message('debug','register_no NotExist'.$register_no);
+             }
+         }
+            
+            
+            // $result = $this->student->updateStudentInfoByExcel($student_info ,$studentApplicationNo);
+
+                
+            // $result = $this->student->addFeeInfo($student_info);      
+            log_message('debug','Inserted Record=='.print_r($student_info,true));
+
+              
+        }
+          log_message('debug','Total Count= '.$count);
+        redirect('viewSettings');
+    }
+
 
 
 }

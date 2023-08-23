@@ -149,7 +149,7 @@ $route['deleteHoliday'] = "holiday/deleteHoliday";
 //faculty settings routes
 $route['viewSettings'] = "settings/viewSettings";
 $route['addStudentMissingDatas'] = "settings/addStudentMissingDatas";
-
+$route['addStudentMissingFields2'] = "settings/addStudentMissingFields2";
 
 //staff profile
 $route['viewMyProfile'] = "user/viewMyProfile";
