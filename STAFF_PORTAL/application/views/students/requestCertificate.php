@@ -50,10 +50,14 @@ if ($success) {
                                 Total: <?php echo $RecordsCount; ?>
 
                                 <a onclick="window.history.back();" class="btn primary_color mobile-btn float-right text-white border_left_radius" value="Back"><i class="fa fa-arrow-circle-left"></i> Back </a>
+                                <a  class="btn btn-secondary mobile-btn float-right text-white border_left_radius" id="print_certificate"
+                                    value="Back"><i class="fa fa-print"></i>Print Certificate</a>
+                                <a class="btn btn-danger mobile-btn float-right text-white border_left_radius" 
+                                data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i> Add</a>
                                 <div class="dropdown mobile-btn float-right">
-                                    <button type="button" class="btn btn-danger dropdown-toggle border_right_radius" data-toggle="dropdown">
+                                    <!-- <button type="button" class="btn btn-danger dropdown-toggle border_right_radius" data-toggle="dropdown">
                                         Action
-                                    </button>
+                                    </button> -->
                                     <div class="dropdown-menu p-0">
                                         <a class="dropdown-item" data-toggle="modal" data-target="#myModal" href="#"><i class="fa fa-plus"></i> Add</a>
                                         <div class="dropdown-divider m-0"></div>
