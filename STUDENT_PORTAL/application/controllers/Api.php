@@ -163,14 +163,16 @@ class Api extends CI_Controller
         $student_id = $obj['user_id'];
         $studentInfo = $this->student_model->getStudentInfoByStudentId($student_id);
         $dashboardInfo = $this->login_model->dashboardInfo();
-        if(!empty($studentInfo)){
         $db_data = array();
         foreach($dashboardInfo as $info){
-            $db_data[] = $info;
+            if($info->title=='TRANSPORT FEE'){
+                if($studentInfo->route_id!='0'){
+                    $db_data[] = $info;
+                }
+            }else{
+                $db_data[] = $info;
+            }
         }
-    }else{
-        $db_data = "logout";
-    }
         $data = json_encode($db_data);
         echo $data;
     }
@@ -475,6 +477,29 @@ class Api extends CI_Controller
         $data = json_encode($data);                 
         echo $data;
     }
+//college Notification
+public function collegeNotificationsApi(){
+    $json = file_get_contents('php://input'); 
+    $obj = json_decode($json,true);
+    $term_name=$obj['term_name'];
+    $section_name=$obj['section_name'];
+    $stream_name = $obj['stream_name'];
+    $student_id = $obj['student_id'];
+    $row_id = $obj['row_id'];
+    $student = $this->student_model->getStudentInfoBystudId($student_id);
+    $notifications = $this->student_model->getStudentNotifications($student->term_name,$student->section_name,$student->stream_name);
+        foreach($notifications as $info){
+            if($info->date_time!=null){
+                $info->date_time =date('d-m-Y h:i ',strtotime($info->date_time));
+            }
+            $db_data[] = $info;
+        }
+        
+        $data = json_encode($db_data);
+    echo $data;
+}
+
+
     //----------------NOTIFICATION----------------
     public function myNotificationsApi(){
         $json = file_get_contents('php://input'); 
@@ -506,14 +531,14 @@ class Api extends CI_Controller
         $db_data = array();
             foreach($bulkNotifications as $info){
                 if($info->active_date!=null){
-                    $info->date_time =date('d-m-Y',strtotime($info->active_date));
-                    $info->subject = "Notification";
+                    $info->date_time =date('d-m-Y h:i',strtotime($info->updated_date_time));
+                    $info->subject = "Class Notification";
                 }
                 $db_data[] = $info;
             }
             foreach($notifications as $info){
                 if($info->date_time!=null){
-                    $info->date_time =date('d-m-Y H:i',strtotime($info->date_time));
+                    $info->date_time =date('d-m-Y h:i',strtotime($info->date_time));
                 }
                 $db_data[] = $info;
             }
@@ -550,8 +575,8 @@ class Api extends CI_Controller
     
             foreach($bulkNotifications as $info){
                 if($info->active_date!=null){
-                    $info->date_time =date('d-m-Y',strtotime($info->updated_date_time));
-                    $info->subject = "Notification";
+                    $info->date_time =date('d-m-Y h:i',strtotime($info->updated_date_time));
+                    $info->subject = "Class Notification";
                 }
                 $db_data[] = $info;
             }
@@ -1465,6 +1490,72 @@ class Api extends CI_Controller
         echo json_encode($data);
     }
 
+      //BUSFEE payment Info
+      public function viewTransportPaymentInfo(){	
+        $json = file_get_contents('php://input'); 
+        $obj = json_decode($json,true);
+        $student_id = $obj['student_id'];
+        $studentRowId = $obj['row_id'];
+        
+        $dt = array();
+        $data = (object)$dt;
+
+        $data->studentInfo =  $studentInfo = $this->student_model->getStudentInfoByRowId($studentRowId);
+        //log_message('studentinfo','ssdss'.print_r($studentInfo,true));
+        $year = CURRENT_YEAR ; 
+       // log_message('debug','ff'.print_r($year,true));
+        $student= $this->student_model->getCurrentStudentInfoForTrans(); 
+        $total_fee_pending = 0.00;
+        $total_fee_paid= 0.00;
+        $studentData = $this->student_model->getStudentsInfoById($studentRowId);
+        $total_fee = $total_fee= $studentData->rate;
+        
+        $total_fee_amount = $studentData->rate;
+        //log_message('debug','total_fee_amount'.print_r($total_fee_amount,true));
+
+        $feePaidInfo = $this->student_model->getTransportTotalPaidAmount($studentRowId,$year);
+        if(!empty($feePaidInfo->paid_amount)){
+            $total_fee_amount -= $feePaidInfo->paid_amount;
+        }
+
+       
+
+        $data->stdFeePaymentInfo = $this->student_model->getStudentOverallTransFeePaymentInfo($studentRowId,$year);
+        
+        $data->totalamount = $studentData->rate;
+        $data->busNo = $studentData->bus_no;
+        $data->buspickuppoint = $studentData->route_name;
+        $data->feePaidInfo = $feePaidInfo->paid_amount;
+        $data->studentData = $studentData;
+        $data->fee_amount = $total_fee_amount;
+        $data->year= $year;
+        $data->studentid = $studentInfo->sat_number;
+        $data->studentname= $studentInfo->student_name;
+        $data->class= $studentInfo->term_name;
+        $data->section= $studentInfo->section_name;
+
+            if($total_fee_amount == 0 || $total_fee_amount < 0){
+                $data->installment_amt = 0;
+                $data->fee_pending_status = false;
+               
+            }else{
+                $data->fee_pending_status = true;
+            }
+        
+
+        echo json_encode($data);
+    }
+
+    function overAllTransportFeePaidInfo(){
+        $json = file_get_contents('php://input'); 
+        $obj = json_decode($json,true);
+        $studentRowId = $obj['row_id'];
+        $year = CURRENT_YEAR;
+        $data = $this->student_model->getStudentOverallTransFeePaymentInfo($studentRowId,$year);
+        echo json_encode($data);
+    }
+
+
     //REMARK
     public function myRemarks(){
         $json = file_get_contents('php://input'); 
@@ -1789,11 +1880,26 @@ public function absentDetails(){
     $obj = json_decode($json,true);
     $student_id = $obj['student_id'];
     $absentInfo= $this->student_model->getabsentDetails($student_id);
-    log_message('debug','dwfw'.print_r($absentInfo,true));
+
     $data = json_encode($absentInfo);
     echo $data;
     
 }
+
+public function getStudentId(){
+    $json = file_get_contents('php://input'); 
+    $obj = json_decode($json,true);
+    $rowId = $obj['row_id'];
+  
+
+    $studentId = $this->student_model->getStudentInfoByRowId($rowId);
+ 
+    $data->studentId = $studentId->student_id;
+ 
+    echo json_encode($data);
+}
+
+
 
 }
  

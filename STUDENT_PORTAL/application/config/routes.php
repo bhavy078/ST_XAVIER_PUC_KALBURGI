@@ -225,3 +225,9 @@ $route['apiabsentDetails']="api/absentDetails";
 $route['apideleteToken'] = "api/deleteToken";
 //singleNotification
 $route['apipersonalNotificationsApi'] = "api/personalNotificationsApi";
+$route['apicollegeNotificationsApi'] = "api/collegeNotificationsApi";
+//transportfee
+$route['apiviewTransportPaymentInfo'] = "api/viewTransportPaymentInfo";
+$route['apioverAllTransportFeePaidInfo'] = "api/overAllTransportFeePaidInfo";
+//logout-logincredentialchanged
+$route['apigetStudentId'] = "api/getStudentId";
