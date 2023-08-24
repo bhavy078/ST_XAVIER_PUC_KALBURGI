@@ -1808,6 +1808,7 @@ class Students extends BaseController
                 $remarks_type_id = $this->security->xss_clean($this->input->post('remarks_type_id'));
                 $date = $this->security->xss_clean($this->input->post('date'));
                 $description = $this->security->xss_clean($this->input->post('description'));
+                $remark = $this->security->xss_clean($this->input->post('remark'));
                
                 $image_path="";
                 $target_dir="upload/remarks/";
@@ -1836,6 +1837,7 @@ class Students extends BaseController
                     'term_name' => $student->term_name,
                     'file_path' => $image_path,
                     'description' => $description,
+                    'remarks' => $remark,
                     'created_by' => $this->staff_id,
                     'created_date_time' => date('Y-m-d h:i:s'));
 
@@ -1864,12 +1866,11 @@ class Students extends BaseController
                 $filter = array();
                 $remark_id = $this->security->xss_clean($this->input->post('remark_id'));
                 $student_Id = $this->security->xss_clean($this->input->post('row_id'));
-                log_message('debug','remarkId'.$remark_id);
-                log_message('debug','student_Id'.$student_Id);
                 $remarks_type_id = $this->security->xss_clean($this->input->post('remarks_type_id'));
                 $date = $this->security->xss_clean($this->input->post('date'));
                 $description = $this->security->xss_clean($this->input->post('description'));
-               
+                $remark = $this->security->xss_clean($this->input->post('remark'));
+
                 $image_path="";
                 $target_dir="upload/remarks/";
                 if(!file_exists($target_dir)){
@@ -1896,6 +1897,7 @@ class Students extends BaseController
                     'year' => date('Y'),
                     'file_path' => $image_path,
                     'description' => $description,
+                    'remarks' => $remark,
                     // 'created_by' => $this->staff_id,
                     // 'created_date_time' => date('Y-m-d h:i:s')),
                     'updated_by' => $this->staff_id,

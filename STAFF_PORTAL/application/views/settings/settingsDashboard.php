@@ -547,7 +547,7 @@ if ($error) {
       </div>
       
 
-      <div class="col-lg-6 col-md-6 col-12 mb-2 padding_left_right_null">
+      <!-- <div class="col-lg-6 col-md-6 col-12 mb-2 padding_left_right_null">
             <div class="card-header border-bottom card_head_dashboard settings_card" data-toggle="collapse"
                 data-target="#addRemarkName">
                 <a class="float-right mb-0 setting_pointer">Click here </a>
@@ -601,9 +601,9 @@ if ($error) {
 
                     </div>
                 </div>
-            </div>
+            </div> -->
                 <!-- End Quick Post -->
-        </div>
+        <!-- </div> -->
 
       
 

@@ -1528,10 +1528,10 @@ class students_model extends CI_Model
             $this->db->select('student.row_id as student_row_id,student.student_name,student.application_no,
             remark.row_id,remark.student_id,remark.created_by,
             remark.date,remark.type_id,remark.file_path,remark.year,remark.description,
-            type.row_id as typRowid,type.remark_name');
+            remark.remarks');
             
             $this->db->from('tbl_student_remark_info as remark'); 
-            $this->db->join('tbl_student_remarks_type as type','type.row_id = remark.type_id','left');
+          //  $this->db->join('tbl_student_remarks_type as type','type.row_id = remark.type_id','left');
             $this->db->join('tbl_students_info as student', 'student.row_id = remark.student_id');
             
     

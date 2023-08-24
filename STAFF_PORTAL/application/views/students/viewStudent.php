@@ -790,7 +790,7 @@
                                                         <!-- <td style="color:black">
                                                             <b><?php echo $record->semester; ?></b></td> -->
                                                         <td style="color:black">
-                                                            <b><?php echo $record->remark_name; ?></b>
+                                                            <b><?php echo $record->remarks; ?></b>
                                                         </td>
                                                         <td style="color:black">
                                                             <b><?php echo $record->description; ?></b>
@@ -806,8 +806,8 @@
 
                                                             <?php } ?>
                                                             <?php if ($this->staff_id == $record->created_by || $role == ROLE_PRIMARY_ADMINISTRATOR) { ?>
-                                                            <a class="btn  btn-sm btn-info" href="#"
-                                                                onclick="openRemarksModel('<?php echo $record->type_id ?>','<?php echo date('d-m-Y',strtotime($record->date)) ?>','<?php echo $record->remark_name ?>','<?php echo $record->description ?>','<?php echo  base_url().$record->file_path ?>','<?php echo $record->student_row_id ?>','<?php echo $record->row_id ?>')"
+                                                                <a class="btn  btn-sm btn-info" href="#"
+                                                                onclick="openRemarksModel('<?php echo date('d-m-Y',strtotime($record->date)) ?>','<?php echo $record->description ?>','<?php echo  base_url().$record->file_path ?>','<?php echo $record->student_row_id ?>','<?php echo $record->row_id ?>','<?php echo $record->remarks ?>')"
                                                                 title="Edit"><i class="fas fa-edit"></i></i></a>
                                                              
                                                                 <a class="btn btn-xs btn-danger deleteStudentRemarkDetails" href="#" data-row_id="<?php echo $record->row_id; ?>" title="Delete"><i class="fa fa-trash"></i></a>
@@ -1156,22 +1156,23 @@
 
             <!-- Modal body -->
             <div class="modal-body p-2 m-1">
+            <div class="row">
                 <form action="<?php echo base_url() ?>addRemarks" method="POST" role="form"
                     enctype="multipart/form-data">
                     <input type="hidden" name="row_id" value="<?php echo $studentInfo->row_id ?>">
-                    <div class="text-center" id="alertMsg"></div>
+                    <!-- <div class="text-center" id="alertMsg"></div> -->
 
-                    <div class="row">
-                        <div class="col-lg-6">
+                    
+                        <div class="col-12">
                             <label>Date</label>
                             <div class="form-group">
                                 <input type="text" value="<?php echo date('d-m-Y') ?>" name="date"
-                                    class="form-control datepicker input-sm remarks_date" placeholder="Date" autocomplete="off"
-                                    required>
+                                class="form-control datepicker input-sm remarks_date" placeholder="Date"
+                                    autocomplete="off" required>
                             </div>
                         </div>
 
-                        <div class="col-lg-6">
+                        <!-- <div class="col-12">
                             <div class="form-group">
                                 <label>Remarks Type</label>
                                 <select class="form-control input-sm selectpicker" id="remarks_type_id"
@@ -1185,9 +1186,20 @@
                                     } ?>
                                 </select>
                             </div>
+                        </div> -->
+
+                        <div class="col-10">
+                            <div class="form-group">
+                                <label>Remark</label>
+                                <input type="text" value="" name="remark" id = "remark"
+                                class="form-control" placeholder="Enter Remark"
+                                    autocomplete="off" required>
+                            </div>
                         </div>
 
-                        <div class="col-lg-6">
+                                </div>
+                    <div class="row">
+                        <div class="col-6">
                             <div class="form-group">
 
                                 <img src="<?php echo base_url(); ?>assets/dist/img/file_upload.png"
@@ -1196,14 +1208,14 @@
                                 <div class="observeFile">
                                     <div class="file btn btn-sm">
                                         <input type="file" class="form-control-sm" id="oFile" name="userfile"
-                                            accept="*.jpg,*.png,*.jpeg,,*.pdf">
+                                        accept="*.jpg,*.png,*.jpeg,,*.pdf">
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12">
+                   
+                   
+                        <div class="col-12">
                             <div class="form-group">
                                 <label>Description</label>
                                 <textarea name="description" id="description" class="form-control"
@@ -1238,12 +1250,14 @@
             <!-- Modal body -->
             <div class="modal-body m-0">
                 <?php $this->load->helper("form"); ?>
+                <div class="row">
                 <form role="form" id="" action="<?php echo base_url() ?>updateRemarksInfo" method="post" role="form" enctype="multipart/form-data">
-                    <input type="hidden" name="remark_id" id="remark_id" value="" />
+                <input type="hidden" name="remark_id" id="remark_id" value="" />
                     <input type="hidden" name="row_id" id="student_row_id" value="" />
+                    <input type="hidden" name="rowid" id="row_id" value="" />
 
-                    <div class="row">
-                        <div class="col-lg-6">
+                  
+                        <div class="col-12">
                             <label>Date</label>
                             <div class="form-group">
                                 <input type="text" value="" name="date" id="editDate"
@@ -1252,13 +1266,13 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-6">
+                        <!-- <div class="col-9">
                             <div class="form-group">
                                 <label>Remarks Type</label>
                                 <select class="form-control input-sm" id="edit_remarks_type_id"
-                                    name="remarks_type_id" required>
+                                    name="remarks_type_id" required> -->
                                     <!-- <option value="">Select Remarks</option> -->
-                                    <?php if (!empty($remarkNameInfo)) {
+                                    <!-- <?php if (!empty($remarkNameInfo)) {
                                         foreach ($remarkNameInfo as $obsinfo) { ?>
                                     <option value="<?php echo $obsinfo->row_id; ?>">
                                         <?php echo $obsinfo->remark_name; ?></option>
@@ -1266,25 +1280,35 @@
                                     } ?>
                                 </select>
                             </div>
-                        </div>
+                        </div> -->
 
+                        <div class="col-9">
+                            <div class="form-group">
+                                <label>Remark</label>
+                                <input type="text" value="" name="remark" id = "editremark"
+                                class="form-control" placeholder="Enter Remark"
+                                    autocomplete="off" required>
+                            </div>
+                        </div>
+                        
+                                </div> 
+                                <div class="row">
+                                   
                         <div class="col-lg-6">
                             <div class="form-group">
 
-                                <img 
-                                    class="avatar rounded-circle img-thumbnail" width="130" height="130" src="#"
+                                <img class="avatar rounded-circle img-thumbnail" width="130" height="130" src="#"
                                     id="uploadedImage1" name="userfile" width="130" height="130" alt="File">
                                 <div class="observeFile">
                                     <div class="file btn btn-sm">
                                         <input type="file" class="form-control-sm" id="editFile" name="userfile"
-                                            accept="*.jpg,*.png,*.jpeg,,*.pdf">
+                                        accept="*.jpg,*.png,*.jpeg,,*.pdf">
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                    </div>
-                    <div class="row">
+                    
 
                         <div class="col-lg-12">
                             <div class="form-group">
@@ -1293,12 +1317,14 @@
                                     placeholder="Enter Description" autocomplete="off" required></textarea>
                             </div>
                         </div>
+                                </div>
 
                     </div>
                     <div class="form-group">
                         <input style="float:right;" type="submit" class="btn btn-primary" value="Update" />
                     </div>
                 </form>
+                </div>
             </div>
         </div>
     </div>
@@ -1344,17 +1370,17 @@ jQuery(document).ready(function() {
 });
 
 
-function openRemarksModel(row_id, date, remark_name, description, file_path,studentId,remarkId) {
+function openRemarksModel(date, description, file_path,studentId,remarkId,editRemark) {
     // $('#subject_name_u option').remove();
 
       $('#editDate').val(date);
-      $('#edit_remarks_type_id').val(row_id);
+    //   $('#edit_remarks_type_id').val(row_id);
       $("#uploadedImage1").attr("src",file_path);
       $('.selectpicker').selectpicker('refresh');
       $('#editdescription').val(description);
       $('#student_row_id').val(studentId);
       $('#remark_id').val(remarkId);
-
+      $('#editremark').val(editRemark);
     // $('#time_row_id_u').val(start_time);
     // $('#staff_id_u').val(staff_id);
     // // $('#subject_name_u').val(subject_code);
