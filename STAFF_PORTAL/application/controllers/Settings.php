@@ -1125,10 +1125,13 @@ class Settings extends BaseController {
 
         for($i=3;$i<=$highestRow;$i++){
             
-            $application_no = $objWorksheet->getCellByColumnAndRow(1,$i)->getFormattedValue();
-            $register_no = $objWorksheet->getCellByColumnAndRow(2,$i)->getFormattedValue();
-            $student_name = $objWorksheet->getCellByColumnAndRow(3,$i)->getFormattedValue();
-            $elective_sub = $objWorksheet->getCellByColumnAndRow(4,$i)->getFormattedValue();
+            // $application_no = $objWorksheet->getCellByColumnAndRow(1,$i)->getFormattedValue();
+            $register_no = $objWorksheet->getCellByColumnAndRow(1,$i)->getFormattedValue();
+            $student_name = $objWorksheet->getCellByColumnAndRow(2,$i)->getFormattedValue();
+            $program_name = $objWorksheet->getCellByColumnAndRow(3,$i)->getFormattedValue();
+            $stream_name = $objWorksheet->getCellByColumnAndRow(4,$i)->getFormattedValue();
+            $elective_sub = $objWorksheet->getCellByColumnAndRow(5,$i)->getFormattedValue();
+            $section_name = $objWorksheet->getCellByColumnAndRow(6,$i)->getFormattedValue();
              // $permanent_address = $objWorksheet->getCellByColumnAndRow(2,$i)->getFormattedValue();
               $studentInfo = $this->student->getStudentInfoBy_StudentID($register_no);
               $rowId = $studentInfo->row_id;
@@ -1136,7 +1139,10 @@ class Settings extends BaseController {
                if(!empty($register_no)){
                 if(!empty($studentInfo)){
                 $student_info = array(
-                     'elective_sub' => trim(strtoupper($elective_sub))
+                     'program_name' => trim(strtoupper($program_name)),
+                     'stream_name' => trim(strtoupper($stream_name)),
+                     'elective_sub' => trim(strtoupper($elective_sub)),
+                     'section_name' => trim(strtoupper($section_name))
                      // 'reg_no' => trim($register_no)
                  );
                
