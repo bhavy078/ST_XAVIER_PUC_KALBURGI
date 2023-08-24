@@ -300,7 +300,7 @@ if ($error) {
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="col-5">
+                                                <div class="col-6">
                                                     <div class="form-group ">
                                                         <select class="form-control text-dark" id="payment_type"
                                                             name="payment_type">
@@ -312,7 +312,18 @@ if ($error) {
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="col-7">
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control reference_receipt_no" id="ref_receipt_number"
+                                                            name="ref_receipt_number" placeholder="Reference Receipt No."
+                                                            onkeypress="return isNumberKey(event)" required
+                                                            autocomplete="off" >
+                                                            <h6 class="error-hint display-none receiptHide">Receipt Number Already exists</h6>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-8">
                                                     <button id="paymentInfoSubmit" style="margin-top: 1px; float:right" 
                                                     
                                                         class="btn btn-success btn-block mb-1">Submit</button>
@@ -350,7 +361,8 @@ if ($error) {
                                                         <?php }else{ ?>   
                                                             <a href="<?php echo base_url(); ?>feePaymentReceiptPrint/<?php echo $fee->row_id; ?>"
                                                                 target="_blank">Receipt</a>
-                                                        <?php } ?>       
+                                                        <?php } ?>   
+                                                        <a class="btn btn-xs btn-secondary" onclick="openModel(<?php echo $fee->row_id; ?>,<?php echo $fee->receipt_number; ?>)" title="Edit" href='#'><i class="fas fa-edit"></i></a>    
                                                     </td>
                                                 </tr>
                                                 <?php }
@@ -391,7 +403,7 @@ if ($error) {
                                             </div>
 
                                             <div class="row">
-                                                <div class="col-5">
+                                                <div class="col-6">
                                                     <div class="form-group ">
                                                         <select class="form-control text-dark" id="payment_type"
                                                             name="payment_type">
@@ -403,7 +415,18 @@ if ($error) {
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="col-7">
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control reference_receipt_no" id="ref_receipt_number"
+                                                            name="ref_receipt_number" placeholder="Reference Receipt No."
+                                                            onkeypress="return isNumberKey(event)" required
+                                                            autocomplete="off" >
+                                                            <h6 class="error-hint display-none receiptHide">Receipt Number Already exists</h6>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-8">
                                                     <button id="firstPaymentInfoSubmit" 
                                                         style="margin-top: 5px; float:right"
                                                         class="btn btn-success btn-block mb-2">Submit</button>
@@ -433,6 +456,7 @@ if ($error) {
                                                     <td>   
                                                             <a href="<?php echo base_url(); ?>feePaymentReceiptPrint/<?php echo $fee->row_id; ?>"
                                                             target="_blank">Receipt</a> 
+                                                            <a class="btn btn-xs btn-secondary" onclick="openModel(<?php echo $fee->row_id; ?>,<?php echo $fee->receipt_number; ?>)" title="Edit" href='#'><i class="fas fa-edit"></i></a>
                                                     </td>
                                                 </tr>
                                                 <?php }
@@ -600,6 +624,7 @@ if ($error) {
                     <input type="hidden" id="paid_fee_amount" name="paid_fee_amount" value="" required />
                     <input type="hidden" id="payment_type_input" name="payment_type" value="" required />
                     <input type="hidden" id="excess_amount_input" name="excess_amount" value="" required />
+                    <input type="hidden" id="ref_receipt_no" name="ref_receipt_no" value="" required />
                 </form>
             </div>
 
@@ -613,10 +638,112 @@ if ($error) {
         </div>
     </div>
 </div>
+
+<!--Edit Receipt Model--->
+<div id="receiptNoEdit" class="modal" role="dialog">
+        <div class="modal-dialog modal-xs">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header modal-call-report">
+                    <div class=" col-md-10 col-10">
+                        <span class="text-white mobile-title" style="font-size : 20px">Edit Receipt</span>
+                    </div>
+                    <div class=" col-md-2 col-2">
+                        <button type="button" class="text-white close" data-dismiss="modal">&times;</button>
+                    </div>
+                </div>
+                <!-- Modal body -->
+                <div class="modal-body m-0 p-1">
+                    <?php $this->load->helper("form"); ?>
+                    <form role="form" id="updateFeeReceipt" action="<?php echo base_url() ?>updateFeeReceipt"
+                        method="post" role="form">
+                        <input type="hidden" name="row_id" id="row_id" value="" />
+                        <div class="row">
+                           
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>Receipt No.</label>
+                                    <input type="text" class="form-control ref_rept_no" id="receipt_no" name="receipt_no" autocomplete="off" required>
+                                    <h6 class="error-hint display-none reptHide">Receipt Number Already exists</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input style="float:right;" type="submit" class="btn btn-primary" value="Update" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/common.js" charset="utf-8"></script>
 <script type="text/javascript">
+        function openModel(row_id, receipt_no) {
+        $('#row_id').val(row_id);
+        $('#receipt_no').val(receipt_no);
+        $('#receiptNoEdit').modal('show');
+    }
+
 jQuery(document).ready(function() {
 
+    $('.receiptHide').hide();
+    $('.reference_receipt_no').on('keyup', function(evt){
+            let reference_receipt_no = $(this).val();
+            $('.receiptHide').hide();
+            $.ajax({
+                url: '<?php echo base_url(); ?>/getReceiptNumber',
+                type: 'POST',
+                dataType: "json",
+                data: { 
+                    reference_receipt_no : reference_receipt_no
+                },
+                success: function(data) {
+                    //var examObject = JSON.parse(data);
+                    var examObject = JSON.stringify(data)
+                    var count = data.result.length;
+                    if(count != 0){
+                        if(data.result.receipt_number == reference_receipt_no){
+                            $('.receiptHide').show();
+                        }else{
+                            $('.receiptHide').hide();
+                        }
+                    }else{
+                        $('.receiptHide').hide();
+                    }
+                }
+            });
+        });
+
+    $('.reptHide').hide();
+    $('.ref_rept_no').on('keyup', function(evt){
+            let ref_rept_no = $(this).val();
+           
+            $('.reptHide').hide();
+            $.ajax({
+                url: '<?php echo base_url(); ?>/getReceiptNo',
+                type: 'POST',
+                dataType: "json",
+                data: { 
+                    ref_rept_no : ref_rept_no
+                },
+                success: function(data) {
+                    //var examObject = JSON.parse(data);
+                    var examObject = JSON.stringify(data)
+                    var count = data.result.length;
+                    if(count != 0){
+                        if(data.result.receipt_number == ref_rept_no){
+                            $('.reptHide').show();
+                        }else{
+                            $('.reptHide').hide();
+                        }
+                    }else{
+                        $('.reptHide').hide();
+                    }
+                }
+            });
+        });
+        
     jQuery('#transaction_date, .dateSearch, #tran_date, #dd_date').datepicker({
         autoclose: true,
         orientation: "top",
@@ -634,6 +761,7 @@ jQuery(document).ready(function() {
     //slect payment method option change
     $("#paymentInfoSubmit").on('click', function() {
         var payment_type = $('#payment_type').val();
+        var ref_receipt_number = $('#ref_receipt_number').val();
         var fee_amount = <?php echo $balance; ?>;
         var excess_amount = 0;
         var card_charges = 0;
@@ -695,6 +823,7 @@ jQuery(document).ready(function() {
         $('#payment_type_input').val(payment_type);
         $('#transaction_date_text').val(transaction_date);
         $('#excess_amount_input').val(excess_amount);
+        $('#ref_receipt_no').val(ref_receipt_number);
         $('#term_name_selected').val('II PUC');
 
         $('#myReportModal').modal('show');
@@ -702,6 +831,7 @@ jQuery(document).ready(function() {
 
     $("#firstPaymentInfoSubmit").on('click', function() {
         var payment_type = $('#payment_type').val();
+        var ref_receipt_number = $('#ref_receipt_number').val();
         var fee_amount = <?php echo $I_balance; ?>;
         var excess_amount = 0;
         var card_charges = 0;
@@ -762,6 +892,7 @@ jQuery(document).ready(function() {
         $('#payment_type_input').val(payment_type);
         $('#transaction_date_text').val(transaction_date);
         $('#excess_amount_input').val(excess_amount);
+        $('#ref_receipt_no').val(ref_receipt_number);
         $('#term_name_selected').val('I PUC');
 
 

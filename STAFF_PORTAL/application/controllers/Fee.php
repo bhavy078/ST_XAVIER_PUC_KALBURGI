@@ -2457,6 +2457,7 @@ public function processTheFeePayment(){
             $payment_date = $this->security->xss_clean($this->input->post('transaction_date'));
 
             $excess_amount = $this->security->xss_clean($this->input->post('excess_amount'));
+            $ref_receipt_no = $this->security->xss_clean($this->input->post('ref_receipt_no'));
             $_SESSION["FEE_STUDENT_ID"] = $application_no;
             $_SESSION["FEE_TERM_NAME"] = $term_name;
 
@@ -2546,7 +2547,7 @@ public function processTheFeePayment(){
             
                 $overallFee = array(
                     'application_no' => $application_no,
-                    'receipt_number' => $receipt_no,
+                    'receipt_number' => $ref_receipt_no,
                     'payment_type' => $payment_type,
                     'payment_date' => date('Y-m-d',strtotime($payment_date)),
                     'total_amount' => $total_fee_to_pay,
@@ -2670,6 +2671,64 @@ public function processTheFeePayment(){
                 $this->session->set_flashdata('error', 'Fee Payment Failed!');
             }
             redirect('getNewStudentFeePaymentInfo'); 
+        }
+    }
+
+    public function getReceiptNumber(){
+        if($this->isAdmin() == TRUE){
+            $this->loadThis();
+        } else {   
+            $filter = array();
+            $ref_receipt_no = $this->input->post("reference_receipt_no");
+            $data['result'] = $this->fee->getCheckReceiptNo($ref_receipt_no);
+            header('Content-type: text/plain'); 
+            header('Content-type: application/json'); 
+            echo json_encode($data);
+            exit(0);
+        }
+    }
+
+    public function getReceiptNo(){
+        if($this->isAdmin() == TRUE){
+            $this->loadThis();
+        } else {   
+            $filter = array();
+            $ref_receipt_no = $this->input->post("ref_rept_no");
+            $data['result'] = $this->fee->getCheckReceiptNo($ref_receipt_no);
+            header('Content-type: text/plain'); 
+            header('Content-type: application/json'); 
+            echo json_encode($data);
+            exit(0);
+        }
+    }
+
+    public function updateFeeReceipt(){
+        if($this->isAdmin() == TRUE){
+            $this->loadThis();
+        } else {   
+            $row_id = $this->input->post('row_id');
+            $receipt_no = $this->security->xss_clean($this->input->post('receipt_no'));
+
+            $feeInfo = $this->fee->getFeeInfoByReceiptNum($row_id);
+            $student_row_id = $feeInfo->application_no;
+            $term_name = $feeInfo->term_name;
+
+                $overallFee = array(
+                    'receipt_number' => $receipt_no,
+                    'updated_by' => $this->staff_id,
+                    'updated_date_time' => date('Y-m-d H:i:s'));
+    
+            $receipt_number = $this->fee->updateReceiptNumber($overallFee,$row_id);
+                    
+            $_SESSION["FEE_STUDENT_ID"] = $student_row_id;
+            $_SESSION["FEE_TERM_NAME"] = $term_name;
+            if(!empty($receipt_number)){
+                $this->session->set_flashdata('success', 'Fee Updated Successfully');
+            }else{
+                $this->session->set_flashdata('error', 'Fee Update Failed!');
+            }
+            redirect('getNewStudentFeePaymentInfo');
+
         }
     }
 }

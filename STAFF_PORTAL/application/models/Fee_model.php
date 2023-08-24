@@ -164,6 +164,12 @@ class Fee_model extends CI_Model
         return $query->row();
     }
 
+    public function updateReceiptNumber($feePayment,$row_id) {
+        $this->db->where_in('row_id', $row_id);
+        $this->db->update('tbl_students_overall_fee_payment_info_i_puc_2021', $feePayment);
+        return TRUE;
+    }
+
     public function getAllFeePaidInfo($receipt_number){
         $this->db->select('
         fee.row_id, 
@@ -1412,6 +1418,15 @@ class Fee_model extends CI_Model
         $this->db->update('tbl_students_overall_fee_payment_info_i_puc_2021', $feeInfo);
         return TRUE;
     }
+
+    public function getCheckReceiptNo($receipt_no){
+        $this->db->from('tbl_students_overall_fee_payment_info_i_puc_2021 as fee'); 
+        $this->db->where('fee.receipt_number', $receipt_no);
+        $this->db->where('fee.is_deleted', 0);
+        $query = $this->db->get();
+        return $query->row();
+    }
+
 
     
     

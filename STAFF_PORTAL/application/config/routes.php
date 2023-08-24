@@ -445,6 +445,7 @@ $route['getStudentFeePaymentInfo'] = "fee/getStudentFeePaymentInfo";
 $route['feePaymentReceiptPrint/(:any)'] = "fee/feePaymentReceiptPrint/$1";
 $route['viewAdmFeeConcession'] = "fee/viewAdmFeeConcession";
 $route['viewAdmFeeConcession/(:any)'] = "fee/viewAdmFeeConcession/$1";
+$route['updateFeeReceipt'] = "fee/updateFeeReceipt";
 
 $route['feePaymentReceiptPrint_old/(:any)'] = "fee/feePaymentReceiptPrint_old/$1";
 
@@ -895,7 +896,8 @@ $route['generateExcellenciaCertificate'] = "students/generateExcellenciaCertific
 $route['newFeePayNow'] = "fee/newFeePayNow";
 $route['getNewStudentFeePaymentInfo'] = "fee/getNewStudentFeePaymentInfo";
 $route['newAddFeePaymentInfo'] = "fee/newAddFeePaymentInfo";
-
+$route['getReceiptNumber'] = "fee/getReceiptNumber";
+$route['getReceiptNo'] = "fee/getReceiptNo";
 //Bio Data
 $route['getStudentBiodata'] = "students/getStudentBiodata";
 
