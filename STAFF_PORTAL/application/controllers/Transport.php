@@ -1354,4 +1354,19 @@ class Transport extends BaseController
             if ($result > 0) {echo (json_encode(array('status' => true)));} else {echo (json_encode(array('status' => false)));}
         }
     }
+
+    public function getReceiptNo(){
+        if($this->isAdmin() == TRUE){
+            $this->loadThis();
+        } else {   
+            $filter = array();
+            $ref_receipt_no = $this->input->post("reference_receipt_no");
+            
+            $data['result'] = $this->transport->getCheckReceiptNo($ref_receipt_no);
+            header('Content-type: text/plain'); 
+            header('Content-type: application/json'); 
+            echo json_encode($data);
+            exit(0);
+        }
+    }
 }

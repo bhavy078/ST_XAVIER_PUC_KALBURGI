@@ -493,6 +493,7 @@ $route['deleteFeeReceipt'] = "transport/deleteFeeReceipt";
 $route['addTransportName'] = "transport/addTransportName";
 $route['deleteTransportName'] = "transport/deleteTransportName"; 
 $route['printStudentTransportBill/(:any)'] = "transport/printStudentTransportBill/$1";
+$route['getReceiptNo'] = "transport/getReceiptNo";
 
 // routes for Transport Management- Student Bus
 $route['viewStudentTransportListing'] = "transport/viewStudentTransportListing";

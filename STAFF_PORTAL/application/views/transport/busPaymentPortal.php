@@ -268,10 +268,11 @@ if ($error) {
                                                     </select>
                                                 </div>
                                                 <div class="form-group mb-2">
-                                                    <input type="text" class="form-control " id="receipt_number"
+                                                    <input type="text" class="form-control reference_receipt_no" id="receipt_number"
                                                         name="receipt_number" placeholder="Reference Receipt No."
                                                         onkeypress="return isNumberKey(event)" required
                                                         autocomplete="off" >
+                                                        <h6 class="error-hint display-none receiptHide">Receipt Number Already exists</h6>
                                                 </div>
                                                 <div class="form-group mb-2">
                                                     <input type="text" class="form-control " id="paid_amount"
@@ -585,6 +586,33 @@ if ($error) {
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/common.js" charset="utf-8"></script>
 <script type="text/javascript">
 jQuery(document).ready(function() {
+    $('.receiptHide').hide();
+    $('.reference_receipt_no').on('keyup', function(evt){
+            let reference_receipt_no = $(this).val();
+            $('.receiptHide').hide();
+            $.ajax({
+                url: '<?php echo base_url(); ?>/getReceiptNo',
+                type: 'POST',
+                dataType: "json",
+                data: { 
+                    reference_receipt_no : reference_receipt_no
+                },
+                success: function(data) {
+                    //var examObject = JSON.parse(data);
+                    var examObject = JSON.stringify(data)
+                    var count = data.result.length;
+                    if(count != 0){
+                        if(data.result.ref_receipt_no == reference_receipt_no){
+                            $('.receiptHide').show();
+                        }else{
+                            $('.receiptHide').hide();
+                        }
+                    }else{
+                        $('.receiptHide').hide();
+                    }
+                }
+            });
+        });
 
     jQuery(document).on("click", ".deleteFeeReceipt", function(){
 			var row_id = $(this).data("row_id"),
@@ -639,7 +667,10 @@ jQuery(document).ready(function() {
         var payment_type = $('#payment_type_select').val();
         var month = $('#month').val();
         var receipt_number = $('#receipt_number').val();
-        if (receipt_number == "") {
+        if (month == "") {
+            alert("Please Select Month");
+            return;
+        }else if (receipt_number == "") {
             alert("Please Enter Receipt No.");
             return;
         }else if (paid_amount_display == "") {
