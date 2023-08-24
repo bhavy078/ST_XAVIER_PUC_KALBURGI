@@ -1141,7 +1141,7 @@ class Settings extends BaseController {
                 $student_info = array(
                      'program_name' => trim(strtoupper($program_name)),
                      'stream_name' => trim(strtoupper($stream_name)),
-                     'elective_sub' => trim(strtoupper($elective_sub)),
+                     // 'elective_sub' => trim(strtoupper($elective_sub)),
                      'section_name' => trim(strtoupper($section_name))
                      // 'reg_no' => trim($register_no)
                  );
