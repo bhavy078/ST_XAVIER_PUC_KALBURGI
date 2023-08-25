@@ -1046,7 +1046,186 @@ class StudentAttendance extends BaseController
             $this->loadViews("attendance/verifyAbsentStudent", $this->global, $data, null);
         }
     }
+
+
+    public function getAttendanceMonthWise(){
+        if($this->isAdmin() == TRUE) {
+            $this->loadThis();
+        } else {
+            $filter = array();
+            
+            if($this->role == ROLE_TEACHING_STAFF){
+                $filter['staff_id'] = $this->staff_id;
+                $data['staff_id'] = $this->staff_id;
+            }else{
+                $data['staff_id'] = '';
+            }
+
+            $data['streamSectionInfo'] = $this->staff->getSectionById($filter);
+            $data['staffSubjectInfo'] = $this->staff->getAllSubjectInfo($filter);
+
+            $this->global['pageTitle'] = ''.TAB_TITLE.' : Attendance By Month Wise';
+            $this->loadViews("attendance/addMonthlyClass", $this->global, $data, NULL);
+        }
+    }
+
+
+    public function getStudentInfoForAttendnaceAdditionalDetails(){
+        if($this->isAdmin() == TRUE) {
+            $this->loadThis();
+        } else {
+            $filter = array();
+            
+            $filter= array();
+            if($this->role == ROLE_TEACHING_STAFF){
+                $filter['staff_id'] = $this->staff_id;
+            }
+            $term_name = $this->input->post("term_name");
+            $section_row_id = $this->input->post("section_row_id");
+            $staff_subject_row_id = $this->input->post("staff_subject_row_id");
+            $month_name = $this->input->post("month_name");
+            $filter['section_row_id'] = $section_row_id;
+            $filter['staff_subject_row_id'] = $staff_subject_row_id;
+            $sectionInfo = $this->attendance->getSectionInfoByRowId($filter);
+            $subjectInfo = $this->attendance->getSubjectByRowId($filter);
+            $data['term_name'] = $term_name;
+            $data['stream_name'] = $sectionInfo->stream_name;
+            $data['sub_name'] = $subjectInfo->sub_name;
+            $data['subject_row_id'] = $subjectInfo->row_id;
+            $data['subject_code'] = $subjectInfo->subject_code;
+            $data['staff_name'] = $subjectInfo->staff_name; 
+            $data['month_name'] = $month_name;
+            $data['section_name'] = $sectionInfo->section_name; 
+            $data['section_row_id'] = $section_row_id;
+            $data['staff_subject_row_id'] = $staff_subject_row_id;
+            $data['subject'] = $subjectInfo; 
+
+            $sectionName = $sectionInfo->section_name;
+            if($sectionName == "ALL"){
+                $filter['section_name'] = '';
+            }else{
+                $filter['section_name'] = $sectionName;
+            }
+            $filter['stream_name'] = $sectionInfo->stream_name;
+            $filter['term_name'] = $term_name;
+            $filter['subject_name'] = $subjectInfo->sub_name;
+
+            $data['streamInfo'] = $this->student->getAllStreamName(); 
+            $data['studentsInfo'] = $this->student->getStudentInfoForInternal($filter);
+            $data['staffSubjectInfo'] = $this->staff->getAllSubjectInfo($filter);
+            $this->global['pageTitle'] = ''.TAB_TITLE.' : Attendance Additional Details';
+            $this->loadViews("attendance/addMonthlyClass", $this->global, $data, NULL);
+        }
+    }
     
+
+    public function addStudentAttendanceAdditionalDetails(){
+        if($this->isAdmin() == TRUE) {
+            $this->loadThis();
+        } else {
+            $this->load->library('form_validation');
+            $this->form_validation->set_rules('term_name','Term','trim|required');
+            $this->form_validation->set_rules('subject_id','Subject Name','trim|required');
+           // $this->form_validation->set_rules('subject_id','Subject Name','trim|required');
+            if($this->form_validation->run() == FALSE) {
+                $this->getStudentInfoForAttendnaceAdditionalDetails();
+            }else{
+                $term_name = $this->input->post("term_name");
+                $section_row_id = $this->input->post("section_row_id");
+                $stream_name = $this->input->post("stream_name");
+                $subject_id = $this->input->post("subject_id");
+                $section_name = $this->input->post("section_name");
+                $month_name = $this->input->post("month_name");
+                $class_held = $this->input->post("class_held");
+                $subject = $this->subject->getAllSubjectByID($subject_id);
+               
+                $filter= array();
+                if($this->role == ROLE_TEACHING_STAFF){
+                    $filter['staff_id'] = $this->staff_id;
+                }
+               
+                $staff_subject_row_id = $this->input->post("staff_subject_row_id");
+                $filter['staff_subject_row_id'] = $staff_subject_row_id;
+                $data['staff_subject_row_id'] = $staff_subject_row_id;
+                $subjectInfo = $this->attendance->getSubjectByRowId($filter);
+                $data['term_name'] = $term_name;
+                $data['stream_name'] = $stream_name;
+                $data['sub_name'] = $subjectInfo->sub_name;
+                $data['subject_row_id'] = $subjectInfo->row_id;
+                $data['subject_code'] = $subjectInfo->subject_code;
+                $data['staff_name'] = $subjectInfo->staff_name; 
+                $data['section_row_id'] = $section_row_id; 
+                $data['month_name'] = $month_name;
+                $data['section_name'] = $section_name; 
+                $data['subject'] = $subjectInfo; 
+
+                $filter['stream_name'] = $stream_name;
+                $filter['term_name'] = $term_name;
+                $filter['subject_name'] = $subjectInfo->sub_name;
+                $sectionName = $section_name;
+                if($sectionName == "ALL"){
+                    $filter['section_name'] = '';
+                }else{
+                    $filter['section_name'] = $sectionName;
+                }
+
+                $year = CURRENT_YEAR;
+                $data['studentsInfo'] = $this->student->getStudentInfoForInternal($filter);
+               
+                $return_id = 0;
+                foreach($data['studentsInfo'] as $student){
+                    $student_id = trim($student->student_id);
+                    $class_attended = $this->input->post("class_attended_".$student_id);
+                    $classHeld = $this->input->post("class_held_".$student_id);
+                    if(!empty($class_held)){
+                        $classHeld = $class_held;
+                        $class_held = $class_held;
+                    }else{
+                        $classHeld = $this->input->post("class_held_".$student_id);
+                    }
+                    
+                    $attendanceInfo = array(
+                        'student_id' => $student_id,
+                        'staff_id' => $this->staff_id,
+                        'subject_code' => $subject_id,
+                        'class_attended' => $class_attended,
+                        'class_held' => $class_held,
+                        'year' => $year,
+                        'month' => $month_name,
+                        'created_by' => $this->staff_id, 
+                        'created_date_time' => date('Y-m-d H:i:s'));
+                    $attendanceInfoUpdate = array(
+                        'subject_code' => $subject_id,
+                        'staff_id' => $this->staff_id,
+                        'student_id' => $student_id,
+                        'class_attended' => $class_attended,
+                        'class_held' => $classHeld,
+                        'updated_by' => $this->staff_id,
+                        'updated_date_time' => date('Y-m-d H:i:s'));
+                    if($classHeld != ''){
+                        $isExist = $this->attendance->getAttendanceAdditionalById($subject_id,$student_id,$month_name,$year);
+                        // log_message('debug','cedcb'.print_r($isExist,true));
+                        if(empty($isExist)){
+                            $return_id += $this->attendance->addAttendanceStudentAdditionalDetails($attendanceInfo);
+                            $this->session->set_flashdata('success', 'Attendance additional details added Successfully');
+                        }else{
+                            //$return_id = 0;
+                            $return_id += $this->attendance->updateStudentAttendanceAdditional($subject_id,$student_id,$month_name,$year,$attendanceInfoUpdate);
+                            $this->session->set_flashdata('success', 'Attendance additional details Updated');
+                        }
+                    }
+                }
+                if($return_id == 0){
+                    $this->session->set_flashdata('error', 'Failed to add attendance additional details '); 
+                }
+                
+                $data['streamInfo'] = $this->student->getAllStreamName(); 
+                $data['staffSubjectInfo'] = $this->staff->getAllSubjectInfo($filter);
+                $this->global['pageTitle'] = ''.TAB_TITLE.' : Attendance Additional Details';
+                $this->loadViews("attendance/addMonthlyClass", $this->global, $data, NULL);
+            }
+        }
+    } 
     
     
     public function getSubjectCodes($stream_name){

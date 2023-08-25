@@ -1045,3 +1045,8 @@ $route['studentIndividualNotifications'] = 'push_Notification/studentIndividualN
 $route['deleteStudentIndividualNotification'] = 'push_Notification/deleteStudentIndividualNotification';
 $route['editStudentIndividualNotification'] = 'push_Notification/editStudentIndividualNotification';
 $route['StudentIndividualNotificationEdit'] = 'push_Notification/StudentIndividualNotificationEdit';
+
+// attendance - month wise additional details
+$route['getAttendanceMonthWise'] = "studentAttendance/getAttendanceMonthWise";
+$route['getStudentInfoForAttendnaceAdditionalDetails'] = "studentAttendance/getStudentInfoForAttendnaceAdditionalDetails";
+$route['addStudentAttendanceAdditionalDetails'] = "studentAttendance/addStudentAttendanceAdditionalDetails";

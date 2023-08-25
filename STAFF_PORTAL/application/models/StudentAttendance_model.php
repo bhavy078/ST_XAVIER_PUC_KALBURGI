@@ -662,5 +662,35 @@ class StudentAttendance_model extends CI_Model{
         $query = $this->db->get();
         return $query->row();
     }
+
+
+    public function getAttendanceAdditionalById($subject_id,$student_id,$month,$year){
+        $this->db->from('tbl_attendance_additional_info as attd');
+        $this->db->where('attd.subject_code', $subject_id);
+        $this->db->where('attd.student_id', $student_id);
+        $this->db->where('attd.month', $month);
+        $this->db->where('attd.year', $year);
+        $this->db->where('attd.is_deleted', 0);
+        $query = $this->db->get();
+        return $query->row();
+    }
+
+
+    public function addAttendanceStudentAdditionalDetails($attendanceInfo) {
+        $this->db->trans_start();
+        $this->db->insert('tbl_attendance_additional_info', $attendanceInfo);
+        $insert_id = $this->db->insert_id();
+        $this->db->trans_complete();
+        return $insert_id;
+    }
+
+    public function updateStudentAttendanceAdditional($subject_id,$student_id,$month,$year,$attendanceInfoUpdate){
+        $this->db->where('subject_code', $subject_id);
+        $this->db->where('student_id', $student_id);
+        $this->db->where('month', $month);
+        $this->db->where('year', $year);
+        $this->db->update('tbl_attendance_additional_info', $attendanceInfoUpdate);
+        return true;
+    }
 }
 ?>
