@@ -109,6 +109,11 @@ if ($error) {
                                     </td> -->
                                     <td>
                                         <div class="form-group mb-0">
+                                            <input type="text" value="<?php echo $payment_date; ?>" name="payment_date" id="payment_date" class="form-control input-sm datepicker" placeholder="Search From Date" autocomplete="off">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group mb-0">
                                             <input type="text" value="<?php echo $receipt_no; ?>" name="receipt_no" id="receipt_no" class="form-control input-sm" placeholder="By Receipt No." autocomplete="off">
                                         </div>
                                     </td>
@@ -136,14 +141,16 @@ if ($error) {
                                             </select>
                                         </div>
                                     </td> -->
+                                    
                                     <td>
                                         <div class="form-group mb-0">
-                                            <input type="text" value="<?php echo $payment_date; ?>" name="payment_date" id="payment_date" class="form-control input-sm datepicker" placeholder="Search From Date" autocomplete="off">
+                                            <input type="text" value="<?php echo $payment_date; ?>" name="date_from" id="date_from" class="form-control input-sm datepicker" placeholder="Search From Date" autocomplete="off">
                                         </div>
                                     </td>
+
                                     <td>
                                         <div class="form-group mb-0">
-                                            <input type="text" value="<?php echo $month; ?>" name="month" id="month" class="form-control input-sm" placeholder="Search Month" autocomplete="off">
+                                            <input type="text" value="<?php echo $payment_date; ?>" name="date_to" id="date_to" class="form-control input-sm datepicker" placeholder="Search To Date" autocomplete="off">
                                         </div>
                                     </td>
 
@@ -207,12 +214,14 @@ if ($error) {
                             </form>
                             <thead>
                                 <tr class="table_row_background">
+                                    <th class="text-center">Payment Date</th>
                                     <th class="text-center">Receipt No.</th>
                                     <th class="text-center">Student ID</th>
                                     <th class="text-center">Name</th>
                                     <!-- <th class="text-center">Vehicle Number</th> -->
-                                    <th class="text-center">Payment Date</th>
-                                    <th class="text-center">Month</th>
+                                   
+                                    <th class="text-center">Date From</th>
+                                    <th class="text-center">Date To</th>
                                     <th class="text-center">Route</th>
                                     <th class="text-center">Bus No.</th>
                                     <th class="text-center">Payment Type</th>
@@ -225,19 +234,20 @@ if ($error) {
                                 <?php if(!empty($studentTransportInfo)){
                                     foreach($studentTransportInfo as $trans){ ?>
                                     <tr>
+                                        <th class="text-center"><?php echo date('d-m-Y',strtotime($trans->payment_date)); ?></th>
                                         <th class="text-center"><?php echo $trans->ref_receipt_no; ?></th>
                                         <th class="text-center"><?php echo $trans->student_id; ?></th>
                                          <th><?php echo strtoupper($trans->student_name); ?></th>
                                         <!-- <th class="text-center"><?php echo $trans->vehicle_number; ?></th> -->
-                                        <th class="text-center"><?php echo date('d-m-Y',strtotime($trans->payment_date)); ?></th>
-                                        <th class="text-center"><?php echo $trans->month; ?></th>
+                                       
+                                        <th class="text-center"><?php echo date('d-m-Y',strtotime($trans->from_date)); ?></th>
+                                        <th class="text-center"><?php echo date('d-m-Y',strtotime($trans->to_date)); ?></th>
                                         <th><?php echo $trans->route_name; ?></th>
                                         <th class="text-center"><?php echo $trans->bus_no; ?></th>
                                         <th class="text-center"><?php echo $trans->payment_type; ?></th>
                                         
                                         <!-- <th><?php echo $trans->route_to; ?></th> -->
-                                        <!-- <th class="text-center"><?php echo date('d-m-Y',strtotime($trans->from_date)); ?></th>
-                                         <th class="text-center"><?php echo date('d-m-Y',strtotime($trans->to_date)); ?></th> -->
+                                       
                                         <th class="text-center">
                                            <!-- <a href="#" class="btn btn-xs btn-success" title="<b>Bus Fees :</b>" data-toggle="popover" data-placement="left"  data-trigger="focus" data-content="<b><?php echo $trans->rate; ?></b>"><i class="fa fa-info"></i></a> -->
                                             <?php if($role == ROLE_ADMIN || $role == ROLE_PRINCIPAL || $role == ROLE_PRIMARY_ADMINISTRATOR || $role == ROLE_OFFICE){ ?>

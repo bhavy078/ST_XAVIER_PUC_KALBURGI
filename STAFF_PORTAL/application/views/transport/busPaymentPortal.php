@@ -91,6 +91,20 @@ if ($error) {
     <strong>Success!</strong> <?php echo $this->session->flashdata('success'); ?>
 </div>
 <?php }?>
+<style>
+      input[type="date"]::-webkit-calendar-picker-indicator {
+        background: transparent;
+        bottom: 0;
+        color: transparent;
+        cursor: pointer;
+        height: auto;
+        left: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: auto;
+    }
+</style>
 <div class="row column_padding_card">
     <div class="col-md-12">
         <?php echo validation_errors('<div class="alert alert-danger alert-dismissable">', ' <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button></div>'); ?>
@@ -249,7 +263,7 @@ if ($error) {
                                                         Placeholder="Transaction Date" id="transaction_date_first"
                                                         autocomplete="off" readonly>
                                                 </div>
-                                                <div class="form-group  mb-2 month_wise">
+                                                <!-- <div class="form-group  mb-2 month_wise">
                                                     <select class="form-control text-dark" id="month"
                                                         name="month">
                                                         <option value="">Select Month</option>
@@ -266,13 +280,37 @@ if ($error) {
                                                         <option value="November">November</option>
                                                         <option value="December">December</option>
                                                     </select>
+                                                </div> -->
+                                            <div class="row mt-2">
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label for="usr">Date From</label>
+                                                        <input type="date" name="from_date" 
+                                                            class="form-control "
+                                                            Placeholder="Date From" id="from_date"
+                                                            autocomplete="off" >
+                                                    </div>
                                                 </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label for="usr">Date To</label>
+                                                        <input type="date" name="to_date" 
+                                                            class="form-control "
+                                                            Placeholder="Date To" id="to_date"
+                                                            autocomplete="off" >
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="month_difference">Month Difference</label>
+                                                <input type="text" class="form-control" id="month_difference" readonly>
+                                            </div>
                                                 <div class="form-group mb-2">
                                                     <input type="text" class="form-control reference_receipt_no" id="receipt_number"
                                                         name="receipt_number" placeholder="Reference Receipt No."
                                                         onkeypress="return isNumberKey(event)" required
                                                         autocomplete="off" >
-                                                        <h6 class="error-hint display-none receiptHide">Receipt Number Already exists</h6>
+                                                        <h6 class="error-hint display-none receiptHide" style="color: red;">Receipt Number Already exists</h6>
                                                 </div>
                                                 <div class="form-group mb-2">
                                                     <input type="text" class="form-control " id="paid_amount"
@@ -322,7 +360,8 @@ if ($error) {
                                                     <th>Receipt No.</th>
                                                     <!-- <th>Order ID.</th> -->
                                                     <th>Amount</th>
-                                                    <th>Month</th>
+                                                    <th>Date From</th>
+                                                    <th>Date To</th>
                                                     <!-- <th>Pending Amt</th> -->
                                                     <th>Payment Type</th>
                                                     <!-- <th>Bank</th> -->
@@ -338,7 +377,8 @@ if ($error) {
                                                         <th class="text-center"><?php echo $fee->ref_receipt_no; ?></th>
                                                         <!-- <th class="text-center"><?php echo $fee->order_id; ?></th> -->
                                                         <th class="text-center"><?php echo $fee->bus_fees; ?></th>
-                                                        <th class="text-center"><?php echo $fee->month; ?></th>
+                                                        <th class="text-center"><?php echo date('d-m-Y',strtotime($fee->from_date)); ?></th>
+                                                        <th class="text-center"><?php echo date('d-m-Y',strtotime($fee->to_date)); ?></th>
                                                         <!-- <th class="text-center"><?php if($fee->pending_balance == 0){ ?>
                                                             <b style="color:green"><?php echo $fee->pending_balance; ?></b>
                                                             <?php }else{
@@ -562,10 +602,12 @@ if ($error) {
 
                     <div id="optional_fee_input"></div>
                     <input type="hidden" name="payment_date" id="payment_date_selected" value="" required />
+                    <input type="hidden" name="month_from" id="date_from_selected" value="" required />
+                    <input type="hidden" name="month_to" id="date_to_selected" value="" required />
                     <input type="hidden" name="student_row_id" value="<?php echo $studentData->row_id; ?>" required />
                     <input type="hidden" name="year" value="<?php echo $year; ?>" required />
                     <input type="hidden" id="paid_fee_amount" name="paid_fee_amount" value="" required />
-                    <input type="hidden" id="month_input" name="month_input" value="" required />
+                    <!-- <input type="hidden" id="month_input" name="month_input" value="" required /> -->
                     <input type="hidden" id="receipt_no" name="receipt_no" value="" required />
                     <input type="hidden" id="payment_type_input" name="payment_type" value="" required />
                    
@@ -584,6 +626,26 @@ if ($error) {
 </div>
 
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/common.js" charset="utf-8"></script>
+<script>
+    const fromInput = document.getElementById('from_date');
+    const toInput = document.getElementById('to_date');
+    const monthDifferenceInput = document.getElementById('month_difference');
+
+    fromInput.addEventListener('input', calculateMonthDifference);
+    toInput.addEventListener('input', calculateMonthDifference);
+
+    function calculateMonthDifference() {
+        const fromDate = new Date(fromInput.value);
+        const toDate = new Date(toInput.value);
+
+        if (!isNaN(fromDate) && !isNaN(toDate)) {
+            const monthDiff = (toDate.getFullYear() - fromDate.getFullYear()) * 12 + (toDate.getMonth() - fromDate.getMonth());
+            monthDifferenceInput.value = monthDiff;
+        } else {
+            monthDifferenceInput.value = '';
+        }
+    }
+</script>
 <script type="text/javascript">
 jQuery(document).ready(function() {
     $('.receiptHide').hide();
@@ -665,11 +727,16 @@ jQuery(document).ready(function() {
         var fee_amount = '<?php echo $fee_amount; ?>';
         var paid_amount_display = Number($('#paid_amount').val());
         var transaction_date = $('#transaction_date_first').val();
+        var from_date = $('#from_date').val();
+        var to_date = $('#to_date').val();
         var payment_type = $('#payment_type_select').val();
-        var month = $('#month').val();
+       // var month = $('#month').val();
         var receipt_number = $('#receipt_number').val();
-        if (month == "") {
-            alert("Please Select Month");
+        if (from_date == "") {
+            alert("Please Select From Date");
+            return;
+        }else if (to_date == "") {
+            alert("Please Select To Date");
             return;
         }else if (receipt_number == "") {
             alert("Please Enter Receipt No.");
@@ -748,9 +815,12 @@ jQuery(document).ready(function() {
         $('#paid_fee_amount').val(paid_amount_display);
         $('#payment_type_input').val(payment_type);
        
-        $('#month_input').val(month);
+      //  $('#month_input').val(month);
         $('#receipt_no').val(receipt_number);
         $('#payment_date_selected').val(transaction_date);
+        $('#date_from_selected').val(from_date);
+       
+        $('#date_to_selected').val(to_date);
 
         
         $('#myReportModal').modal('show');
@@ -769,7 +839,7 @@ jQuery(document).ready(function() {
         }
       
     });
-    jQuery('#transaction_date, .dateSearch, #tran_date, #dd_date, #neft_date').datepicker({
+    jQuery('#transaction_date, .dateSearch, #tran_date, #dd_date, #neft_date,.date_from').datepicker({
         autoclose: true,
         orientation: "bottom",
         format: "dd-mm-yyyy"
@@ -786,3 +856,14 @@ function isNumberKey(evt) {
 }
 
 </script>
+
+
+
+
+
+
+
+
+
+
+

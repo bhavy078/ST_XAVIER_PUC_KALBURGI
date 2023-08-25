@@ -439,9 +439,12 @@ class Transport_model extends CI_Model
         //     $likeCriteria = "(studentBus.route_to  LIKE '%" . $filter['route_to'] . "%')";
         //     $this->db->where($likeCriteria);
         // }
-        // if(!empty($filter['from_date'])){
-        //     $this->db->where('studentBus.from_date', $filter['from_date']);
-        // }
+        if(!empty($filter['date_from'])){
+            $this->db->where('studentBus.from_date', $filter['date_from']);
+        }
+        if(!empty($filter['date_to'])){
+            $this->db->where('studentBus.to_date', $filter['date_to']);
+        }
          if(!empty($filter['payment_type'])){
             $this->db->where('studentBus.payment_type', $filter['payment_type']);
         }
@@ -495,12 +498,12 @@ class Transport_model extends CI_Model
         //     $likeCriteria = "(studentBus.route_to  LIKE '%" . $filter['route_to'] . "%')";
         //     $this->db->where($likeCriteria);
         // }
-        // if(!empty($filter['from_date'])){
-        //     $this->db->where('studentBus.from_date', $filter['from_date']);
-        // }
-        //  if(!empty($filter['to_date'])){
-        //     $this->db->where('studentBus.to_date', $filter['to_date']);
-        // }
+        if(!empty($filter['date_from'])){
+            $this->db->where('studentBus.from_date', $filter['date_from']);
+        }
+        if(!empty($filter['date_to'])){
+            $this->db->where('studentBus.to_date', $filter['date_to']);
+        }
         if(!empty($filter['bus_fees'])){
             $likeCriteria = "(studentBus.bus_fees  LIKE '%" . $filter['bus_fees'] . "%')";
             $this->db->where($likeCriteria);

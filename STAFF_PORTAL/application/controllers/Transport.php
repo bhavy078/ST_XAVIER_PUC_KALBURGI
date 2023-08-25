@@ -558,11 +558,10 @@ class Transport extends BaseController
             $bus_fees = $this->security->xss_clean($this->input->post('bus_fees'));
             $route_from = $this->security->xss_clean($this->input->post('route_from'));
             $route_to = $this->security->xss_clean($this->input->post('route_to'));
-            $from_date = $this->security->xss_clean($this->input->post('from_date'));
-            $to_date = $this->security->xss_clean($this->input->post('to_date'));
             $payment_date = $this->security->xss_clean($this->input->post('payment_date'));
             $payment_type = $this->security->xss_clean($this->input->post('payment_type'));
-            $month = $this->security->xss_clean($this->input->post('month'));
+            $from_date = $this->security->xss_clean($this->input->post('date_from'));
+            $to_date = $this->security->xss_clean($this->input->post('date_to'));
 
             $data['receipt_no'] = $receipt_no;
             $data['student_id'] = $student_id;
@@ -572,8 +571,7 @@ class Transport extends BaseController
             $data['route_from'] = $route_from;
             $data['route_to'] = $route_to;
             $data['payment_type'] = $payment_type;
-            $data['month'] = $month;
-
+        
             $filter['receipt_no'] = $receipt_no;
             $filter['student_id'] = $student_id;
             $filter['by_name'] = $by_name;
@@ -582,7 +580,7 @@ class Transport extends BaseController
             $filter['route_from'] = $route_from;
             $filter['route_to'] = $route_to;
             $filter['payment_type'] = $payment_type;
-            $filter['month'] = $month;
+           
 
             if (!empty($payment_date)) {
                 $filter['payment_date'] = date('Y-m-d', strtotime($payment_date));
@@ -592,17 +590,17 @@ class Transport extends BaseController
             }
 
             if (!empty($from_date)) {
-                $filter['from_date'] = date('Y-m-d', strtotime($from_date));
-                $data['from_date'] = date('d-m-Y', strtotime($from_date));
+                $filter['date_from'] = date('Y-m-d', strtotime($from_date));
+                $data['date_from'] = date('d-m-Y', strtotime($from_date));
             } else {
-                $data['from_date'] = '';
+                $data['date_from'] = '';
             }
 
             if (!empty($to_date)) {
-                $filter['to_date'] = date('Y-m-d', strtotime($to_date));
-                $data['to_date'] = date('d-m-Y', strtotime($to_date));
+                $filter['date_to'] = date('Y-m-d', strtotime($to_date));
+                $data['date_to'] = date('d-m-Y', strtotime($to_date));
             } else {
-                $data['to_date'] = '';
+                $data['date_to'] = '';
             }
 
             $this->load->library('pagination');
@@ -1214,7 +1212,7 @@ class Transport extends BaseController
             }else{
                 redirect('transFeePayNow');
             }
-            // log_message('debug','total_fee'.print_r($feeInfo,true));
+            
            
             
         }
@@ -1248,6 +1246,8 @@ class Transport extends BaseController
             // $payment_option = $this->security->xss_clean($this->input->post('payment_option'));
 
             $payment_date = $this->security->xss_clean($this->input->post('payment_date'));
+            $from_date = $this->security->xss_clean($this->input->post('month_from'));
+            $to_date = $this->security->xss_clean($this->input->post('month_to'));
             $month = $this->security->xss_clean($this->input->post('month_input'));
             $ref_receipt_no = $this->security->xss_clean($this->input->post('receipt_no'));
 
@@ -1311,6 +1311,8 @@ class Transport extends BaseController
                     'receipt_no' => $receipt_no,
                     'total_amount' => $total_fee_pending_to_pay,
                     'payment_date' => date('Y-m-d',strtotime($payment_date)),
+                    'from_date' => date('Y-m-d',strtotime($from_date)),
+                    'to_date' => date('Y-m-d',strtotime($to_date)),
                     'bus_fees' => $paid_fee_amount,
                     'pending_balance' => $pending_fee_balance,
                     'payment_type' => $payment_type,
