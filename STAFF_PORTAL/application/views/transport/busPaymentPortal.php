@@ -589,9 +589,10 @@ jQuery(document).ready(function() {
     $('.receiptHide').hide();
     $('.reference_receipt_no').on('keyup', function(evt){
             let reference_receipt_no = $(this).val();
+          //alert(reference_receipt_no);
             $('.receiptHide').hide();
             $.ajax({
-                url: '<?php echo base_url(); ?>/getReceiptNo',
+                url: '<?php echo base_url(); ?>/getReceipt',
                 type: 'POST',
                 dataType: "json",
                 data: { 

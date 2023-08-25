@@ -1355,7 +1355,7 @@ class Transport extends BaseController
         }
     }
 
-    public function getReceiptNo(){
+    public function getReceipt(){
         if($this->isAdmin() == TRUE){
             $this->loadThis();
         } else {   
