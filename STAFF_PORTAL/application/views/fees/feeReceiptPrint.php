@@ -69,7 +69,7 @@ table{
                 </tr>
                 <tr>
                     <!-- <td>Name of the father : <?php echo $studentInfo->father_name; ?></td> -->
-                    <td>Receipt no.: <?php echo $feeInfo->receipt_number; ?></td>
+                    <td>Receipt no.: <?php echo $feeInfo->ref_receipt_no; ?></td>
                     <td>Payment Received Date : <?php echo date('d-m-Y',strtotime($feeInfo->payment_date)); ?></td>
                 </tr>
                 <tr>

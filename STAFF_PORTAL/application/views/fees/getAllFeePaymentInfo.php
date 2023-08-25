@@ -262,7 +262,7 @@ if ($error) {
                                     <td><?php echo date('d-m-Y',strtotime($online->payment_date)); ?></td>
                                     <!-- <td><?php echo $online->application_no; ?></td> -->
                                     <td><?php echo $online->student_id; ?></td>
-                                    <td class="text-center"><?php echo sprintf("%04d", $online->receipt_number) ; ?></td>
+                                    <td class="text-center"><?php echo sprintf("%04d", $online->ref_receipt_no) ; ?></td>
                                     <td><?php echo $online->order_id; ?></td>
                                     <td><?php echo $online->paid_amount; ?></td>
                                     <td><?php if($online->pending_balance == 0){ ?>

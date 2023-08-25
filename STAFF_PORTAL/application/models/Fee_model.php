@@ -759,7 +759,7 @@ class Fee_model extends CI_Model
          $this->db->where('fee.payment_date', $filter['date_select']);
         }
         if(!empty($filter['receipt_number'])){
-         $this->db->where('fee.receipt_number', $filter['receipt_number']);
+         $this->db->where('fee.ref_receipt_no', $filter['receipt_number']);
         }
         if(!empty($filter['amount_paid'])){
          $this->db->where('fee.paid_amount', $filter['amount_paid']);
@@ -800,7 +800,7 @@ class Fee_model extends CI_Model
        {
              $this->db->select('fee.payment_date,
              fee.row_id,
-             fee.receipt_number,
+             fee.ref_receipt_no,
              fee.order_id,
              fee.application_no,
              fee.paid_amount,
@@ -822,7 +822,7 @@ class Fee_model extends CI_Model
               $this->db->where('fee.payment_date', $filter['date_select']);
              }
              if(!empty($filter['receipt_number'])){
-              $this->db->where('fee.receipt_number', $filter['receipt_number']);
+              $this->db->where('fee.ref_receipt_no', $filter['receipt_number']);
              }
              if(!empty($filter['amount_paid'])){
               $this->db->where('fee.paid_amount', $filter['amount_paid']);
@@ -1132,7 +1132,7 @@ class Fee_model extends CI_Model
                std.student_id,
                std.student_name,
                std.stream_name,
-               fee.receipt_number,
+               fee.ref_receipt_no,
                fee.order_id,
                fee.application_no,
                fee.paid_amount,
@@ -1164,7 +1164,7 @@ class Fee_model extends CI_Model
          public function getAllFeePaymentInfoForReport($filter)
          {
             $this->db->select('fee.payment_date,fee.row_id,
-            fee.receipt_number,
+            fee.ref_receipt_no,
             fee.order_id,
             fee.application_no,
             fee.paid_amount,
@@ -1421,7 +1421,7 @@ class Fee_model extends CI_Model
 
     public function getCheckReceiptNo($receipt_no){
         $this->db->from('tbl_students_overall_fee_payment_info_i_puc_2021 as fee'); 
-        $this->db->where('fee.receipt_number', $receipt_no);
+        $this->db->where('fee.ref_receipt_no', $receipt_no);
         $this->db->where('fee.is_deleted', 0);
         $query = $this->db->get();
         return $query->row();

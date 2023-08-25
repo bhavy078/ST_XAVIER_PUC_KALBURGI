@@ -318,7 +318,7 @@ if ($error) {
                                                             name="ref_receipt_number" placeholder="Reference Receipt No."
                                                             onkeypress="return isNumberKey(event)" required
                                                             autocomplete="off" >
-                                                            <h6 class="error-hint display-none receiptHide">Receipt Number Already exists</h6>
+                                                            <h6 class="error-hint display-none receiptHide" style="color: red;">Receipt Number Already exists</h6>
                                                     </div>
                                                 </div>
                                             </div>
@@ -351,7 +351,7 @@ if ($error) {
                                                             foreach ($II_feePaidInfo as $fee) { ?>
                                                 <tr class="text-dark">
                                                     <td><?php echo date('d-m-Y', strtotime($fee->payment_date)); ?></td>
-                                                    <td class="text-center"><?php echo $fee->receipt_number; ?></td>
+                                                    <td class="text-center"><?php echo $fee->ref_receipt_no; ?></td>
                                                     <td><?php echo number_format($fee->paid_amount,2); ?></td>
                                                     <td><?php echo $fee->payment_type; ?></td>
                                                     <td>
@@ -362,7 +362,7 @@ if ($error) {
                                                             <a href="<?php echo base_url(); ?>feePaymentReceiptPrint/<?php echo $fee->row_id; ?>"
                                                                 target="_blank">Receipt</a>
                                                         <?php } ?>   
-                                                        <a class="btn btn-xs btn-secondary" onclick="openModel(<?php echo $fee->row_id; ?>,<?php echo $fee->receipt_number; ?>)" title="Edit" href='#'><i class="fas fa-edit"></i></a>    
+                                                        <a class="btn btn-xs btn-secondary" onclick="openModel(<?php echo $fee->row_id; ?>,<?php echo $fee->ref_receipt_no; ?>)" title="Edit" href='#'><i class="fas fa-edit"></i></a>    
                                                     </td>
                                                 </tr>
                                                 <?php }
@@ -421,7 +421,7 @@ if ($error) {
                                                             name="ref_receipt_number" placeholder="Reference Receipt No."
                                                             onkeypress="return isNumberKey(event)" required
                                                             autocomplete="off" >
-                                                            <h6 class="error-hint display-none receiptHide">Receipt Number Already exists</h6>
+                                                            <h6 class="error-hint display-none receiptHide" style="color: red;">Receipt Number Already exists</h6>
                                                     </div>
                                                 </div>
                                             </div>
@@ -450,13 +450,13 @@ if ($error) {
                                                             foreach ($feePaidInfo as $fee) { ?>
                                                 <tr class="text-dark">
                                                     <td><?php echo date('d-m-Y', strtotime($fee->payment_date)); ?></td>
-                                                    <td class="text-center"><?php echo $fee->receipt_number; ?></td>
+                                                    <td class="text-center"><?php echo $fee->ref_receipt_no; ?></td>
                                                     <td><?php echo number_format($fee->paid_amount,2); ?></td>
                                                     <td><?php echo $fee->payment_type; ?></td>
                                                     <td>   
                                                             <a href="<?php echo base_url(); ?>feePaymentReceiptPrint/<?php echo $fee->row_id; ?>"
                                                             target="_blank">Receipt</a> 
-                                                            <a class="btn btn-xs btn-secondary" onclick="openModel(<?php echo $fee->row_id; ?>,<?php echo $fee->receipt_number; ?>)" title="Edit" href='#'><i class="fas fa-edit"></i></a>
+                                                            <a class="btn btn-xs btn-secondary" onclick="openModel(<?php echo $fee->row_id; ?>,<?php echo $fee->ref_receipt_no; ?>)" title="Edit" href='#'><i class="fas fa-edit"></i></a>
                                                     </td>
                                                 </tr>
                                                 <?php }
@@ -664,7 +664,7 @@ if ($error) {
                                 <div class="form-group">
                                     <label>Receipt No.</label>
                                     <input type="text" class="form-control ref_rept_no" id="receipt_no" name="receipt_no" autocomplete="off" required>
-                                    <h6 class="error-hint display-none reptHide">Receipt Number Already exists</h6>
+                                    <h6 class="error-hint display-none reptHide" style="color: red;">Receipt Number Already exists</h6>
                                 </div>
                             </div>
                         </div>
@@ -703,7 +703,7 @@ jQuery(document).ready(function() {
                     var examObject = JSON.stringify(data)
                     var count = data.result.length;
                     if(count != 0){
-                        if(data.result.receipt_number == reference_receipt_no){
+                        if(data.result.ref_receipt_no == reference_receipt_no){
                             $('.receiptHide').show();
                         }else{
                             $('.receiptHide').hide();
@@ -732,7 +732,7 @@ jQuery(document).ready(function() {
                     var examObject = JSON.stringify(data)
                     var count = data.result.length;
                     if(count != 0){
-                        if(data.result.receipt_number == ref_rept_no){
+                        if(data.result.ref_receipt_no == ref_rept_no){
                             $('.reptHide').show();
                         }else{
                             $('.reptHide').hide();

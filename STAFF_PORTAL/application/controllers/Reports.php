@@ -289,7 +289,7 @@ class Reports extends BaseController
                         $spreadsheet->getActiveSheet()->setCellValue('C' . $excel_row,  $std->student_id);
                         $spreadsheet->getActiveSheet()->setCellValue('D' . $excel_row,  $std->student_name);
                         $spreadsheet->getActiveSheet()->setCellValue('E' . $excel_row,  $std->stream_name);
-                        $spreadsheet->getActiveSheet()->setCellValue('F' . $excel_row,  $std->receipt_number);
+                        $spreadsheet->getActiveSheet()->setCellValue('F' . $excel_row,  $std->ref_receipt_no);
                         $spreadsheet->getActiveSheet()->setCellValue('G' . $excel_row,  $std->order_id);
                         $spreadsheet->getActiveSheet()->setCellValue('H' . $excel_row,  $std->paid_amount);
                         $spreadsheet->getActiveSheet()->setCellValue('I' . $excel_row,  $std->payment_type);
@@ -4130,7 +4130,7 @@ public function downloadTransportFeeInfoReport()
         // foreach($feeTypeInfo as $type){
       
             $studentInfo = $this->student->getCurrentStudentInfoForTransReport($filter);
-           // log_message('debug','fee'.print_r($studentInfo,true));
+         
             if (!empty($studentInfo)) {
                 foreach ($studentInfo as $std) {
                     $routeInfo = $this->transport->getTranportRateById($std->route_id);

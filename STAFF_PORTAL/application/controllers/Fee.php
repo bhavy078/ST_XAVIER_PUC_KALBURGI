@@ -2547,7 +2547,8 @@ public function processTheFeePayment(){
             
                 $overallFee = array(
                     'application_no' => $application_no,
-                    'receipt_number' => $ref_receipt_no,
+                    'receipt_number' => $receipt_no,
+                    'ref_receipt_no' => $ref_receipt_no,
                     'payment_type' => $payment_type,
                     'payment_date' => date('Y-m-d',strtotime($payment_date)),
                     'total_amount' => $total_fee_to_pay,
@@ -2681,6 +2682,7 @@ public function processTheFeePayment(){
             $filter = array();
             $ref_receipt_no = $this->input->post("reference_receipt_no");
             $data['result'] = $this->fee->getCheckReceiptNo($ref_receipt_no);
+            log_message('debug','result'.print_r($data['result'],true));
             header('Content-type: text/plain'); 
             header('Content-type: application/json'); 
             echo json_encode($data);
@@ -2714,7 +2716,7 @@ public function processTheFeePayment(){
             $term_name = $feeInfo->term_name;
 
                 $overallFee = array(
-                    'receipt_number' => $receipt_no,
+                    'ref_receipt_no' => $receipt_no,
                     'updated_by' => $this->staff_id,
                     'updated_date_time' => date('Y-m-d H:i:s'));
     
