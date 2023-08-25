@@ -600,6 +600,23 @@ public function updateCoursePaymentLogByRowId($paymentInfo,$order_id) {
             return $query->result();
         }
 
+        public function getRemarkInfoApi($row_id){
+            $this->db->select('student.student_name,student.row_id as stdrowid,Observation.student_id,Observation.date,
+            Observation.type_id,Observation.file_path,Observation.year,Observation.description,
+            type.row_id as typRowid,type.remark_name,Observation.remarks');
+            $this->db->from('tbl_student_remark_info as Observation'); 
+            $this->db->join('tbl_students_info as student', 'student.row_id = Observation.student_id','left');
+            $this->db->join('tbl_student_remarks_type as type','type.row_id = Observation.type_id','left');
+            $this->db->order_by('Observation.date', 'DESC');
+            $this->db->where('Observation.is_deleted', 0);
+            $this->db->where('Observation.student_id', $row_id);
+            $this->db->where('student.is_deleted', 0);
+            $query = $this->db->get();
+            $result = $query->result();        
+            return $result;
+        }
+
+
         
 
         public function getStudentInfoByRowId($row_id){

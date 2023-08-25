@@ -16,6 +16,7 @@ class Api extends CI_Controller
         // $this->load->model('remarks_model');   
         $this->load->model('performance_model');
         $this->load->model('attendance_model');
+        $this->load->model('fee_model','fee');
         // $this->load->model('wallet_model','wallet');
         $this->load->model('admission_model','admission');
         // $this->load->model('Transport_model','transport');
@@ -1434,59 +1435,144 @@ public function collegeNotificationsApi(){
 
         $stud = $this->student_model->getStudentInfoByRowId($studentRowId);
         // $studentRowId = "2";
-        $data = $this->admission->getFeePaidInfo($stud->application_no);
+        $year = CURRENT_YEAR;
+        $data = $this->fee->getFeePaidInfo($studentRowId,$year);
         echo json_encode($data);
     }
     
     public function viewFeePaymentInfo(){	
         $json = file_get_contents('php://input'); 
         $obj = json_decode($json,true);
-        $studentRowId = $obj['row_id'];
+        $application_no = $obj['row_id'];
 	    $requestParamList = array();
 	    $responseParamList = array();
         
-        $studentInfo = $this->student_model->getStudentInfoByRowId($studentRowId);
+        $studentInfo = $this->student_model->getStudentInfoByRowId($application_no);
+       // log_message('debug','hh'.print_r($studentInfo ,true));
+
         $dt = array();
         $data = (object)$dt;
-        $data->instalment_status = false;
-        $data->application_no = $application_number = $studentInfo->application_no;
-        $filter = array();   
+        $term_name = $studentInfo->term_name;
+               
+        $data->application_no = $application_no;
+        $data->term_name = $term_name;
         $filter['stream_name'] = $studentInfo->stream_name;
-        $term_name = $filter['term_name'] = $studentInfo->term_name;
-        if(strtoupper($studentInfo->elective_sub) == 'FRENCH'){
-            $filter['lang_fee_status'] = true;
-        }else{
-            $filter['lang_fee_status'] = false;
-        }
-        $filter['category'] = strtoupper($studentInfo->category);
-        $filter['fee_year'] = CURRENT_YEAR;
-        $instalmentInfo = $this->admission->checkInstallmentAlreadyExistNew($application_number);
-        if(!empty($instalmentInfo)){
-            $data->instalment_status = true;
-            $data->instalment_amt = $instalmentInfo->amount;
-        }
-        if($studentInfo->is_admitted == 1){
-            $filter['term_name'] = 'I PUC';
-        }
+        
+        // if(strtoupper($studentInfo->elective_sub) == 'FRENCH'){
+        //     $filter['lang_fee_status'] = true;
+        // }else{
+        //     $filter['lang_fee_status'] = false;
+        // }
+        // $filter['category'] = strtoupper($studentInfo->category);
+        
+
         if($term_name == 'I PUC'){
-            if($studentInfo->last_board_name == 'KARNATAKA STATE BOARD'){
-                $filter['board_name'] = "SSLC";
-            }else{
-                $filter['board_name'] = "OTHER";
+           // $data['text_display_view']  = "I PUC Student info";
+            // $boardInfo = $this->admission->getStudentRegisteredInfo($studentInfo->registered_row_id);
+            // $data['board_id'] = $boardInfo->sslc_board_name_id;
+            // if($boardInfo->sslc_board_name_id == 1){
+            //     $filter['board_name'] = "SSLC";
+            // }else{
+            //     $filter['board_name'] = "OTHER";
+            // }
+
+            $filter['term_name'] = $term_name;
+            $filter['fee_year'] = CURRENT_YEAR;
+            $total_fee_obj = $this->fee->getTotalFeeAmount($filter);
+            $total_fee_amount = $data->total_fee_amount = $total_fee_obj->total_fee;
+            $paidFee = $this->fee->getTotalFeePaidInfo($application_no,CURRENT_YEAR);
+            $data->feePaidInfo = $this->fee->getFeePaidInfo($application_no,CURRENT_YEAR);
+            $data->fee_installment = $this->fee->checkInstalmentExists($application_no);
+            $data->paid_amount = $paidFee;
+            $concession_amt = 0;
+            $feeConcession = $this->fee->getStudentFeeConcession($application_no);
+            if(!empty($feeConcession)){
+                $concession_amt = $feeConcession->fee_amt;
+                $total_fee_amount -= $concession_amt;
             }
-            $total_fee_obj = $this->admission->getTotalFeeAmountIPuc($filter);
-        }else{
-            $filter['board_name'] = "SSLC";
-            $total_fee_obj = $this->admission->getTotalFeeAmount($filter);
+            
+            $total_fee_amount -= $paidFee;
+            $data->previousBal = $data->first_puc_pending_amount = $data->pending_amount = $total_fee_amount;
+            $data->I_balance = $total_fee_amount;
+            $data->concession = $concession_amt;
+            $data->balance = 0;
+           
+              $data->balance = $total_fee_amount;
+              $data->concession = $concession_amt;
+              $data->studentid = $studentInfo->student_id;
+              $data->studentname= $studentInfo->student_name;
+              $data->class= $studentInfo->term_name;
+              $data->section= $studentInfo->section_name;
+              $data->stream = $studentInfo->stream_name;
+  
+            }else{
+            //$prev_year = trim($studentInfo->intake_year_id)-1;
+            // this will execute if student only II PUC
+            //------ I PUC PENDING START
+               //$data['text_display_view']  = "II PUC Student info";
+            
+                $filter['term_name'] = 'I PUC';
+                $filter['fee_year'] = CURRENT_YEAR; //trim($studentInfo->intake_year_id);
+
+                $total_fee_obj = $this->fee->getTotalFeeAmount($filter);
+
+                $data->first_puc_total_fee = $first_puc_total_bal = $total_fee_obj->total_fee;
+            
+                $paidFee = $this->fee->getTotalFeePaidInfo($application_no,$filter['fee_year']);
+                $data->feePaidInfo = $this->fee->getFeePaidInfo($application_no,$filter['fee_year']);
+                $data->fee_installment = $this->fee->checkInstalmentExists($application_no);
+                $first_puc_total_bal -= $paidFee;
+                //prev year fee
+                // if(trim($studentInfo->intake_year_id) == '2020'){
+                //     $paidFee = $this->fee->getTotalFeePaidInfo2020($application_no);
+                //     $data['feePaidInfo'] = $this->fee->getFeePaidInfo2020($application_no);
+                //     $first_puc_total_bal -= $paidFee;
+                // }
+                
+                $data->paid_first_puc = $paidFee;
+           
+                    $data->I_balance= 0;
+                    $data->first_puc_pending_amount = $data->previousBal = 0;
+        
+          
+            //I PUC PENDING END --------//
+
+            // II PUC fee calculation start
+            $filter['term_name'] = 'II PUC';
+            //add extra ine year to intake year only (based on clg database data)
+            $data->fee_year_II =  $filter['fee_year'] = trim($studentInfo->intake_year_id)+1;
+            $filter['board_name'] = 'SSLC';
+            if($studentInfo->is_admitted == 1){
+                $filter['term_name'] = 'I PUC';
+                $filter['fee_year'] = CURRENT_YEAR;
+            }
+            $total_fee_obj = $this->fee->getTotalFeeAmount($filter);
+            $data->second_puc_total_fee =  $data->total_fee_amount =  $total_fee_amount = $total_fee_obj->total_fee;
+
+            $paidFee = $this->fee->getTotalFeePaidInfo($application_no,$filter['fee_year']);
+            $data->II_feePaidInfo = $this->fee->getFeePaidInfo($application_no,$filter['fee_year']);
+            $total_fee_amount -= $paidFee;
+            $concession_amt = 0;
+            $feeConcession = $this->fee->getStudentFeeConcession($application_no);
+            if(!empty($feeConcession)){
+                $concession_amt = $feeConcession->fee_amt;
+            }
+            $data->second_puc_pending_amount = $data->pending_amount = $total_fee_amount-$concession_amt;
+            $data->paid_amount = $paidFee;
+          
+            //get list of payment in II PUC
+            $data->balance = $total_fee_amount;
+            $data->concession = $concession_amt;
+            $data->studentid = $studentInfo->student_id;
+            $data->studentname= $studentInfo->student_name;
+            $data->class= $studentInfo->term_name;
+            $data->section= $studentInfo->section_name;
+            $data->stream = $studentInfo->stream_name;
+
         }
-        $total_fee_amount = $total_fee_obj->total_fee;
-        $data->fee_amount = $total_fee_amount;       
-        $paidFee = $this->admission->getReAdmissionTotalPaidAmount($application_number);
-        $total_fee_amount -= $paidFee->paid_amount;
-        $data->total_paid_amt = $paidFee->paid_amount;
-        $data->total_fee_to_pay = $total_fee_amount;
-        $data->elective = $studentInfo->elective_sub;;
-        $data->category = $studentInfo->category;
+        // $data['balance'] = $total_fee_to_pay;
+
+        $data->studentInfo = $studentInfo;
         echo json_encode($data);
     }
 
@@ -1529,7 +1615,7 @@ public function collegeNotificationsApi(){
         $data->studentData = $studentData;
         $data->fee_amount = $total_fee_amount;
         $data->year= $year;
-        $data->studentid = $studentInfo->sat_number;
+        $data->studentid = $studentInfo->student_id;
         $data->studentname= $studentInfo->student_name;
         $data->class= $studentInfo->term_name;
         $data->section= $studentInfo->section_name;
@@ -1561,8 +1647,7 @@ public function collegeNotificationsApi(){
         $json = file_get_contents('php://input'); 
         $obj = json_decode($json,true);
         $studentRowId = $obj['row_id'];
-        $studentData = $this->student_model->getStudentApplicationNoByID($studentRowId);
-        $data = $this->remarks_model->getRemarkInfoApi($studentData->application_no);
+        $data = $this->student_model->getRemarkInfoApi($studentRowId);
         echo json_encode($data);
     }
 
