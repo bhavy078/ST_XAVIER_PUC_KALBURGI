@@ -91,10 +91,10 @@ table{
                     <td width="220">Class  : <?php echo strtoupper($studentTransportInfo->term_name); ?></td> 
                 </tr>
                 <tr>
-                    <td colspan="2">Date From: <?php echo date('d-m-Y',strtotime($studentTransportInfo->from_date));?></td>
+                    <td colspan="2">Month From: <?php echo date('M-Y',strtotime($studentTransportInfo->from_date));?></td>
                 </tr>
                 <tr>
-                    <td colspan="2">Date To: <?php echo date('d-m-Y',strtotime($studentTransportInfo->to_date));?></td>
+                    <td colspan="2">Month To: <?php echo date('M-Y',strtotime($studentTransportInfo->to_date));?></td>
                 </tr>
 
                 <tr>

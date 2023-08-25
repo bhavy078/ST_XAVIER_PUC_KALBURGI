@@ -10,6 +10,11 @@ input[type=checkbox] {
     transform: scale(1.5);
 }
 
+.datepicker .ui-datepicker-calendar {
+    display: none;
+}
+
+
 .table_search_th {
     padding: .1rem !important;
     vertical-align: top !important;
@@ -284,25 +289,25 @@ if ($error) {
                                             <div class="row mt-2">
                                                 <div class="col-6">
                                                     <div class="form-group">
-                                                        <label for="usr">Date From</label>
-                                                        <input type="date" name="from_date" 
-                                                            class="form-control "
-                                                            Placeholder="Date From" id="from_date"
+                                                      
+                                                        <input type="text" name="from_date" 
+                                                            class="form-control datepicker"
+                                                            Placeholder="Month From" id="from_date"
                                                             autocomplete="off" >
                                                     </div>
                                                 </div>
                                                 <div class="col-6">
                                                     <div class="form-group">
-                                                        <label for="usr">Date To</label>
-                                                        <input type="date" name="to_date" 
-                                                            class="form-control "
-                                                            Placeholder="Date To" id="to_date"
+                                                        
+                                                        <input type="text" name="to_date" 
+                                                            class="form-control datepicker"
+                                                            Placeholder="Month To" id="to_date"
                                                             autocomplete="off" >
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label for="month_difference">Month Difference</label>
+                                                <label for="month_difference">Months</label>
                                                 <input type="text" class="form-control" id="month_difference" readonly>
                                             </div>
                                                 <div class="form-group mb-2">
@@ -360,8 +365,8 @@ if ($error) {
                                                     <th>Receipt No.</th>
                                                     <!-- <th>Order ID.</th> -->
                                                     <th>Amount</th>
-                                                    <th>Date From</th>
-                                                    <th>Date To</th>
+                                                    <th>Month From</th>
+                                                    <th>Month To</th>
                                                     <!-- <th>Pending Amt</th> -->
                                                     <th>Payment Type</th>
                                                     <!-- <th>Bank</th> -->
@@ -377,8 +382,8 @@ if ($error) {
                                                         <th class="text-center"><?php echo $fee->ref_receipt_no; ?></th>
                                                         <!-- <th class="text-center"><?php echo $fee->order_id; ?></th> -->
                                                         <th class="text-center"><?php echo $fee->bus_fees; ?></th>
-                                                        <th class="text-center"><?php echo date('d-m-Y',strtotime($fee->from_date)); ?></th>
-                                                        <th class="text-center"><?php echo date('d-m-Y',strtotime($fee->to_date)); ?></th>
+                                                        <th class="text-center"><?php echo date('M-Y',strtotime($fee->from_date)); ?></th>
+                                                        <th class="text-center"><?php echo date('M-Y',strtotime($fee->to_date)); ?></th>
                                                         <!-- <th class="text-center"><?php if($fee->pending_balance == 0){ ?>
                                                             <b style="color:green"><?php echo $fee->pending_balance; ?></b>
                                                             <?php }else{
@@ -602,6 +607,7 @@ if ($error) {
 
                     <div id="optional_fee_input"></div>
                     <input type="hidden" name="payment_date" id="payment_date_selected" value="" required />
+                    <input type="hidden" name="month_diff" id="month_diff" value="" required />
                     <input type="hidden" name="month_from" id="date_from_selected" value="" required />
                     <input type="hidden" name="month_to" id="date_to_selected" value="" required />
                     <input type="hidden" name="student_row_id" value="<?php echo $studentData->row_id; ?>" required />
@@ -626,26 +632,7 @@ if ($error) {
 </div>
 
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/common.js" charset="utf-8"></script>
-<script>
-    const fromInput = document.getElementById('from_date');
-    const toInput = document.getElementById('to_date');
-    const monthDifferenceInput = document.getElementById('month_difference');
 
-    fromInput.addEventListener('input', calculateMonthDifference);
-    toInput.addEventListener('input', calculateMonthDifference);
-
-    function calculateMonthDifference() {
-        const fromDate = new Date(fromInput.value);
-        const toDate = new Date(toInput.value);
-
-        if (!isNaN(fromDate) && !isNaN(toDate)) {
-            const monthDiff = (toDate.getFullYear() - fromDate.getFullYear()) * 12 + (toDate.getMonth() - fromDate.getMonth());
-            monthDifferenceInput.value = monthDiff;
-        } else {
-            monthDifferenceInput.value = '';
-        }
-    }
-</script>
 <script type="text/javascript">
 jQuery(document).ready(function() {
     $('.receiptHide').hide();
@@ -727,6 +714,7 @@ jQuery(document).ready(function() {
         var fee_amount = '<?php echo $fee_amount; ?>';
         var paid_amount_display = Number($('#paid_amount').val());
         var transaction_date = $('#transaction_date_first').val();
+        var month_difference = $('#month_difference').val();
         var from_date = $('#from_date').val();
         var to_date = $('#to_date').val();
         var payment_type = $('#payment_type_select').val();
@@ -818,6 +806,7 @@ jQuery(document).ready(function() {
       //  $('#month_input').val(month);
         $('#receipt_no').val(receipt_number);
         $('#payment_date_selected').val(transaction_date);
+        $('#month_diff').val(month_difference);
         $('#date_from_selected').val(from_date);
        
         $('#date_to_selected').val(to_date);
@@ -832,6 +821,10 @@ jQuery(document).ready(function() {
 
     });
 
+   
+
+   
+  
     $(".proceedFeePaymentInfoButton").click(function() {
         if($( "#addFeePaymentInfo" ).valid()){
         // $('.loaderScreen').show();
@@ -854,6 +847,43 @@ function isNumberKey(evt) {
       return false;
   return true;
 }
+
+$(document).ready(function() {
+        $('.datepicker').datepicker({
+            changeMonth: true,
+            changeYear: true,
+            showButtonPanel: false,
+            dateFormat: "MM yy",
+            onClose: function(dateText, inst) {
+                $(this).datepicker('setDate', new Date(inst.selectedYear, inst.selectedMonth, 1));
+                calculateMonthDifference();
+            }
+
+            // $('.ui-datepicker-calender').css("display","none");
+
+        });
+        $('.ui-datepicker-calender').css("display","none");
+
+        function calculateMonthDifference() {
+            var fromDate = $('#from_date').val();
+            
+            var toDate = $('#to_date').val();
+            var monthField = $('#month_difference');
+            var fromDate = new Date(fromDate);
+            var toDate = new Date(toDate); 
+            
+            if (fromDate && toDate) {     
+                var months = (toDate.getFullYear() - fromDate.getFullYear()) * 12 + (toDate.getMonth() - fromDate.getMonth());
+                monthField.val((months +1));
+            } else {
+                monthField.val(""); // Clear the field if dates are not selected
+            }
+        }
+    });
+
+
+
+    
 
 </script>
 

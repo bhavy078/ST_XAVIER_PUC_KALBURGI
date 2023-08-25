@@ -144,13 +144,13 @@ if ($error) {
                                     
                                     <td>
                                         <div class="form-group mb-0">
-                                            <input type="text" value="<?php echo $payment_date; ?>" name="date_from" id="date_from" class="form-control input-sm datepicker" placeholder="Search From Date" autocomplete="off">
+                                            <input type="text" value="<?php echo $payment_date; ?>" name="date_from" id="date_from" class="form-control input-sm datepicker" placeholder="Search Month From" autocomplete="off">
                                         </div>
                                     </td>
 
                                     <td>
                                         <div class="form-group mb-0">
-                                            <input type="text" value="<?php echo $payment_date; ?>" name="date_to" id="date_to" class="form-control input-sm datepicker" placeholder="Search To Date" autocomplete="off">
+                                            <input type="text" value="<?php echo $payment_date; ?>" name="date_to" id="date_to" class="form-control input-sm datepicker" placeholder="Search Month To" autocomplete="off">
                                         </div>
                                     </td>
 
@@ -220,8 +220,8 @@ if ($error) {
                                     <th class="text-center">Name</th>
                                     <!-- <th class="text-center">Vehicle Number</th> -->
                                    
-                                    <th class="text-center">Date From</th>
-                                    <th class="text-center">Date To</th>
+                                    <th class="text-center">Month From</th>
+                                    <th class="text-center">Month To</th>
                                     <th class="text-center">Route</th>
                                     <th class="text-center">Bus No.</th>
                                     <th class="text-center">Payment Type</th>
@@ -240,8 +240,8 @@ if ($error) {
                                          <th><?php echo strtoupper($trans->student_name); ?></th>
                                         <!-- <th class="text-center"><?php echo $trans->vehicle_number; ?></th> -->
                                        
-                                        <th class="text-center"><?php echo date('d-m-Y',strtotime($trans->from_date)); ?></th>
-                                        <th class="text-center"><?php echo date('d-m-Y',strtotime($trans->to_date)); ?></th>
+                                        <th class="text-center"><?php echo date('M-Y',strtotime($trans->from_date)); ?></th>
+                                        <th class="text-center"><?php echo date('M-Y',strtotime($trans->to_date)); ?></th>
                                         <th><?php echo $trans->route_name; ?></th>
                                         <th class="text-center"><?php echo $trans->bus_no; ?></th>
                                         <th class="text-center"><?php echo $trans->payment_type; ?></th>

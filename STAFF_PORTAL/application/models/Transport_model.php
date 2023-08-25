@@ -494,10 +494,7 @@ class Transport_model extends CI_Model
         if(!empty($filter['payment_type'])){
             $this->db->where('studentBus.payment_type', $filter['payment_type']);
         }
-        // if(!empty($filter['route_to'])){
-        //     $likeCriteria = "(studentBus.route_to  LIKE '%" . $filter['route_to'] . "%')";
-        //     $this->db->where($likeCriteria);
-        // }
+      
         if(!empty($filter['date_from'])){
             $this->db->where('studentBus.from_date', $filter['date_from']);
         }
@@ -872,6 +869,14 @@ class Transport_model extends CI_Model
         $this->db->where('bus.is_deleted', 0);
         $query = $this->db->get();
         return $query->row();
+    }
+
+    function addTransportMonth($studentTransportInfo){
+        $this->db->trans_start();
+        $this->db->insert('tbl_transport_month_payment', $studentTransportInfo);
+        $insert_id = $this->db->insert_id();
+        $this->db->trans_complete();
+        return $insert_id;
     }
 
 

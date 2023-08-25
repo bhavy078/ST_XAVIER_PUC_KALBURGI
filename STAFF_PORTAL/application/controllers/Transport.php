@@ -1248,8 +1248,9 @@ class Transport extends BaseController
             $payment_date = $this->security->xss_clean($this->input->post('payment_date'));
             $from_date = $this->security->xss_clean($this->input->post('month_from'));
             $to_date = $this->security->xss_clean($this->input->post('month_to'));
-            $month = $this->security->xss_clean($this->input->post('month_input'));
+            $month = $this->security->xss_clean($this->input->post('month_diff'));
             $ref_receipt_no = $this->security->xss_clean($this->input->post('receipt_no'));
+            
 
             // $ref_number = $this->security->xss_clean($this->input->post('ref_number'));
             // $neft_date = $this->security->xss_clean($this->input->post('neft_date'));
@@ -1311,8 +1312,8 @@ class Transport extends BaseController
                     'receipt_no' => $receipt_no,
                     'total_amount' => $total_fee_pending_to_pay,
                     'payment_date' => date('Y-m-d',strtotime($payment_date)),
-                    'from_date' => date('Y-m-d',strtotime($from_date)),
-                    'to_date' => date('Y-m-d',strtotime($to_date)),
+                    'from_date' => date('Y-m',strtotime($from_date)),
+                    'to_date' => date('Y-m',strtotime($to_date)),
                     'bus_fees' => $paid_fee_amount,
                     'pending_balance' => $pending_fee_balance,
                     'payment_type' => $payment_type,
@@ -1329,6 +1330,22 @@ class Transport extends BaseController
                     'created_date_time' => date('Y-m-d H:i:s'));
     
             $receipt_number = $this->transport->addNewStudentTransport($overallFee);
+
+            $start    = new DateTime($from_date);
+            $start->modify('first day of this month');
+            $end      = new DateTime($to_date);
+            $end->modify('first day of next month');
+            $interval = DateInterval::createFromDateString('1 month');
+            $period   = new DatePeriod($start, $interval, $end);
+
+            foreach ($period as $dt) {
+                echo $dt->format("Y-m") . "<br>\n";
+                $overallMonth = array(
+                    'payment_id' => $receipt_number,
+                    'month' => $dt->format("m"),
+                    'amount' => $paid_fee_amount / $month);
+                    $result = $this->transport->addTransportMonth($overallMonth);
+            }
                 
                 
             $data['studentData'] = $studentInfo;
