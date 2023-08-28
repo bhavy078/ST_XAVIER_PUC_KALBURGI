@@ -278,8 +278,10 @@ class Students extends BaseController
 
 
 
-                // $getMarkOfFirstUnitTest = $this->student->getFirstInternaltMark($student->student_id,$subjects_code[$i]);
-                // $exam_mark_first_test[$i] = $getMarkOfFirstUnitTest;
+                $getMarkOfFirstUnitTest = $this->student->getFirstInternaltMark($student->student_id,$subjects_code[$i]);
+
+                
+                $exam_mark_first_test[$i] = $getMarkOfFirstUnitTest;
 
                 // $getMarkOfFirstTermExam = $this->student->getFirstTermMark($student->student_id,$subjects_code[$i]);
                 // $exam_mark_first_term[$i] = $getMarkOfFirstTermExam;
@@ -310,7 +312,7 @@ class Students extends BaseController
             }else{
                 $total_attendance_percentage = ($total_class_attended/$total_class_held)*100;
             }
-            // $data['firstUnitTestMarkInfo'] = $exam_mark_first_test;
+            $data['firstUnitTestMarkInfo'] = $exam_mark_first_test;
             // $data['firstTermMarkInfo'] = $exam_mark_first_term;
             $data['midTermMarkInfo'] = $exam_mark_mid_term;
              $data['secondUnitTestMarkInfo'] = $exam_mark_second_test;
@@ -1546,13 +1548,14 @@ class Students extends BaseController
         $BSBA = array("75", "31", "27", '30');
         $CSBA = array("41", "31", "27", '30');
         $SEBA = array("31", "22", "27", '30');
-        $CEBA = array("41", "22", "27", '30');
+        $EBAC = array("41", "22", "27", '30');
         $PEBA = array("29", "22", "27", '30');
         //art
         $HEPP = array("21", "22", "32", '29');
         $MEBA = array("75", "22", "27", '30');
         $MSBA = array("75", "31", "27", '30');
         $HEPS = array("21", "22", "29", '28');
+        $HEPE = array("21", "22", "29", '52');
 
         switch ($stream_name) {
             case "PCMB":
@@ -1582,8 +1585,8 @@ class Students extends BaseController
             case "SEBA":
                 return $SEBA;
                 break;
-            case "CEBA":
-                return $CEBA;
+            case "EBAC":
+                return $EBAC;
                 break;
             case "HEPP":
                 return $HEPP;
@@ -1596,6 +1599,9 @@ class Students extends BaseController
                 break;
             case "MSBA":
                 return $MSBA;
+                break;
+            case "HEPE":
+                return $HEPE;
                 break;
         }
     }

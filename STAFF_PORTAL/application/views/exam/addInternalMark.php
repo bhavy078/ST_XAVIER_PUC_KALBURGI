@@ -762,7 +762,7 @@ input[type=number]::-webkit-outer-spin-button {
                             <select class="form-control required" id="stream_name_id" required>
                                                 <option value="PCMB">PCMB</option>
                                                 <option value="PCMC">PCMC</option>
-                                                <option value="PCME">PCME</option>
+                                                <!-- <option value="PCME">PCME</option>
                                                 <option value="PCMS">PCMS</option>
                                                 <option value="BEBA">BEBA</option>
                                                 <option value="BSBA">BSBA</option>
@@ -772,8 +772,11 @@ input[type=number]::-webkit-outer-spin-button {
                                                 <option value="PEBA">PEBA</option>
                                                 <option value="HEPP">HEPP</option>
                                                 <option value="MEBA">MEBA</option>
-                                                <option value="MSBA">MSBA</option>
+                                                <option value="MSBA">MSBA</option> -->
+                                                <option value="EBAC">EBAC</option>
                                                 <option value="HEPS">HEPS</option>
+                                                <option value="HEPE">HEPE</option>
+                                                
                                                
                             </select>
                         </div>
@@ -784,11 +787,11 @@ input[type=number]::-webkit-outer-spin-button {
                             <select class="form-control required" id="type" name="type">
                                 <option value="ALL">ALL</option>
                                 <!-- <option value="ALL">ALL</option> -->
-                                <option value="A">A</option>
+                                                <option value="A">A</option>
                                                 <option value="B">B</option>
                                                 <option value="C">C</option>
                                                 <option value="D">D</option>
-                                                <option value="E">E</option>
+                                                <!-- <option value="E">E</option>
                                                 <option value="F">F</option>
                                                 <option value="G">G</option>
                                                 <option value="H">H</option>
@@ -802,7 +805,7 @@ input[type=number]::-webkit-outer-spin-button {
                                                 <option value="P">P</option>
                                                 <option value="Q">Q</option>
                                                 <option value="R">R</option>
-                                                <option value="S">S</option>
+                                                <option value="S">S</option> -->
                             </select>
                         </div>
                     </div>
@@ -812,7 +815,7 @@ input[type=number]::-webkit-outer-spin-button {
                             <select class="form-control required" id="examType" name="examType">
                                 <option value="">Select Exam</option>
                                 <option value="I_UNIT_TEST">I UNIT TEST</option>
-                                <option value="II_UNIT_TEST">II UNIT TEST</option>
+                                <!-- <option value="II_UNIT_TEST">II UNIT TEST</option> -->
                                <!--  <?php if($role == EXAM_COMMITTEE) { ?>
                                 <option value="ANNUAL_EXAMINATION">ANNUAL EXAMINATION</option>
                                 <?php }else{ ?>
@@ -820,8 +823,8 @@ input[type=number]::-webkit-outer-spin-button {
                                  <option value="I_PREPARATORY">I PREPARATORY</option>
                                  <?php } ?> -->
                                 <!-- <option value="I_UNIT_TEST">I UNIT TEST</option> -->
-                                <option value="MID_TERM">MID TERM</option> 
-                                <option value="I_PREPARATORY">PREPARATORY</option> 
+                                <!-- <option value="MID_TERM">MID TERM</option> 
+                                <option value="I_PREPARATORY">PREPARATORY</option>  -->
                                  <!--<option value="II_ASSIGNMENT">II ASSIGNMENT</option>
                                 <option value="I_TERM">I TERM</option>
                                 <option value="II_PREPARATORY">II PREPARATORY</option> -->

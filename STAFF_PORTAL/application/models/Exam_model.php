@@ -36,8 +36,9 @@
             $this->db->join('tbl_subjects as sub', 'sub.subject_code = tbl_marks.subject_code');
             $this->db->where_in('tbl_marks.student_id', $student_id);
             $this->db->where('tbl_marks.exam_type', $exam_type);
-            $this->db->where('tbl_marks.exam_year', '2022-23');
+            $this->db->where('tbl_marks.exam_year', EXAM_YEAR);
             $this->db->where('tbl_marks.is_deleted', 0);
+            $this->db->where('sub.is_deleted', 0);
             $query = $this->db->get();
             $result = $query->result();
             return $result;

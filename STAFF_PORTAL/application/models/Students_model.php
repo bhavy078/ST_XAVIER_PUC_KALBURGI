@@ -573,13 +573,14 @@ class students_model extends CI_Model
 
     // get first internal exam mark
     public function getFirstInternaltMark($student_id,$subjects_code){
-        $this->db->select('exam.student_id,exam.subject_code,exam.obt_theory_mark,exam.obt_lab_mark,exam.exam_type,sub.sub_name,
+        $this->db->select('exam.student_id,exam.subject_code,exam.obt_theory_mark,exam.obt_lab_mark,exam.exam_type,sub.name as sub_name,
         sub.sub_type,sub.lab_status	');
         $this->db->join('tbl_subjects as sub','sub.subject_code = exam.subject_code');
         $this->db->from('tbl_college_internal_exam_marks as exam');
         $this->db->where('exam.student_id', $student_id);
         $this->db->where('exam.subject_code', $subjects_code);
-        $this->db->where('exam.exam_type', 'I_INTERNAL');
+        $this->db->where('exam.exam_type', 'I_UNIT_TEST');
+        $this->db->where('exam.exam_year', '2023-24');
         $this->db->where('exam.is_deleted', 0);
         $query = $this->db->get();
         return $query->row();
@@ -964,10 +965,11 @@ class students_model extends CI_Model
     } 
 
     // analytics
-    public function getStudentInfoBySectionTerm($term,$section_name){
+    public function getStudentInfoBySectionTerm($term,$section_name,$stream_name){
         $this->db->from('tbl_students_info as student');
         $this->db->where('student.term_name', $term);
         $this->db->where('student.section_name', $section_name);
+        $this->db->where('student.stream_name', $stream_name);
         $this->db->where('student.is_active', 1);
         $this->db->where('student.is_deleted', 0);
         $this->db->order_by('student.student_id', 'ASC');
