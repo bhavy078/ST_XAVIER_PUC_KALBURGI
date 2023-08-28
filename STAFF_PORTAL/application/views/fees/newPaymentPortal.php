@@ -492,7 +492,7 @@ if ($error) {
                                                     <td>   
                                                             <a href="<?php echo base_url(); ?>feePaymentReceiptPrint/<?php echo $fee->row_id; ?>"
                                                             target="_blank">Receipt</a> 
-                                                            <a class="btn btn-xs btn-secondary" onclick="openModel(<?php echo $fee->row_id; ?>,<?php echo $fee->ref_receipt_no; ?>)" title="Edit" href='#'><i class="fas fa-edit"></i></a>
+                                                            <a class="btn btn-xs btn-secondary" onclick="openModel(<?php echo $fee->row_id; ?>,/<?php echo $fee->ref_receipt_no; ?>/)" title="Edit" href='#'><i class="fas fa-edit"></i></a>
                                                     </td>
                                                 </tr>
                                                 <?php }
@@ -724,7 +724,9 @@ if ($error) {
 
     function openModel(row_id, receipt_no) {
         $('#row_id').val(row_id);
-        $('#receipt_no').val(receipt_no);
+        var receipt_no = String(receipt_no);
+        var result = receipt_no.substring(1, receipt_no.length-1);
+        $('#receipt_no').val(result);
         $('#receiptNoEdit').modal('show');
     }
 
@@ -738,11 +740,16 @@ jQuery(document).ready(function() {
         feeTypeSelect.on("change", function () {
             if (feeTypeSelect.val() == "1") {
                 paidAmountInput.val(paidAmtHidden.val());
+                paidAmountInput.prop("readonly", true);
             } else {
                 // Handle other cases or set default value
                 paidAmountInput.val("");
+                paidAmountInput.prop("readonly", false);
             }
         });
+
+
+       
     
 
     $('.receiptHide').hide();

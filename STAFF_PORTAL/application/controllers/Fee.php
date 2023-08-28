@@ -1070,7 +1070,7 @@ class Fee extends BaseController
         $data['studentInfo'] = $studentInfo;
         
         $this->global['pageTitle'] = ''.TAB_TITLE.' : Fee Receipt';
-        $mpdf = new \Mpdf\Mpdf(['tempDir' => sys_get_temp_dir().DIRECTORY_SEPARATOR.'mpdf','default_font' => 'timesnewroman', 'format' => [145, 160]]);
+        $mpdf = new \Mpdf\Mpdf(['tempDir' => sys_get_temp_dir().DIRECTORY_SEPARATOR.'mpdf','default_font' => 'timesnewroman', 'format' => [210, 297]]);
         $mpdf->AddPage('P','','','','',7,7,7,7,8,8);
         $mpdf->SetTitle('Fee Receipt');
         $html = $this->load->view('fees/feeReceiptPrint',$data,true);
@@ -2456,7 +2456,6 @@ public function processTheFeePayment(){
             $term_name = $this->security->xss_clean($this->input->post('term_name_selected')); 
 
             $application_no = $this->security->xss_clean($this->input->post('application_no'));
-
             $paid_fee_amount = $this->security->xss_clean($this->input->post('paid_fee_amount'));
             $payment_type = $this->security->xss_clean($this->input->post('payment_type'));
 
@@ -2475,6 +2474,12 @@ public function processTheFeePayment(){
 
             $excess_amount = $this->security->xss_clean($this->input->post('excess_amount'));
             $ref_receipt_no = $this->security->xss_clean($this->input->post('ref_receipt_no'));
+            $isExist = $this->fee->checkReceiptNoExists($ref_receipt_no);
+            if(!empty($isExist)){
+                $this->session->set_flashdata('error', 'Receipt No. Already Exists');
+                redirect('getNewStudentFeePaymentInfo');
+            }
+
             $_SESSION["FEE_STUDENT_ID"] = $application_no;
             $_SESSION["FEE_TERM_NAME"] = $term_name;
 

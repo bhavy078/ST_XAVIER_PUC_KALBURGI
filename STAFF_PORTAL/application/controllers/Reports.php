@@ -213,7 +213,7 @@ class Reports extends BaseController
             $spreadsheet->getActiveSheet()->getStyle("A1:A1")->applyFromArray($headerFontSize);
 
             $spreadsheet->getActiveSheet()->getStyle('A1')->getAlignment()->setHorizontal('center');
-            $spreadsheet->getActiveSheet()->setCellValue('A2', $term_name . " FEES STRUCTURE FOR THE YEAR -" . date('Y'));
+            $spreadsheet->getActiveSheet()->setCellValue('A2', $term_name . " FEES PAID FOR THE YEAR -" . date('Y'));
             $spreadsheet->getActiveSheet()->mergeCells("A2:J2");
             $spreadsheet->getActiveSheet()->getStyle("A2:A2")->applyFromArray($headerFontSize);
             $spreadsheet->getActiveSheet()->getStyle('A2')->getAlignment()->setHorizontal('center');
@@ -310,7 +310,7 @@ class Reports extends BaseController
 
             $writer = new Xlsx($spreadsheet);
             header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-            header('Content-Disposition: attachment;filename="fee_structure_' . $term_name . '.xlsx"');
+            header('Content-Disposition: attachment;filename="fee_paid_' . $term_name . '.xlsx"');
             header('Cache-Control: max-age=0');
             setcookie('isDownLoaded', 1);
             $writer->save("php://output");
@@ -4128,7 +4128,7 @@ public function downloadTransportFeeInfoReport()
             $filter['month'] = $month;
         }
         // foreach($feeTypeInfo as $type){
-      
+    
             $studentInfo = $this->student->getCurrentStudentInfoForTransReport($filter);
          
             if (!empty($studentInfo)) {
