@@ -135,8 +135,8 @@ input[type=number]::-webkit-outer-spin-button {
                                 <?php } ?>
                                 <option value="">Select Exam</option>
                                 <option value="I_UNIT_TEST">I UNIT TEST</option>
-                                <option value="MID_TERM">MID TERM</option>
-                                <option value="II_UNIT_TEST">II UNIT TEST</option>
+                                <!-- <option value="MID_TERM">MID TERM</option>
+                                <option value="II_UNIT_TEST">II UNIT TEST</option> -->
                             </select>
                         </div>
                         <div class="col-lg-3 col-md-3 col-12">
@@ -283,8 +283,8 @@ input[type=number]::-webkit-outer-spin-button {
 
                                                 if($subjects_code_elective == '12'){
                                                     if($exam_type == 'I_UNIT_TEST' || $exam_type == 'II_UNIT_TEST'){
-                                                        $min_mark = 18;
-                                                        $max_mark = 50;
+                                                        $min_mark = 14;
+                                                        $max_mark = 40;
                                                     } else if($exam_type == "PREPARATORY_I"){
                                                         $min_mark = 35;
                                                         $max_mark = 100;
@@ -295,8 +295,8 @@ input[type=number]::-webkit-outer-spin-button {
                                                     }
                                                 }else{
                                                     if($exam_type == 'I_UNIT_TEST' || $exam_type == 'II_UNIT_TEST'){
-                                                        $min_mark = 18;
-                                                        $max_mark = 50;
+                                                        $min_mark = 14;
+                                                        $max_mark = 40;
                                                     } else if($exam_type == "PREPARATORY_I"){
                                                         $min_mark = 35;
                                                         $max_mark = 100;
@@ -410,8 +410,8 @@ input[type=number]::-webkit-outer-spin-button {
                                             }
                                         }else{
                                             if($exam_type == 'I_UNIT_TEST' || $exam_type == 'II_UNIT_TEST'){
-                                                $min_mark = 18;
-                                                $max_mark = 50;
+                                                $min_mark = 14;
+                                                $max_mark = 40;
 
                                             } else if($exam_type == "PREPARATORY_I"){
                                                 $min_mark = 35;
@@ -712,7 +712,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 function getSubjectMarkInfo($con,$subject_id,$student_id,$exam_type){
     $query = "SELECT * FROM tbl_college_internal_exam_marks as exam
-    WHERE exam.subject_code = '$subject_id' AND exam.student_id = '$student_id' AND exam.exam_type = '$exam_type' AND exam.is_deleted = 0 AND exam.exam_year = '2022-23'";
+    WHERE exam.subject_code = '$subject_id' AND exam.student_id = '$student_id' AND exam.exam_type = '$exam_type' AND exam.is_deleted = 0 AND exam.exam_year = '2023-24'";
     $pdo_statement = $con->prepare($query);
     $pdo_statement->execute();
     return $pdo_statement->fetch();
