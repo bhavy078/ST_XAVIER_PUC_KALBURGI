@@ -1481,6 +1481,7 @@ public function collegeNotificationsApi(){
             $total_fee_obj = $this->fee->getTotalFeeAmount($filter);
             $total_fee_amount = $data->total_fee_amount = $total_fee_obj->total_fee;
             $paidFee = $this->fee->getTotalFeePaidInfo($application_no,CURRENT_YEAR);
+            $paid = $this->fee->getFeePaidInfoAttempt($application_no,CURRENT_YEAR);
             $data->feePaidInfo = $this->fee->getFeePaidInfo($application_no,CURRENT_YEAR);
             $data->fee_installment = $this->fee->checkInstalmentExists($application_no);
             $data->paid_amount = $paidFee;
@@ -1492,6 +1493,12 @@ public function collegeNotificationsApi(){
             }
             
             $total_fee_amount -= $paidFee;
+            if($paid->attempt == '1'){
+                $total_fee_amount = $total_fee_amount -2000;
+                
+            }else{
+                $total_fee_amount =$total_fee_amount;
+            }
             $data->previousBal = $data->first_puc_pending_amount = $data->pending_amount = $total_fee_amount;
             $data->I_balance = $total_fee_amount;
             $data->concession = $concession_amt;
@@ -1550,8 +1557,16 @@ public function collegeNotificationsApi(){
             $data->second_puc_total_fee =  $data->total_fee_amount =  $total_fee_amount = $total_fee_obj->total_fee;
 
             $paidFee = $this->fee->getTotalFeePaidInfo($application_no,$filter['fee_year']);
+            $paid = $this->fee->getFeePaidInfoAttempt($application_no,$filter['fee_year']);
             $data->II_feePaidInfo = $this->fee->getFeePaidInfo($application_no,$filter['fee_year']);
             $total_fee_amount -= $paidFee;
+            if($paid->attempt == '1'){
+                $total_fee_amount = $total_fee_amount -2000;
+                
+            }else{
+                $total_fee_amount =$total_fee_amount;
+            }
+
             $concession_amt = 0;
             $feeConcession = $this->fee->getStudentFeeConcession($application_no);
             if(!empty($feeConcession)){
