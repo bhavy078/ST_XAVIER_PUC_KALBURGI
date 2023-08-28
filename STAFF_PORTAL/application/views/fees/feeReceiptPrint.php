@@ -88,7 +88,7 @@ table{
                     <td >Payment Received Mode : <?php if(!empty($feeInfo->payment_type)){ echo $feeInfo->payment_type; }else{ echo 'Online'; } ?></td>
                 </tr>
             </table>
-            <table class="table table_bordered" style="font-size: 9px;">
+            <table class="table table_bordered" style="font-size: 8px;">
                 <tr>
                     <!-- <th width="100">Sl.No.</th> -->
                     <th>Particulars</th>

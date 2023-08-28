@@ -2287,6 +2287,7 @@ public function processTheFeePayment(){
         } else {
             
             $application_no = $this->security->xss_clean($this->input->post('application_no'));
+           
             //check student exist in student info table(persuing students)
             if(empty($application_no)){
                 $application_no = $_SESSION["FEE_STUDENT_ID"];
@@ -2477,7 +2478,11 @@ public function processTheFeePayment(){
             $isExist = $this->fee->checkReceiptNoExists($ref_receipt_no);
             if(!empty($isExist)){
                 $this->session->set_flashdata('error', 'Receipt No. Already Exists');
+                
+            $_SESSION["FEE_STUDENT_ID"] = $application_no;
+            $_SESSION["FEE_TERM_NAME"] = $term_name;
                 redirect('getNewStudentFeePaymentInfo');
+                
             }
 
             $_SESSION["FEE_STUDENT_ID"] = $application_no;
@@ -2745,6 +2750,18 @@ public function processTheFeePayment(){
 
             $feeInfo = $this->fee->getFeeInfoByReceiptNum($row_id);
             $student_row_id = $feeInfo->application_no;
+            $isExist = $this->fee->checkReceiptNoExists($receipt_no);
+           
+            if(!empty($isExist)){
+              
+                $this->session->set_flashdata('error', 'Receipt No. Already Exists');
+                $_SESSION["FEE_STUDENT_ID"] = $student_row_id;
+                $_SESSION["FEE_TERM_NAME"] = $term_name;
+                redirect('getNewStudentFeePaymentInfo');
+                
+            }
+
+            
             $term_name = $feeInfo->term_name;
 
                 $overallFee = array(
