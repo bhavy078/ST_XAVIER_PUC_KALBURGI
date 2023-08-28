@@ -230,7 +230,7 @@ define('FIRST_YEAR','2020-21');
 
 define('SECOND_YEAR','2019-20');
 
-define('EXAM_YEAR','2022-23');
+define('EXAM_YEAR','2023-24');
 
 define('TAB_TITLE','SchoolPhins - STXPUC');
 

@@ -863,7 +863,7 @@ input[type=number]::-webkit-outer-spin-button {
 function isMarkAlreadyAdded($con,$student_id,$subject_id,$exam_type){
     $query = "SELECT * FROM tbl_college_internal_exam_marks as mark 
     WHERE mark.student_id = '$student_id' AND mark.subject_code = '$subject_id' 
-    AND mark.exam_type = '$exam_type' AND mark.is_deleted = 0 AND mark.exam_year = '2022-23'";
+    AND mark.exam_type = '$exam_type' AND mark.is_deleted = 0 AND mark.exam_year = '2023-24'";
     $pdo_statement = $con->prepare($query);
     $pdo_statement->execute();
     return $pdo_statement->fetch();
