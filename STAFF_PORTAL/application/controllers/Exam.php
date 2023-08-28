@@ -349,7 +349,7 @@ class Exam extends BaseController {
                         'obt_lab_mark' => $lab_mark,
                         'updated_by' => $this->staff_id,
                         'updated_date_time' => date('Y-m-d H:i:s'));
-                    if(!empty($theory_mark)){
+                    if($theory_mark!= ''){
                         $isExist = $this->exams->getInternalExamSubjectMarkByID($subject_id,$student_id,$exam_type,$exam_year);
                         if(empty($isExist)){
                             $return_id += $this->exams->addStudentInternalMark($markInfo);
