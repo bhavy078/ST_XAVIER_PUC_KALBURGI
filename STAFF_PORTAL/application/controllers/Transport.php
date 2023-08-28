@@ -590,15 +590,15 @@ class Transport extends BaseController
             }
 
             if (!empty($from_date)) {
-                $filter['date_from'] = date('Y-m-d', strtotime($from_date));
-                $data['date_from'] = date('d-m-Y', strtotime($from_date));
+                $filter['date_from'] = date('Y-m', strtotime($from_date));
+                $data['date_from'] = date('m-Y', strtotime($from_date));
             } else {
                 $data['date_from'] = '';
             }
 
             if (!empty($to_date)) {
-                $filter['date_to'] = date('Y-m-d', strtotime($to_date));
-                $data['date_to'] = date('d-m-Y', strtotime($to_date));
+                $filter['date_to'] = date('Y-m', strtotime($to_date));
+                $data['date_to'] = date('m-Y', strtotime($to_date));
             } else {
                 $data['date_to'] = '';
             }

@@ -288,12 +288,26 @@ jQuery(document).ready(function() {
         jQuery("#byFilterMethod").submit();
     });
 
-    jQuery('.datepicker, .dateSearch').datepicker({
+    jQuery(' .dateSearch').datepicker({
         autoclose: true,
         orientation: "bottom",
         format: "dd-mm-yyyy"
 
     });
+    $('.datepicker').datepicker({
+            changeMonth: true,
+            changeYear: true,
+            showButtonPanel: false,
+            dateFormat: "MM yy",
+            onClose: function(dateText, inst) {
+                $(this).datepicker('setDate', new Date(inst.selectedYear, inst.selectedMonth, 1));
+                calculateMonthDifference();
+            }
+
+            // $('.ui-datepicker-calender').css("display","none");
+
+        });
+        $('.ui-datepicker-calender').css("display","none");
 
     $('[data-toggle="popover"]').popover( { "container":"body", "trigger":"focus", "html":true });
     $('[data-toggle="popover"]').mouseenter(function(){
