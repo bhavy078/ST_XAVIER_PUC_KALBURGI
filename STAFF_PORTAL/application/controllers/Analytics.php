@@ -67,7 +67,8 @@ class Analytics extends BaseController {
             $data['streamInfo'] = $this->staff->getSectionById($filter);
 
             $subjects_code = array();
-            $data['studentInfo'] = $this->student->getStudentInfoBySectionTerm($term_name,$section_name);
+            $data['studentInfo'] = $this->student->getStudentInfoBySectionTerm($term_name,$section_name,$stream_name);
+            // log_message('debug','test'.print_r($data['studentInfo'],true));
             // log_message('debug','cdncdj'.print_r($data['studentInfo'],true));
             // $stream = $this->students_model->getStreamNameBySectionAndTerm($term_name,$section_name);
 
@@ -141,13 +142,14 @@ class Analytics extends BaseController {
         $BSBA = array("75", "31", "27", '30');
         $CSBA = array("41", "31", "27", '30');
         $SEBA = array("31", "22", "27", '30');
-        $CEBA = array("41", "22", "27", '30');
+        $EBAC = array("41", "22", "27", '30');
         $PEBA = array("29", "22", "27", '30');
         //art
         $HEPP = array("21", "22", "32", '29');
         $MEBA = array("75", "22", "27", '30');
         $MSBA = array("75", "31", "27", '30');
         $HEPS = array("21", "22", "29", '28');
+        $HEPE = array("21", "22", "29", '52');
 
         switch ($stream_name) {
             case "PCMB":
@@ -177,8 +179,8 @@ class Analytics extends BaseController {
             case "SEBA":
                 return $SEBA;
                 break;
-            case "CEBA":
-                return $CEBA;
+            case "EBAC":
+                return $EBAC;
                 break;
             case "HEPP":
                 return $HEPP;
@@ -191,6 +193,9 @@ class Analytics extends BaseController {
                 break;
             case "MSBA":
                 return $MSBA;
+                break;
+            case "HEPE":
+                return $HEPE;
                 break;
         }
     }

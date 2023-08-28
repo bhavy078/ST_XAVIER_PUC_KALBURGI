@@ -61,7 +61,7 @@
                                                 role="tab" aria-controls="first_term" aria-selected="true">I Term
                                             </a>
                                         </li> -->
-                                        <li class="nav-item">
+                                        <!-- <li class="nav-item">
                                             <a class="nav-link" id="mid_term-tab" data-toggle="tab" href="#mid_term"
                                                 role="tab" aria-controls="mid_term" aria-selected="true">MID TERM
                                             </a>
@@ -75,7 +75,7 @@
                                             <a class="nav-link" id="preparatory-tab" data-toggle="tab" href="#preparatory"
                                                 role="tab" aria-controls="preparatory" aria-selected="true">Preparatory
                                             </a>
-                                        </li>
+                                        </li> -->
 
                                         <li class="nav-item">
                                             <a class="nav-link" id="remarks-tab" data-toggle="tab" href="#remarksqw"
@@ -303,16 +303,16 @@
                                                         $result_display = "";
                                                         $result_subject_fail_status = false;
                                                         if($firstUnitTestMarkInfo[$i]->lab_status == 'true'){
-                                                            $max_mark = 100;
-                                                            $min_mark_pass = 35;
+                                                            $max_mark = 35;
+                                                            $min_mark_pass = 12;
                                                         }else{
-                                                            $max_mark = 100;
-                                                            $min_mark_pass = 35;
+                                                            $max_mark = 40;
+                                                            $min_mark_pass = 14;
                                                         }
                                                         $total_max_mark += $max_mark;
                                                         $total_min_mark += $min_mark_pass;
                                                         $obtainedMark = $firstUnitTestMarkInfo[$i]->obt_theory_mark;
-                                                        $obatained_mark = (float)$obtainedMark * 4;
+                                                        $obatained_mark = (float)$obtainedMark;
                                                         if($obtainedMark == 'AB' || $obtainedMark == 'EXEM' || $obtainedMark == 'MP' || $obtainedMark == 'SAT'){
                                                             $result_subject_fail_status = true;
                                                             $result_display = $obtainedMark;
@@ -363,7 +363,7 @@
                                                             <?php if($result_fail_status == true){ ?>
                                                             <span class="text_fail"><?php echo 'FAIL'; ?></span>
                                                             <?php } else { ?>
-                                                            <span class="text_pass"><?php echo $exam_result; ?></span>
+                                                            <span class="text_pass"><?php echo 'PASS'; ?></span>
                                                             <?php } ?></th>
                                                     </tr>
                                                   <?php } ?>

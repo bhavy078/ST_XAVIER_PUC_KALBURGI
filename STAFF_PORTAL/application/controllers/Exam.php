@@ -401,7 +401,7 @@ function getInternalMarkSheet(){
     }else{
         $reportType = 'Distinction Students';
     }
-    if($exam_type == 'I_INTERNAL'){
+    if($exam_type == 'I_UNIT_TEST'){
         $examType = 'I UNIT TEST';
     }else{
         $examType = str_replace('_',' ',$exam_type);
@@ -447,7 +447,7 @@ function getInternalMarkSheet(){
         $this->excel->getActiveSheet()->setTitle($section_name);
         //set Title content with some text
         $this->excel->getActiveSheet()->setCellValue('A1', EXCEL_TITLE);
-        $this->excel->getActiveSheet()->setCellValue('A2', $term_name.' '.$examType." RESULT - 2022");
+        $this->excel->getActiveSheet()->setCellValue('A2', $term_name.' '.$examType." RESULT - 2023-24");
         $this->excel->getActiveSheet()->setCellValue('A3', "Abbreviation used in the table");
         $this->excel->getActiveSheet()->setCellValue('A4', "MO: Marks Obtained | IA: Internal Assessment | TH: Theory | PR: Practical | LT: Language Total | ST: Subjects Total | TM: Total Marks");
         $this->excel->getActiveSheet()->setCellValue('A5', $term_name." - ".$stream_name_id." - ".$section_name);
@@ -483,7 +483,7 @@ function getInternalMarkSheet(){
         $this->excel->setActiveSheetIndex($sheet)->setCellValue('F6', 'Lng');
         $this->excel->setActiveSheetIndex($sheet)->setCellValue('F7', 'Code');
 
-        $this->excel->setActiveSheetIndex($sheet)->setCellValue('Z7', 'SAT Number');
+        // $this->excel->setActiveSheetIndex($sheet)->setCellValue('Z7', 'SAT Number');
         $this->excel->getActiveSheet()->getColumnDimension('B')->setWidth(13);
         $this->excel->getActiveSheet()->getColumnDimension('C')->setWidth(38);
         $this->excel->getActiveSheet()->getColumnDimension('D')->setWidth(10);
@@ -538,13 +538,13 @@ function getInternalMarkSheet(){
         $this->excel->getActiveSheet()->getStyle('J8:Y900')->getFont()->setBold(true);
         $this->excel->getActiveSheet()->getStyle('N8:Y999')->getFont()->setBold(true);
         $this->cellColor('A6:Y7', 'D5DBDB');
-        $total_max_mark = 100;
+        $total_max_mark = 0;
         //first subject heading
         for($i=0; $i<4; $i++){
             $subjectInfo = $this->subjects->getAllSubjectByID($subjects[$i]);
             if($exam_type == 'I_UNIT_TEST' || $exam_type == 'II_UNIT_TEST'){
                 if($subjectInfo->lab_status == 'false'){
-                    $calculate_mark = 50;
+                    $calculate_mark = 40;
                 }else{
                     $calculate_mark = 35;
                 }
@@ -639,8 +639,8 @@ function getInternalMarkSheet(){
 
                 if($exam_type == 'I_UNIT_TEST' || $exam_type == 'II_UNIT_TEST'){
                     if($mark->lab_status == 'false'){
-                        $calculate_mark = 50;
-                        $min_marks = 18;
+                        $calculate_mark = 40;
+                        $min_marks = 14;
                     }else{
                         $calculate_mark = 35;
                         $min_marks = 12;
@@ -892,7 +892,15 @@ function getInternalMarkSheet(){
             
             $total_marks_all_subjects = $total_marks_subjects + (int)$first_language_total+(int)$second_lang;
             $total_marks_overall = $total_marks_subjects + (int)$first_language_total + (int)$second_lang;
-   
+            if($exam_type == 'I_UNIT_TEST'){
+                if($stream_name_id == 'PCMB' || $stream_name_id == 'PCMC'){
+                        $total_max_mark = 225;
+                }else if($stream_name_id == 'HEPS' || $stream_name_id == 'HEPE'){
+                        $total_max_mark = 240;
+                    }else if($stream_name_id == 'EBAC'){
+                        $total_max_mark = 235;
+                }
+            }
             $total_percentage = ($total_marks_overall / $total_max_mark) * 100;
             $this->excel->setActiveSheetIndex($sheet)->setCellValue('V'.$excel_row, $total_theory_marks_subjects);
             $this->excel->setActiveSheetIndex($sheet)->setCellValue('W'.$excel_row, $total_marks_overall);
@@ -1033,13 +1041,14 @@ function getInternalMarkSheet(){
         $BSBA = array("75", "31", "27", '30');
         $CSBA = array("41", "31", "27", '30');
         $SEBA = array("31", "22", "27", '30');
-        $CEBA = array("41", "22", "27", '30');
+        $EBAC = array("41", "22", "27", '30');
         $PEBA = array("29", "22", "27", '30');
         //art
         $HEPP = array("21", "22", "32", '29');
         $MEBA = array("75", "22", "27", '30');
         $MSBA = array("75", "31", "27", '30');
         $HEPS = array("21", "22", "29", '28');
+        $HEPE = array("21", "22", "29", '52');
 
         switch ($stream_name) {
             case "PCMB":
@@ -1069,8 +1078,8 @@ function getInternalMarkSheet(){
             case "SEBA":
                 return $SEBA;
                 break;
-            case "CEBA":
-                return $CEBA;
+            case "EBAC":
+                return $EBAC;
                 break;
             case "HEPP":
                 return $HEPP;
@@ -1083,6 +1092,9 @@ function getInternalMarkSheet(){
                 break;
             case "MSBA":
                 return $MSBA;
+                break;
+            case "HEPE":
+                return $HEPE;
                 break;
         }
     }
