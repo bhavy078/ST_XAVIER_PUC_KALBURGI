@@ -202,8 +202,8 @@ input[type=number]::-webkit-outer-spin-button {
                                 if(!empty($subject->subject_code)){ 
                                     if($subject->subject_code == 12){
                                         $max_lab_mark = 8;
-                                        $min_mark_pass = 18;
-                                        $max_mark_theory = 50;
+                                        $min_mark_pass = 14;
+                                        $max_mark_theory = 40;
                                         $labStatus = false;
                                     } else if($subject->lab_status == 'true'){
                                         $max_lab_mark = 8;
@@ -211,8 +211,8 @@ input[type=number]::-webkit-outer-spin-button {
                                         $max_mark_theory = 35;
                                         $labStatus = $subject->lab_status;
                                     } else {
-                                        $min_mark_pass = 18;
-                                        $max_mark_theory = 50;
+                                        $min_mark_pass = 14;
+                                        $max_mark_theory = 40;
                                         $labStatus = $subject->lab_status;
                                     } 
                                 }
