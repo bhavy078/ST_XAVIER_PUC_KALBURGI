@@ -291,15 +291,28 @@ if ($error) {
                                                     </div>
                                                 </div>
                                                 <div class="col-6">
+                                                    <div class="form-group">
+                                                        <select class="form-control text-dark" id="fee_type_select"
+                                                            name="fee_type">
+                                                            <option value="">Select Fee Type</option>
+                                                            <option value="1">FIRST ATTEMPT</option>
+                                                            <option value="2">SECOND ATTEMPT</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-6">
                                                     <div class="form-group ">
                                                         <input type="text" class="form-control " id="paid_amount"
                                                             name="paid_amount" placeholder="Paid Amount"
                                                             onkeypress="return isNumberKey(event)" required
                                                             autocomplete="off">
+                                                            <input type="hidden" value="<?php echo $total_fee_amount - 2000; ?>" id="paid_amt">
+
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="row">
+                                           
                                                 <div class="col-6">
                                                     <div class="form-group ">
                                                         <select class="form-control text-dark" id="payment_type"
@@ -312,6 +325,8 @@ if ($error) {
                                                         </select>
                                                     </div>
                                                 </div>
+                                            </div>
+                                            <div class="row">
                                                 <div class="col-6">
                                                     <div class="form-group">
                                                         <input type="text" class="form-control reference_receipt_no" id="ref_receipt_number"
@@ -343,6 +358,7 @@ if ($error) {
                                                         <th>Date</th>
                                                         <th>Receipt No.</th>
                                                         <th>Amt.</th>
+                                                        <th>Fee Type</th>
                                                         <th>Type</th>
                                                         <th>Action</th>
                                                     </tr>
@@ -353,6 +369,7 @@ if ($error) {
                                                     <td><?php echo date('d-m-Y', strtotime($fee->payment_date)); ?></td>
                                                     <td class="text-center"><?php echo $fee->ref_receipt_no; ?></td>
                                                     <td><?php echo number_format($fee->paid_amount,2); ?></td>
+                                                    <td><?php if($fee->attempt == "1"){echo "First Attempt";}else{echo "Second Attempt";}; ?></td>
                                                     <td><?php echo $fee->payment_type; ?></td>
                                                     <td>
                                                         <?php if(trim($studentInfo->intake_year_id) == '2020'){ ?>
@@ -368,7 +385,7 @@ if ($error) {
                                                 <?php }
                                                         } else { ?>
                                                 <tr class="text-dark">
-                                                    <td colspan="5">Fee info not found</td>
+                                                    <td colspan="6">Fee info not found</td>
                                                 </tr>
                                                 <?php   } ?>
                                             </table>
@@ -393,16 +410,30 @@ if ($error) {
                                                     </div>
                                                 </div>
                                                 <div class="col-6">
+                                                    <div class="form-group">
+                                                        <select class="form-control text-dark" id="fee_type_select"
+                                                            name="fee_type">
+                                                            <option value="">Select Fee Type</option>
+                                                            <option value="1">FIRST ATTEMPT</option>
+                                                            <option value="2">SECOND ATTEMPT</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-6">
                                                     <div class="form-group mb-2">
                                                         <input type="text" class="form-control " id="paid_amount"
                                                             name="paid_amount" placeholder="Paid Amount"
                                                             onkeypress="return isNumberKey(event)" required
                                                             autocomplete="off">
+
+                                                            <input type="hidden" value="<?php echo $total_fee_amount - 2000; ?>" id="paid_amt">
+
                                                     </div>
                                                 </div>
-                                            </div>
-
-                                            <div class="row">
                                                 <div class="col-6">
                                                     <div class="form-group ">
                                                         <select class="form-control text-dark" id="payment_type"
@@ -415,6 +446,9 @@ if ($error) {
                                                         </select>
                                                     </div>
                                                 </div>
+                                                
+                                            </div>
+                                            <div class="row">
                                                 <div class="col-6">
                                                     <div class="form-group">
                                                         <input type="text" class="form-control reference_receipt_no" id="ref_receipt_number"
@@ -442,6 +476,7 @@ if ($error) {
                                                         <th>Date</th>
                                                         <th>Receipt No.</th>
                                                         <th>Amt.</th>
+                                                        <th>Fee Type</th>
                                                         <th>Type</th>
                                                         <th>Action</th>
                                                     </tr>
@@ -452,6 +487,7 @@ if ($error) {
                                                     <td><?php echo date('d-m-Y', strtotime($fee->payment_date)); ?></td>
                                                     <td class="text-center"><?php echo $fee->ref_receipt_no; ?></td>
                                                     <td><?php echo number_format($fee->paid_amount,2); ?></td>
+                                                    <td><?php if($fee->attempt == "1"){echo "First Attempt";}else{echo "Second Attempt";}; ?></td>
                                                     <td><?php echo $fee->payment_type; ?></td>
                                                     <td>   
                                                             <a href="<?php echo base_url(); ?>feePaymentReceiptPrint/<?php echo $fee->row_id; ?>"
@@ -462,7 +498,7 @@ if ($error) {
                                                 <?php }
                                                         } else { ?>
                                                 <tr class="text-dark">
-                                                    <td colspan="5">Fee info not found</td>
+                                                    <td colspan="6">Fee info not found</td>
                                                 </tr>
                                                 <?php  } ?>
                                             </table>
@@ -536,6 +572,10 @@ if ($error) {
                                         <th scope="row">Payment Type</th>
                                         <td id="payment_type_display"></td>
                                     </tr>
+                                    <!-- <tr>
+                                        <th scope="row">Fee Type</th>
+                                        <td id="fee_type_display"></td>
+                                    </tr> -->
                                 </tbody>
                             </table>
 
@@ -625,6 +665,7 @@ if ($error) {
                     <input type="hidden" id="payment_type_input" name="payment_type" value="" required />
                     <input type="hidden" id="excess_amount_input" name="excess_amount" value="" required />
                     <input type="hidden" id="ref_receipt_no" name="ref_receipt_no" value="" required />
+                    <input type="hidden" id="fee_type_input" name="fee_type" value="" required />
                 </form>
             </div>
 
@@ -679,13 +720,30 @@ if ($error) {
 
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/common.js" charset="utf-8"></script>
 <script type="text/javascript">
-        function openModel(row_id, receipt_no) {
+
+
+    function openModel(row_id, receipt_no) {
         $('#row_id').val(row_id);
         $('#receipt_no').val(receipt_no);
         $('#receiptNoEdit').modal('show');
     }
 
 jQuery(document).ready(function() {
+
+   
+        const feeTypeSelect = $("#fee_type_select");
+        const paidAmountInput = $("#paid_amount");
+        const paidAmtHidden = $("#paid_amt");
+
+        feeTypeSelect.on("change", function () {
+            if (feeTypeSelect.val() == "1") {
+                paidAmountInput.val(paidAmtHidden.val());
+            } else {
+                // Handle other cases or set default value
+                paidAmountInput.val("");
+            }
+        });
+    
 
     $('.receiptHide').hide();
     $('.reference_receipt_no').on('keyup', function(evt){
@@ -762,6 +820,7 @@ jQuery(document).ready(function() {
     $("#paymentInfoSubmit").on('click', function() {
         var payment_type = $('#payment_type').val();
         var ref_receipt_number = $('#ref_receipt_number').val();
+        var fee_type = $('#fee_type_select').val();
         var fee_amount = <?php echo $balance; ?>;
         var excess_amount = 0;
         var card_charges = 0;
@@ -774,6 +833,10 @@ jQuery(document).ready(function() {
         var transaction_date = $('#transaction_date').val();
         if (transaction_date == "") {
             alert("Please Select Transaction Date");
+            return;
+        }
+        if (fee_type == "") {
+            alert("Please Select Fee Type");
             return;
         }
         if (payment_type == "") {
@@ -815,15 +878,26 @@ jQuery(document).ready(function() {
         excess_amount = Number(excess_amount).toFixed(2);
         $('#paid_amount_display').html(paid_amount_display);
        $('#fee_amount_display').html(fee_amount);
-        $('#pending_fee_display').html(pending_fee_amount);
+       
         $('#excess_fee_display').html(excess_amount);
         $('#payment_type_display').html(payment_type);
+        $('#fee_type_display').html(fee_type);
 
+        if (fee_type === "1") {
+            var adjustedFeeAmount = fee_amount - 2000;
+            $('#fee_amount_display').html(adjustedFeeAmount);
+            pending_fee_amount = adjustedFeeAmount - paid_amount_display;
+        } else {
+            $('#fee_amount_display').html(fee_amount);
+            pending_fee_amount = fee_amount - paid_amount_display;
+        }
+        $('#pending_fee_display').html(pending_fee_amount);
         $('#paid_fee_amount').val(paid_amount_display);
         $('#payment_type_input').val(payment_type);
         $('#transaction_date_text').val(transaction_date);
         $('#excess_amount_input').val(excess_amount);
         $('#ref_receipt_no').val(ref_receipt_number);
+        $('#fee_type_input').val(fee_type);
         $('#term_name_selected').val('II PUC');
 
         $('#myReportModal').modal('show');
@@ -832,6 +906,7 @@ jQuery(document).ready(function() {
     $("#firstPaymentInfoSubmit").on('click', function() {
         var payment_type = $('#payment_type').val();
         var ref_receipt_number = $('#ref_receipt_number').val();
+        var fee_type = $('#fee_type_select').val();
         var fee_amount = <?php echo $I_balance; ?>;
         var excess_amount = 0;
         var card_charges = 0;
@@ -845,10 +920,15 @@ jQuery(document).ready(function() {
             alert("Please Select Transaction Date");
             return;
         }
+        if (fee_type == "") {
+            alert("Please Select Fee Type");
+            return;
+        }
         if (payment_type == "") {
             alert("Please Select Payment Type");
             return;
         }
+        
         var pending_fee_amount = fee_amount - paid_amount_display;
         // alert(payment_type);
         if (payment_type == "DD") {
@@ -884,15 +964,27 @@ jQuery(document).ready(function() {
         excess_amount = Number(excess_amount).toFixed(2);
         $('#paid_amount_display').html(paid_amount_display);
         $('#fee_amount_display').html(fee_amount);
-        $('#pending_fee_display').html(pending_fee_amount);
         $('#excess_fee_display').html(excess_amount);
         $('#payment_type_display').html(payment_type);
+        $('#fee_type_display').html(fee_type);
+
+      
+        if (fee_type === "1") {
+            var adjustedFeeAmount = fee_amount - 2000;
+            $('#fee_amount_display').html(adjustedFeeAmount);
+            pending_fee_amount = adjustedFeeAmount - paid_amount_display;
+        } else {
+            $('#fee_amount_display').html(fee_amount);
+            pending_fee_amount = fee_amount - paid_amount_display;
+        }
+        $('#pending_fee_display').html(pending_fee_amount);
 
         $('#paid_fee_amount').val(paid_amount_display);
         $('#payment_type_input').val(payment_type);
         $('#transaction_date_text').val(transaction_date);
         $('#excess_amount_input').val(excess_amount);
         $('#ref_receipt_no').val(ref_receipt_number);
+        $('#fee_type_input').val(fee_type);
         $('#term_name_selected').val('I PUC');
 
 

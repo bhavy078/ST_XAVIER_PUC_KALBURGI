@@ -2337,6 +2337,7 @@ public function processTheFeePayment(){
                     $total_fee_obj = $this->fee->getTotalFeeAmount($filter);
                     $total_fee_amount = $data['total_fee_amount'] = $total_fee_obj->total_fee;
                     $paidFee = $this->fee->getTotalFeePaidInfo($application_no,CURRENT_YEAR);
+                    $paid = $this->fee->getFeePaidInfoAttempt($application_no,CURRENT_YEAR);
                     $data['feePaidInfo'] = $this->fee->getFeePaidInfo($application_no,CURRENT_YEAR);
                     $data['fee_installment'] = $this->fee->checkInstalmentExists($application_no);
                     $data['paid_amount'] = $paidFee;
@@ -2348,6 +2349,12 @@ public function processTheFeePayment(){
                     }
                     
                     $total_fee_amount -= $paidFee;
+                    if($paid->attempt == '1'){
+                        $total_fee_amount = $total_fee_amount -2000;
+                        
+                    }else{
+                        $total_fee_amount =$total_fee_amount;
+                    }
                     $data['previousBal'] = $data['first_puc_pending_amount'] = $data['pending_amount'] = $total_fee_amount;
                     $data['I_balance'] = $total_fee_amount;
                     $data['concession'] = $concession_amt;
@@ -2397,8 +2404,17 @@ public function processTheFeePayment(){
                     $data['second_puc_total_fee'] =  $data['total_fee_amount'] =  $total_fee_amount = $total_fee_obj->total_fee;
 
                     $paidFee = $this->fee->getTotalFeePaidInfo($application_no,$filter['fee_year']);
+                    $paid = $this->fee->getFeePaidInfoAttempt($application_no,$filter['fee_year']);
+                   
                     $data['II_feePaidInfo'] = $this->fee->getFeePaidInfo($application_no,$filter['fee_year']);
                     $total_fee_amount -= $paidFee;
+                  
+                        if($paid->attempt == '1'){
+                            $total_fee_amount = $total_fee_amount -2000;
+                            
+                        }else{
+                            $total_fee_amount =$total_fee_amount;
+                        }
 
                     //prev year fee
                     // if(trim($studentInfo->intake_year_id) == '2020'){
@@ -2455,6 +2471,7 @@ public function processTheFeePayment(){
             $tran_bank_name = $this->security->xss_clean($this->input->post('tran_bank_name'));
 
             $payment_date = $this->security->xss_clean($this->input->post('transaction_date'));
+            $fee_type = $this->security->xss_clean($this->input->post('fee_type'));
 
             $excess_amount = $this->security->xss_clean($this->input->post('excess_amount'));
             $ref_receipt_no = $this->security->xss_clean($this->input->post('ref_receipt_no'));
@@ -2508,6 +2525,13 @@ public function processTheFeePayment(){
                 // log_message('debug','filter='.print_r($filter,true));
                 // $feeStructureInfo = $this->fee->getFeeStructureInfo2021($filter);
                 $total_fee_to_pay = $total_fee->total_fee;
+
+                if ($fee_type == "1") {
+                    $total_fee_to_pay = $total_fee_to_pay - 2000;
+                } else {
+                    $total_fee_to_pay = $total_fee_to_pay;
+                }
+
                 $data['total_fee'] = $total_fee->total_fee;
                 $concession_amt = 0;
                 $feeConcession = $this->fee->getStudentFeeConcession($application_no);
@@ -2538,6 +2562,8 @@ public function processTheFeePayment(){
                     $paid_count = $feePaymentInfo->payment_count+1;
                 }
 
+                
+
                 $lastReceiptInfo = $this->fee->getLastReceiptNo($filter['fee_year']);
                 if(!empty($lastReceiptInfo->receipt_number)){
                     $receipt_no = $lastReceiptInfo->receipt_number + 1;
@@ -2550,6 +2576,7 @@ public function processTheFeePayment(){
                     'receipt_number' => $receipt_no,
                     'ref_receipt_no' => $ref_receipt_no,
                     'payment_type' => $payment_type,
+                    'attempt' => $fee_type,
                     'payment_date' => date('Y-m-d',strtotime($payment_date)),
                     'total_amount' => $total_fee_to_pay,
                     'paid_amount' => $paid_fee_amount,

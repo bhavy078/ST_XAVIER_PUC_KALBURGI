@@ -1348,6 +1348,16 @@ class Fee_model extends CI_Model
         return $result;
     }
 
+    public function getFeePaidInfoAttempt($application_no,$payment_year){
+        $this->db->from('tbl_students_overall_fee_payment_info_i_puc_2021 as fee'); 
+        $this->db->where('fee.application_no', $application_no);
+        $this->db->where('fee.payment_year',$payment_year);
+        $this->db->where('fee.is_deleted', 0);
+        $query = $this->db->get();
+        $result = $query->row();
+        return $result;
+    }
+
     public function getTotalFeePaidInfo($application_no,$payment_year){
         $this->db->select('SUM(paid_amount) as paid_amount');
         $this->db->from('tbl_students_overall_fee_payment_info_i_puc_2021 as fee'); 
@@ -1359,6 +1369,7 @@ class Fee_model extends CI_Model
         return $result->paid_amount;
     }
 
+   
     public function getFeesPaidInfo($application_no,$payment_year,$row_id){
         $this->db->select('SUM(paid_amount) as paid_amount');
         $this->db->from('tbl_students_overall_fee_payment_info_i_puc_2021 as fee'); 
