@@ -1438,6 +1438,14 @@ class Fee_model extends CI_Model
         return $query->row();
     }
 
+    function checkReceiptNoExists($ref_receipt_no){
+        $this->db->from('tbl_students_overall_fee_payment_info_i_puc_2021 as fee');
+        $this->db->where('fee.is_deleted', 0);
+        $this->db->where('fee.ref_receipt_no', $ref_receipt_no);
+        $query = $this->db->get();
+        return $query->row();
+    }
+
 
     
     
