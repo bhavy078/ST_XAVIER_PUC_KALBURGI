@@ -364,7 +364,12 @@ if ($error) {
                                                     </tr>
                                                 </thead>
                                                 <?php if (!empty($II_feePaidInfo)) {
-                                                            foreach ($II_feePaidInfo as $fee) { ?>
+                                                            foreach ($II_feePaidInfo as $fee) { 
+                                                                if(!empty($fee->ref_receipt_no)){
+                                                                    $fees_receipt_no = $fee->ref_receipt_no;
+                                                                }else{
+                                                                    $fees_receipt_no = " ";
+                                                                } ?>
                                                 <tr class="text-dark">
                                                     <td><?php echo date('d-m-Y', strtotime($fee->payment_date)); ?></td>
                                                     <td class="text-center"><?php echo $fee->ref_receipt_no; ?></td>
@@ -379,7 +384,7 @@ if ($error) {
                                                             <a href="<?php echo base_url(); ?>feePaymentReceiptPrint/<?php echo $fee->row_id; ?>"
                                                                 target="_blank">Receipt</a>
                                                         <?php } ?>   
-                                                        <a class="btn btn-xs btn-secondary" onclick="openModel(<?php echo $fee->row_id; ?>,<?php echo $fee->ref_receipt_no; ?>)" title="Edit" href='#'><i class="fas fa-edit"></i></a>    
+                                                        <a class="btn btn-xs btn-secondary" onclick="openModel(<?php echo $fee->row_id; ?>,/<?php echo $fees_receipt_no; ?>/)" title="Edit" href='#'><i class="fas fa-edit"></i></a>    
                                                     </td>
                                                 </tr>
                                                 <?php }
@@ -728,7 +733,7 @@ if ($error) {
 
 
     function openModel(row_id, receipt_no) {
-       
+      
         $('#row_id').val(row_id);
         var receipt_no = String(receipt_no);
         var receipt_no = receipt_no.substring(1, receipt_no.length-1);
