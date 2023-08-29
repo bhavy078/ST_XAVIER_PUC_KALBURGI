@@ -511,14 +511,14 @@
                             <div class="form-group">
                                 <label for="account_type">Date From</label>
                                 <input type="text" class="form-control" id="date_from_fee" name="date_from"
-                                    placeholder="Select Date From" autocomplete="off" >
+                                    placeholder="Select Date From" autocomplete="off" required>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="account_type">Date To</label>
                                 <input type="text" class="form-control" id="date_to_fee" name="date_to"
-                                    placeholder="Select Date To" autocomplete="off" >
+                                    placeholder="Select Date To" autocomplete="off" required>
                             </div>
                         </div>
 
@@ -594,18 +594,18 @@
                                 name="month">
                                 <option value="">Select Month</option>
                                 <option value="ALL">All</option>
-                                <option value="January">January</option>
-                                <option value="February">February</option>
-                                <option value="March">March</option>
-                                <option value="April">April</option>
-                                <option value="May">May</option>
-                                <option value="June">June</option>
-                                <option value="July">July</option>
-                                <option value="August">August</option>
-                                <option value="September">September</option>
-                                <option value="October">October</option>
-                                <option value="November">November</option>
-                                <option value="December">December</option>
+                                <option value="1">January</option>
+                                <option value="2">February</option>
+                                <option value="3">March</option>
+                                <option value="4">April</option>
+                                <option value="5">May</option>
+                                <option value="6">June</option>
+                                <option value="7">July</option>
+                                <option value="8">August</option>
+                                <option value="9">September</option>
+                                <option value="10">October</option>
+                                <option value="11">November</option>
+                                <option value="12">December</option>
                             </select>
                         </div>
                     </div>

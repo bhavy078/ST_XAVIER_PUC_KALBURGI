@@ -879,6 +879,14 @@ class Transport_model extends CI_Model
         return $insert_id;
     }
 
+    function checkReceiptNoExists($ref_receipt_no){
+        $this->db->from('tbl_student_bus_management_details as bus');
+        $this->db->where('bus.is_deleted', 0);
+        $this->db->where('bus.ref_receipt_no', $ref_receipt_no);
+        $query = $this->db->get();
+        return $query->row();
+    }
+
 
     
 }

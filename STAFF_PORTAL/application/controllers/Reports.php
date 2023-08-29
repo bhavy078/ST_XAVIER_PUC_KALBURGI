@@ -4070,12 +4070,12 @@ public function downloadTransportFeeInfoReport()
         $spreadsheet->getActiveSheet()->setCellValue('B3', 'Application No');
         $spreadsheet->getActiveSheet()->setCellValue('C3', 'Name');
         $spreadsheet->getActiveSheet()->setCellValue('D3', 'Stream');
-        $spreadsheet->getActiveSheet()->setCellValue('E3', 'Total Amt.');
-        $spreadsheet->getActiveSheet()->setCellValue('F3', 'Paid Amt.');
-        $spreadsheet->getActiveSheet()->setCellValue('G3', 'Pending Amt.');
-        $spreadsheet->getActiveSheet()->setCellValue('H3', 'Month');
-        $spreadsheet->getActiveSheet()->setCellValue('I3', 'Route');
-        $spreadsheet->getActiveSheet()->setCellValue('J3', 'Bus No.');
+        // $spreadsheet->getActiveSheet()->setCellValue('E3', 'Total Amt.');
+        $spreadsheet->getActiveSheet()->setCellValue('E3', 'Paid Amt.');
+        // $spreadsheet->getActiveSheet()->setCellValue('G3', 'Pending Amt.');
+        $spreadsheet->getActiveSheet()->setCellValue('F3', 'Month');
+        $spreadsheet->getActiveSheet()->setCellValue('G3', 'Route');
+        $spreadsheet->getActiveSheet()->setCellValue('H3', 'Bus No.');
         
             
         $spreadsheet->getActiveSheet()->getStyle("A3:J3")->applyFromArray($font_style_total);
@@ -4111,10 +4111,10 @@ public function downloadTransportFeeInfoReport()
         $spreadsheet->getActiveSheet()->getRowDimension('1')->setRowHeight(25);
         $spreadsheet->getActiveSheet()->getColumnDimension('B')->setWidth(20);
         $spreadsheet->getActiveSheet()->getColumnDimension('C')->setWidth(20);
-        $spreadsheet->getActiveSheet()->getColumnDimension('D')->setWidth(20);
+        $spreadsheet->getActiveSheet()->getColumnDimension('D')->setWidth(18);
         $spreadsheet->getActiveSheet()->getColumnDimension('E')->setWidth(18);
         $spreadsheet->getActiveSheet()->getColumnDimension('F')->setWidth(18);
-        $spreadsheet->getActiveSheet()->getColumnDimension('G')->setWidth(20);
+        $spreadsheet->getActiveSheet()->getColumnDimension('G')->setWidth(25);
         $spreadsheet->getActiveSheet()->getColumnDimension('H')->setWidth(20);
         $spreadsheet->getActiveSheet()->getColumnDimension('I')->setWidth(25);
         $spreadsheet->getActiveSheet()->getColumnDimension('J')->setWidth(15);
@@ -4133,6 +4133,22 @@ public function downloadTransportFeeInfoReport()
          
             if (!empty($studentInfo)) {
                 foreach ($studentInfo as $std) {
+                    $months = [
+                        1 => 'January',
+                        2 => 'February',
+                        3 => 'March',
+                        4 => 'April',
+                        5 => 'May',
+                        6 => 'June',
+                        7 => 'July',
+                        8 => 'August',
+                        9 => 'September',
+                        10 => 'October',
+                        11 => 'November',
+                        12 => 'December'
+                    ];
+                    $monthNumber = $std->month; 
+                    $monthName = $months[$monthNumber];
                     $routeInfo = $this->transport->getTranportRateById($std->route_id);
                 
                
@@ -4141,12 +4157,12 @@ public function downloadTransportFeeInfoReport()
                     $spreadsheet->getActiveSheet()->setCellValue('B' . $excel_row,  $std->student_id);
                     $spreadsheet->getActiveSheet()->setCellValue('C' . $excel_row,  $std->student_name);
                     $spreadsheet->getActiveSheet()->setCellValue('D' . $excel_row,  $std->stream_name);
-                    $spreadsheet->getActiveSheet()->setCellValue('E' . $excel_row,  $std->total_amount);
-                    $spreadsheet->getActiveSheet()->setCellValue('F' . $excel_row,  $std->bus_fees);
-                    $spreadsheet->getActiveSheet()->setCellValue('G' . $excel_row,  $std->pending_balance);
-                    $spreadsheet->getActiveSheet()->setCellValue('H' . $excel_row,  $std->month);
-                    $spreadsheet->getActiveSheet()->setCellValue('I' . $excel_row,  $routeInfo->name);
-                    $spreadsheet->getActiveSheet()->setCellValue('J' . $excel_row,  $routeInfo->bus_no);
+                    // $spreadsheet->getActiveSheet()->setCellValue('E' . $excel_row,  $std->total_amount);
+                    $spreadsheet->getActiveSheet()->setCellValue('E' . $excel_row,  $std->amount);
+                    // $spreadsheet->getActiveSheet()->setCellValue('G' . $excel_row,  $std->pending_balance);
+                    $spreadsheet->getActiveSheet()->setCellValue('F' . $excel_row,  $monthName);
+                    $spreadsheet->getActiveSheet()->setCellValue('G' . $excel_row,  $routeInfo->name);
+                    $spreadsheet->getActiveSheet()->setCellValue('H' . $excel_row,  $routeInfo->bus_no);
                     $spreadsheet->getActiveSheet()->getStyle('A' . $excel_row)->getAlignment()->setWrapText(true);
 
                     $sl_number++;
@@ -4288,7 +4304,7 @@ public function downloadTransportDueInfoReport()
                         $paid_amt = 0;
                     }
                     $pending_bal = $total_fee - $paid_amt;
-                    if($paid_amt == 0) {
+                   // if($paid_amt == 0) {
                     $spreadsheet->getActiveSheet()->getStyle("A" . $excel_row)->getFont()->setSize(14);
                     $spreadsheet->getActiveSheet()->setCellValue('A' . $excel_row,  $sl_number);
                     $spreadsheet->getActiveSheet()->setCellValue('B' . $excel_row,  $std->student_id);
@@ -4303,7 +4319,7 @@ public function downloadTransportDueInfoReport()
 
                     $sl_number++;
                     $excel_row++;
-                }
+               // }
             }
             }
    

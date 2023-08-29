@@ -1250,6 +1250,14 @@ class Transport extends BaseController
             $to_date = $this->security->xss_clean($this->input->post('month_to'));
             $month = $this->security->xss_clean($this->input->post('month_diff'));
             $ref_receipt_no = $this->security->xss_clean($this->input->post('receipt_no'));
+            $isExist = $this->transport->checkReceiptNoExists($ref_receipt_no);
+            if(!empty($isExist)){
+                $this->session->set_flashdata('error', 'Receipt No. Already Exists');
+                $_SESSION['studentRowID'] = $student_row_id;
+                $_SESSION['year'] = $year;
+                redirect('getStudentTransFeePaymentInfo');
+            }
+
             
 
             // $ref_number = $this->security->xss_clean($this->input->post('ref_number'));
