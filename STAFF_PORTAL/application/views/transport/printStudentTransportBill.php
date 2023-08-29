@@ -56,7 +56,7 @@ table{
      if(!empty($studentTransportInfo->upi_ref_no)) {
         $transaction_id =  $studentTransportInfo->upi_ref_no;
      }
-     log_message('debug','test'.$studentTransportInfo->month);
+    
      
 ?>
 <!--  -->
@@ -70,46 +70,39 @@ table{
                         <img height="100" class="mt-2" width="70" height="70" src="<?php echo INSTITUTION_LOGO; ?>" alt="logo">
                     </td>
                     <td width="300" style="text-align:center;">
-                        <b style="font-size: 18px;margin-bottom: 2px;"><?php echo  "ST XAVIER'S PRE–UNIVERSITY COLLEGE, KALABURAGI"; ?></b><br/>
+                        <b style="font-size: 18px;margin-bottom: 2px;"><?php echo  "ST XAVIER'S PRE–UNIVERSITY COLLEGE, KALABURAGI"; ?></b>
                        
                       
                     </td>
                 </tr>
             </table>
             <hr class="border_bottom hr_line">
-            <table class="table" style="font-size: 13px;">
+            <table class="table" style="font-size: 12px;">
                  <tr>
                     <td colspan="2">Receipt No.: <span style="color: red;"><?php echo $studentTransportInfo->ref_receipt_no; ?></span></td>
-                </tr>
-                
-                <tr>
                     <td colspan="2">Name of the student : <?php echo strtoupper($studentTransportInfo->student_name); ?></td>
                 </tr>
                 <tr>
-                    <td>Student ID : <?php echo $studentTransportInfo->student_id;?></td>
+                    <td colspan="2">Student ID : <?php echo $studentTransportInfo->student_id;?></td>
+                    <td colspan="2">Class  : <?php echo strtoupper($studentTransportInfo->term_name); ?></td> 
                 </tr>
-                <tr>
-                    <td width="220">Class  : <?php echo strtoupper($studentTransportInfo->term_name); ?></td> 
-                </tr>
+                
                 <tr>
                     <td colspan="2">Month From: <?php echo date('M-Y',strtotime($studentTransportInfo->from_date));?></td>
-                </tr>
-                <tr>
                     <td colspan="2">Month To: <?php echo date('M-Y',strtotime($studentTransportInfo->to_date));?></td>
                 </tr>
+              
 
                 <tr>
                     <td colspan="2">Bus No. : <?php echo $studentTransportInfo->bus_no;?></td>
-                </tr>
-                <tr>
                     <td colspan="2">Bus Pick Point : <?php echo $studentTransportInfo->route_name;?></td>
                 </tr>
+                
                 <tr>
-                    <td>Date : <?php echo date('d-m-Y',strtotime($studentTransportInfo->created_date_time)); ?></td>
+                    <td colspan="2">Date : <?php echo date('d-m-Y',strtotime($studentTransportInfo->created_date_time)); ?></td>
+                    <td colspan="2">Payment Type : <?php echo $studentTransportInfo->payment_type; ?></td>
                 </tr>
-                 <tr>
-                    <td>Payment Type : <?php echo $studentTransportInfo->payment_type; ?></td>
-                </tr>
+                
                 <tr>
                     <?php if($studentTransportInfo->payment_type != "CASH"){ ?>
                     <td>Transaction Id : <?php echo $transaction_id; ?></td>
@@ -139,7 +132,7 @@ table{
                 </tr>
                <?php } ?>
             </table>
-            <table class="table table_bordered" style="font-size: 13px;">
+            <table class="table table_bordered" style="font-size: 12px;">
                 <tr>
                     <th>Particulars</th>
                     <th width="120">Amount</th>
@@ -157,7 +150,7 @@ table{
                     <th style="text-align: center;"><?php echo sprintf('%0.2f', $transport_rate); ?></th>
                 </tr>
                 <tr>
-                    <td colspan="2" style="font-size: 13px;"><br><b>Amount in words: <span style="text-transform: none;"><?php echo getIndianCurrency($transport_rate).' only'; ?></span></b></td>
+                    <td colspan="2" style="font-size: 12px;"><b>Amount in words: <span style="text-transform: none;"><?php echo getIndianCurrency($transport_rate).' only'; ?></span></b></td>
                 </tr>
             </table>
             
@@ -166,9 +159,9 @@ table{
     </div>
   
 </div>
-<b style="font-size: 11px;">All fees paid are not transferable or refundable.</b><br/>
-<b style="font-size: 11px;">This is an online generated fee Receipt no seal and signature is required.</b>
-<br><br><br><br><br><br><br><br><br><br>
+<b style="font-size: 10px;">All fees paid are not transferable or refundable.</b><br/>
+<b style="font-size: 10px;">This is an online generated fee Receipt no seal and signature is required.</b>
+<br><br>
 <div style="text-align:right"><span style="font-size: 13px;">OFFICE COPY</span></div>
 <div class="container-fluid border_full">
     <div class="row">
@@ -186,38 +179,30 @@ table{
                 </tr>
             </table>
             <hr class="border_bottom hr_line">
-            <table class="table" style="font-size: 13px;">
+            <table class="table" style="font-size: 12px;">
                 <tr>
                     <td colspan="2">Receipt No.: <span style="color: red;"><?php echo $studentTransportInfo->ref_receipt_no; ?></span></td>
-                </tr>
-                
-                <tr>
                     <td colspan="2">Name of the student : <?php echo strtoupper($studentTransportInfo->student_name); ?></td>
                 </tr>
                 <tr>
-                    <td>Student ID : <?php echo $studentTransportInfo->student_id;?></td>
+                    <td colspan="2">Student ID : <?php echo $studentTransportInfo->student_id;?></td>
+                    <td colspan="2">Class  : <?php echo strtoupper($studentTransportInfo->term_name); ?></td> 
                 </tr>
-                <tr>
-                    <td width="220">Class  : <?php echo strtoupper($studentTransportInfo->term_name); ?></td> 
-                </tr>
+                
                 <tr>
                     <td colspan="2">Month From: <?php echo date('M-Y',strtotime($studentTransportInfo->from_date));?></td>
-                </tr>
-                <tr>
                     <td colspan="2">Month To: <?php echo date('M-Y',strtotime($studentTransportInfo->to_date));?></td>
                 </tr>
+              
 
                 <tr>
                     <td colspan="2">Bus No. : <?php echo $studentTransportInfo->bus_no;?></td>
-                </tr>
-                <tr>
                     <td colspan="2">Bus Pick Point : <?php echo $studentTransportInfo->route_name;?></td>
                 </tr>
+                
                 <tr>
-                    <td>Date : <?php echo date('d-m-Y',strtotime($studentTransportInfo->created_date_time)); ?></td>
-                </tr>
-                 <tr>
-                    <td>Payment Type : <?php echo $studentTransportInfo->payment_type; ?></td>
+                    <td colspan="2">Date : <?php echo date('d-m-Y',strtotime($studentTransportInfo->created_date_time)); ?></td>
+                    <td colspan="2">Payment Type : <?php echo $studentTransportInfo->payment_type; ?></td>
                 </tr>
                 <tr>
                     <?php if($studentTransportInfo->payment_type != "CASH"){ ?>
@@ -248,7 +233,7 @@ table{
                 </tr>
                <?php } ?>
             </table>
-            <table class="table table_bordered" style="font-size: 13px;">
+            <table class="table table_bordered" style="font-size: 12px;">
                 <tr>
                     <th>Particulars</th>
                     <th width="120">Amount</th>
@@ -266,7 +251,7 @@ table{
                     <th style="text-align: center;"><?php echo sprintf('%0.2f', $transport_rate); ?></th>
                 </tr>
                 <tr>
-                    <td colspan="2" style="font-size: 13px;"><br><b>Amount in words: <span style="text-transform: none;"><?php echo getIndianCurrency($transport_rate).' only'; ?></span></b></td>
+                    <td colspan="2" style="font-size: 12px;"><b>Amount in words: <span style="text-transform: none;"><?php echo getIndianCurrency($transport_rate).' only'; ?></span></b></td>
                 </tr>
             </table>
             
@@ -275,9 +260,9 @@ table{
     </div>
   
 </div>
-<b style="font-size: 11px;">All fees paid are not transferable or refundable.</b><br/>
-<b style="font-size: 11px;">This is an online generated fee Receipt no seal and signature is required.</b>
-<br><br><br><br><br><br><br><br><br><br>
+<b style="font-size: 10px;">All fees paid are not transferable or refundable.</b><br/>
+<b style="font-size: 10px;">This is an online generated fee Receipt no seal and signature is required.</b>
+<br><br>
 <div style="text-align:right"><span style="font-size: 13px;">BUS COPY</span></div>
 <div class="container-fluid border_full">
     <div class="row">
@@ -295,38 +280,30 @@ table{
                 </tr>
             </table>
             <hr class="border_bottom hr_line">
-            <table class="table" style="font-size: 13px;">
+            <table class="table" style="font-size: 12px;">
                 <tr>
                     <td colspan="2">Receipt No.: <span style="color: red;"><?php echo $studentTransportInfo->ref_receipt_no; ?></span></td>
-                </tr>
-                
-                <tr>
                     <td colspan="2">Name of the student : <?php echo strtoupper($studentTransportInfo->student_name); ?></td>
                 </tr>
                 <tr>
-                    <td>Student ID : <?php echo $studentTransportInfo->student_id;?></td>
+                    <td colspan="2">Student ID : <?php echo $studentTransportInfo->student_id;?></td>
+                    <td colspan="2">Class  : <?php echo strtoupper($studentTransportInfo->term_name); ?></td> 
                 </tr>
-                <tr>
-                    <td width="220">Class  : <?php echo strtoupper($studentTransportInfo->term_name); ?></td> 
-                </tr>
+                
                 <tr>
                     <td colspan="2">Month From: <?php echo date('M-Y',strtotime($studentTransportInfo->from_date));?></td>
-                </tr>
-                <tr>
                     <td colspan="2">Month To: <?php echo date('M-Y',strtotime($studentTransportInfo->to_date));?></td>
                 </tr>
+              
 
                 <tr>
                     <td colspan="2">Bus No. : <?php echo $studentTransportInfo->bus_no;?></td>
-                </tr>
-                <tr>
                     <td colspan="2">Bus Pick Point : <?php echo $studentTransportInfo->route_name;?></td>
                 </tr>
+                
                 <tr>
-                    <td>Date : <?php echo date('d-m-Y',strtotime($studentTransportInfo->created_date_time)); ?></td>
-                </tr>
-                 <tr>
-                    <td>Payment Type : <?php echo $studentTransportInfo->payment_type; ?></td>
+                    <td colspan="2">Date : <?php echo date('d-m-Y',strtotime($studentTransportInfo->created_date_time)); ?></td>
+                    <td colspan="2">Payment Type : <?php echo $studentTransportInfo->payment_type; ?></td>
                 </tr>
                 <tr>
                     <?php if($studentTransportInfo->payment_type != "CASH"){ ?>
@@ -357,7 +334,7 @@ table{
                 </tr>
                <?php } ?>
             </table>
-            <table class="table table_bordered" style="font-size: 13px;">
+            <table class="table table_bordered" style="font-size: 12px;">
                 <tr>
                     <th>Particulars</th>
                     <th width="120">Amount</th>
@@ -375,7 +352,7 @@ table{
                     <th style="text-align: center;"><?php echo sprintf('%0.2f', $transport_rate); ?></th>
                 </tr>
                 <tr>
-                    <td colspan="2" style="font-size: 13px;"><br><b>Amount in words: <span style="text-transform: none;"><?php echo getIndianCurrency($transport_rate).' only'; ?></span></b></td>
+                    <td colspan="2" style="font-size: 12px;"><b>Amount in words: <span style="text-transform: none;"><?php echo getIndianCurrency($transport_rate).' only'; ?></span></b></td>
                 </tr>
             </table>
             
@@ -384,8 +361,8 @@ table{
     </div>
   
 </div>
-<b style="font-size: 11px;">All fees paid are not transferable or refundable.</b><br/>
-<b style="font-size: 11px;">This is an online generated fee Receipt no seal and signature is required.</b>
+<b style="font-size: 10px;">All fees paid are not transferable or refundable.</b><br/>
+<b style="font-size: 10px;">This is an online generated fee Receipt no seal and signature is required.</b>
 <?php 
 //  if($totalStudentCount != 0){
 //     echo '<div class="break"></div>';

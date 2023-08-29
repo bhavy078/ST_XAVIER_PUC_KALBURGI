@@ -1141,7 +1141,7 @@ class Transport extends BaseController
                 redirect('viewStudentTransportListing');
             }
             error_reporting(0);
-            $mpdf = new \Mpdf\Mpdf(['tempDir' => sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'mpdf', 'default_font' => 'timesnewroman', 'format' => [145, 160]]);
+            $mpdf = new \Mpdf\Mpdf(['tempDir' => sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'mpdf', 'default_font' => 'timesnewroman', 'format' => [210, 297]]);
             $mpdf->AddPage('P', '', '', '', '', 7, 7, 7, 7, 8, 8);
             $mpdf->SetTitle('Transport Receipt');
             $data['receipt_title_mgmt'] = "HOLY ANGELS SCHOOL";
