@@ -1562,7 +1562,7 @@ public function collegeNotificationsApi(){
             $data->total_fee_amount = number_format($total_fee_amount,2);
             $data->II_feePaidInfo = $this->fee->getFeePaidInfo($application_no,$filter['fee_year']);
             $total_fee_amount -= $paidFee;
-            $data->total_fee_amount =  $total_fee_amount;
+            //$data->total_fee_amount =  $total_fee_amount;
             $concession_amt = 0;
             $feeConcession = $this->fee->getStudentFeeConcession($application_no);
             if(!empty($feeConcession)){
