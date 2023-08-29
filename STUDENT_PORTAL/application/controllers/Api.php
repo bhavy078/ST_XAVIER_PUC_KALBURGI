@@ -1552,7 +1552,7 @@ public function collegeNotificationsApi(){
                 $filter['fee_year'] = CURRENT_YEAR;
             }
             $total_fee_obj = $this->fee->getTotalFeeAmount($filter);
-            $data->second_puc_total_fee =  $data->total_fee_amount =  $total_fee_amount = $total_fee_obj->total_fee;
+            $data->second_puc_total_fee = $total_fee_amount = $total_fee_obj->total_fee;
 
             $paidFee = $this->fee->getTotalFeePaidInfo($application_no,$filter['fee_year']);
             $paid = $this->fee->getFeePaidInfoAttempt($application_no,$filter['fee_year']);
