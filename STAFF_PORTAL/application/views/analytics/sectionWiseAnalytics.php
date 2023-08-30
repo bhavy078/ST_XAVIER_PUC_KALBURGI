@@ -603,14 +603,14 @@ input[type=number]::-webkit-outer-spin-button {
                                 <th class="text-center"><?php echo $subject_count['03']["second_count"]; ?></th>
                             </tr>
 
-                            <tr>
+                            <!-- <tr>
                                 <th class="text-center">French</th>
                                 <th class="text-center"><?php echo $subject_count['12']["pass_count"]; ?></th>
                                 <th class="text-center"><?php echo $subject_count['12']["fail_count"]; ?></th>
                                 <th class="text-center"><?php echo $subject_count['12']["dist_count"]; ?></th>
                                 <th class="text-center"><?php echo $subject_count['12']["first_count"]; ?></th>
                                 <th class="text-center"><?php echo $subject_count['12']["second_count"]; ?></th>
-                            </tr>
+                            </tr> -->
 
                             <?php foreach($subInfo as $sub){ ?>
 
