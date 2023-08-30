@@ -52,11 +52,11 @@ class Analytics extends BaseController {
             $data['subject'] = $subjectInfo; 
 
             $section_name = $sectionInfo->section_name;
-            // if($sectionName == "ALL"){
-            //     $filter['section_name'] = '';
-            // }else{
-            //     $filter['section_name'] = $sectionName;
-            // }
+            if($section_name == "ALL"){
+                $filter['section_name'] = '';
+            }else{
+                $filter['section_name'] = $section_name;
+            }
             $filter['stream_name'] = $sectionInfo->stream_name;
             $filter['term_name'] = $term_name;
             $stream_name = $sectionInfo->stream_name;
@@ -67,7 +67,8 @@ class Analytics extends BaseController {
             $data['streamInfo'] = $this->staff->getSectionById($filter);
 
             $subjects_code = array();
-            $data['studentInfo'] = $this->student->getStudentInfoBySectionTerm($term_name,$section_name,$stream_name);
+            $data['studentInfo'] = $this->student->getStudentInfoBySectionTerm($term_name,$filter,$stream_name);
+
             // log_message('debug','test'.print_r($data['studentInfo'],true));
             // log_message('debug','cdncdj'.print_r($data['studentInfo'],true));
             // $stream = $this->students_model->getStreamNameBySectionAndTerm($term_name,$section_name);

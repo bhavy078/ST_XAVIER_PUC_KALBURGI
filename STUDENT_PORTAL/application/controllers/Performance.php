@@ -52,7 +52,7 @@ class Performance extends BaseController
 
                 // if($data['studentInfo']->term_name == 'I PUC'){
 
-                    $exam_year = '2022-23';
+                    $exam_year = '2023-24';
 
                 // }else{
 
@@ -260,13 +260,14 @@ class Performance extends BaseController
                 $BSBA = array("75", "31", "27", '30');
                 $CSBA = array("41", "31", "27", '30');
                 $SEBA = array("31", "22", "27", '30');
-                $CEBA = array("41", "22", "27", '30');
+                $EBAC = array("41", "22", "27", '30');
                 $PEBA = array("29", "22", "27", '30');
                 //art
                 $HEPP = array("21", "22", "32", '29');
                 $MEBA = array("75", "22", "27", '30');
                 $MSBA = array("75", "31", "27", '30');
                 $HEPS = array("21", "22", "29", '28');
+                $HEPE = array("21", "22", "29", '52');
               
                 switch ($stream_name) {
                     case "PCMB":
@@ -296,8 +297,8 @@ class Performance extends BaseController
                     case "SEBA":
                         return $SEBA;
                         break;
-                    case "CEBA":
-                        return $CEBA;
+                    case "EBAC":
+                        return $EBAC;
                         break;
                     case "HEPP":
                         return $HEPP;
@@ -310,6 +311,9 @@ class Performance extends BaseController
                         break;
                     case "MSBA":
                         return $MSBA;
+                        break;
+                    case "HEPE":
+                        return $HEPE;
                         break;
                 }
               }

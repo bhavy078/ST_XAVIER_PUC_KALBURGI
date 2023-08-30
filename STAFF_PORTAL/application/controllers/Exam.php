@@ -391,7 +391,7 @@ function getInternalMarkSheet(){
     $middle_cell = array("K", "N", "Q","T");
     $last_cell = array("L", "O", "R","U");
     if($section_name == 'ALL'){
-        $section = array("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R");
+        $section = array(" ","A","B","C","D");
     }else{
         $section[0] = $section_name;
     }
@@ -405,6 +405,14 @@ function getInternalMarkSheet(){
         $examType = 'I UNIT TEST';
     }else{
         $examType = str_replace('_',' ',$exam_type);
+    }
+
+
+
+    if ($section_name === ' ') {
+        $display_section = 'ALL';
+    } else {
+        $display_section = $section_name;
     }
     
     // if($stream == "ALL"){
@@ -449,8 +457,8 @@ function getInternalMarkSheet(){
         $this->excel->getActiveSheet()->setCellValue('A1', EXCEL_TITLE);
         $this->excel->getActiveSheet()->setCellValue('A2', $term_name.' '.$examType." RESULT - 2023-24");
         $this->excel->getActiveSheet()->setCellValue('A3', "Abbreviation used in the table");
-        $this->excel->getActiveSheet()->setCellValue('A4', "MO: Marks Obtained | IA: Internal Assessment | TH: Theory | PR: Practical | LT: Language Total | ST: Subjects Total | TM: Total Marks");
-        $this->excel->getActiveSheet()->setCellValue('A5', $term_name." - ".$stream_name_id." - ".$section_name);
+        $this->excel->getActiveSheet()->setCellValue('A4', "LT: Language Total | ST: Subjects Total | TM: Total Marks");
+        $this->excel->getActiveSheet()->setCellValue('A5', $term_name." - ".$stream_name_id." - ".$display_section);
 
         //change the font size 
         $this->excel->getActiveSheet()->getStyle('A1')->getFont()->setSize(18);

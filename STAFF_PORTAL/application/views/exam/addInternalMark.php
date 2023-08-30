@@ -831,17 +831,17 @@ input[type=number]::-webkit-outer-spin-button {
                             </select>
                         </div>
                     </div>
-                    <div class="col-12">
+                    <!-- <div class="col-12">
                         <div class="form-group">
                             <label for="role">Select Report Type</label>
                             <select class="form-control required" id="report_type" name="report_type">
-                                <!-- <option value="">Select Report Type</option> -->
+                                <option value="">Select Report Type</option>
                                 <option value="ALL">ALL</option>
                                 <option value="only_failed">Only Failed</option>
-                                <!-- <option value="only_distinction">Only Distinction</option> -->
+                                <option value="only_distinction">Only Distinction</option>
                             </select>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <!-- <div class="form-group">
                     <label for="role">Select Download Type</label>

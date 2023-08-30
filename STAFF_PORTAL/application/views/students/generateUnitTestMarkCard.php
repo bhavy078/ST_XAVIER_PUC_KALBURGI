@@ -50,7 +50,7 @@ require APPPATH . 'views/includes/db.php';
 .A4 {
    background: white;
    width: 26cm;
-   height: 38.7cm;
+   height: 18.7cm;
    display: block;
    margin: 0 auto;
   padding: 14.3px;
@@ -186,7 +186,7 @@ color: #000 !important;
                     $total_students_selected--;
 
                     if($exam_type == 'I_UNIT_TEST'){
-                      $exam_name = 'I UNIT TEST AUGUST 2022';
+                      $exam_name = 'I UNIT TEST AUGUST 2023';
                     }else if($exam_type == 'MID_TERM'){
                       $exam_name = 'MID-TERM EXAMINATION DECEMBER-2022';
                   }else if($exam_type == 'II_UNIT_TEST'){
@@ -208,21 +208,22 @@ color: #000 !important;
                     <div class="A4 enable-print" >
                                         <div class="row border_full">
                                             <div  class="col-lg-2 col-sm-2 col-2">
-                                                <img style="margin-right: 6px;margin-top: -10px;" height="120" class="pull-right" width="120" src="<?php echo base_url(); ?><?php echo INSTITUTION_LOGO; ?>" alt="logo">
+                                                <img style="margin-right: 6px;margin-top: -0px;" height="120" class="pull-right" width="120" src="<?php echo base_url(); ?><?php echo INSTITUTION_LOGO; ?>" alt="logo">
                                             </div>
                                             <div class="col-lg-8 col-sm-8 col-8" >
                                                 <div class="header-heading text-center">
-                                                    <b style="font-size: 30px; text-transform: uppercase;">ST. XAVIER'S PRE–UNIVERSITY COLLEGE, KALABURAGI</b>
-                                                    <p class="mb-2" style="margin-top: -10px; font-size:16px;">Address</p>
-                                                    <p class="mb-2" style="margin-top: -14px; font-size:16px;">Address</p>
-                                                    <p class="mb-2" style="margin-top:-12px; font-size: 23px; margin-bottom: -12px; "><b>
+                                                    <b style="font-size: 25px; text-transform: uppercase;"><?php echo TITLE; ?></b>
+                                                    <p class="mb-2" style="margin-top: -10px; font-size:16px;"><?php echo ADDRESS; ?></p>
+                                                    <!-- <p class="mb-2" style="margin-top: -14px; font-size:16px;">Address</p>
+                                                    <p class="mb-2" style="margin-top:-12px; font-size: 23px; margin-bottom: -12px; "> -->
+                                                    <b>
                                                      <?php echo $exam_name; ?>
                                                     </b></p> 
                                                 </div>
                                             </div>
-                                            <div class="col-lg-2 col-sm-2 col-2">
+                                            <!-- <div class="col-lg-2 col-sm-2 col-2">
                                             <img style="margin-left: 4px;" class="text-right" width="100" src="<?php echo base_url(); ?><?php echo $img_path; ?>" height="100" alt="logo">
-                                          </div>
+                                          </div> -->
                                         </div> 
                                         <?php //if($student->term_name == "I PUC"){ 
                                               $absent_date_from = date("Y-m-d", strtotime($student->doj));
@@ -391,10 +392,10 @@ color: #000 !important;
                                                                   // }
                                                                 }else{
                                                                   if($exam_type == 'I_UNIT_TEST' || $exam_type == 'II_UNIT_TEST'){
-                                                                    $max_mark = 50;
+                                                                    $max_mark = 40;
                                                                     $max_mark_midterm = 100;
-                                                                    $min_mark_pass = 18;
-                                                                    $min_pass = 18;
+                                                                    $min_mark_pass = 14;
+                                                                    $min_pass = 14;
                                                                   }else if($exam_type == 'MID_TERM'){
                                                                     if($subjectCode == '12'){
                                                                       $max_mark = 100;
@@ -408,10 +409,10 @@ color: #000 !important;
                                                                       $minMark_pass_MID_Term = 35;
                                                                     }
                                                                   }
-                                                                  $max_mark_I_TEST = 50;
-                                                                  $max_mark_II_TEST = 50;
-                                                                  $min_mark_pass_I_TEST = 18;
-                                                                  $minMark_pass_I_TEST = 18;
+                                                                  $max_mark_I_TEST = 40;
+                                                                  $max_mark_II_TEST = 40;
+                                                                  $min_mark_pass_I_TEST = 14;
+                                                                  $minMark_pass_I_TEST = 14;
                                                                   $max_mark_MID_Term = 100;
                                                                   $min_mark_pass_MID_Term = 35;
                                                                   $minMark_pass_MID_Term = 35;
@@ -537,6 +538,18 @@ color: #000 !important;
                                                                 // }
                                                                 $absent_count_theory = getStudentAbsentCount($con,$subjects_code[$i],$student_id,$absent_date_from,$attendance_date_to,'THEORY');
                                                                 $absent_count += $absent_count_theory;
+                                                                $months = array('July','August');
+                                                                $class_held_P =0;
+                                                                  $class_attended_P =0;
+                                                                foreach($months as $mon){
+                                                                  $absent_count_theory_monthly = getStudentAbsentCountMonthly($con,$subjects_code[$i],$student_id,$mon);
+                                                                  $class_held_P += $absent_count_theory_monthly['class_held'];
+                                                                  $class_attended_P += $absent_count_theory_monthly['class_attended'];
+
+                                                                }
+                                                                // $absent_count_theory_monthly = getStudentAbsentCountMonthly($con,$subjects_code[$i],$student_id,$months);
+
+                                                                
 
                                                                 $subject_class_held_lab = getTotalClassHeld($con,$subjects_code[$i],$student->term_name,$student->section_name,'LAB',$batch_name,$absent_date_from,$attendance_date_to);
                                                                 $total_dates_held_lab = getTotalClassCompletedDates($con,$subjects_code[$i],$student->term_name,$student->section_name,'LAB',$batch_name,$absent_date_from,$attendance_date_to);
@@ -554,10 +567,13 @@ color: #000 !important;
                                                                 }
 
                                                                 $total_class_presnts = $total_class_held-$absent_count;
-                                                                $attendance_percentage = ($total_class_presnts/$total_class_held)*100;
+                                                                $attendance_percentage = ($class_attended_P/$class_held_P)*100;
                                                               
-                                                                $total_class_held_all += $total_class_held;
-                                                                $total_class_attended_all += $total_class_presnts;
+                                                                // $total_class_held_all += $total_class_held;
+                                                                // $total_class_attended_all += $total_class_presnts;
+
+                                                                $total_class_held_all += $class_held_P;
+                                                                $total_class_attended_all += $class_attended_P;
                                                                 ?>
 
                                                                 <th><?php echo strtoupper($subject_info['name']); ?></th>
@@ -570,7 +586,7 @@ color: #000 !important;
                                                                 <?php }else{ ?>
                                                                 <th class="text-center" style="vertical-align: middle !important;" colspan="3"><?php echo $result_display; ?></th>
                                                                 <?php } ?>
-                                                                <th class="text-center" style="vertical-align: middle !important;"><?php echo $total_class_presnts.'/'.$total_class_held; ?></th>
+                                                                <th class="text-center" style="vertical-align: middle !important;"><?php echo $class_attended_P.'/'.$class_held_P; ?></th>
                                                                 <th  class="text-center" style="vertical-align: middle !important;"><?php echo round($attendance_percentage,2); ?></th>
                                                             </tr>
                                                             
@@ -601,10 +617,10 @@ color: #000 !important;
                                                 </table>
                                             </div>
                                         </div>
-                                        <div style="padding:2px; " class="row text-center boredr_left_right boredr_only_bottom">
+                                        <!-- <div style="padding:2px; " class="row text-center boredr_left_right boredr_only_bottom">
                                             <span class="" style="font-size:19px; font-weight:600">Performance Of The Year</span>
-                                        </div>
-                                        <div class="row boredr_left_right boredr_only_bottom">
+                                        </div> -->
+                                        <!-- <div class="row boredr_left_right boredr_only_bottom">
                                         <table class="table table-bordered m-1 p-2">
                                             <tbody>
                                                 <tr>
@@ -630,14 +646,14 @@ color: #000 !important;
                                                   ?>
                                                   <th class="text-center"><?php echo round($total_percentage_unit_I,2); ?></th>
                                                 </tr>
-                                                <?php } ?>
+                                                <?php } ?> -->
                                               
 
                                                 
                                                 <?php ?>
                                                 <!-- // if($exam_type == 'MID_TERM')
                                                 // {  -->
-                                                <tr>
+                                                <!-- <tr>
                                                     <th>MID-TERM EXAM DECEMBER-2022</th>
                                                     <?php 
                                                     if($elective_sub == "EXEMPTED"){ ?>
@@ -652,10 +668,10 @@ color: #000 !important;
                                                   <th class="text-center"><?php echo round($percentage_mid_term,2); ?></th>
                                                
                                                 </tr>
-                                                <?php ?>
+                                                <?php ?> -->
                                                 <!--  //}  -->
 
-                                                <?php  ?>
+                                                <!-- <?php  ?>
                                                 <tr>
                                                     <th>II UNIT TEST DECEMBER-2022</th>
                                                     <?php 
@@ -670,15 +686,15 @@ color: #000 !important;
                                                   ?>
                                                   <th class="text-center"><?php echo round($total_percentage_unit_II,2); ?></th>
                                                 </tr>
-                                               <?php ?>
+                                               <?php ?> -->
                                                 <!-- // }  -->
 
-                                             
+<!--                                              
                                             </tbody>
                                         </table>
-                                        </div>
+                                        </div> -->
 
-                                        <div style="padding:2px; " class="row text-center boredr_left_right boredr_only_bottom">
+                                        <!-- <div style="padding:2px; " class="row text-center boredr_left_right boredr_only_bottom">
                                             <span style="font-size:20px; font-weight:600" class="">Performance in Bar Graph</span>
                                         </div>
                                         
@@ -686,91 +702,91 @@ color: #000 !important;
                                         <div class="row boredr_left_right  ">
                                         <canvas class="text-center" id="markChart<?php echo $student_id; ?>"></canvas>
                                             
-                                        </div>
+                                        </div> -->
                                         <script type="text/javascript">
-                                               function loadGraph() {
+                                              //  function loadGraph() {
                                                
-                                                var mark_MID_TERM = <?php echo json_encode($subject_mark_chart_MID_TERM); ?>;
-                                                var mark_UNIT_TEST = <?php echo json_encode($subject_mark_chart_I_TEST); ?>;
-                                                var mark_UNIT_TEST_II = <?php echo json_encode($subject_mark_chart_II_TEST); ?>;
+                                              //   var mark_MID_TERM = <?php echo json_encode($subject_mark_chart_MID_TERM); ?>;
+                                              //   var mark_UNIT_TEST = <?php echo json_encode($subject_mark_chart_I_TEST); ?>;
+                                              //   var mark_UNIT_TEST_II = <?php echo json_encode($subject_mark_chart_II_TEST); ?>;
                                               // 
-                                              var data = {
-                                                        labels: [
-                                                            <?php for($i=0; $i < count($subject_names); $i++)
-                                                              { 
-                                                              echo "'".strtoupper($subject_names[$i])."',";
-                                                              } ?>
-                                                            ],
-                                                datasets: [
-                                                    {
-                                                        label: 'I TERM TEST SEPTEMBER - 2022',
-                                                        borderColor: 'rgb(0, 0, 0)',
-                                                        borderWidth : '1',
-                                                        backgroundColor: 'rgb(213, 219, 219)',
-                                                        data: mark_UNIT_TEST
-                                                    },
-                                                    {
-                                                        label: 'MID-TERM DECEMBER - 2022',
-                                                        borderColor: 'rgb(0, 0, 0)',
-                                                        borderWidth : '1',
-                                                        backgroundColor: 'rgb( 214, 234, 248)',
+                                            //   var data = {
+                                            //             labels: [
+                                            //                 <?php for($i=0; $i < count($subject_names); $i++)
+                                            //                   { 
+                                            //                   echo "'".strtoupper($subject_names[$i])."',";
+                                            //                   } ?>
+                                            //                 ],
+                                            //     datasets: [
+                                            //         {
+                                            //             label: 'I TERM TEST SEPTEMBER - 2022',
+                                            //             borderColor: 'rgb(0, 0, 0)',
+                                            //             borderWidth : '1',
+                                            //             backgroundColor: 'rgb(213, 219, 219)',
+                                            //             data: mark_UNIT_TEST
+                                            //         },
+                                            //         {
+                                            //             label: 'MID-TERM DECEMBER - 2022',
+                                            //             borderColor: 'rgb(0, 0, 0)',
+                                            //             borderWidth : '1',
+                                            //             backgroundColor: 'rgb( 214, 234, 248)',
                                                        
-                                                        data: mark_MID_TERM
-                                                    },
+                                            //             data: mark_MID_TERM
+                                            //         },
                                                    
-                                                    {
-                                                        label: 'II UNIT TEST DECEMBER - 2022',
-                                                        borderColor: 'rgb(0, 0, 0)',
-                                                        borderWidth : '1',
-                                                        backgroundColor: 'rgb(169, 223, 191)',
-                                                        data: mark_UNIT_TEST_II
-                                                    },
-                                                ]
-                                            };
-                                                  var ctx = document.getElementById('markChart<?php echo $student_id; ?>').getContext('2d');
-                                                  var chart = new Chart(ctx, {
+                                            //         {
+                                            //             label: 'II UNIT TEST DECEMBER - 2022',
+                                            //             borderColor: 'rgb(0, 0, 0)',
+                                            //             borderWidth : '1',
+                                            //             backgroundColor: 'rgb(169, 223, 191)',
+                                            //             data: mark_UNIT_TEST_II
+                                            //         },
+                                            //     ]
+                                            // };
+                                                  // var ctx = document.getElementById('markChart<?php echo $student_id; ?>').getContext('2d');
+                                                  // var chart = new Chart(ctx, {
                                                       // The type of chart we want to create
-                                                      type: 'bar',
-                                                      // The data for our dataset
-                                                      data: data,
+                                                      // type: 'bar',
+                                                      // // The data for our dataset
+                                                      // data: data,
                                                  
                                                       // Configuration options go here
-                                                      options: {
-                                                        responsive: true,
-                                                        scales: {
-                                                              xAxes: [{
-                                                                barThickness : 43,
-                                                                ticks: {
-                                                                  fontColor: "black",
-                                                                  fontSize: 15,
+                                                      // options: {
+                                                      //   responsive: true,
+                                                      //   scales: {
+                                                      //         xAxes: [{
+                                                      //           barThickness : 43,
+                                                      //           ticks: {
+                                                      //             fontColor: "black",
+                                                      //             fontSize: 15,
                                                                  
-                                                                }
-                                                              }],
-                                                              yAxes: [
-                                                                      {
-                                                                        ticks: {
-                                                                          fontColor: "black",
-                                                                          fontSize: 15,
-                                                                          min: 0,
-                                                                          max: 100,// Your absolute max value
-                                                                          callback: function (value) {
-                                                                            return (value / 100 * 100).toFixed(0); // convert it to percentage
-                                                                          },
-                                                                        },
-                                                                        scaleLabel: {
-                                                                          fontSize: 20,
-                                                                          display: true,
-                                                                          labelString: 'Marks Obtained',
-                                                                        },
-                                                                      },
-                                                                    ],
-                                                          }
-                                                      }
-                                                  });
-                                                }
+                                                      //           }
+                                                      //         }],
+                                                      //         yAxes: [
+                                                      //                 {
+                                                      //                   ticks: {
+                                                      //                     fontColor: "black",
+                                                      //                     fontSize: 15,
+                                                      //                     min: 0,
+                                                                          // max: 100,// Your absolute max value
+                                                                          // callback: function (value) {
+                                                                          //   return (value / 100 * 100).toFixed(0); // convert it to percentage
+                                                //                           },
+                                                //                         },
+                                                //                         scaleLabel: {
+                                                //                           fontSize: 20,
+                                                //                           display: true,
+                                                //                           labelString: 'Marks Obtained',
+                                                //                         },
+                                                //                       },
+                                                //                     ],
+                                                //           }
+                                                //       }
+                                                //   });
+                                                // }
 
                                             <?php
-                                                echo "loadGraph();";
+                                               // echo "loadGraph();";
                                             ?>
                                         </script>
                                         <div class="row border_full">
@@ -792,11 +808,11 @@ color: #000 !important;
                                             
                                         </div> -->
                                 </div>
-                        <?php if($total_students_selected > 1) { ?>
+                        <!-- <?php if($total_students_selected > 1) { ?>
                         <div class="page_break"></div>
                         <?php }else{ ?>
                         <div class="break_after"></div>
-                        <?php } ?>
+                        <?php } ?> -->
  
                    <?php  } }?>
             <div class="card-footer p-1">
@@ -839,7 +855,7 @@ function getSubjectInfo($con,$subject_id){
 }
 function getSubjectMarkInfo($con,$subject_id,$student_id,$exam_type){
     $query = "SELECT * FROM tbl_college_internal_exam_marks as exam
-    WHERE exam.subject_code = '$subject_id' AND exam.student_id = '$student_id' AND exam.exam_type = '$exam_type' AND exam.office_validation_status = 0 AND exam_year = '2022-23'";
+    WHERE exam.subject_code = '$subject_id' AND exam.student_id = '$student_id' AND exam.exam_type = '$exam_type' AND exam.office_validation_status = 0 AND exam_year = '2023-24'";
     $pdo_statement = $con->prepare($query);
     $pdo_statement->execute();
     return $pdo_statement->fetch();
@@ -849,11 +865,11 @@ function getTotalClassHeld($con,$subject_id,$term_name,$section_name,$type,$batc
  
   if(!empty($batch_name)){
     $query = "SELECT * FROM tbl_class_completed_by_staff as class
-    WHERE class.subject_code = '$subject_id' AND class.term_name = '$term_name' AND class.class_year = '2022' AND class.section_name = '$section_name' AND 	class.subject_type = '$type' AND class.batch = '$batch_name' AND class.is_deleted = 0 AND class.is_deleted = 0 AND
+    WHERE class.subject_code = '$subject_id' AND class.term_name = '$term_name' AND class.class_year = '2023' AND class.section_name = '$section_name' AND 	class.subject_type = '$type' AND class.batch = '$batch_name' AND class.is_deleted = 0 AND class.is_deleted = 0 AND
     class.date between '$absent_date_from' AND '$attendance_date_to' ";
   }else{
     $query = "SELECT * FROM tbl_class_completed_by_staff as class
-    WHERE class.subject_code = '$subject_id' AND class.term_name = '$term_name' AND class.class_year = '2022' AND class.section_name = '$section_name' AND 	class.subject_type = '$type' AND class.is_deleted = 0 AND
+    WHERE class.subject_code = '$subject_id' AND class.term_name = '$term_name' AND class.class_year = '2023' AND class.section_name = '$section_name' AND 	class.subject_type = '$type' AND class.is_deleted = 0 AND
     class.date between '$absent_date_from' AND '$attendance_date_to' ";
   }
   $result = $con->prepare($query); 
@@ -866,11 +882,11 @@ function getTotalClassCompletedDates($con,$subject_id,$term_name,$section_name,$
  
   if(!empty($batch_name)){
     $query = "SELECT * FROM tbl_class_completed_by_staff as class
-    WHERE class.subject_code = '$subject_id' AND class.term_name = '$term_name' AND class.class_year = '2022' AND class.section_name = '$section_name' AND 	class.subject_type = '$type' AND class.batch = '$batch_name' AND class.is_deleted = 0 AND
+    WHERE class.subject_code = '$subject_id' AND class.term_name = '$term_name' AND class.class_year = '2023' AND class.section_name = '$section_name' AND 	class.subject_type = '$type' AND class.batch = '$batch_name' AND class.is_deleted = 0 AND
     class.date between '$absent_date_from' AND '$attendance_date_to' ";
   }else{
     $query = "SELECT * FROM tbl_class_completed_by_staff as class
-    WHERE class.subject_code = '$subject_id' AND class.term_name = '$term_name' AND class.class_year = '2022' AND class.section_name = '$section_name' AND 	class.subject_type = '$type' AND class.is_deleted = 0 AND
+    WHERE class.subject_code = '$subject_id' AND class.term_name = '$term_name' AND class.class_year = '2023' AND class.section_name = '$section_name' AND 	class.subject_type = '$type' AND class.is_deleted = 0 AND
     class.date between '$absent_date_from' AND '$attendance_date_to' ";
   }
   $result = $con->prepare($query); 
@@ -892,11 +908,21 @@ function getStudentAbsentCount($con,$subject_id,$student_id,$absent_date_from,$a
  
   $query = "SELECT * FROM tbl_student_attendance_details as ab WHERE ab.student_id = '$student_id' AND 
   ab.absent_date BETWEEN '$absent_date_from' AND '$attendance_date_to'
-  AND ab.is_deleted = 0 AND ab.year = '2022' AND
+  AND ab.is_deleted = 0 AND ab.year = '2023' AND
   ab.staff_subject_row_id IN(SELECT sub.row_id FROM tbl_staff_teaching_subjects as sub WHERE sub.subject_code='$subject_id' AND sub.subject_type='$type' AND sub.is_deleted = 0)";
   $result = $con->prepare($query); 
   $result->execute(); 
   return $result->rowCount();
+}
+
+
+function getStudentAbsentCountMonthly($con,$subject_id,$student_id,$months){
+ 
+  $query = "SELECT * FROM tbl_attendance_additional_info as ab WHERE ab.student_id = '$student_id' 
+  AND ab.is_deleted = 0 AND ab.year = '2023' AND ab.subject_code = '$subject_id' AND ab.month = '$months'";
+  $pdo_statement = $con->prepare($query);
+  $pdo_statement->execute();
+  return $pdo_statement->fetch();
 }
 
 
@@ -921,13 +947,14 @@ function getSubjectCodes($stream_name){
   $BSBA = array("75", "31", "27", '30');
   $CSBA = array("41", "31", "27", '30');
   $SEBA = array("31", "22", "27", '30');
-  $CEBA = array("41", "22", "27", '30');
+  $EBAC = array("41", "22", "27", '30');
   $PEBA = array("29", "22", "27", '30');
   //art
   $HEPP = array("21", "22", "32", '29');
   $MEBA = array("75", "22", "27", '30');
   $MSBA = array("75", "31", "27", '30');
   $HEPS = array("21", "22", "29", '28');
+  $HEPE = array("21", "22", "29", '52');
 
   switch ($stream_name) {
       case "PCMB":
@@ -957,8 +984,8 @@ function getSubjectCodes($stream_name){
       case "SEBA":
           return $SEBA;
           break;
-      case "CEBA":
-          return $CEBA;
+      case "EBAC":
+          return $EBAC;
           break;
       case "HEPP":
           return $HEPP;
@@ -971,6 +998,9 @@ function getSubjectCodes($stream_name){
           break;
       case "MSBA":
           return $MSBA;
+          break;
+      case "HEPE":
+          return $HEPE;
           break;
   }
 }

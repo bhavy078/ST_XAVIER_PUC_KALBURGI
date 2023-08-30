@@ -134,7 +134,7 @@
 
                                     <li class="nav-item">
 
-                                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile"
+                                        <a class="nav-link " id="profile-tab" data-toggle="tab" href="#profile"
 
                                             role="tab" aria-controls="profile" aria-selected="false">I Unit Test</a>
 
@@ -146,9 +146,9 @@
 
                                     <?php// if($term_name == 'II PUC'){ ?>
 
-                                        <li class="nav-item">
+                                        <!-- <li class="nav-item">
 
-                                            <a class="nav-link active" id="midTerm-tab" data-toggle="tab" href="#midTerm"
+                                            <a class="nav-link" id="midTerm-tab" data-toggle="tab" href="#midTerm"
 
                                                 role="tab" aria-controls="family" aria-selected="true">Mid Term Exam</a>
 
@@ -168,7 +168,7 @@
 
                                                 role="tab" aria-controls="preparatory" aria-selected="false">Preparatory</a>
 
-                                    </li>
+                                    </li> -->
 
                                     <?php// } ?>
 
@@ -206,7 +206,7 @@
 
                                     <?php// if($term_name == 'I PUC'){ ?>
 
-                                    <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                    <div class="tab-pane fade show active" id="profile" role="tabpanel"   aria-labelledby="profile-tab">
 
                                         <h6 class="text-center text-dark mb-1"></h6>
 
@@ -220,12 +220,12 @@
 
                                                         <tr>
 
-                                                            <th colspan="4" class="table_title text-center">FIRST UNIT TEST 2022</th>
+                                                            <th colspan="4" class="table_title text-center">FIRST UNIT TEST 2023</th>
 
                                                         </tr>
 
                                                     <?php //}else{ ?>
-<!-- 
+                                                        <!-- 
                                                         <tr>
 
                                                             <th colspan="4" class="table_title text-center">I PUC UNIT TEST FEBRUARY/MARCH 2021</th>
@@ -286,9 +286,9 @@
 
                                                         }else{
 
-                                                            $max_mark = 50;
+                                                            $max_mark = 40;
 
-                                                            $min_mark_pass = 18;
+                                                            $min_mark_pass = 14;
 
                                                         }
 
@@ -410,7 +410,7 @@
 
                                     <?php //} ?>
 
-                                    <div class="tab-pane fade show active" id="midTerm" role="tabpanel" aria-labelledby="midTerm-tab">
+                                    <div class="tab-pane fade show" id="midTerm" role="tabpanel" aria-labelledby="midTerm-tab">
 
                                         <div class="table-responsive">
 

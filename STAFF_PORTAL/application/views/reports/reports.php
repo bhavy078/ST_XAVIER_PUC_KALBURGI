@@ -979,7 +979,6 @@
     </div>
 </div>
 
-
 <div class="modal" id="admissionRegisteredStudent">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -1423,7 +1422,7 @@
                      <div class="col-6 mb-2">
                             <label for="role">Section</label>
                             <select class="form-control input-sm" id="section" name="section_name" autocomplete="off">
-                                <option value="">ALL</option>
+                                <option value=" ">ALL</option>
                                 <option value="A">A</option>
                                 <option value="B">B</option>
                                 <option value="C">C</option>
@@ -1450,8 +1449,8 @@
                             <select id="" name="exam_type" class="form-control" required>
                                 <option value="">Select Exam</option>
                                 <option value="I_UNIT_TEST">I UNIT TEST</option>
-                                <option value="MID_TERM">MID TERM</option>
-                                <option value="II_UNIT_TEST">II UNIT TEST</option>
+                                <!-- <option value="MID_TERM">MID TERM</option>
+                                <option value="II_UNIT_TEST">II UNIT TEST</option> -->
                             </select>
                         </div>
                     </div>
@@ -2225,7 +2224,6 @@ jQuery(document).ready(function() {
         }
  
       });
-
 
     function isNumberKey(evt){
         var charCode = (evt.which) ? evt.which : evt.keyCode;

@@ -965,10 +965,12 @@ class students_model extends CI_Model
     } 
 
     // analytics
-    public function getStudentInfoBySectionTerm($term,$section_name,$stream_name){
+    public function getStudentInfoBySectionTerm($term,$filter,$stream_name){
         $this->db->from('tbl_students_info as student');
         $this->db->where('student.term_name', $term);
-        $this->db->where('student.section_name', $section_name);
+        if(!empty($filter['section_name'])) {
+            $this->db->where('student.section_name', $filter['section_name']);
+        }
         $this->db->where('student.stream_name', $stream_name);
         $this->db->where('student.is_active', 1);
         $this->db->where('student.is_deleted', 0);
@@ -981,7 +983,9 @@ class students_model extends CI_Model
     public function getStudentInfoForAnalytics($term,$stream_name,$filter){
         $this->db->from('tbl_students_info as student');
         $this->db->where('student.term_name', $term);
-        if(!empty($filter['section_name'])) {
+          if($filter['section_name']=='ALL'){
+            $this->db->where('student.section_name', '');
+        }else{
             $this->db->where('student.section_name', $filter['section_name']);
         }
         if(!empty($filter['subject_name'])) {
@@ -1084,6 +1088,7 @@ class students_model extends CI_Model
         $query = $this->db->get();
         return $query->row();
     }
+    
 
     function getStudentsToAddMark($term_name,$section_name){
        // $this->db->select('std.tc_given_status, std.Student_ID, std.Name,  std.Term_Name, std.Section_Name, std.Stream_Name','std.Program_Name');

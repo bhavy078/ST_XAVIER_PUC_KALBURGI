@@ -101,17 +101,17 @@ if ($error) {
                                         <div class="dropdown-divider m-0"></div> -->
                                         <?php if($role != ROLE_TEACHING_STAFF){ ?>
                                         <a class="dropdown-item" href="#" id="conduct_certificate"><i class="fa fa-file"></i> Conduct Certificate</a>
-                                        <div class="dropdown-divider m-0"></div>
-                                        <a class="dropdown-item" href="#" id="mark_card_print"><i class="fa fa-file"></i> Mark Card</a>
+                                        <!-- <div class="dropdown-divider m-0"></div>
+                                        <a class="dropdown-item" href="#" id="mark_card_print"><i class="fa fa-file"></i> Mark Card</a> -->
                                         <!-- <a class="dropdown-item" href="#" id="first_year_hall_ticket"><i class="fa fa-file"></i> Hall ticket</a> -->
                                         
                                         <a class="dropdown-item" href="#" data-toggle="modal" data-target="#downloadReport" class="btn btn-md btn-primary">
                                         <i class="fa fa-download"></i> Export</a>
                                         <?php }  ?>
-                                        <!-- <a id="studentBatchModel" class="dropdown-item " href="#"><i class="fa fa-user"></i> Add Batch</a>
+                                        <!-- <a id="studentBatchModel" class="dropdown-item " href="#"><i class="fa fa-user"></i> Add Batch</a> -->
                                         <div class="dropdown-divider m-0"></div>
                                         <a class="dropdown-item" href="#" id="unit_test_mark_card"><i class="fa fa-file"></i> Unit Test Mark Card</a>
-                                        <div class="dropdown-divider m-0"></div> -->
+                                        <div class="dropdown-divider m-0"></div>
                                         <!-- <a class="dropdown-item" href="#" id="assign_feedback"><i class="fa fa-file"></i> Assign Student For Feedback</a>
                                         <div class="dropdown-divider m-0"></div> -->
                                         <!-- <a class="dropdown-item" href="#" id="promoteStudent"><i class="fa fa-file"></i>Promote Student</a>
@@ -817,9 +817,9 @@ if ($error) {
                             <select class=" form-control input-md" id="exam_type" name="exam_type">
                                 <option value="">Select Examination Name</option>
                                 <option value="I_UNIT_TEST" selected><strong>I UNIT TEST</strong></option>
-                                <option value="MID_TERM"><strong>MID TERM</strong></option>
+                                <!-- <option value="MID_TERM"><strong>MID TERM</strong></option>
                                 <option value="II_UNIT_TEST"><strong>II UNIT TEST</strong></option>
-                                <option value="I_PREPARATORY"><strong>PREPARATORY</strong></option>
+                                <option value="I_PREPARATORY"><strong>PREPARATORY</strong></option> -->
                             </select>
                         </div>
 
