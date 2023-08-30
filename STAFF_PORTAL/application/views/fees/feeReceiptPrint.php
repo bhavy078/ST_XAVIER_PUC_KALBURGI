@@ -16,15 +16,16 @@ table{
 }*/
 .border_full{
     border: 1px solid black;
-    height: 100% !important;
-    
+    /* height: 100% !important; */
+    padding-top: 2px;
+    padding-bottom: 5px;
     /* height: 90% !important; */
 }
 .border_bottom{
     border-bottom: 1px solid black;
 }
 .hr_line{
-    margin: 5px 0px;
+    margin: 1px 0px;
     color: black;
 }
 
@@ -39,7 +40,6 @@ table{
 .table_bordered td{
     border-top: 1px solid black;
    
-    
 }
 
 .table_bordered th .border_right_none,.table_bordered td .border_right_none{
@@ -79,12 +79,12 @@ table{
                 </tr>
             </table>
             <hr class="border_bottom hr_line">
-            <table class="table" style="font-size: 13px;">
+            <table class="table" style="font-size: 10px;">
                 <tr>
                     <td class="centered-td">Fee Receipt (<?php echo $copy_name[$name_count]; ?>)</td>
                 </tr>
                 </table>
-                <table class="table" style="font-size: 13px;">
+                <table class="table" style="font-size: 12px;">
                 <tr>
                     <td width="50%">Name of the child : <?php echo strtoupper($studentInfo->student_name); ?></td>
                     <td>Application/Register no. : <?php if(!empty($studentInfo->register_number) && $studentInfo->term_name == 'II PUC'){ echo $studentInfo->register_number; }else{ echo $studentInfo->application_no; } ?></td>
@@ -103,13 +103,13 @@ table{
                     <td >Payment Received Mode : <?php if(!empty($feeInfo->payment_type)){ echo $feeInfo->payment_type; }else{ echo 'Online'; } ?></td>
                 </tr>
             </table>
-            <table class="table table_bordered" style="font-size: 13px;">
+            <table class="table table_bordered" style="font-size: 12px;">
                 <tr>
                     <!-- <th width="100">Sl.No.</th> -->
                     <th>Particulars</th>
                     <th>Amount</th>
                 </tr> 
-                <?php if(!empty($feeStructureInfo)) {
+                <?php if(!empty($feeStructureInfo) && (empty($previousFeePaidInfo))) {
                     $i=1; $total_fee_amt=0;
                     foreach($feeStructureInfo as $fee){ 
                         if($fee->fees_type != 'College Dept Fee' && $fee->fees_type != 'Eligibility Fee'){
@@ -128,7 +128,7 @@ table{
                 <tr>
                     <th style="text-align: left;" colspan="1">Total Fee</th>
                     <th class="border_right_none" style="text-align: right;"><?php if($feeInfo->attempt == "1"){ echo number_format($total_fee_amt - 2000,2);} else {
-                    echo number_format($total_fee_amt,2);
+                    echo number_format($feeInfo->total_amount,2);
                     }; ?></th>
                 </tr>
                 <?php if($fee_concession != 0){ ?>

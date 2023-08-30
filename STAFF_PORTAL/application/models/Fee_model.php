@@ -1446,6 +1446,17 @@ class Fee_model extends CI_Model
         return $query->row();
     }
 
+    public function getPreviousFeePaidInfo($row_id,$application_no,$term_name){
+        $this->db->from('tbl_students_overall_fee_payment_info_i_puc_2021 as fee'); 
+        $this->db->where('fee.application_no', $application_no);
+        $this->db->where('fee.term_name',$term_name);
+        $this->db->where('fee.row_id <', $row_id);
+        $this->db->where('fee.is_deleted', 0);
+        $query = $this->db->get();
+        $result = $query->row();
+        return $result;
+    }
+
 
     
     

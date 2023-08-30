@@ -1071,11 +1071,12 @@ class Fee extends BaseController
         
         $this->global['pageTitle'] = ''.TAB_TITLE.' : Fee Receipt';
         $mpdf = new \Mpdf\Mpdf(['tempDir' => sys_get_temp_dir().DIRECTORY_SEPARATOR.'mpdf','default_font' => 'timesnewroman', 'format' => 'A4-L']);
-        $mpdf->AddPage('L','','','','',10,10,15,15,8,8);
+        $mpdf->AddPage('L','','','','',10,10,3,1,8,8);
         // $mpdf->SetTitle('Fee Receipt');
         // $html = $this->load->view('fees/feeReceiptPrint',$data,true);
         // $mpdf->WriteHTML($html);
         $data['paid_amount'] = $data['feeInfo']->paid_amount;
+        $data['previousFeePaidInfo'] = $this->fee->getPreviousFeePaidInfo($row_id,$data['feeInfo']->application_no, $studentInfo->term_name);
         $data['paid_amount_words'] = $this->getIndianCurrency(floatval($data['paid_amount']));
         $data['name_count'] = 0;
         $html_student_copy = $this->load->view('fees/feeReceiptPrint',$data,true);
