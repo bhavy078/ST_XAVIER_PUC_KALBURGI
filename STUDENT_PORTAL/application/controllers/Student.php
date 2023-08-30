@@ -116,7 +116,7 @@ class Student extends BaseController
         $data['onlineClassInfo'] = $this->student_model->getOnlineClassCredentialsInfo($this->student_id);
         $date = date('Y-m-d');
         $data['studentMarkInfo'] = $this->performance_model->getStudentFinalExamMarkInfo($this->student_id);
-        $this->global['notificationMsg'] = $this->student_model->getStudentNotifications($limit=75,$filter);
+        $this->global['notificationMsg'] = $this->student_model->getStudentNotificationsDetail($filter);
     
        // log_message('debug','as'.print_r($this->global['notificationMsg'],true));
 
@@ -486,10 +486,11 @@ class Student extends BaseController
 
     public function myNotifications(){
         $data['studentInfo'] = $this->student_model->getStudentInfoById($this->student_id,$this->term_name);
+        $filter['term_name']= $data['studentInfo']->term_name;
         $filter['stream_name']= $data['studentInfo']->stream_name;
         $filter['section_name']= $data['studentInfo']->section_name;
         $data['personal_notifications'] = $this->student_model->getStudentNotificationsById($this->student_id);
-        $data['notifications'] = $this->student_model->getStudentNotifications($limit=75,$filter);
+        $data['notifications'] = $this->student_model->getStudentNotificationsDetail($filter);
       
         $this->global['pageTitle'] = ''.TAB_TITLE.' : My Notifications';
         $this->loadViews("student/myNotifications", $this->global, $data , NULL);

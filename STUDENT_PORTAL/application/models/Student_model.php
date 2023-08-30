@@ -600,6 +600,32 @@ public function updateCoursePaymentLogByRowId($paymentInfo,$order_id) {
             return $query->result();
         }
 
+
+
+        public function getStudentNotificationsDetail($filter){
+            $this->db->from('tbl_student_notifications as notification');
+            if(!empty($filter['term_name'])){
+                $this->db->where_in('notification.term_name',array($filter['term_name'],"ALL"));
+            }else{
+                $this->db->where('notification.term_name',"ALL");
+            }
+            if(!empty($filter['stream_name'])){
+                $this->db->where_in('notification.stream_name',array($filter['stream_name'],"ALL"));
+            }else{
+                $this->db->where('notification.stream_name',"ALL");
+            }
+            if(!empty($filter['section_name'])){
+                $this->db->where_in('notification.section_name',array($filter['section_name'],"ALL"));
+            }else{
+                $this->db->where('notification.section_name',"ALL");
+            }
+            $this->db->where('notification.is_deleted', 0);
+            $this->db->order_by("date_time","DESC");
+            $this->db->limit(50);
+            $query = $this->db->get(); 
+            return $query->result();
+        }
+
         public function getRemarkInfoApi($row_id){
             $this->db->select('student.student_name,student.row_id as stdrowid,Observation.student_id,Observation.date,
             Observation.type_id,Observation.file_path,Observation.year,Observation.description,
