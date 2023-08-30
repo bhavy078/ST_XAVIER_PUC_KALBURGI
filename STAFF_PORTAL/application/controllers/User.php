@@ -42,6 +42,7 @@ class User extends BaseController
         $data['allStudentInfo'] = $this->student->getAllCurrentStudentInfo();
         $data['AllstaffInfo'] = $this->staff->getAllStaffInfo();
         $subjects_code = array();
+        $exam_mark_first_test = array();
 
         // $filter['by_role'] = ROLE_TEACHING_STAFF;
         // $data['teaching_staffs_total']= $this->staff->staffListingCount($filter);
@@ -113,6 +114,7 @@ class User extends BaseController
         //     $data['attendanceInfo'] = $this->attendance->getClassForAttendance($filter,$returns = '',$returns = '');
         // }
         
+        $exam_mark_first_test = array();
         $student_id = $this->security->xss_clean($this->input->post('student_id'));
         if(!empty($student_id)){
             $filter['student_id'] = $student_id;
@@ -125,6 +127,9 @@ class User extends BaseController
                 } else{
                     $filter['doj'] = '';
                 }
+                // $filter['stream_name'] = $studentRecord->stream_name;
+                // $filter['section_name'] = $studentRecord->section_name;
+                // $filter['term_name'] = $studentRecord->term_name; 
                 $data['studentsRecords'] = $studentRecord;
                 $elective_sub = strtoupper($studentRecord->elective_sub);            
                 if($elective_sub == "KANNADA"){
@@ -143,7 +148,7 @@ class User extends BaseController
                 log_message('debug','subjectssscodeee'.print_r($subjects_code,true));
 
                 $subjects_code = array_merge($subjects_code,$subjects);
-                $data['subject_code'] = $subjects;
+                $data['subject_code'] = $subjects_code;
                 // $filter['term_name'] = $studentRecord->term_name; 
                 $filter['term'] = '';
 
@@ -210,9 +215,12 @@ class User extends BaseController
                     //         $percentage_active = true;
                     //     }
                     // }
-
+                     $getMarkOfFirstUnitTest = $this->student->getFirstInternaltMark($studentRecord->student_id,$subjects_code[$i]);
+                
+                    $exam_mark_first_test[$i] = $getMarkOfFirstUnitTest;
               
                 }
+                $data['firstUnitTestMarkInfo'] = $exam_mark_first_test;
 
             } else {
                 $data['studentsRecords'] = '';
@@ -757,7 +765,7 @@ class User extends BaseController
         $BSBA = array("75", "31", "27", '30');
         $CSBA = array("41", "31", "27", '30');
         $SEBA = array("31", "22", "27", '30');
-        $CEBA = array("41", "22", "27", '30');
+        $EBAC = array("41", "22", "27", '30');
         //art
         $HEPP = array("21", "22", "32", '29');
         $HEPS = array("21", "22", "29", '28');
@@ -765,6 +773,7 @@ class User extends BaseController
         $PEBA = array("29", "22", "27", '30');
         $MEBA = array("75", "22", "27", '30');
         $MSBA = array("75", "31", "27", '30');
+        $HEPE = array("21", "22", "29", '52');
 
         switch ($stream_name) {
             case "PCMB":
@@ -794,8 +803,8 @@ class User extends BaseController
             case "SEBA":
                 return $SEBA;
                 break;
-            case "CEBA":
-                return $CEBA;
+            case "EBAC":
+                return $EBAC;
                 break;
             case "HEPP":
                 return $HEPP;
@@ -814,6 +823,9 @@ class User extends BaseController
                 break;
             case "PEBA":
                 return $PEBA;
+                break;
+            case "HEPE":
+                return $HEPE;
                 break;
         }
     }

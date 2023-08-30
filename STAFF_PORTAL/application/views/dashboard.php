@@ -363,16 +363,16 @@ if ($warning) {
                                                 aria-selected="true">Attendance
                                             </a>
                                         </li>
-                                        <!-- <li class="nav-item">
+                                        <li class="nav-item">
                                             <a class="nav-link" id="first_unit_test-tab" data-toggle="tab" href="#first_unit_test"
                                                 role="tab" aria-controls="first_unit_test" aria-selected="true">I Unit Test
                                             </a>
                                         </li>
-                                        <li class="nav-item">
+                                        <!-- <li class="nav-item">
                                             <a class="nav-link" id="first_term-tab" data-toggle="tab" href="#first_term"
                                                 role="tab" aria-controls="first_term" aria-selected="true">I Term
                                             </a>
-                                        </li>-->
+                                        </li> -->
                                         <!-- <li class="nav-item">
                                             <a class="nav-link" id="mid_term-tab" data-toggle="tab" href="#mid_term"
                                                 role="tab" aria-controls="mid_term" aria-selected="true">MID TERM
@@ -612,8 +612,7 @@ if ($warning) {
                                                 </tr>
                                             </table>
                                         </div>
-                                        <div class="tab-pane fade" id="first_unit_test" role="tabpanel"
-                                            aria-labelledby="first_unit_test-tab">
+                                        <div class="tab-pane fade" id="first_unit_test" role="tabpanel" aria-labelledby="first_unit_test-tab">
                                             <div class=" table-responsive">
                                                 <table class="table table-bordered">
                                                     <thead>
@@ -639,16 +638,16 @@ if ($warning) {
                                                         $result_display = "";
                                                         $result_subject_fail_status = false;
                                                         if($firstUnitTestMarkInfo[$i]->lab_status == 'true'){
-                                                            $max_mark = 100;
-                                                            $min_mark_pass = 35;
+                                                            $max_mark = 35;
+                                                            $min_mark_pass = 12;
                                                         }else{
-                                                            $max_mark = 100;
-                                                            $min_mark_pass = 35;
+                                                            $max_mark = 40;
+                                                            $min_mark_pass = 14;
                                                         }
                                                         $total_max_mark += $max_mark;
                                                         $total_min_mark += $min_mark_pass;
                                                         $obtainedMark = $firstUnitTestMarkInfo[$i]->obt_theory_mark;
-                                                        $obatained_mark = (float)$obtainedMark * 4;
+                                                        $obatained_mark = (float)$obtainedMark;
                                                         if($obtainedMark == 'AB' || $obtainedMark == 'EXEM' || $obtainedMark == 'MP' || $obtainedMark == 'SAT'){
                                                             $result_subject_fail_status = true;
                                                             $result_display = $obtainedMark;
@@ -664,25 +663,23 @@ if ($warning) {
                                                             $result_display = $obatained_mark;
                                                         }
                                                     ?>
-                                                    <tr>
-                                                        <th>
-                                                            <?php echo strtoupper($firstUnitTestMarkInfo[$i]->sub_name); ?>
-                                                        </th>
-                                                        <th class="text-center table_marks_data">
-                                                            <?php echo $max_mark; ?>
-                                                        </th>
-                                                        <th class="text-center table_marks_data">
-                                                            <?php echo $min_mark_pass; ?></th>
-                                                        <?php if($result_subject_fail_status == true){ ?>
-                                                        <th style="background: #f76a7ebf"
-                                                            class="text-center table_marks_data">
-                                                            <?php echo $result_display; ?></th>
-                                                        <?php }else{ ?>
-                                                        <th class="text-center table_marks_data">
-                                                            <?php echo $result_display; ?></th>
-                                                        <?php } ?>
-                                                    </tr>
-                                                    <?php  } }
+                                                <tr>
+                                                    <th>
+                                                        <?php echo strtoupper($firstUnitTestMarkInfo[$i]->sub_name); ?></th>
+                                                    <th class="text-center table_marks_data"><?php echo $max_mark; ?>
+                                                    </th>
+                                                    <th class="text-center table_marks_data">
+                                                        <?php echo $min_mark_pass; ?></th>
+                                                    <?php if($result_subject_fail_status == true){ ?>
+                                                    <th style="background: #f76a7ebf"
+                                                        class="text-center table_marks_data">
+                                                        <?php echo $result_display; ?></th>
+                                                    <?php }else{ ?>
+                                                    <th class="text-center table_marks_data">
+                                                        <?php echo $result_display; ?></th>
+                                                    <?php } ?>
+                                                </tr>
+                                                <?php  } }
                                                        if($total_mark_obtained != 0){
                                                         $total_percentage = ($total_mark_obtained/$total_max_mark)*100; 
                                                         $exam_result = calculateResult($total_mark_obtained);
@@ -693,7 +690,7 @@ if ($warning) {
                                                         <th><?php echo $total_min_mark; ?></th>
                                                         <th><?php echo $total_mark_obtained; ?></th>
                                                     </tr>
-
+    
                                                     <tr>
                                                         <th colspan="2" class="total_row">Percentage:
                                                             <?php echo round($total_percentage,2).'%'; ?></th>
@@ -701,12 +698,11 @@ if ($warning) {
                                                             <?php if($result_fail_status == true){ ?>
                                                             <span class="text_fail"><?php echo 'FAIL'; ?></span>
                                                             <?php } else { ?>
-                                                            <span class="text_pass"><?php echo $exam_result; ?></span>
-                                                            <?php } ?>
-                                                        </th>
+                                                            <span class="text_pass"><?php echo 'PASS'; ?></span>
+                                                            <?php } ?></th>
                                                     </tr>
-                                                    <?php } ?>
-                                                </table>
+                                                  <?php } ?>
+                                                </table>  
                                             </div>
                                         </div>
 
@@ -2457,3 +2453,23 @@ if ($warning) {
         });
     }
 </script>
+
+
+<?php
+
+
+function calculateResult($total_marks){
+    $percentage = floor(($total_marks / 600) * 100);
+    if($percentage >= 85){
+        return "Distinction";
+    } else if($percentage >= 60 && $percentage <= 84){
+        return "I Class";
+    } else if($percentage >= 50 && $percentage <= 59){
+        return "II Class";
+    } else if($percentage >= 35 && $percentage <= 49){
+        return "III Class";
+    }
+}
+
+
+?>
