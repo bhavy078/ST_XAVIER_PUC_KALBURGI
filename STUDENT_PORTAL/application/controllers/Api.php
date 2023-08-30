@@ -684,7 +684,7 @@ public function collegeNotificationsApi(){
 
                 // if($data['studentInfo']->term_name == 'I PUC'){
 
-                    $exam_year = '2022-23';
+                    $exam_year = '2023-24';
 
                 // }else{
 
@@ -725,14 +725,17 @@ public function collegeNotificationsApi(){
                 $exam_mark_assignment = array();
 
                 $subjects = $this->getSubjectCodes($data['studentInfo']->stream_name);
+               // log_message('debug','subjects'.print_r($subjects,true));
 
                 $subjects_code = array_merge($subjects_code,$subjects);
 
+               // log_message('debug','subjects'.print_r($subjects_code ,true));
                 
 
                 for($i=0;$i < count($subjects_code);$i++){
 
                         $getMarkOfFirstUnitTest = $this->performance_model->getFirstInternaltMark($student_id,$subjects_code[$i],$exam_year);
+                       // log_message('debug','subjects'.print_r($getMarkOfFirstUnitTest,true));
 
                         $exam_mark_first_test[$i] = $getMarkOfFirstUnitTest;
 
@@ -853,6 +856,7 @@ public function collegeNotificationsApi(){
                 $data['subjects_code'] = $subjects_code;
 
                 $data['firstUnitTestMarkInfo'] = $exam_mark_first_test;
+                //log_message('debug','hghg'.print_r($data['firstUnitTestMarkInfo'],true));
 
                 $data['midTermExamMarkInfo'] = $exam_mark_mid_term;
 
@@ -1488,7 +1492,7 @@ public function collegeNotificationsApi(){
             $paidFee = $this->fee->getTotalFeePaidInfo($application_no,CURRENT_YEAR);
             $data->feePaidInfo = $this->fee->getFeePaidInfo($application_no,CURRENT_YEAR);
             $data->fee_installment = $this->fee->checkInstalmentExists($application_no);
-            $data->paid_amount = $paidFee;
+            $data->paid_amount = number_format($paidFee,2);
             $concession_amt = 0;
             $feeConcession = $this->fee->getStudentFeeConcession($application_no);
             if(!empty($feeConcession)){
@@ -1502,7 +1506,7 @@ public function collegeNotificationsApi(){
             $data->concession = $concession_amt;
             $data->balance = 0;
            
-              $data->balance = $total_fee_amount;
+              $data->balance = number_format($total_fee_amount,2);
               $data->concession = $concession_amt;
               $data->studentid = $studentInfo->student_id;
               $data->studentname= $studentInfo->student_name;
@@ -1569,10 +1573,10 @@ public function collegeNotificationsApi(){
                 $concession_amt = $feeConcession->fee_amt;
             }
             $data->second_puc_pending_amount = $data->pending_amount = $total_fee_amount-$concession_amt;
-            $data->paid_amount = $paidFee;
+            $data->paid_amount = number_format($paidFee,2);
           
             //get list of payment in II PUC
-            $data->balance = $total_fee_amount;
+            $data->balance = number_format($total_fee_amount,2);
             $data->concession = $concession_amt;
             $data->studentid = $studentInfo->student_id;
             $data->studentname= $studentInfo->student_name;
@@ -1782,13 +1786,14 @@ public function collegeNotificationsApi(){
         $BSBA = array("75", "31", "27", '30');
         $CSBA = array("41", "31", "27", '30');
         $SEBA = array("31", "22", "27", '30');
-        $CEBA = array("41", "22", "27", '30');
+        $EBAC = array("41", "22", "27", '30');
         $PEBA = array("29", "22", "27", '30');
         //art
         $HEPP = array("21", "22", "32", '29');
         $MEBA = array("75", "22", "27", '30');
         $MSBA = array("75", "31", "27", '30');
         $HEPS = array("21", "22", "29", '28');
+        $HEPE = array("21", "22", "29", '52');
 
         switch ($stream_name) {
             case "PCMB":
@@ -1819,7 +1824,7 @@ public function collegeNotificationsApi(){
                 return $SEBA;
                 break;
             case "CEBA":
-                return $CEBA;
+                return $EBAC;
                 break;
             case "HEPP":
                 return $HEPP;
@@ -1832,6 +1837,9 @@ public function collegeNotificationsApi(){
                 break;
             case "MSBA":
                 return $MSBA;
+                break;
+            case "HEPE":
+                return $HEPE;
                 break;
         }
     }

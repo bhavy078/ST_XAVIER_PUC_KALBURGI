@@ -316,72 +316,64 @@ $base_url = 'https://sjpuc.schoolphins.com/student/'; ?>
 ?>
     <div class="row form-employee">
 
-<div class="col-12 padding_left_right_null">
+        <div class="col-12 padding_left_right_null">
 
-    <div class="card card-small c-border mb-4">
+            <div class="card card-small c-border mb-4">
 
-        <ul class="list-group list-group-flush">
+                <ul class="list-group list-group-flush">
 
-            <li class="list-group-item">
+                    <li class="list-group-item">
 
-                <div class="row">
+                        <div class="row">
 
-                    <div class="col profile-head">
+                            <div class="col profile-head">
 
-                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <ul class="nav nav-tabs" id="myTab" role="tablist">
 
-                            <?php //if($term_name == 'I PUC'){ ?>
+                                    <?php //if($term_name == 'I PUC'){ ?>
 
-                            <li class="nav-item">
+                                    <li class="nav-item">
 
-                                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile"
-                                    role="tab" aria-controls="profile" aria-selected="false">I Unit Test</a>
+                                        <a class="nav-link " id="profile-tab" data-toggle="tab" href="#profile"
+                                            role="tab" aria-controls="profile" aria-selected="false">I Unit Test</a>
 
-                            </li>
+                                    </li>
 
-                            <?php //} ?>
+                                    <?php //} ?>
 
 
 
-                            <?php// if($term_name == 'II PUC'){ ?>
+                                    <?php// if($term_name == 'II PUC'){ ?>
 
-                            <li class="nav-item">
+                                    <!-- <li class="nav-item">
 
-                                <a class="nav-link active" id="midTerm-tab" data-toggle="tab" href="#midTerm"
-                                    role="tab" aria-controls="family" aria-selected="true">Mid Term Exam</a>
+                                    <a class="nav-link" id="midTerm-tab" data-toggle="tab" href="#midTerm"
 
-                            </li>
+                                        role="tab" aria-controls="family" aria-selected="true">Mid Term Exam</a>
 
-                            <li class="nav-item">
+                                </li>
 
-                                <a class="nav-link" id="preparatory-tab" data-toggle="tab" href="#preparatory"
-
-                                     role="tab" aria-controls="preparatory" aria-selected="false">Preparatory</a>
-
-                            </li>
-                            <!--<li class="nav-item">
+                                 <li class="nav-item">
 
                                     <a class="nav-link" id="secondTest-tab" data-toggle="tab" href="#secondTest"
 
                                         role="tab" aria-controls="secondTest" aria-selected="false">II Unit Test</a>
 
-                                </li> -->
-
-                            <?php// } ?>
-                            <?php //if($term_name == 'I PUC'){ ?>
+                                </li>
 
                                 <li class="nav-item">
 
-                                    <a class="nav-link" id="IIUnit-tab" data-toggle="tab" href="#IIUnit"
-                                    role="tab" aria-controls="IIUnit" aria-selected="false">II Unit Test</a>
+                                    <a class="nav-link" id="preparatory-tab" data-toggle="tab" href="#preparatory"
 
-                                       </li>
+                                        role="tab" aria-controls="preparatory" aria-selected="false">Preparatory</a>
 
-                               <?php //} ?>
+                            </li> -->
 
-                            <?php if($term_name == 'II PUC'){ ?>
+                                    <?php// } ?>
 
-                            <!-- <li class="nav-item">
+                                    <?php if($term_name == 'II PUC'){ ?>
+
+                                    <!-- <li class="nav-item">
 
                                     <a class="nav-link" id="firstPreparatory-tab" data-toggle="tab" href="#firstPreparatory"
 
@@ -389,9 +381,9 @@ $base_url = 'https://sjpuc.schoolphins.com/student/'; ?>
 
                                 </li> -->
 
-                            <?php } ?>
+                                    <?php } ?>
 
-                            <!-- <li class="nav-item">
+                                    <!-- <li class="nav-item">
 
                                 <a class="nav-link active" id="final_exam-tab" data-toggle="tab" href="#final_exam"
 
@@ -399,7 +391,7 @@ $base_url = 'https://sjpuc.schoolphins.com/student/'; ?>
 
                             </li> -->
 
-                            <!-- <li class="nav-item">
+                                    <!-- <li class="nav-item">
 
                                 <a class="nav-link" id="graph-tab" data-toggle="tab" href="#graph" role="tab"
 
@@ -407,56 +399,57 @@ $base_url = 'https://sjpuc.schoolphins.com/student/'; ?>
 
                             </li> -->
 
-                        </ul>
+                                </ul>
 
-                        <div class="tab-content profile-tab" id="myTabContent">
+                                <div class="tab-content profile-tab" id="myTabContent">
 
-                            <?php// if($term_name == 'I PUC'){ ?>
+                                    <?php// if($term_name == 'I PUC'){ ?>
 
-                            <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                    <div class="tab-pane fade show active" id="profile" role="tabpanel"
+                                        aria-labelledby="profile-tab">
 
-                                <h6 class="text-center text-dark mb-1"></h6>
+                                        <h6 class="text-center text-dark mb-1"></h6>
 
-                                <div class="table-responsive-sm">
+                                        <div class="table-responsive-sm">
 
-                                    <table class="table table-bordered table_info">
+                                            <table class="table table-bordered table_info">
 
-                                        <thead class="text-center">
+                                                <thead class="text-center">
 
-                                            <?php //if($term_name == 'II PUC'){ ?>
+                                                    <?php //if($term_name == 'II PUC'){ ?>
 
-                                            <tr>
+                                                    <tr>
 
-                                                <th colspan="4" class="table_title text-center">FIRST UNIT TEST
-                                                    2022</th>
+                                                        <th colspan="4" class="table_title text-center">FIRST UNIT TEST
+                                                            2023</th>
 
-                                            </tr>
+                                                    </tr>
 
-                                            <?php //}else{ ?>
-                                            <!-- 
+                                                    <?php //}else{ ?>
+                                                    <!-- 
                                                 <tr>
 
                                                     <th colspan="4" class="table_title text-center">I PUC UNIT TEST FEBRUARY/MARCH 2021</th>
 
                                                 </tr> -->
 
-                                            <?php //} ?>
+                                                    <?php //} ?>
 
-                                            <tr class="table_row_backgrond">
+                                                    <tr class="table_row_backgrond">
 
-                                                <th>SUBJECTS</th>
+                                                        <th>SUBJECTS</th>
 
-                                                <th>Max. Marks</th>
+                                                        <th>Max. Marks</th>
 
-                                                <th>Min. Marks</th>
+                                                        <th>Min. Marks</th>
 
-                                                <th>Marks Scored</th>
+                                                        <th>Marks Scored</th>
 
-                                            </tr>
+                                                    </tr>
 
-                                        </thead>
+                                                </thead>
 
-                                        <?php 
+                                                <?php 
 
                                        
 
@@ -494,9 +487,9 @@ $base_url = 'https://sjpuc.schoolphins.com/student/'; ?>
 
                                                 }else{
 
-                                                    $max_mark = 50;
+                                                    $max_mark = 40;
 
-                                                    $min_mark_pass = 18;
+                                                    $min_mark_pass = 14;
 
                                                 }
 
@@ -536,119 +529,119 @@ $base_url = 'https://sjpuc.schoolphins.com/student/'; ?>
 
                                             ?>
 
-                                        <tr>
+                                                <tr>
 
-                                            <th class="text-center">
+                                                    <th class="text-center">
 
-                                                <?php echo strtoupper($firstUnitTestMarkInfo[$i]->name); ?></th>
+                                                        <?php echo strtoupper($firstUnitTestMarkInfo[$i]->name); ?></th>
 
-                                            <th class="text-center table_marks_data"><?php echo $max_mark; ?>
+                                                    <th class="text-center table_marks_data"><?php echo $max_mark; ?>
 
-                                            </th>
+                                                    </th>
 
-                                            <th class="text-center table_marks_data">
+                                                    <th class="text-center table_marks_data">
 
-                                                <?php echo $min_mark_pass; ?></th>
+                                                        <?php echo $min_mark_pass; ?></th>
 
-                                            <?php if($result_subject_fail_status == true){ ?>
+                                                    <?php if($result_subject_fail_status == true){ ?>
 
-                                            <th style="background: #f76a7ebf"
-                                                class="text-center table_marks_data">
+                                                    <th style="background: #f76a7ebf"
+                                                        class="text-center table_marks_data">
 
-                                                <?php echo $result_display; ?></th>
+                                                        <?php echo $result_display; ?></th>
 
-                                            <?php }else{ ?>
+                                                    <?php }else{ ?>
 
-                                            <th class="text-center table_marks_data">
+                                                    <th class="text-center table_marks_data">
 
-                                                <?php echo $result_display; ?></th>
+                                                        <?php echo $result_display; ?></th>
 
-                                            <?php } ?>
+                                                    <?php } ?>
 
-                                        </tr>
+                                                </tr>
 
-                                        <?php  }
+                                                <?php  }
 
                                                if($total_mark_obtained != 0){
 
                                                 $total_percentage = ($total_mark_obtained/$total_max_mark)*100; ?>
 
-                                        <tr class="text-center table_row_backgrond">
+                                                <tr class="text-center table_row_backgrond">
 
-                                            <th class="total_row">Total</th>
+                                                    <th class="total_row">Total</th>
 
-                                            <th><?php echo $total_max_mark; ?></th>
+                                                    <th><?php echo $total_max_mark; ?></th>
 
-                                            <th><?php echo $total_min_mark; ?></th>
+                                                    <th><?php echo $total_min_mark; ?></th>
 
-                                            <th><?php echo $total_mark_obtained; ?></th>
+                                                    <th><?php echo $total_mark_obtained; ?></th>
 
-                                        </tr>
+                                                </tr>
 
 
 
-                                        <tr>
+                                                <tr>
 
-                                            <th colspan="2" class="total_row">Percentage:
+                                                    <th colspan="2" class="total_row">Percentage:
 
-                                                <?php echo round($total_percentage,2).'%'; ?></th>
+                                                        <?php echo round($total_percentage,2).'%'; ?></th>
 
-                                            <th colspan="2">Result:
+                                                    <th colspan="2">Result:
 
-                                                <?php if($result_fail_status == true){ ?>
+                                                        <?php if($result_fail_status == true){ ?>
 
-                                                <span class="text_fail"><?php echo 'FAIL'; ?></span>
+                                                        <span class="text_fail"><?php echo 'FAIL'; ?></span>
 
-                                                <?php } else { ?>
+                                                        <?php } else { ?>
 
-                                                <span class="text_pass"><?php echo 'PASS'; ?></span>
+                                                        <span class="text_pass"><?php echo 'PASS'; ?></span>
+
+                                                        <?php } ?>
+                                                    </th>
+
+                                                </tr>
 
                                                 <?php } ?>
-                                            </th>
 
-                                        </tr>
+                                            </table>
 
-                                        <?php } ?>
+                                        </div>
 
-                                    </table>
+                                    </div>
 
-                                </div>
+                                    <?php //} ?>
 
-                            </div>
+                                    <div class="tab-pane fade show" id="midTerm" role="tabpanel"
+                                        aria-labelledby="midTerm-tab">
 
-                            <?php //} ?>
+                                        <div class="table-responsive">
 
-                            <div class="tab-pane fade show active" id="midTerm" role="tabpanel"
-                                aria-labelledby="midTerm-tab">
+                                            <table class="table table-bordered table_info">
 
-                                <div class="table-responsive">
+                                                <thead class="text-center">
 
-                                    <table class="table table-bordered table_info">
+                                                    <tr>
 
-                                        <thead class="text-center">
+                                                        <th colspan="4" class="table_title text-center">MID TERM EXAM
+                                                            2022</th>
 
-                                            <tr>
+                                                    </tr>
 
-                                                <th colspan="4" class="table_title text-center">MID TERM EXAM
-                                                    2022</th>
+                                                    <tr class="table_row_backgrond">
 
-                                            </tr>
+                                                        <th>SUBJECTS</th>
 
-                                            <tr class="table_row_backgrond">
+                                                        <th>Max. Marks</th>
 
-                                                <th>SUBJECTS</th>
+                                                        <th>Min. Marks</th>
 
-                                                <th>Max. Marks</th>
+                                                        <th>Marks Scored</th>
 
-                                                <th>Min. Marks</th>
+                                                    </tr>
 
-                                                <th>Marks Scored</th>
+                                                </thead>
 
-                                            </tr>
-
-                                        </thead>
-
-                                        <?php 
+                                                <?php 
 
                                             $result_subject_fail_status = false;
 
@@ -726,310 +719,313 @@ $base_url = 'https://sjpuc.schoolphins.com/student/'; ?>
 
                                             ?>
 
-                                        <tr>
+                                                <tr>
 
-                                            <th class="text-center">
+                                                    <th class="text-center">
 
-                                                <?php echo strtoupper($midTermExamMarkInfo[$i]->name); ?></th>
+                                                        <?php echo strtoupper($midTermExamMarkInfo[$i]->name); ?></th>
 
-                                            <th class="text-center table_marks_data"><?php echo $max_mark; ?>
+                                                    <th class="text-center table_marks_data"><?php echo $max_mark; ?>
 
-                                            </th>
+                                                    </th>
 
-                                            <th class="text-center table_marks_data">
+                                                    <th class="text-center table_marks_data">
 
-                                                <?php echo $min_mark_pass; ?></th>
+                                                        <?php echo $min_mark_pass; ?></th>
 
-                                            <?php if($result_subject_fail_status == true){ ?>
+                                                    <?php if($result_subject_fail_status == true){ ?>
 
-                                            <th style="background: #f76a7ebf"
-                                                class="text-center table_marks_data">
+                                                    <th style="background: #f76a7ebf"
+                                                        class="text-center table_marks_data">
 
-                                                <?php echo $result_display; ?></th>
+                                                        <?php echo $result_display; ?></th>
 
-                                            <?php }else{ ?>
+                                                    <?php }else{ ?>
 
-                                            <th class="text-center table_marks_data">
+                                                    <th class="text-center table_marks_data">
 
-                                                <?php echo $result_display; ?></th>
+                                                        <?php echo $result_display; ?></th>
 
-                                            <?php } ?>
+                                                    <?php } ?>
 
-                                        </tr>
+                                                </tr>
 
-                                        <?php  } }
+                                                <?php  } }
 
                                         if($total_mark_obtained != 0){
 
                                             $total_percentage = ($total_mark_obtained/$total_max_mark)*100; ?>
 
-                                        <tr class="text-center table_row_backgrond">
+                                                <tr class="text-center table_row_backgrond">
 
-                                            <th class="total_row">Total</th>
+                                                    <th class="total_row">Total</th>
 
-                                            <th><?php echo $total_max_mark; ?></th>
+                                                    <th><?php echo $total_max_mark; ?></th>
 
-                                            <th><?php echo $total_min_mark; ?></th>
+                                                    <th><?php echo $total_min_mark; ?></th>
 
-                                            <th><?php echo $total_mark_obtained; ?></th>
+                                                    <th><?php echo $total_mark_obtained; ?></th>
 
-                                        </tr>
+                                                </tr>
 
 
 
-                                        <tr>
+                                                <tr>
 
-                                            <th colspan="2" class="total_row">Percentage:
+                                                    <th colspan="2" class="total_row">Percentage:
 
-                                                <?php echo round($total_percentage,2).'%'; ?></th>
+                                                        <?php echo round($total_percentage,2).'%'; ?></th>
 
-                                            <th colspan="2">Result:
+                                                    <th colspan="2">Result:
 
-                                                <?php if($result_fail_status == true){ ?>
+                                                        <?php if($result_fail_status == true){ ?>
 
-                                                <span class="text_fail"><?php echo 'FAIL'; ?></span>
+                                                        <span class="text_fail"><?php echo 'FAIL'; ?></span>
 
-                                                <?php } else { ?>
+                                                        <?php } else { ?>
 
-                                                <span class="text_pass"><?php echo 'PASS'; ?></span>
+                                                        <span class="text_pass"><?php echo 'PASS'; ?></span>
+
+                                                        <?php } ?>
+                                                    </th>
+
+                                                </tr>
 
                                                 <?php } ?>
-                                            </th>
-
-                                        </tr>
-
-                                        <?php } ?>
 
 
 
-                                    </table>
+                                            </table>
 
-                                </div>
+                                        </div>
 
-                            </div>
+                                    </div>
 
-                            
-                            <div class="tab-pane fade show active" id="preparatory" role="tabpanel" aria-labelledby="preparatory-tab">
+                                    <div class="tab-pane" id="preparatory" role="tabpanel"
+                                        aria-labelledby="preparatory-tab">
 
-<div class="table-responsive">
+                                        <div class="table-responsive">
 
-    <table class="table table-bordered table_info">
+                                            <table class="table table-bordered table_info">
 
-        <thead class="text-center">
+                                                <thead class="text-center">
 
-            <tr>
+                                                    <tr>
 
-                <th colspan="4" class="table_title text-center">PREPARATORY 2023</th>
+                                                        <th colspan="4" class="table_title text-center">PREPARATORY 2023
+                                                        </th>
 
-            </tr>
+                                                    </tr>
 
-            <tr class="table_row_backgrond">
+                                                    <tr class="table_row_backgrond">
 
-                <th>SUBJECTS</th>
+                                                        <th>SUBJECTS</th>
 
-                <th>Max. Marks</th>
+                                                        <th>Max. Marks</th>
 
-                <th>Min. Marks</th>
+                                                        <th>Min. Marks</th>
 
-                <th>Marks Scored</th>
+                                                        <th>Marks Scored</th>
 
-            </tr>
+                                                    </tr>
 
-        </thead>
+                                                </thead>
 
-        <?php 
+                                                <?php 
 
-            $result_subject_fail_status = false;
+    $result_subject_fail_status = false;
 
-            $result_fail_status = false;
+    $result_fail_status = false;
 
-            $max_mark = 0;
+    $max_mark = 0;
 
-            $min_mark_pass = 0;
+    $min_mark_pass = 0;
 
-            $total_mark_obtained = 0;
+    $total_mark_obtained = 0;
 
-            $total_max_mark = 0;
+    $total_max_mark = 0;
 
-            $total_min_mark = 0;
+    $total_min_mark = 0;
 
-            $total_percentage = 0;
+    $total_percentage = 0;
 
-            for($i=0;$i<count($subjects_code);$i++){
+    for($i=0;$i<count($subjects_code);$i++){
 
-                $result_display = "";
+        $result_display = "";
+
+        $result_subject_fail_status = false;
+
+        if(!empty($firstPreparatoryMarkInfo[$i])){
+
+            
+
+        if($firstPreparatoryMarkInfo[$i]->lab_status == 'true'){
+
+            $max_mark = 70;
+
+            $min_mark_pass = 24;
+
+        }else{
+
+            $max_mark = 100;
+
+            $min_mark_pass = 35;
+
+        }
+
+        $total_max_mark += $max_mark;
+
+        $total_min_mark += $min_mark_pass;
+
+        $obtainedMark = $firstPreparatoryMarkInfo[$i]->obt_theory_mark;
+
+            if($obtainedMark == 'AB' || $obtainedMark == 'EX' || $obtainedMark == 'MP'){
+
+                $result_subject_fail_status = true;
+
+                $result_display = $obtainedMark;
+
+                $result_fail_status = true;
+
+            }else if($min_mark_pass > $obtainedMark){
+
+                $result_subject_fail_status = true;
+
+                $result_fail_status = true;
+
+                $total_mark_obtained += $obtainedMark;
+
+                $result_display = $obtainedMark.'F';
+
+            }else{
 
                 $result_subject_fail_status = false;
 
-                if(!empty($firstPreparatoryMarkInfo[$i])){
+                $total_mark_obtained += $obtainedMark;
 
-                    
+                $result_display = $obtainedMark;
 
-                if($firstPreparatoryMarkInfo[$i]->lab_status == 'true'){
+            }
 
-                    $max_mark = 70;
+    ?>
 
-                    $min_mark_pass = 24;
+                                                <tr>
 
-                }else{
+                                                    <th class="text-center">
 
-                    $max_mark = 100;
+                                                        <?php echo strtoupper($firstPreparatoryMarkInfo[$i]->name); ?>
+                                                    </th>
 
-                    $min_mark_pass = 35;
+                                                    <th class="text-center table_marks_data"><?php echo $max_mark; ?>
 
-                }
+                                                    </th>
 
-                $total_max_mark += $max_mark;
+                                                    <th class="text-center table_marks_data">
 
-                $total_min_mark += $min_mark_pass;
+                                                        <?php echo $min_mark_pass; ?></th>
 
-                $obtainedMark = $firstPreparatoryMarkInfo[$i]->obt_theory_mark;
+                                                    <?php if($result_subject_fail_status == true){ ?>
 
-                    if($obtainedMark == 'AB' || $obtainedMark == 'EX' || $obtainedMark == 'MP'){
+                                                    <th style="background: #f76a7ebf"
+                                                        class="text-center table_marks_data">
 
-                        $result_subject_fail_status = true;
+                                                        <?php echo $result_display; ?></th>
 
-                        $result_display = $obtainedMark;
+                                                    <?php }else{ ?>
 
-                        $result_fail_status = true;
+                                                    <th class="text-center table_marks_data">
 
-                    }else if($min_mark_pass > $obtainedMark){
+                                                        <?php echo $result_display; ?></th>
 
-                        $result_subject_fail_status = true;
+                                                    <?php } ?>
 
-                        $result_fail_status = true;
+                                                </tr>
 
-                        $total_mark_obtained += $obtainedMark;
+                                                <?php  } }
 
-                        $result_display = $obtainedMark.'F';
+if($total_mark_obtained != 0){
 
-                    }else{
+    $total_percentage = ($total_mark_obtained/$total_max_mark)*100; ?>
 
-                        $result_subject_fail_status = false;
+                                                <tr class="text-center table_row_backgrond">
 
-                        $total_mark_obtained += $obtainedMark;
+                                                    <th class="total_row">Total</th>
 
-                        $result_display = $obtainedMark;
+                                                    <th><?php echo $total_max_mark; ?></th>
 
-                    }
+                                                    <th><?php echo $total_min_mark; ?></th>
 
-            ?>
+                                                    <th><?php echo $total_mark_obtained; ?></th>
 
-        <tr>
+                                                </tr>
 
-            <th class="text-center">
 
-                <?php echo strtoupper($firstPreparatoryMarkInfo[$i]->name); ?></th>
 
-            <th class="text-center table_marks_data"><?php echo $max_mark; ?>
+                                                <tr>
 
-            </th>
+                                                    <th colspan="2" class="total_row">Percentage:
 
-            <th class="text-center table_marks_data">
+                                                        <?php echo round($total_percentage,2).'%'; ?></th>
 
-                <?php echo $min_mark_pass; ?></th>
+                                                    <th colspan="2">Result:
 
-            <?php if($result_subject_fail_status == true){ ?>
+                                                        <?php if($result_fail_status == true){ ?>
 
-            <th style="background: #f76a7ebf"
+                                                        <span class="text_fail"><?php echo 'FAIL'; ?></span>
 
-                class="text-center table_marks_data">
+                                                        <?php } else { ?>
 
-                <?php echo $result_display; ?></th>
+                                                        <span class="text_pass"><?php echo 'PASS'; ?></span>
 
-            <?php }else{ ?>
+                                                        <?php } ?>
+                                                    </th>
 
-            <th class="text-center table_marks_data">
+                                                </tr>
 
-                <?php echo $result_display; ?></th>
+                                                <?php } ?>
 
-            <?php } ?>
 
-        </tr>
 
-        <?php  } }
+                                            </table>
 
-        if($total_mark_obtained != 0){
+                                        </div>
 
-            $total_percentage = ($total_mark_obtained/$total_max_mark)*100; ?>
+                                    </div>
 
-        <tr class="text-center table_row_backgrond">
 
-            <th class="total_row">Total</th>
+                                    <div class="tab-pane fade" id="secondTest" role="tabpanel"
+                                        aria-labelledby="secondTest-tab">
 
-            <th><?php echo $total_max_mark; ?></th>
+                                        <h6 class="text-center text-dark mb-1"></h6>
 
-            <th><?php echo $total_min_mark; ?></th>
+                                        <div class="table-responsive-sm">
 
-            <th><?php echo $total_mark_obtained; ?></th>
+                                            <table class="table table-bordered table_info">
 
-        </tr>
+                                                <thead class="text-center">
 
+                                                    <tr>
 
+                                                        <th colspan="4" class="table_title text-center">II Unit Test
+                                                            2022</th>
 
-        <tr>
+                                                    </tr>
 
-            <th colspan="2" class="total_row">Percentage:
+                                                    <tr class="table_row_backgrond">
 
-                <?php echo round($total_percentage,2).'%'; ?></th>
+                                                        <th>SUBJECTS</th>
 
-            <th colspan="2">Result: 
+                                                        <th>Max. Marks</th>
 
-                <?php if($result_fail_status == true){ ?>
+                                                        <th>Min. Marks</th>
 
-                <span class="text_fail"><?php echo 'FAIL'; ?></span>
+                                                        <th>Marks Scored</th>
 
-                <?php } else { ?>
+                                                    </tr>
 
-                <span class="text_pass"><?php echo 'PASS'; ?></span>
+                                                </thead>
 
-                <?php } ?></th>
-
-        </tr>
-
-      <?php } ?>
-
-              
-
-    </table>
-
-</div>
-
-</div>
-
-                            <div class="tab-pane fade" id="secondTest" role="tabpanel"
-                                aria-labelledby="secondTest-tab">
-
-                                <h6 class="text-center text-dark mb-1"></h6>
-
-                                <div class="table-responsive-sm">
-
-                                    <table class="table table-bordered table_info">
-
-                                        <thead class="text-center">
-
-                                            <tr>
-
-                                                <th colspan="4" class="table_title text-center">II Unit Test
-                                                    2019-20</th>
-
-                                            </tr>
-
-                                            <tr class="table_row_backgrond">
-
-                                                <th>SUBJECTS</th>
-
-                                                <th>Max. Marks</th>
-
-                                                <th>Min. Marks</th>
-
-                                                <th>Marks Scored</th>
-
-                                            </tr>
-
-                                        </thead>
-
-                                        <?php 
+                                                <?php 
 
                                             $result_subject_fail_status = false;
 
@@ -1107,120 +1103,120 @@ $base_url = 'https://sjpuc.schoolphins.com/student/'; ?>
 
                                             ?>
 
-                                        <tr>
+                                                <tr>
 
-                                            <th class="text-center">
+                                                    <th class="text-center">
 
-                                                <?php echo strtoupper($SecondUnitTestMarkInfo[$i]->name); ?>
-                                            </th>
+                                                        <?php echo strtoupper($SecondUnitTestMarkInfo[$i]->name); ?>
+                                                    </th>
 
-                                            <th class="text-center table_marks_data"><?php echo $max_mark; ?>
+                                                    <th class="text-center table_marks_data"><?php echo $max_mark; ?>
 
-                                            </th>
+                                                    </th>
 
-                                            <th class="text-center table_marks_data">
+                                                    <th class="text-center table_marks_data">
 
-                                                <?php echo $min_mark_pass; ?></th>
+                                                        <?php echo $min_mark_pass; ?></th>
 
-                                            <?php if($result_subject_fail_status == true){ ?>
+                                                    <?php if($result_subject_fail_status == true){ ?>
 
-                                            <th style="background: #f76a7ebf"
-                                                class="text-center table_marks_data">
+                                                    <th style="background: #f76a7ebf"
+                                                        class="text-center table_marks_data">
 
-                                                <?php echo $result_display; ?></th>
+                                                        <?php echo $result_display; ?></th>
 
-                                            <?php }else{ ?>
+                                                    <?php }else{ ?>
 
-                                            <th class="text-center table_marks_data">
+                                                    <th class="text-center table_marks_data">
 
-                                                <?php echo $result_display; ?></th>
+                                                        <?php echo $result_display; ?></th>
 
-                                            <?php } ?>
+                                                    <?php } ?>
 
-                                        </tr>
+                                                </tr>
 
-                                        <?php  }
+                                                <?php  }
 
                                                if($total_mark_obtained != 0){
 
                                                 $total_percentage = ($total_mark_obtained/$total_max_mark)*100; ?>
 
-                                        <tr class="text-center table_row_backgrond">
+                                                <tr class="text-center table_row_backgrond">
 
-                                            <th class="total_row">Total</th>
+                                                    <th class="total_row">Total</th>
 
-                                            <th><?php echo $total_max_mark; ?></th>
+                                                    <th><?php echo $total_max_mark; ?></th>
 
-                                            <th><?php echo $total_min_mark; ?></th>
+                                                    <th><?php echo $total_min_mark; ?></th>
 
-                                            <th><?php echo $total_mark_obtained; ?></th>
+                                                    <th><?php echo $total_mark_obtained; ?></th>
 
-                                        </tr>
+                                                </tr>
 
 
 
-                                        <tr>
+                                                <tr>
 
-                                            <th colspan="2" class="total_row">Percentage:
+                                                    <th colspan="2" class="total_row">Percentage:
 
-                                                <?php echo round($total_percentage,2).'%'; ?></th>
+                                                        <?php echo round($total_percentage,2).'%'; ?></th>
 
-                                            <th colspan="2">Result:
+                                                    <th colspan="2">Result:
 
-                                                <?php if($result_fail_status == true){ ?>
+                                                        <?php if($result_fail_status == true){ ?>
 
-                                                <span class="text_fail"><?php echo 'FAIL'; ?></span>
+                                                        <span class="text_fail"><?php echo 'FAIL'; ?></span>
 
-                                                <?php } else { ?>
+                                                        <?php } else { ?>
 
-                                                <span class="text_pass"><?php echo 'PASS'; ?></span>
+                                                        <span class="text_pass"><?php echo 'PASS'; ?></span>
+
+                                                        <?php } ?>
+                                                    </th>
+
+                                                </tr>
 
                                                 <?php } ?>
-                                            </th>
 
-                                        </tr>
+                                            </table>
 
-                                        <?php } ?>
+                                        </div>
 
-                                    </table>
+                                    </div>
 
-                                </div>
+                                    <?php if($term_name == 'II PUC'){ ?>
 
-                            </div>
+                                    <div class="tab-pane fade show " id="firstPreparatory" role="tabpanel"
+                                        aria-labelledby="firstPreparatory-tab">
 
-                            <?php if($term_name == 'II PUC'){ ?>
+                                        <div class="table-responsive">
 
-                            <div class="tab-pane fade show " id="firstPreparatory" role="tabpanel"
-                                aria-labelledby="firstPreparatory-tab">
+                                            <table class="table table-bordered table_info">
 
-                                <div class="table-responsive">
+                                                <thead class="text-center">
 
-                                    <table class="table table-bordered table_info">
+                                                    <tr>
 
-                                        <thead class="text-center">
+                                                        <th colspan="4" class="table_title text-center">Preparatory Exam
+                                                            2021</th>
 
-                                            <tr>
+                                                    </tr>
 
-                                                <th colspan="4" class="table_title text-center">Preparatory Exam
-                                                    2021</th>
+                                                    <tr class="table_row_backgrond">
 
-                                            </tr>
+                                                        <th>SUBJECTS</th>
 
-                                            <tr class="table_row_backgrond">
+                                                        <th>Max. Marks</th>
 
-                                                <th>SUBJECTS</th>
+                                                        <th>Min. Marks</th>
 
-                                                <th>Max. Marks</th>
+                                                        <th>Marks Scored</th>
 
-                                                <th>Min. Marks</th>
+                                                    </tr>
 
-                                                <th>Marks Scored</th>
+                                                </thead>
 
-                                            </tr>
-
-                                        </thead>
-
-                                        <?php 
+                                                <?php 
 
                                             $result_subject_fail_status = false;
 
@@ -1298,124 +1294,124 @@ $base_url = 'https://sjpuc.schoolphins.com/student/'; ?>
 
                                             ?>
 
-                                        <tr>
+                                                <tr>
 
-                                            <th class="text-center">
+                                                    <th class="text-center">
 
-                                                <?php echo strtoupper($firstPreparatoryMarkInfo[$i]->name); ?>
-                                            </th>
+                                                        <?php echo strtoupper($firstPreparatoryMarkInfo[$i]->name); ?>
+                                                    </th>
 
-                                            <th class="text-center table_marks_data"><?php echo $max_mark; ?>
+                                                    <th class="text-center table_marks_data"><?php echo $max_mark; ?>
 
-                                            </th>
+                                                    </th>
 
-                                            <th class="text-center table_marks_data">
+                                                    <th class="text-center table_marks_data">
 
-                                                <?php echo $min_mark_pass; ?></th>
+                                                        <?php echo $min_mark_pass; ?></th>
 
-                                            <?php if($result_subject_fail_status == true){ ?>
+                                                    <?php if($result_subject_fail_status == true){ ?>
 
-                                            <th style="background: #f76a7ebf"
-                                                class="text-center table_marks_data">
+                                                    <th style="background: #f76a7ebf"
+                                                        class="text-center table_marks_data">
 
-                                                <?php echo $result_display; ?></th>
+                                                        <?php echo $result_display; ?></th>
 
-                                            <?php }else{ ?>
+                                                    <?php }else{ ?>
 
-                                            <th class="text-center table_marks_data">
+                                                    <th class="text-center table_marks_data">
 
-                                                <?php echo $result_display; ?></th>
+                                                        <?php echo $result_display; ?></th>
 
-                                            <?php } ?>
+                                                    <?php } ?>
 
-                                        </tr>
+                                                </tr>
 
-                                        <?php  } }
+                                                <?php  } }
 
                                         if($total_mark_obtained != 0){
 
                                             $total_percentage = ($total_mark_obtained/$total_max_mark)*100; ?>
 
-                                        <tr class="text-center table_row_backgrond">
+                                                <tr class="text-center table_row_backgrond">
 
-                                            <th class="total_row">Total</th>
+                                                    <th class="total_row">Total</th>
 
-                                            <th><?php echo $total_max_mark; ?></th>
+                                                    <th><?php echo $total_max_mark; ?></th>
 
-                                            <th><?php echo $total_min_mark; ?></th>
+                                                    <th><?php echo $total_min_mark; ?></th>
 
-                                            <th><?php echo $total_mark_obtained; ?></th>
+                                                    <th><?php echo $total_mark_obtained; ?></th>
 
-                                        </tr>
+                                                </tr>
 
 
 
-                                        <tr>
+                                                <tr>
 
-                                            <th colspan="2" class="total_row">Percentage:
+                                                    <th colspan="2" class="total_row">Percentage:
 
-                                                <?php echo round($total_percentage,2).'%'; ?></th>
+                                                        <?php echo round($total_percentage,2).'%'; ?></th>
 
-                                            <th colspan="2">Result:
+                                                    <th colspan="2">Result:
 
-                                                <?php if($result_fail_status == true){ ?>
+                                                        <?php if($result_fail_status == true){ ?>
 
-                                                <span class="text_fail"><?php echo 'FAIL'; ?></span>
+                                                        <span class="text_fail"><?php echo 'FAIL'; ?></span>
 
-                                                <?php } else { ?>
+                                                        <?php } else { ?>
 
-                                                <span class="text_pass"><?php echo 'PASS'; ?></span>
+                                                        <span class="text_pass"><?php echo 'PASS'; ?></span>
+
+                                                        <?php } ?>
+                                                    </th>
+
+                                                </tr>
 
                                                 <?php } ?>
-                                            </th>
-
-                                        </tr>
-
-                                        <?php } ?>
 
 
 
-                                    </table>
+                                            </table>
 
-                                </div>
+                                        </div>
 
-                            </div>
+                                    </div>
 
-                            <?php } ?>
+                                    <?php } ?>
 
 
 
-                            <div class="tab-pane  fade show" id="final_exam" role="tabpanel"
-                                aria-labelledby="final_exam-tab">
+                                    <div class="tab-pane  fade show" id="final_exam" role="tabpanel"
+                                        aria-labelledby="final_exam-tab">
 
-                                <div class="table-responsive">
+                                        <div class="table-responsive">
 
-                                    <table class="table table-bordered table_info">
+                                            <table class="table table-bordered table_info">
 
-                                        <thead class="text-center">
+                                                <thead class="text-center">
 
-                                            <tr>
+                                                    <tr>
 
-                                                <th colspan="4" class="table_title text-center">Final Exam 2021
-                                                </th>
+                                                        <th colspan="4" class="table_title text-center">Final Exam 2021
+                                                        </th>
 
-                                            </tr>
+                                                    </tr>
 
-                                            <tr class="table_row_backgrond">
+                                                    <tr class="table_row_backgrond">
 
-                                                <th>SUBJECTS</th>
+                                                        <th>SUBJECTS</th>
 
-                                                <th>Max. Marks</th>
+                                                        <th>Max. Marks</th>
 
-                                                <th>Min. Marks</th>
+                                                        <th>Min. Marks</th>
 
-                                                <th>Marks Scored</th>
+                                                        <th>Marks Scored</th>
 
-                                            </tr>
+                                                    </tr>
 
-                                        </thead>
+                                                </thead>
 
-                                        <?php 
+                                                <?php 
 
                                             $result_subject_fail_status = false;
 
@@ -1569,37 +1565,37 @@ $base_url = 'https://sjpuc.schoolphins.com/student/'; ?>
 
                                             ?>
 
-                                        <tr>
+                                                <tr>
 
-                                            <th class="text-center">
+                                                    <th class="text-center">
 
-                                                <?php echo strtoupper($subjectInfo['name']); ?></th>
+                                                        <?php echo strtoupper($subjectInfo['name']); ?></th>
 
-                                            <th class="text-center table_marks_data"><?php echo $max_mark; ?>
+                                                    <th class="text-center table_marks_data"><?php echo $max_mark; ?>
 
-                                            </th>
+                                                    </th>
 
-                                            <th class="text-center table_marks_data">
+                                                    <th class="text-center table_marks_data">
 
-                                                <?php echo $min_mark_pass; ?></th>
+                                                        <?php echo $min_mark_pass; ?></th>
 
-                                            <?php //if($result_subject_fail_status == true){   style="background: #f76a7ebf"?>
+                                                    <?php //if($result_subject_fail_status == true){   style="background: #f76a7ebf"?>
 
-                                            <th class="text-center table_marks_data">
+                                                    <th class="text-center table_marks_data">
 
-                                                <?php echo $totalTheoryMark; ?></th>
+                                                        <?php echo $totalTheoryMark; ?></th>
 
-                                            <?php//}else{ ?>
+                                                    <?php//}else{ ?>
 
-                                            <!-- <th class="text-center table_marks_data">
+                                                    <!-- <th class="text-center table_marks_data">
 
                                                 <?php echo $result_display; ?></th> -->
 
-                                            <?php //} ?>
+                                                    <?php //} ?>
 
-                                        </tr>
+                                                </tr>
 
-                                        <?php  //} 
+                                                <?php  //} 
 
                                         }
 
@@ -1607,54 +1603,54 @@ $base_url = 'https://sjpuc.schoolphins.com/student/'; ?>
 
                                             $total_percentage = ($total_mark_obtained/$total_max_mark)*100; ?>
 
-                                        <tr class="text-center table_row_backgrond">
+                                                <tr class="text-center table_row_backgrond">
 
-                                            <th class="total_row">Total</th>
+                                                    <th class="total_row">Total</th>
 
-                                            <th><?php echo $total_max_mark; ?></th>
+                                                    <th><?php echo $total_max_mark; ?></th>
 
-                                            <th><?php echo $total_min_mark; ?></th>
+                                                    <th><?php echo $total_min_mark; ?></th>
 
-                                            <th><?php echo $total_mark_obtained; ?></th>
+                                                    <th><?php echo $total_mark_obtained; ?></th>
 
-                                        </tr>
+                                                </tr>
 
 
 
-                                        <tr>
+                                                <tr>
 
-                                            <th colspan="2" class="total_row">Percentage :
+                                                    <th colspan="2" class="total_row">Percentage :
 
-                                                <?php echo round($total_percentage,2).'%'; ?></th>
+                                                        <?php echo round($total_percentage,2).'%'; ?></th>
 
-                                            <th colspan="2">Result:
+                                                    <th colspan="2">Result:
 
-                                                <?php if($result_fail_status == true){ ?>
+                                                        <?php if($result_fail_status == true){ ?>
 
-                                                <span class="text_fail"><?php echo 'FAIL'; ?></span>
+                                                        <span class="text_fail"><?php echo 'FAIL'; ?></span>
 
-                                                <?php } else { ?>
+                                                        <?php } else { ?>
 
-                                                <span class="text_pass"><?php echo 'PASS'; ?></span>
+                                                        <span class="text_pass"><?php echo 'PASS'; ?></span>
+
+                                                        <?php } ?>
+                                                    </th>
+
+                                                </tr>
 
                                                 <?php } ?>
-                                            </th>
-
-                                        </tr>
-
-                                        <?php } ?>
 
 
 
-                                    </table>
+                                            </table>
 
-                                </div>
+                                        </div>
 
-                            </div>
+                                    </div>
 
-                            <div class="tab-pane fade" id="graph" role="tabpanel" aria-labelledby="graph-tab">
+                                    <div class="tab-pane fade" id="graph" role="tabpanel" aria-labelledby="graph-tab">
 
-                                <?php $dataPoints = array();
+                                        <?php $dataPoints = array();
 
                                         $dataPoints2 = array();
 
@@ -1846,310 +1842,111 @@ $base_url = 'https://sjpuc.schoolphins.com/student/'; ?>
 
                                         ?>
 
-                                <!-- <div class="row">
+                                        <!-- <div class="row">
 
                                     <div class="col-12"> -->
 
-                                <div id="performanceChart" style="height:400px; width:100%;" class="w-100">
-                                </div>
+                                        <div id="performanceChart" style="height:400px; width:100%;" class="w-100">
+                                        </div>
 
-                                <script>
-                                function loadGraph() {
+                                        <script>
+                                        function loadGraph() {
 
-                                    var chart = new CanvasJS.Chart("performanceChart", {
+                                            var chart = new CanvasJS.Chart("performanceChart", {
 
-                                        animationEnabled: true,
+                                                animationEnabled: true,
 
-                                        exportEnabled: true,
+                                                exportEnabled: true,
 
-                                        responsive: true,
+                                                responsive: true,
 
-                                        theme: "light1",
+                                                theme: "light1",
 
-                                        title: {
+                                                title: {
 
-                                            text: ""
+                                                    text: ""
 
-                                        },
+                                                },
 
-                                        data: [{
+                                                data: [{
 
-                                                type: "column",
+                                                        type: "column",
 
-                                                name: "I UNIT TEST FEBRUARY/MARCH 2021",
+                                                        name: "I UNIT TEST FEBRUARY/MARCH 2021",
 
-                                                showInLegend: true,
+                                                        showInLegend: true,
 
-                                                yValueFormatString: "##0",
+                                                        yValueFormatString: "##0",
 
-                                                dataPoints: <?php echo json_encode($dataPoints); ?>
+                                                        dataPoints: <?php echo json_encode($dataPoints); ?>
 
-                                            }, {
+                                                    }, {
 
-                                                type: "column",
+                                                        type: "column",
 
-                                                name: "PREPARATORY 2021",
+                                                        name: "PREPARATORY 2021",
 
-                                                showInLegend: true,
+                                                        showInLegend: true,
 
-                                                yValueFormatString: "##0",
+                                                        yValueFormatString: "##0",
 
-                                                dataPoints: <?php echo json_encode($dataPoints4); ?>
+                                                        dataPoints: <?php echo json_encode($dataPoints4); ?>
 
-                                            },
+                                                    },
 
 
 
-                                        ]
+                                                ]
 
-                                    });
+                                            });
 
-                                    chart.render();
+                                            chart.render();
 
-                                }
+                                        }
 
-                                <?php 
+                                        <?php 
 
                                             echo "loadGraph();"; 
 
                                         ?>
-                                </script>
+                                        </script>
 
-                                <!-- </div>
+                                        <!-- </div>
 
                                 </div> -->
+
+                                    </div>
+
+                                </div>
 
                             </div>
 
                         </div>
 
-                    </div>
+                    </li>
 
-                </div>
+                </ul>
 
-            </li>
+            </div>
 
-        </ul>
+        </div>
 
     </div>
-
-</div>
-
-</div>
     <?php
-function getSubjectInfo($con, $subject_id)
-{
-  $query = "SELECT * FROM tbl_subjects as sub
+
+function getSubjectInfo($con,$subject_id){
+
+    $query = "SELECT * FROM tbl_subjects as sub
+
     WHERE sub.subject_code = '$subject_id' AND sub.is_deleted = 0";
-  $pdo_statement = $con->prepare($query);
-  $pdo_statement->execute();
-  return $pdo_statement->fetch();
-}
-function getStudentFinalMarks($con, $student_id, $subjects_code, $exam_type)
-{
-  $query = "SELECT * FROM tbl_college_internal_exam_marks as exam
-  WHERE exam.student_id = '$student_id' AND exam.subject_code = '$subjects_code'  AND exam.exam_year = '2022-23'
-  AND exam.exam_type = '$exam_type' AND exam.is_deleted = 0";
-  $pdo_statement = $con->prepare($query);
-  $pdo_statement->execute();
-  return $pdo_statement->fetch();
-}
-function getSubjectCodes($stream_name)
-{
-  //science
-  $PCMB = array("33", "34", "35", '36');
-  $PCMC = array("33", "34", "35", '41');
-  $PCME = array("33", "34", "35", '40');
-  $PCMS = array("33", "34", "35", '31');
 
-  //commarce
-  $PEBA = array("29", "22", "27", '30');
-  $MEBA = array("75", "22", "27", '30');
-  $MSBA = array("75", "31", "27", '30');
-  $CSBA = array("41", "31", "27", '30');
-  $SEBA = array("31", "22", "27", '30');
-  $CEBA = array("41", "22", "27", '30');
-  $BEBA = array("75", "22", "27", '30');
+    $pdo_statement = $con->prepare($query);
 
-  //art
-  $HEPS = array("21", "22", "29", '28');
-  $HEPP = array("21", "22", "32", '29');
-  switch ($stream_name) {
-    case "PCMB":
-      return  $PCMB;
-      break;
-    case "PCMC":
-      return $PCMC;
-      break;
-    case "PEBA":
-      return $PEBA;
-      break;
-    case "PCME":
-      return $PCME;
-      break;
-    case "MEBA":
-      return $MEBA;
-      break;
-    case "MSBA":
-      return $MSBA;
-      break;
-    case "CSBA":
-      return $CSBA;
-      break;
-    case "SEBA":
-      return $SEBA;
-      break;
-    case "CEBA":
-      return $CEBA;
-      break;
-    case "HEPS":
-      return $HEPS;
-      break;
-    case "PCMS":
-    return $PCMS;
-    break;
-    case "BEBA":
-    return $BEBA;
-    break;
-     case "HEPP":
-    return $HEPP;
-    break;
-  }
-}
-function calculateResultAll($percentage, $total_subjects, $elective)
-{
-  if ($elective > 1) {
-    $percentage = floor(($percentage / 500) * 100);
-  } else {
-    $percentage = floor(($percentage / 600) * 100);
+    $pdo_statement->execute();
+
+    return $pdo_statement->fetch();
+
   }
 
-  if ($percentage >= 85) {
-    return "Distinction";
-  } else if ($percentage >= 60 && $percentage <= 84) {
-    return "First Class";
-  } else if ($percentage >= 50 && $percentage <= 59) {
-    return "Second Class";
-  } else if ($percentage >= 35 && $percentage <= 49) {
-    return "Third Class";
-  }
-}
 
-function getMarksBySecondLang($result)
-{
-  foreach ($result as $row) {
-    if ($row["subject_code"] == '02') {
-      return $total_mark_lang_II = $row["obt_theory_mark"];
-    }
-  }
-}
-function getSubjectTotal($result, $subjects)
-{
-  $subject_total = 0;
-  foreach ($result as $row) {
-    for ($i = 0; $i < 4; $i++) {
-      if ($row["subject_code"] == $subjects[$i]) {
-        $subject_total += (int)$row["obt_theory_mark"] + (int)$row["obt_lab_mark"];
-      }
-    }
-  }
-  return $subject_total;
-}
-function getTheoryTotal($result, $subjects)
-{
-  $theory_total = 0;
-  foreach ($result as $row) {
-    for ($i = 0; $i < 4; $i++) {
-      if ($row["subject_code"] == $subjects[$i]) {
-        $theory_total += (int)$row["obt_theory_mark"];
-      }
-    }
-  }
-  return $theory_total;
-}
-function getLabTotal($result, $subjects)
-{
-  $lab_total = 0;
-  foreach ($result as $row) {
-    for ($i = 0; $i < 4; $i++) {
-      if ($row["subject_code"] == $subjects[$i]) {
-        $lab_total += (int)$row["obt_lab_mark"];
-      }
-    }
-  }
-  return $lab_total;
-}
-
-
-function calculateResult($total_marks, $max_mak)
-{
-  $percentage = floor(($total_marks / $max_mak) * 100);
-  if ($percentage >= 85) {
-    return "Distinction";
-  } else if ($percentage >= 60 && $percentage <= 84) {
-    return "I Class";
-  } else if ($percentage >= 50 && $percentage <= 59) {
-    return "II Class";
-  } else if ($percentage >= 35 && $percentage <= 49) {
-    return "III Class";
-  } else {
-    return "PROMOTED";
-  }
-}
-
-function calculatePercentage($percentage)
-{
-  return floor(($percentage / 600) * 100);
-}
-
-
-
-function convert_number($number)
-{
-  if (($number < 0) || ($number > 999999999)) {
-    throw new Exception("Number is out of range");
-  }
-  $Gn = floor($number / 1000000);
-  /* Millions (giga) */
-  $number -= $Gn * 1000000;
-  $kn = floor($number / 1000);
-  /* Thousands (kilo) */
-  $number -= $kn * 1000;
-  $Hn = floor($number / 100);
-  /* Hundreds (hecto) */
-  $number -= $Hn * 100;
-  $Dn = floor($number / 10);
-  /* Tens (deca) */
-  $n = $number % 10;
-  /* Ones */
-  $res = "";
-  if ($Gn) {
-    $res .= convert_number($Gn) .  "Million";
-  }
-  if ($kn) {
-    $res .= (empty($res) ? "" : " ") . convert_number($kn) . " Thousand";
-  }
-  if ($Hn) {
-    $res .= (empty($res) ? "" : " ") . convert_number($Hn) . " Hundred";
-  }
-  $ones = array("", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eightteen", "Nineteen");
-  $tens = array("", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety");
-  if ($Dn || $n) {
-    if (!empty($res)) {
-      $res .= " ";
-    }
-    if ($Dn < 2) {
-      $res .= $ones[$Dn * 10 + $n];
-    } else {
-      $res .= $tens[$Dn];
-      if ($n) {
-        $res .= "-" . $ones[$n];
-      }
-    }
-  }
-  if (empty($res)) {
-    $res = "Zero";
-  }
-  return $res;
-}
 ?>
