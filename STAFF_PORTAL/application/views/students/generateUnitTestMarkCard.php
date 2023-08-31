@@ -792,7 +792,7 @@ color: #000 !important;
                                         <div class="row border_full">
                                           <!-- <div class="row "> -->
                                             <div class="col-lg-4 col-sm-4 col-4 text-center ">
-                                              <img height="120" src="<?php echo base_url(); ?>assets/images/principal_signature.png" alt="Sign">
+                                              <img height="" src="" alt="">
                                             </div>
                                             <div class="col-lg-8 col-8 text-center"> </div> 
                                           <!-- </div> -->
