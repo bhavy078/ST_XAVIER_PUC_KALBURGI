@@ -99,26 +99,25 @@ class Performance extends BaseController
                 $subjects_code = array_merge($subjects_code,$subjects);
 
                 
-
                 for($i=0;$i < count($subjects_code);$i++){
 
                         $getMarkOfFirstUnitTest = $this->performance_model->getFirstInternaltMark($this->student_id,$subjects_code[$i],$exam_year);
 
                         $exam_mark_first_test[$i] = $getMarkOfFirstUnitTest;
 
+                        $getSubjectName[$i] = $this->performance_model->getAllSubjectInfo($subjects_code[$i]);
 
+
+                     
 
                         $getMarkOfMidTerm = $this->performance_model->getMidTermExamMark($this->student_id,$subjects_code[$i],$exam_year);
 
                         $exam_mark_mid_term[$i] = $getMarkOfMidTerm;
 
 
-
                         $getMarkOfSecondUnitTest = $this->performance_model->getSecondInternalMark($this->student_id,$subjects_code[$i],$exam_year);
 
                         $exam_mark_second_test[$i] = $getMarkOfSecondUnitTest;
-
-
 
 
                         $getMarkOfFirstPreparatory = $this->performance_model->getFirstPreparatoryMark($this->student_id,$subjects_code[$i],$exam_year);
@@ -213,7 +212,15 @@ class Performance extends BaseController
                
                 $data['subjects_code'] = $subjects_code;
 
+
+                
+                $data['getSubjectName'] = $getSubjectName;
+
+               
+
                 $data['firstUnitTestMarkInfo'] = $exam_mark_first_test;
+
+                
 
                 $data['midTermExamMarkInfo'] = $exam_mark_mid_term;
 
