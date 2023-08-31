@@ -206,7 +206,7 @@ if ($noMatch) {
     <?php } ?>
 
     <?php if ($term_name == 'II PUC') {  ?>
-      <div class="col-lg-3 col-6 mb-4 column_padding_card">
+      <!-- <div class="col-lg-3 col-6 mb-4 column_padding_card">
         <a class="more-info text-white" href="<?php echo base_url(); ?>reAdmissionForIIPUC">
           <div class="card pt-1 pb-1" style="background: #f73686a3;">
             <div class="card-body card-small dash-card">
@@ -221,9 +221,9 @@ if ($noMatch) {
               <span class="text-center">Fee Payment II PUC</span>
             </div>
           </div>
-      </div>
+      </div> -->
     <?php } else { ?>
-      <div class="col-lg-3 col-6 mb-4 column_padding_card">
+      <!-- <div class="col-lg-3 col-6 mb-4 column_padding_card">
         <a class="more-info text-white" href="<?php echo base_url(); ?>viewAdmission_I_PUC">
           <div class="card pt-1 pb-1" style="background: #f73686a3;">
             <div class="card-body card-small dash-card">
@@ -238,7 +238,7 @@ if ($noMatch) {
               <span class="text-center">Fee Payment I PUC</span>
             </div>
           </div>
-      </div>
+      </div> -->
     <?php } ?>
     <?php if ($term_name == 'II PUC') {  ?>
       <!-- <div class="col-lg-3 col-6 mb-2 column_padding_card text-center">
@@ -356,7 +356,7 @@ if ($noMatch) {
       </a>
     </div> -->
     <?php if ($term_name == 'II PUC') {  ?>
-      <div class="col-lg-3 col-6 mb-2 column_padding_card">
+      <!-- <div class="col-lg-3 col-6 mb-2 column_padding_card">
         <a href="<?php echo base_url(); ?>reAdmissionForIIPUC">
           <div class="card card-small dash-card mobile_dashCards">
             <div class="card-body pt-1 pb-1">
@@ -370,7 +370,7 @@ if ($noMatch) {
             </div>
           </div>
         </a>
-      </div>
+      </div> -->
     <?php }  ?>
     <div class="col-lg-3 col-6 mb-2 column_padding_card">
       <a href="<?php echo base_url(); ?>viewOnlineClass">
