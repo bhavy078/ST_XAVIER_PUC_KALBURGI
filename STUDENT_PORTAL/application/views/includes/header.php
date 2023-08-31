@@ -246,7 +246,7 @@
                                 <?php if($term_name == 'II PUC'){  ?>
 
 
-                                <li class="nav-item">
+                                <!-- <li class="nav-item">
 
                                     <a class="nav-link " href="<?php echo base_url(); ?>reAdmissionForIIPUC">
 
@@ -256,7 +256,7 @@
 
                                     </a>
 
-                                </li>
+                                </li> -->
 
                                 <?php } ?>
 
