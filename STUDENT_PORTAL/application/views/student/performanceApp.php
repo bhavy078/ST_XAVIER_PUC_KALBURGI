@@ -475,7 +475,7 @@ $base_url = 'https://sjpuc.schoolphins.com/student/'; ?>
 
                                                 $result_subject_fail_status = false;
 
-                                                if($firstUnitTestMarkInfo[$i]->lab_status == 'true'){
+                                                if($getSubjectName[$i]->lab_status == 'true'){
 
                                                     // $max_mark = 35;
 
@@ -533,7 +533,7 @@ $base_url = 'https://sjpuc.schoolphins.com/student/'; ?>
 
                                                     <th class="text-center">
 
-                                                        <?php echo strtoupper($firstUnitTestMarkInfo[$i]->name); ?></th>
+                                                        <?php echo strtoupper($getSubjectName[$i]->name); ?></th>
 
                                                     <th class="text-center table_marks_data"><?php echo $max_mark; ?>
 

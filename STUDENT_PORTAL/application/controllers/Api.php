@@ -739,7 +739,7 @@ public function collegeNotificationsApi(){
 
                         $exam_mark_first_test[$i] = $getMarkOfFirstUnitTest;
 
-
+                        $getSubjectName[$i] = $this->performance_model->getAllSubjectInfo($subjects_code[$i]);
 
                         $getMarkOfMidTerm = $this->performance_model->getMidTermExamMark($student_id,$subjects_code[$i],$exam_year);
 
@@ -857,7 +857,8 @@ public function collegeNotificationsApi(){
 
                 $data['firstUnitTestMarkInfo'] = $exam_mark_first_test;
                 //log_message('debug','hghg'.print_r($data['firstUnitTestMarkInfo'],true));
-
+                $data['getSubjectName'] = $getSubjectName;
+                
                 $data['midTermExamMarkInfo'] = $exam_mark_mid_term;
 
                 $data['SecondUnitTestMarkInfo'] = $exam_mark_second_test;
