@@ -4,9 +4,6 @@ table{
     width: 100% !important;
 }
 
-/*.border{
-    border: 2px solid black;
-}*/
 .border_full{
     border: 1px solid black;
     padding-top: 10px;
@@ -90,28 +87,37 @@ table{
                 </tr>
                 </table>
             <table class="table" style="font-size: 12px;">
-                 <tr>
-                    <td colspan="2">Receipt No.: <span style="color: red;"><?php echo $studentTransportInfo->ref_receipt_no; ?></span></td>
-                    <td colspan="2">Name of the student : <?php echo strtoupper($studentTransportInfo->student_name); ?></td>
+                <tr>
+                    <td>Receipt No.: <span style="color: red;"><?php echo $studentTransportInfo->ref_receipt_no; ?></span></td>
                 </tr>
                 <tr>
-                    <td colspan="2">Student ID : <?php echo $studentTransportInfo->student_id;?></td>
-                    <td colspan="2">Class  : <?php echo strtoupper($studentTransportInfo->term_name); ?></td> 
+                    <td>Name of the student : <?php echo strtoupper($studentTransportInfo->student_name); ?></td>
+                </tr>
+                <tr>
+                    <td>Student ID : <?php echo $studentTransportInfo->student_id;?></td>
+                </tr>
+                <tr>
+                    <td>Class  : <?php echo strtoupper($studentTransportInfo->term_name); ?></td> 
                 </tr>
                 
                 <tr>
-                    <td colspan="2">Month From: <?php echo date('M-Y',strtotime($studentTransportInfo->from_date));?></td>
-                    <td colspan="2">Month To: <?php echo date('M-Y',strtotime($studentTransportInfo->to_date));?></td>
+                    <td>Month From: <?php echo date('M-Y',strtotime($studentTransportInfo->from_date));?></td>
                 </tr>
-              
+                <tr>
+                    <td>Month To: <?php echo date('M-Y',strtotime($studentTransportInfo->to_date));?></td>
+                </tr>
 
                 <tr>
-                    <td colspan="2">Bus No. : <?php echo $studentTransportInfo->bus_no;?></td>
+                    <td>Bus No. : <?php echo $studentTransportInfo->bus_no;?></td>
+                </tr>
+                <tr>
                     <td colspan="2">Bus Pick Point : <?php echo $studentTransportInfo->route_name;?></td>
                 </tr>
                 
                 <tr>
                     <td colspan="2">Date : <?php echo date('d-m-Y',strtotime($studentTransportInfo->created_date_time)); ?></td>
+                </tr>   
+                <tr>
                     <td colspan="2">Payment Type : <?php echo $studentTransportInfo->payment_type; ?></td>
                 </tr>
                 
@@ -144,7 +150,7 @@ table{
                 </tr>
                <?php } ?>
             </table>
-            <table class="table table_bordered" style="font-size: 12px;">
+            <table class="table table_bordered" style="font-size: 13px;">
                 <tr>
                     <th>Particulars</th>
                     <th width="120">Amount</th>
@@ -162,7 +168,7 @@ table{
                     <th style="text-align: center;"><?php echo sprintf('%0.2f', $transport_rate); ?></th>
                 </tr>
                 <tr>
-                    <td colspan="2" style="font-size: 12px;"><b>Amount in words: <span style="text-transform: capitalize;"><?php echo $transport_rate_words.' only'; ?></span></b></td>
+                    <td colspan="2" style="font-size: 13px;"><b>Amount in words: <span style="text-transform: capitalize;"><?php echo $transport_rate_words.' only'; ?></span></b></td>
                 </tr>
             </table>
             
