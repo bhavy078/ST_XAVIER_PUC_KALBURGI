@@ -1824,7 +1824,7 @@ public function collegeNotificationsApi(){
             case "SEBA":
                 return $SEBA;
                 break;
-            case "CEBA":
+            case "EBAC":
                 return $EBAC;
                 break;
             case "HEPP":
