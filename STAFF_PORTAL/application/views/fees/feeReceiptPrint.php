@@ -153,10 +153,8 @@ table{
         </div>
     </div>
     </div>
-
-
-
-
+    <b style="font-size: 10px;">All fees paid are not transferable or refundable.</b><br/>
+<b style="font-size: 10px;">This is an online generated fee Receipt no seal and signature is required.</b>
 <?php //} ?>
 
 
