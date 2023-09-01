@@ -8,7 +8,7 @@ table{
     border: 1px solid black;
     padding-top: 10px;
     padding-bottom: 10px; 
-    margin-bottom: 20px; 
+    margin-bottom: 5px; 
 }
 
 
@@ -175,10 +175,12 @@ table{
 
         </div>
     </div>
-  
-</div>
+    
 </div>
 
+</div>
+<b style="font-size: 10px;">All fees paid are not transferable or refundable.</b><br/>
+<b style="font-size: 10px;">This is an online generated fee Receipt no seal and signature is required.</b>
 
 <?php 
 //  if($totalStudentCount != 0){
