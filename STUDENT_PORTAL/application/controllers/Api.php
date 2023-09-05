@@ -270,8 +270,7 @@ class Api extends CI_Controller
             $oldPassword = $obj['old_password'];
             $password = $obj['password'];
             $student_id=$obj['student_id'];
-            //log_message('debug','ggg'.print_r($obj,true));
-            $resultPas = $this->student_model->matchOldPassword($student_id, $oldPassword);
+            $resultPas = $this->student_model->matchOldPassword($student_id,$oldPassword);
             if(empty($resultPas)) {
                 $msg= 'Your old password is not correct';
             }
@@ -403,21 +402,26 @@ class Api extends CI_Controller
         $json = file_get_contents('php://input'); 
         $obj = json_decode($json,true);
         $student_id = $obj['student_id'];
-        $studentInfo = $this->student_model->getStudentInfoByStudentId($student_id);
-        //log_message('debug','fff'.print_r($studentInfo,true));
+        $term_name = $obj['term_name'];
+        $filter['student_id'] = $student_id;
 
-        // if($studentInfo->term_name == "I PUC"){ 
-            $absent_date_from = date("Y-m-d", strtotime($studentInfo->doj));
-        // } else { 
-        //     $absent_date_from = '2022-07-01';
-        // } 
-        $attendance_date_to = date("Y-m-d");
-        $elective_sub = strtoupper($studentInfo->elective_sub);
-        //log_message('debug','df'.print_r($elective_sub,true));
+        $student = $this->student_model->getStudentInfoBystudId($student_id);
+        $filter = array();
+
+        $subject_attendance = array();
+        $total_class_held = 0;
+        $total_class_attended = 0;
+        $total_attendance_percentage = 0;
+        $filter['stream_name'] = $student->stream_name;
+        if($student->section_name != ''){
+            $filter['section_name'] = $student->section_name;
+        }else{
+            $filter['section_name'] = 'ALL';
+        }
+        $filter['subject_type'] = 'THEORY';
+        $filter['term_name'] = $student->term_name;
         $subjects_code = array();
-        $subject_name = array();
-        $classes = array();
-        $percentages = array();
+        $elective_sub = strtoupper($student->elective_sub);
         if($elective_sub == "KANNADA"){
             array_push($subjects_code, '01');
         }else if($elective_sub == 'HINDI'){
@@ -429,53 +433,40 @@ class Api extends CI_Controller
             // array_push($subject_names, 'EXM');
         }
         array_push($subjects_code, '02');
-        $subjects = $this->getSubjectCodes($studentInfo->stream_name);
-        
-
+        $subjects = $this->getSubjectCodes(strtoupper($student->stream_name));
         $subjects_code = array_merge($subjects_code,$subjects);
-        $total_class_held_all = 0;
-        $total_class_attended_all = 0;
-        for($i=0; $i < count($subjects_code); $i++){
-            $absent_count = 0;
-            $absent_count_lab = 0;
-            $batch_name = '';
-            $subject_info = $this->attendance_model->getSubjectInfo($subjects_code[$i]);
-            //log_message('debug','ggh'.print_r($subject_info,true));
+        for($i=0;$i<count($subjects_code);$i++){
+            $subject_attendance[$subjects_code[$i]]['name'] = $this->attendance_model->getSubjectInfo($subjects_code[$i]);
 
-            if($subject_info->lab_status == 'true'){
-                $batch_name = $studentInfo->batch;
-            }                    
-            $subject_class_held_theory = $this->attendance_model->getTotalClassHeld($subjects_code[$i],$studentInfo->term_name,$studentInfo->stream_name,$studentInfo->section_name,'THEORY','',$absent_date_from,$attendance_date_to);
-           // log_message('debug','subject_class_held_theory'.print_r($subject_class_held_theory,true));
-            $total_dates_held_theory = $this->attendance_model->getTotalClassCompletedDates($subjects_code[$i],$studentInfo->term_name,$studentInfo->stream_name,$studentInfo->section_name,'THEORY','',$absent_date_from,$attendance_date_to);
-           // log_message('debug','total_dates_held_theory '.print_r($total_dates_held_theory ,true));
-            $absent_count_theory = $this->attendance_model->getStudentAbsentCount($subjects_code[$i],$student_id,$absent_date_from,$attendance_date_to,'THEORY');
-            $absent_count += $absent_count_theory;
-            $subject_class_held_lab = $this->attendance_model->getTotalClassHeld($subjects_code[$i],$studentInfo->term_name,$studentInfo->stream_name,$studentInfo->section_name,'LAB',$batch_name,$absent_date_from,$attendance_date_to);
-            $total_dates_held_lab = $this->attendance_model->getTotalClassCompletedDates($subjects_code[$i],$studentInfo->term_name,$studentInfo->stream_name,$studentInfo->section_name,'LAB',$batch_name,$absent_date_from,$attendance_date_to);
-            $total_class_held = $subject_class_held_theory + ($subject_class_held_lab*2);               
-            $absent_count_lab = $this->attendance_model->getStudentAbsentCount($subjects_code[$i],$student_id,$absent_date_from,$attendance_date_to,'LAB');
-            if($absent_count_lab != 0){
-                $absent_count += ($absent_count_lab * 2);
+            $studentAttendance = $this->attendance_model->getSumOfAttendanceMonthBased($student->student_id,$subjects_code[$i]);
+            if($studentAttendance->class_held<1){
+                $studentAttendance = $this->attendance_model->getSumOfAttendancelastMonth($student->student_id,$subjects_code[$i]);
             }
-            $total_class_presnts = $total_class_held-$absent_count;
-            if($total_class_held>0){
-                $attendance_percentage = ($total_class_presnts/$total_class_held)*100;
+            $subject_attendance[$subjects_code[$i]]['class_held'] = $studentAttendance->class_held;
+            $subject_attendance[$subjects_code[$i]]['class_attended'] = $studentAttendance->class_attended;
+            if($subject_attendance[$subjects_code[$i]]['class_held'] == 0){
+                $subject_attendance[$subjects_code[$i]]['percentage'] = 0;
             }else{
-                $attendance_percentage=0;
+                $subject_attendance[$subjects_code[$i]]['percentage'] = ($subject_attendance[$subjects_code[$i]]['class_attended'] / $subject_attendance[$subjects_code[$i]]['class_held']) * 100;
             }
-            $total_class_held_all += $total_class_held;
-            $total_class_attended_all += $total_class_presnts;
-            array_push($subject_name,$subject_info->name); 
-            array_push($classes,$total_class_held.'/'.$total_class_presnts); 
-            array_push($percentages,round($attendance_percentage,2));                   
+            $total_class_held += $subject_attendance[$subjects_code[$i]]['class_held'];
+            $total_class_attended += $subject_attendance[$subjects_code[$i]]['class_attended'];
         }
+        if($total_class_held == 0){
+            $total_attendance_percentage = 0;
+        }else{
+            $total_attendance_percentage = ($total_class_attended/$total_class_held)*100;
+        }
+        $total_attendance_percentage = $total_attendance_percentage;
+        $subject_attendance = $subject_attendance;
+        // $data['studentInfo'] = $student;
+        $subject_code = $subjects_code;
         $i=0;
-        foreach($subject_name as $sub){
-            $data[$i] = array('subject_name'=>$subject_name[$i],'classes'=>$classes[$i],'percentages'=>$percentages[$i]);
+        foreach($subject_code as $sub){
+            $data[$i] = array('sub_name'=>$subject_attendance[$subject_code[$i]]['name']->name,'classes'=> $subject_attendance[$subject_code[$i]]['class_held'].'/'.$subject_attendance[$subject_code[$i]]['class_attended'],'percentages'=>round($subject_attendance[$subject_code[$i]]['percentage'],2));
             $i++;
         }
-        $data = json_encode($data);                 
+        $data = json_encode($data);     
         echo $data;
     }
 //college Notification
@@ -2002,6 +1993,19 @@ public function getStudentId(){
     $data->studentId = $studentId->student_id;
  
     echo json_encode($data);
+}
+
+public function checkpassword(){
+    $json = file_get_contents('php://input'); 
+    $obj = json_decode($json,true);
+    $row_id = $obj['row_id']; 
+    $result = $this->student_model->getcheckpassword($row_id); 
+    if(password_verify('stxpuc@123', $result->password)){
+        $msg = 'success';
+    }else{  
+        $msg='fail';
+    }
+    echo json_encode($msg);
 }
 
 

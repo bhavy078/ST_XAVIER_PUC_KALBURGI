@@ -233,3 +233,5 @@ $route['apioverAllTransportFeePaidInfo'] = "api/overAllTransportFeePaidInfo";
 $route['apigetStudentId'] = "api/getStudentId";
 //REMARKS
 $route['apimyRemarks'] = "api/myRemarks";
+//changepassword
+$route['apicheckpassword'] = "api/checkpassword";

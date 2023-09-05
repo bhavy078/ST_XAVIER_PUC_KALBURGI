@@ -33,7 +33,7 @@ class Student_model extends CI_Model
      * This function is used to match student password for change password
      * @param number $row_id : This is row id
      */
-    function matchOldPassword($student_id, $oldPassword)
+    function matchOldPassword($student_id,$oldPassword)
     {
         $this->db->select('student_id, password');
         $this->db->where('student_id', $student_id);        
@@ -43,7 +43,7 @@ class Student_model extends CI_Model
         $user = $query->result();
 
         if(!empty($user)){
-            if(verifyHashedPassword($oldPassword, $user[0]->password)){
+            if(verifyHashedPassword($oldPassword,$user[0]->password)){
                 return $user;
             } else {
                 return array();
@@ -812,6 +812,17 @@ public function updateCoursePaymentLogByRowId($paymentInfo,$order_id) {
         $query = $this->db->get();
         return $query->result();
     }
+
+    public function getcheckpassword($student_id){
+        $this->db->select('pass.password');
+        $this->db->from('tbl_students_info as pass'); 
+       // $this->db->join('tbl_student_document as doc', 'doc.application_no = std.application_no','left');
+        $this->db->where('pass.row_id', $student_id);
+        $this->db->where('pass.is_deleted', 0);
+        $query = $this->db->get();
+        return $query->row();
+    }
+    
 
     
 
