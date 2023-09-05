@@ -824,7 +824,45 @@ public function updateCoursePaymentLogByRowId($paymentInfo,$order_id) {
     }
     
 
-    
+    // subject info
+    public function getSubjectInfo($subjects_code){
+        $this->db->select('sub.name');
+        $this->db->from('tbl_subjects as sub');
+        $this->db->where_in('sub.subject_code', $subjects_code);
+        $this->db->where('sub.is_deleted', 0);
+        $query = $this->db->get();
+        return $query->row();
+    }
+
+     // sum of attendance month wise// class held information for attendance
+     public function getSumOfAttendanceMonthBased($student_id,$subject_code){
+
+        $this->db->select('SUM(class.class_held) as class_held,SUM(class.class_attended)as class_attended');
+        $this->db->from('tbl_attendance_additional_info as class');
+        $this->db->where_in('class.subject_code', $subject_code);
+        $this->db->where_in('class.student_id', $student_id);
+        // $this->db->where_in('class.month', ['JUNE','JULY']);
+        //$this->db->where_in('class.month',strtoupper(date('F')));
+        $this->db->where('class.year',CURRENT_YEAR);
+        $this->db->where('class.is_deleted', 0);
+        $query = $this->db->get();
+        return $query->row();
+    }
+
+    public function getSumOfAttendancelastMonth($student_id,$subject_code){
+
+        $this->db->select('SUM(class.class_held) as class_held,SUM(class.class_attended) as class_attended');
+        $this->db->from('tbl_attendance_additional_info as class');
+        $this->db->where_in('class.subject_code', $subject_code);
+        $this->db->where_in('class.student_id', $student_id);
+        // $this->db->where_in('class.month', ['JUNE','JULY']);
+        //$this->db->where_in('class.month',strtoupper(date('F',strtotime('-1 month'))));
+        $this->db->where('class.year',CURRENT_YEAR);
+        $this->db->where('class.is_deleted', 0);
+        $query = $this->db->get();
+        return $query->row();
+    }
+
 
  
 }

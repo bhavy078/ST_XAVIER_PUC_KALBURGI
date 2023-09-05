@@ -498,9 +498,132 @@ class Student extends BaseController
     
     
     public function myAttendance(){
-        $data['studentInfo'] = $this->student_model->getStudentInfoById($this->student_id,$this->term_name);
+
+        $filter = array();
+
+        $subject_attendance = array();
+
+        $total_class_held = 0;
+
+        $total_class_attended = 0;
+
+        $total_attendance_percentage = 0;
+
+        $student = $this->student_model->getStudentInfoById($this->student_id,$this->term_name);
+
+        $filter['stream_name'] = $student->stream_name;
+
+        if($student->section_name != ''){
+
+            $filter['section_name'] = $student->section_name;
+
+        }else{
+
+            $filter['section_name'] = 'ALL';
+
+        }
+
+        $filter['subject_type'] = 'THEORY';
+
+        $filter['term_name'] = $this->term_name;
+
+        $subjects_code = array();
+
+        $elective_sub = strtoupper($student->elective_sub);
+
+        if($elective_sub == "KANNADA"){
+
+            array_push($subjects_code, '01');
+
+        }else if($elective_sub == 'HINDI'){
+
+            array_push($subjects_code, '03');
+
+        } else if($elective_sub == 'FRENCH'){
+
+            array_push($subjects_code, '12');
+
+        }else{
+
+            array_push($subject_mark_chart,0);
+
+            array_push($subject_names, 'EXM');
+
+        }
+
+        array_push($subjects_code, '02');
+
+        $subjects = $this->getSubjectCodes(strtoupper($student->stream_name));
+
+        $subjects_code = array_merge($subjects_code,$subjects);
+
+        for($i=0;$i<count($subjects_code);$i++){
+
+            $subject_attendance[$subjects_code[$i]]['name'] = $this->student_model->getSubjectInfo($subjects_code[$i]);
+
+
+
+            $studentAttendance = $this->student_model->getSumOfAttendanceMonthBased($student->student_id,$subjects_code[$i]);
+           
+
+            if($studentAttendance->class_held < 1){
+
+                $studentAttendance = $this->student_model->getSumOfAttendancelastMonth($student->student_id,$subjects_code[$i]);
+
+            }
+
+            $subject_attendance[$subjects_code[$i]]['class_held'] = $studentAttendance->class_held;
+
+            $subject_attendance[$subjects_code[$i]]['class_attended'] = $studentAttendance->class_attended;
+
+
+
+            // $subject_attendance[$subjects_code[$i]]['class_held'] = $this->student_model->getClassHeldInfo($filter,$subjects_code[$i]);
+
+            // $class_absent = $this->student_model->getStudentAbsentInfo($this->student_id,$subjects_code[$i]);
+
+            // $subject_attendance[$subjects_code[$i]]['class_attended'] = $subject_attendance[$subjects_code[$i]]['class_held'] - $class_absent;
+
+            if($subject_attendance[$subjects_code[$i]]['class_held'] == 0){
+
+                $subject_attendance[$subjects_code[$i]]['percentage'] = 0;
+
+            }else{
+
+                $subject_attendance[$subjects_code[$i]]['percentage'] = ($subject_attendance[$subjects_code[$i]]['class_attended'] / $subject_attendance[$subjects_code[$i]]['class_held']) * 100;
+
+            }
+
+            $total_class_held += $subject_attendance[$subjects_code[$i]]['class_held'];
+
+            $total_class_attended += $subject_attendance[$subjects_code[$i]]['class_attended'];
+
+        }
+
+        if($total_class_held == 0){
+
+            $total_attendance_percentage = 0;
+
+        }else{
+
+            $total_attendance_percentage = ($total_class_attended/$total_class_held)*100;
+
+        }
+
+        $data['total_attendance_percentage'] = $total_attendance_percentage;
+
+        $data['subject_attendance'] = $subject_attendance;
+
+        // log_message('debug','xnx'.print_r($subject_attendance,true));
+
+        $data['studentInfo'] = $student;
+
+        $data['subject_code'] = $subjects_code;
+
         $this->global['pageTitle'] = ''.TAB_TITLE.' : My Attendance' ;
+
         $this->loadViews("student/myAttendance", $this->global, $data, NULL);
+
     }
 
     // view suggestion page
@@ -873,9 +996,10 @@ class Student extends BaseController
         $MSBA = array("75", "31", "27", '30');
         $CSBA = array("41", "31", "27", '30');
         $SEBA = array("31", "22", "27", '30');
-        $CEBA = array("41", "22", "27", '30');
+        $EBAC = array("41", "22", "27", '30');
         //art
         $HEPS = array("21", "22", "29", '28');
+        $HEPE = array("21", "22", "29", '52');
         switch ($stream_name) {
                 case "PCMB":
                         return  $PCMB;
@@ -901,11 +1025,14 @@ class Student extends BaseController
                 case "SEBA":
                         return $SEBA;
                         break;
-                case "CEBA":
-                        return $CEBA;
+                case "EBAC":
+                        return $EBAC;
                         break;
                 case "HEPS":
                         return $HEPS;
+                        break;
+                case "HEPE":
+                        return $HEPE;
                         break;
         }
     }
