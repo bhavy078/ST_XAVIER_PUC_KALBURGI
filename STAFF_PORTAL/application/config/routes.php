@@ -504,6 +504,9 @@ $route['viewStudentTransportListing/(:any)'] = "transport/viewStudentTransportLi
 $route['downloadTransportFeeInfoReport'] = "reports/downloadTransportFeeInfoReport";
 $route['downloadTransportDueInfoReport'] = "reports/downloadTransportDueInfoReport";
 
+//
+$route['downloadBulkFeeReport'] = "reports/downloadBulkFeeReport";
+
 // this routes for Push Notification
 $route['pushNotification'] = 'push_Notification';
 $route['push_notification/sendNotification'] = "push_Notification/validateForm"; 

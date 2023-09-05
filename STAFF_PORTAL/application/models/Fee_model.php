@@ -1457,6 +1457,36 @@ class Fee_model extends CI_Model
         return $result;
     }
 
+    public function getFeeBulkReceipt($filter='') {
+        
+        $this->db->select('student.row_id, student.student_name, student.dob, student.gender,student.sat_number,student.application_no,student.email, 
+        student.blood_group,student.intake_year,student.father_name,student.stream_name,fee.row_id as fee_row_id,
+        student.student_id,student.term_name,student.section_name,student.elective_sub,
+        fee.receipt_number,fee.ref_receipt_no,fee.payment_type,fee.payment_date,fee.total_amount,fee.paid_amount,
+        fee.fee_concession,fee.pending_balance,fee.payment_year,fee.order_id,fee.payment_count');
+        
+        $this->db->from('tbl_students_overall_fee_payment_info_i_puc_2021 as fee');
+        $this->db->join('tbl_students_info as student', 'student.row_id = fee.application_no','left');
+        
+        if(!empty($filter['date_from'])){
+            $this->db->where('fee.payment_date>=', $filter['date_from']);
+        }
+        if(!empty($filter['date_to'])){
+            $this->db->where('fee.payment_date<=', $filter['date_to']);
+        }
+        // if(!empty($filter['payment_year'])){
+        //     $this->db->where('fee.payment_year', $filter['payment_year']);
+        // }
+        
+        // if($filter['payment_type']!='ALL'){
+        //     $this->db->where('fee.payment_type', $filter['payment_type']);
+        // }
+        $this->db->where('fee.is_deleted',0);
+         $this->db->order_by('fee.receipt_number', 'ASC');
+        $query = $this->db->get();
+        return $query->result();
+    }
+
 
     
     

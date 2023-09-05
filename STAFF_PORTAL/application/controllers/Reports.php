@@ -4041,7 +4041,7 @@ public function downloadTransportFeeInfoReport()
             ]
         ];
         $filter['term_name'] = $term_name;
-        $filter['month'] = $month;
+       // $filter['month'] = $month;
 
         $spreadsheet->getProperties()
             ->setCreator("SJPUC")
@@ -4096,7 +4096,6 @@ public function downloadTransportFeeInfoReport()
                 )
             )
         );
-
 
         $spreadsheet->getActiveSheet()->getStyle('A:B')->getAlignment()->setHorizontal('center');
         $spreadsheet->getActiveSheet()->getStyle('D:K')->getAlignment()->setHorizontal('center');
@@ -4185,6 +4184,93 @@ public function downloadTransportFeeInfoReport()
         $writer->save("php://output");
     }
 }
+
+public function downloadBulkFeeReport(){
+     
+    $filter = array();
+       // $term = $this->security->xss_clean($this->input->post('term_name'));
+        $date_from = $this->security->xss_clean($this->input->post('date_from'));
+        $date_to = $this->security->xss_clean($this->input->post('date_to'));
+        $payment_type = $this->security->xss_clean($this->input->post('payment_type'));
+        $payment_year = $this->security->xss_clean($this->input->post('payment_year'));
+        
+        $filter['term_name'] = $term;
+        $data['term_name'] = $term;
+        if(!empty($date_from)){
+        $filter['date_from'] = date('Y-m-d',strtotime($date_from));
+        
+        }
+        if(!empty($date_to)){
+        $filter['date_to'] = date('Y-m-d',strtotime($date_to));
+        }
+        $filter['payment_type'] = $payment_type;
+        $filter['payment_year'] = $payment_year;
+        $data['payment_type'] = $payment_type;
+
+       
+        $paidInfo = $this->fee->getFeeBulkReceipt($filter);
+        $data['paidInfo'] = $paidInfo; 
+       
+        $data['feeModel'] = $this->fee;
+
+            $this->global['pageTitle'] = ''.TAB_TITLE.' : Fee Receipt';
+            $mpdf = new \Mpdf\Mpdf(['tempDir' => sys_get_temp_dir().DIRECTORY_SEPARATOR.'mpdf','default_font' => 'timesnewroman', 'format' => 'A4-L']);
+            $mpdf->AddPage('L','','','','',7,7,7,7,8,8);
+            if (!empty($paidInfo)) {
+                
+                foreach ($paidInfo as $studentInfo) {
+                    $feeInfo = $this->fee->getFeeInfoByReceiptNum($studentInfo->row_id);
+                    $data['feeInfo'] = $feeInfo;
+                    $data['studentInfo'] = $studentInfo; 
+                    $data['paid_amount'] = $studentInfo->paid_amount;
+                    $data['previousFeePaidInfo'] = $this->fee->getPreviousFeePaidInfo($studentInfo->fee_row_id,$studentInfo->row_id, $studentInfo->term_name);
+                    $data['paid_amount_words'] = $this->getIndianCurrency(floatval($data['paid_amount']));
+                    $data['name_count'] = 0;
+                    $html_student_copy = $this->load->view('fees/bulkFeeReceiptPrint',$data,true);
+                    $data['name_count'] = 1;
+                    $html_office_copy = $this->load->view('fees/bulkFeeReceiptPrint',$data,true);
+
+                    $mpdf->WriteHTML('<columns column-count="2" vAlign="J" column-gap="10" />');
+                    $mpdf->WriteHTML($html_student_copy);
+                    $mpdf->WriteHTML($html_office_copy);
+                }
+            }
+     
+        $mpdf->Output('Fee_Receipt.pdf', 'I');   
+}
+
+function getIndianCurrency(float $number) {
+    $decimal = round($number - ($no = floor($number)), 2) * 100;
+    $hundred = null;
+    $digits_length = strlen($no);
+    $i = 0;
+    $str = array();
+    $words = array(0 => '', 1 => 'one', 2 => 'two',
+        3 => 'three', 4 => 'four', 5 => 'five', 6 => 'six',
+        7 => 'seven', 8 => 'eight', 9 => 'nine',
+        10 => 'ten', 11 => 'eleven', 12 => 'twelve',
+        13 => 'thirteen', 14 => 'fourteen', 15 => 'fifteen',
+        16 => 'sixteen', 17 => 'seventeen', 18 => 'eighteen',
+        19 => 'nineteen', 20 => 'twenty', 30 => 'thirty',
+        40 => 'forty', 50 => 'fifty', 60 => 'sixty',
+        70 => 'seventy', 80 => 'eighty', 90 => 'ninety');
+    $digits = array('', 'hundred','thousand','lakh', 'crore');
+    while( $i < $digits_length ) {
+        $divider = ($i == 2) ? 10 : 100;
+        $number = floor($no % $divider);
+        $no = floor($no / $divider);
+        $i += $divider == 10 ? 1 : 2;
+        if ($number) {
+            $plural = (($counter = count($str)) && $number > 9) ? 's' : null;
+            $hundred = ($counter == 1 && $str[0]) ? ' and ' : null;
+            $str [] = ($number < 21) ? $words[$number].' '. $digits[$counter]. $plural.' '.$hundred:$words[floor($number / 10) * 10].' '.$words[$number % 10]. ' '.$digits[$counter].$plural.' '.$hundred;
+        } else $str[] = null;
+    }
+    $Rupees = implode('', array_reverse($str));
+    $paise = ($decimal > 0) ? "." . ($words[$decimal / 10] . " " . $words[$decimal % 10]) . ' Paise' : '';
+    return ($Rupees ? $Rupees . 'Rupees ' : '') . $paise;
+}
+
 
 public function downloadTransportDueInfoReport()
 {
