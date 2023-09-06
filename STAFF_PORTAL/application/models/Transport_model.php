@@ -887,6 +887,32 @@ class Transport_model extends CI_Model
         return $query->row();
     }
 
+    public function getTransportFeeBulkReceipt($filter='') {
+        
+        $this->db->select('student.row_id as student_row_id,student.student_name,student.student_id,bus.ref_receipt_no,student.term_name,rate.bus_no,rate.name as route_name,bus.dd_number,bus.from_date,bus.to_date,
+        student.stream_name,month.month,month.amount,student.route_id,bus.total_amount,bus.pending_balance,bus.bus_fees,bus.created_date_time,bus.payment_type,bus.transaction_number,bus.upi_ref_no');
+        
+        $this->db->from('tbl_student_bus_management_details as bus');
+        $this->db->join('tbl_students_info as student','student.row_id  = bus.student_id','left');
+        $this->db->join('tbl_student_transport_rate_info as rate', 'rate.row_id = student.route_id','left');
+        $this->db->join('tbl_transport_month_payment as month','month.payment_id  = bus.row_id','left');
+        
+        if(!empty($filter['date_from'])){
+            $this->db->where('bus.payment_date>=', $filter['date_from']);
+        }
+        if(!empty($filter['date_to'])){
+            $this->db->where('bus.payment_date<=', $filter['date_to']);
+        }
+      
+        $this->db->where('bus.is_deleted',0);
+        $this->db->where('student.is_deleted',0);
+        $this->db->where('month.is_deleted',0);
+        $this->db->where('rate.is_deleted',0);
+        $this->db->order_by('bus.receipt_no', 'ASC');
+        $this->db->group_by('month.payment_id', 'ASC');
+        $query = $this->db->get();
+        return $query->result();
+    }
 
     
 }

@@ -4239,6 +4239,64 @@ public function downloadBulkFeeReport(){
         $mpdf->Output('Fee_Receipt.pdf', 'I');   
 }
 
+public function downloadTransportBulkFeeReport(){
+     
+    $filter = array();
+       // $term = $this->security->xss_clean($this->input->post('term_name'));
+        $date_from = $this->security->xss_clean($this->input->post('date_from'));
+        $date_to = $this->security->xss_clean($this->input->post('date_to'));
+        $payment_type = $this->security->xss_clean($this->input->post('payment_type'));
+        $payment_year = $this->security->xss_clean($this->input->post('payment_year'));
+        
+        $filter['term_name'] = $term;
+        $data['term_name'] = $term;
+        if(!empty($date_from)){
+        $filter['date_from'] = date('Y-m-d',strtotime($date_from));
+        
+        }
+        if(!empty($date_to)){
+        $filter['date_to'] = date('Y-m-d',strtotime($date_to));
+        }
+        $filter['payment_type'] = $payment_type;
+        $filter['payment_year'] = $payment_year;
+        $data['payment_type'] = $payment_type;
+
+       
+        $TransportInfo = $this->transport->getTransportFeeBulkReceipt($filter);
+       
+        $data['TransportInfo'] = $TransportInfo; 
+       
+        $data['feeModel'] = $this->fee;
+
+            $this->global['pageTitle'] = ''.TAB_TITLE.' : Fee Receipt';
+            $mpdf = new \Mpdf\Mpdf(['tempDir' => sys_get_temp_dir().DIRECTORY_SEPARATOR.'mpdf','default_font' => 'timesnewroman', 'format' => 'A4-L']);
+            $mpdf->AddPage('L','','','','',7,7,25,15,8,8);
+            if (!empty($TransportInfo)) {
+                
+                foreach ($TransportInfo as $studentInfo) {
+                  //  $feeInfo = $this->fee->getFeeInfoByReceiptNum($studentInfo->row_id);
+                   // $data['feeInfo'] = $feeInfo;
+                   $data['studentTransportInfo'] = $studentInfo; 
+                   log_message('debug','transport'.print_r($studentInfo,true));
+                    $data['transport_rate'] = $studentInfo->bus_fees;
+                    $data['transport_rate_words'] = $this->getIndianCurrency(floatval($data['transport_rate']));
+                    $data['name_count'] = 0;
+                    $html_student_copy = $this->load->view('transport/bulkTransportReceiptPrint',$data,true);
+                    $data['name_count'] = 1;
+                    $html_office_copy = $this->load->view('transport/bulkTransportReceiptPrint',$data,true);
+                    $data['name_count'] = 2;
+                    $html_bus_copy = $this->load->view('transport/bulkTransportReceiptPrint',$data,true);
+
+                    $mpdf->WriteHTML('<columns column-count="3" vAlign="J" column-gap="10" />');
+                    $mpdf->WriteHTML($html_student_copy);
+                    $mpdf->WriteHTML($html_office_copy);
+                    $mpdf->WriteHTML($html_bus_copy);
+                }
+            }
+     
+        $mpdf->Output('Transport_Receipt.pdf', 'I');   
+}
+
 function getIndianCurrency(float $number) {
     $decimal = round($number - ($no = floor($number)), 2) * 100;
     $hundred = null;
