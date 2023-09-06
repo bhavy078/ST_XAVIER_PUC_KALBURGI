@@ -83,9 +83,9 @@ if ($success) {
                                     <th><input type="checkbox" id="selectAll" /></th>
                                     <th>Register No.</th>
                                     <th>Student Name</th>
-                                    <th>Subject</th>
+                                    <!-- <th>Subject</th> -->
                                     <th>Certificate Name</th>
-                                    <th>Message</th>
+                                    <!-- <th>Message</th> -->
                                     <th>Filter</th>
                                 </tr>
                                 <tr class="row_filter">
@@ -98,9 +98,9 @@ if ($success) {
                                             <input type="text" name="student_name" id="student_name" value="<?php echo $student_name ?>" class="form-control" placeholder="By Name" autocomplete="off" />
 
                                         </th>
-                                        <th style="padding: 1px;">
+                                        <!-- <th style="padding: 1px;">
                                             <input type="text" name="request_sub" id="request_sub" value="<?php echo $request_sub ?>" class="form-control" placeholder="Search Subject" autocomplete="off" />
-                                        </th>
+                                        </th> -->
                                         <th style="padding: 1px;">
                                             <select id="request_certificate" name="request_certificate" class="form-control is-valid" placeholder="By Certificate Name">
                                                 <?php if (!empty($request_certificate)) { ?>
@@ -116,8 +116,8 @@ if ($success) {
 
                                         </th>
 
-                                        <th style="padding: 1px;"> <input type="text" name="request_issue" id="request_issue" value="<?php echo $request_issue ?>" class="form-control input-sm" placeholder="Search Message" autocomplete="off" />
-                                        </th>
+                                        <!-- <th style="padding: 1px;"> <input type="text" name="request_issue" id="request_issue" value="<?php echo $request_issue ?>" class="form-control input-sm" placeholder="Search Message" autocomplete="off" />
+                                        </th> -->
                                         <th style="padding: 1px;" class="text-center"><button type="submit" class="btn btn-success btn-md btn-block"><i class="fa fa-filter"></i>
                                                 Filter</button></th>
                                     </form>
@@ -131,9 +131,9 @@ if ($success) {
                                             <th class="text-center"><input type="checkbox" class="singleSelect" value="<?php echo $record->row_id; ?>" /></th>
                                             <th class="text-center"><?php echo $record->student_id; ?></th>
                                             <th class="text-left"><?php echo $record->student_name; ?></th>
-                                            <th class="text-left"><?php echo $record->request_sub ?></th>
+                                            <!-- <th class="text-left"><?php echo $record->request_sub ?></th> -->
                                             <th class="text-left"><?php echo $record->certificate_name ?></th>
-                                            <th class="text-left"><?php echo $record->issue; ?></th>
+                                            <!-- <th class="text-left"><?php echo $record->issue; ?></th> -->
                                             <th class="text-center">
                                                 <!-- <a class="btn btn-xs btn-info" target="_blank" href="<?php echo base_url(); ?>viewStudentReceipt/<?php echo $record->row_id; ?>"
                                     title="view fee receipt"><i class="fas fa-file"></i></a> -->
@@ -155,9 +155,9 @@ if ($success) {
                                     <th><input type="checkbox" id="selectAll" /></th>
                                     <th>Register No.</th>
                                     <th>Student Name</th>
-                                    <th>Subject</th>
+                                    <!-- <th>Subject</th> -->
                                     <th>Certificate Name</th>
-                                    <th>Message</th>
+                                    <!-- <th>Message</th> -->
                                     <th>Action</th>
                                 </tr>
                             </tfoot>
@@ -219,7 +219,7 @@ if ($success) {
                         </div>
 
                     </div>
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-lg-6 col-12">
                             <div class="form-group">
                                 <label for="request_sub">Issue Subject</label>
@@ -233,37 +233,62 @@ if ($success) {
                                 <textarea class="w-100" id="request_issue" name="request_issue" rows="3" required autocomplete="off"></textarea>
                             </div>
                         </div>
-                    </div>
-                    <div class="row conductInfo">
+                    </div> -->
+                    <div class="row">
                         <div class="col-lg-6 col-12">
                             <div class="form-group">
                                 <label for="college_from">Studied College From</label>
-                                <input name="college_from" type="text" class="form-control" id="college_from" placeholder="Year" autocomplete="off">
+                                <!-- <input name="college_from" type="text" class="form-control" id="college_from" placeholder="Enter the Year" autocomplete="off"> -->
+                                <select class="form-control required" id="college_from" name="college_from" >
+                                    <option value="">Select Year</option>
+                                    <option value="2021">2021</option>
+                                    <option value="2022">2022</option>
+                                    <option value="2023">2023</option> 
+                                </select>
                             </div>
                         </div>
                         <div class="col-lg-6 col-12">
                             <div class="form-group">
                                 <label for="college_to">Studied College To</label>
-                                <input name="college_to" type="text" class="form-control" id="college_to" placeholder="Year" autocomplete="off">
+                                <!-- <input name="college_to" type="text" class="form-control" id="college_to" placeholder="Enter the Year" autocomplete="off"> -->
+                                <select class="form-control required" id="college_to" name="college_to" >
+                                    <option value="">Select Year</option>
+                                    <option value="2021">2021</option>
+                                    <option value="2022">2022</option>
+                                    <option value="2023">2023</option> 
+                                </select>
                             </div>
                         </div>
                         <div class="col-lg-6 col-12">
                             <div class="form-group">
                                 <label for="classes_from">Classes From</label>
-                                <input name="classes_from" type="text" class="form-control" id="classes_from" placeholder="Enter classes from" autocomplete="off">
+                                <!-- <input name="classes_from" type="text" class="form-control" id="classes_from" placeholder="Enter classes from" autocomplete="off"> -->
+                                <select class="form-control required" id="classes_from" name="classes_from" >
+                                    <option value="">Select Class</option>
+                                    <option value="I PUC">I PUC</option>
+                                    <option value="II PUC">II PUC</option> 
+                                </select>
                             </div>
                         </div>
                         <div class="col-lg-6 col-12">
                             <div class="form-group">
                                 <label for="classes_to">Classes To</label>
-                                <input name="classes_to" type="text" class="form-control" id="classes_to" placeholder="Enter classes to" autocomplete="off">
+                                <!-- <input name="classes_to" type="text" class="form-control" id="classes_to" placeholder="Enter classes to" autocomplete="off"> -->
+                                <select class="form-control required" id="classes_to" name="classes_to" >
+                                    <option value="">Select Class</option>
+                                    <option value="I PUC">I PUC</option>
+                                    <option value="II PUC">II PUC</option> 
+                                </select>
                             </div>
                         </div>
                         <div class="col-lg-6 col-12">
                             <div class="form-group">
-                                <label for="progress">Student Progress</label>
-                                <input name="progress" type="text" class="form-control" id="progress" placeholder="Enter student progress" autocomplete="off">
-                            </div>
+                                <label for="role">Character</label>
+                                <select class="form-control required" id="character" name="character">
+                                    <option value="Good">Good</option>
+                                    <option value="Satisfactory">Satisfactory</option>
+                                </select>
+                             </div>
                         </div>
                     </div>
             </div>

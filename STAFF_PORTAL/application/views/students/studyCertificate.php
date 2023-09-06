@@ -59,8 +59,8 @@
     }
 
     u {    
-    border-bottom: 1px dotted #000;
-    text-decoration: none;
+  
+    text-decoration: underline;
 }
 
 
@@ -107,27 +107,34 @@ foreach ($studentInfo as $std) {
         <div class="row">
             <table>
                 <tr>
-                    <td width="100%" style="text-align:center;font-size:16pt;font-family:times new roman;"> <b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STUDY CERTIFICATE<b></td>
+                    <td width="100%" style="text-align:center;font-size:16pt;font-family:times new roman;"> <b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u>STUDY CERTIFICATE</u><b></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class = "row">
+            <table>
+                <tr>
+                    <td width = "50%" style="text-align:left;font-size: 13pt;">Admission No <u><?php echo $std->admission_no?></u></td>       
+                    <td width = "50%" style="text-align:right;font-size: 13pt;">Date <u><?php echo date('d-m-Y') ?></u></td>
                 </tr>
             </table>
         </div>
         <div class="row">
         
-            <p width="100%" style="text-align: justify;font-size: 14pt; font-family: times new roman;">This is to certify that <?php echo strtoupper($std->student_name) ?>&nbsp;
-                <?php if(!empty($std->gender == "MALE")){ echo "S/o"; } else{ echo "D/o";} ?>
-                  &nbsp;<?php if(!empty($std->father_name)){ echo strtoupper($std->father_name); } else{ echo strtoupper($std->mother_name);}?> is bonafide student of St Xavier's P U College studying in <?php echo $std->term_name?> <?php echo $std->program_name?> for the academic year 2023-24. <?php if(!empty($std->gender == "MALE")){ echo "His"; } else{ echo "Her";} ?> date of birth is <?php echo date('d-m-Y',strtotime($std->dob)) ?> as per college record.
+            <p width="100%" style="text-align: justify;font-size: 13pt; font-family: times new roman;">This is to certify that <?php if(!empty($std->gender == "MALE")){ echo "Sri."; } else{ echo "Kum.";} ?>&nbsp;<u><?php echo strtoupper($std->student_name) ?></u>
+                 was a bonafide student of this Institution/College during the year from <u><?php echo $std->college_from?></u> to <u><?php echo $std->college_to?></u> studying from <u><?php echo $std->classes_from?></u> to <u><?php echo $std->classes_to?></u>. During this studying period <?php if(!empty($std->gender == "MALE")){ echo "his"; } else{ echo "her";} ?>&nbsp; Character was found <?php echo $std->character_conduct?>. <?php if(!empty($std->gender == "MALE")){ echo "His"; } else{ echo "Her";} ?> Date of birth is <u><?php echo date('d-m-Y',strtotime($std->dob)) ?></u> as per <?php if(!empty($std->gender == "MALE")){ echo "his"; } else{ echo "her";} ?>&nbsp; Admission Register No <u><?php echo $std->student_id?></u>.
             </p>
-            <p width="100%" style="text-align: left;font-size: 14pt; font-family: times new roman;"> 
-            Admission Registration No. <?php echo $std->student_id?>
-
-            </p>
+            <!-- <p width="100%" style="text-align: left;font-size: 12pt; font-family: times new roman;"> 
+            Admission Registration No. <?php echo $std->admission_no?>
+            </p> -->
           <br>
         </div>
         <div class="row">
-            <p style="text-align: justify;font-size: 14pt; font-family: times new roman;">Date: <?php echo date('d-m-Y')?></p>
-            <p style="text-align: justify;font-size: 14pt; font-family: times new roman;line-height:0.8">Place : Kalaburagi</p>
+            <p style="text-align: justify;font-size: 13pt; font-family: times new roman;">Date: <u><?php echo date('d-m-Y')?></u></p>
+            <p style="text-align: justify;font-size: 13pt; font-family: times new roman;line-height:0.8">Place : <u>Kalaburagi</u></p>
 
-            <p style="text-align: left;font-size: 14pt; font-family: times new roman;line-height:0.8">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b> Principal</b></p>
+            <p style="text-align: left;font-size: 13pt; font-family: times new roman;line-height:0.8">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b> Head Master/Principal</b></p>
         </div>
     </div>
 <?php

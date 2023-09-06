@@ -1397,9 +1397,9 @@ class Students extends BaseController
             $this->loadThis();
         } else {
             $this->load->library('form_validation');
-            $this->form_validation->set_rules('request_sub','Request Subject','trim|required');
+            // $this->form_validation->set_rules('request_sub','Request Subject','trim|required');
             $this->form_validation->set_rules('request_certificate','Request Certificate Number','trim|required');
-            $this->form_validation->set_rules('request_issue','Request Issue','trim|required');
+            // $this->form_validation->set_rules('request_issue','Request Issue','trim|required');
             $this->form_validation->set_rules('student_row_id','student row id','trim|required');
             if($this->form_validation->run() == FALSE) {
                 $this->getCertificate();
@@ -1412,6 +1412,7 @@ class Students extends BaseController
                 $college_to = $this->security->xss_clean($this->input->post('college_to'));
                 $classes_from = $this->security->xss_clean($this->input->post('classes_from'));
                 $classes_to = $this->security->xss_clean($this->input->post('classes_to'));
+                $character = $this->security->xss_clean($this->input->post('character'));
                 $progress = $this->security->xss_clean($this->input->post('progress'));
                 if($request_certificate == 2){
                     $requestInfo = array(
@@ -1424,6 +1425,7 @@ class Students extends BaseController
                         'classes_from' => $classes_from,
                         'classes_to' => $classes_to,
                         'progress' => $progress,
+                        'character_conduct' => $character,
                         'created_by' => $this->staff_id,
                         'created_date_time' =>date('Y-m-d H:i:s')
                     );
@@ -1434,6 +1436,11 @@ class Students extends BaseController
                         'request_sub' => $request_sub,
                         'certificate_Id' => $request_certificate,
                         'issue' => $request_issue,
+                        'college_from' => $college_from,
+                        'college_to' => $college_to,
+                        'classes_from' => $classes_from,
+                        'classes_to' => $classes_to,
+                        'character_conduct' => $character,
                         'created_by' => $this->staff_id,
                         'created_date_time' =>date('Y-m-d H:i:s')
                     );
