@@ -746,5 +746,19 @@ class Staff_model extends CI_Model
         $query = $this->db->get();
         return $query->result();
     }
+
+
+    public function getStaffId($row_id){
+        $this->db->select('staff.row_id,staff.staff_id,staff.name as staff_name,dept.name,Role.role');
+          $this->db->from('tbl_staff as staff'); 
+          $this->db->join('tbl_roles as Role', 'Role.roleId = staff.role','left');
+          $this->db->join('tbl_department as dept', 'dept.dept_id = staff.department_id','left');
+          $this->db->where_in('staff.staff_id', $row_id);
+          $this->db->where('staff.is_deleted', 0);
+          $this->db->where('dept.is_deleted', 0);
+         // $this->db->order_by('student.register_no', 'ASC');
+          $query = $this->db->get();
+          return $query->row();
+      }
    
 }

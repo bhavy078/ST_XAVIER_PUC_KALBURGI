@@ -73,16 +73,17 @@
                             <div class="col-lg-6 col-sm-6 col-12 box-tools">
                                     <a onclick="showLoader();window.history.back();" class="btn primary_color mobile-btn float-right text-white border_left_radius"
                                     value="Back"><i class="fa fa-arrow-circle-left"></i> Back </a>
-                                <!-- <div class="dropdown mobile-btn float-right">
+                                <div class="dropdown mobile-btn float-right">
                                     <button type="button" class="btn btn-success dropdown-toggle border_radius_none" data-toggle="dropdown">
                                         Action
                                     </button>
                                     <div class="dropdown-menu p-0">
-                                        <a class="dropdown-item disabled" href="#"><i class="fa fa-download"></i> Download</a>
-                                        <div class="dropdown-divider m-0"></div>
-                                        <a class="dropdown-item disabled" href="#"><i class="fa fa-mobile"></i> Send SMS</a>
+                                        <!-- <a class="dropdown-item disabled" href="#"><i class="fa fa-download"></i> Download</a> -->
+                                        <a class="dropdown-item" href="#" id="barcode"><i class="fa fa-file"></i> Generate Barcode</a>
+                                        <!-- <div class="dropdown-divider m-0"></div> -->
+                                        <!-- <a class="dropdown-item disabled" href="#"><i class="fa fa-mobile"></i> Send SMS</a> -->
                                     </div>
-                                </div> -->
+                                </div>
                                 <?php if($role == ROLE_ADMIN || $role == ROLE_PRIMARY_ADMINISTRATOR){ ?>
                                 <div class="form-group">
                                     <a class="btn btn-primary mobile-btn float-right border_right_radius"
@@ -217,7 +218,18 @@ jQuery(document).ready(function() {
 
     });
 
-
+    $('#barcode').click(function(){
+    var staffs = [];
+    if ($('.singleSelect:checkbox:checked').length == 0) {
+        alert("Select at least one Staff to generate barcode!");
+        return;
+    }
+    $('.singleSelect:checked').each(function(i){
+        staffs.push($(this).val());
+    });
+    staffs = JSON.stringify(staffs);
+    window.open('<?php echo base_url(); ?>generateBarcodeForStaff?row_id=' + btoa(staffs));
+});
 
 
 
