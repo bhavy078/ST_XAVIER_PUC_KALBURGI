@@ -109,15 +109,17 @@ if ($error) {
                                                             <th class="tbl-head mobile_input_width" width="140">Date of Birth</th>
                                                             <th width="170">
                                                                 <div class="input-group mb-0 mobile_input_width">
-                                                                    <div class="input-group-append">
-                                                                        <span class="input-group-text material-icons date-icon p-2">date_range</span>
-                                                                    </div>
-                                                                    <input id="dob" type="text" name="dob" class="form-control datepicker emp-dob required "
+                                                                    <input id="dob" type="text" name="dob" class="form-control datepicker emp-dob required"
                                                                         value="<?php if(empty($studentInfo->dob) || $studentInfo->dob == '0000-00-00'){
-                                                                                echo "";
-                                                                            } else{
-                                                                                echo date('d-m-Y',strtotime($studentInfo->dob));
-                                                                            } ?>" placeholder="Date of Birth" autocomplete="off" />
+                                                                            echo "";
+                                                                        } else{
+                                                                            echo date('d-m-Y',strtotime($studentInfo->dob));
+                                                                        } ?>" placeholder="Date of Birth" autocomplete="off" onkeydown="allowHyphen(event)" />
+                                                                    <div class="input-group-append">
+                                                                        <button class="btn btn-outline-secondary" type="button" id="datepicker-trigger">
+                                                                            <i class="material-icons date-icon p-2">date_range</i>
+                                                                        </button>
+                                                                    </div>
                                                                 </div>
                                                             </th>
                                                         </tr>
@@ -576,4 +578,26 @@ function readURL(input) {
 $("#vImg").change(function() {
     readURL(this);
 });
+
+$(document).ready(function() {
+        // Initialize your datepicker here
+        $('#dob').datepicker({
+            format: 'dd-mm-yyyy', // Use the desired date format
+            autoclose: true
+        });
+
+        // Trigger the datepicker when the button is clicked
+        $('#datepicker-trigger').click(function() {
+            $('#dob').datepicker('show');
+        });
+    });
+
+    // Function to allow hyphen (-) to be entered
+    function allowHyphen(event) {
+        const input = event.target;
+        if (event.key === '-' && input.value.length <= 10) {
+            input.value += '-';
+            event.preventDefault();
+        }
+    }
 </script>
