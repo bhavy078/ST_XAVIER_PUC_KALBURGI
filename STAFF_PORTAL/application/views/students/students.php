@@ -117,6 +117,7 @@ if ($error) {
                                         <!-- <a class="dropdown-item" href="#" id="promoteStudent"><i class="fa fa-file"></i>Promote Student</a>
                                         <div class="dropdown-divider m-0"></div> -->
                                         <a class="dropdown-item" id="sendNotification" href="#"> <i class="material-icons text-dark">send</i> Send Notification</a>
+                                        <a class="dropdown-item" href="#" id="barcode"><i class="fa fa-file"></i> Generate Barcode</a>
                                     </div>
                                 </div>
                             </div>
@@ -1148,6 +1149,21 @@ jQuery(document).ready(function() {
             students.push($(this).val());
         });
         $('#countStudentsForMarkCard').html($('.singleSelect:checkbox:checked').length);
+    });
+
+
+    $('#barcode').click(function(){
+         students = [];
+        if ($('.singleSelect:checkbox:checked').length == 0) {
+            alert("Select atleast one Student to generate barcode!");
+            return;
+        }
+        $('.singleSelect:checked').each(function(i){
+            students.push($(this).val());
+        });
+         students = JSON.stringify(students);
+         // alert(students);
+        window.open('<?php echo base_url(); ?>generateBarcodeForStudent?row_id='+btoa(students));
     });
 
 

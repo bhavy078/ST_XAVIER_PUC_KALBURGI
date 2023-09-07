@@ -20,6 +20,9 @@ class Students extends BaseController
         $this->load->library('pagination');
         $this->load->library('excel');
         $this->isLoggedIn();   
+
+          //load library
+		$this->load->library('zend');
     }
 
     function studentDetails() {
@@ -1972,6 +1975,56 @@ class Students extends BaseController
             if ($result == true) {echo (json_encode(array('status' => true)));} else {echo (json_encode(array('status' => false)));}
         } 
     }
+
+
+
+    public function generateBarcodeForStudent($row_id = null){
+        if($this->isAdmin() == TRUE) {
+            $this->loadThis();
+        } else {
+            if($row_id == null){
+                $row_id = $this->security->xss_clean($this->input->get('row_id'));
+                $row_id = base64_decode(urldecode($row_id));
+                $row_id = json_decode(stripslashes($row_id));
+            }
+          
+            foreach($row_id as $id){
+                
+                $roll_number[$id] = $this->student->getStudentRollNo($id);
+                // log_message('debug','data'.print_r($roll_number[$id],true));
+                // log_message('debug','data'.$roll_number[$id]->student_id);
+                $generate_barcode[$id] = $this->set_barcode($roll_number[$id]->student_id);
+            }
+            $data['generate_barcode'] = $generate_barcode;
+           
+            $mpdf = new \Mpdf\Mpdf(['tempDir' => sys_get_temp_dir().DIRECTORY_SEPARATOR.'mpdf','default_font' => 'timesnewroman','format' => 'A4-L']);
+            $mpdf->AddPage('P','','','','',7,7,7,7,8,8);
+            $mpdf->SetTitle('Bar Code');
+            $this->global['pageTitle'] = ''.TAB_TITLE.' : Barcode';
+
+            $html = $this->load->view('students/viewBarCodePrintForStudent',$data,true);
+            $mpdf->WriteHTML($html);
+            $mpdf->Output('BarCode.pdf', 'I'); 
+
+        }
+    }
+
+
+    function set_barcode($code)
+        {
+            //load in folder Zend
+            $this->zend->load('Zend/Barcode');
+            //generate barcode
+            $file = Zend_Barcode::draw('code128', 'image', array('text'=>$code), array());
+            //$code = str_replace('/', '_', $code);
+            $code = time().$code;
+            $barcodeRealPath = APPPATH. '/barcode/'.$code.'.png';
+            $barcodePath = APPPATH.'/barcode/';
+    
+            header('Content-Type: image/png');
+            $store_image = imagepng($file,$barcodeRealPath);
+            return $barcodePath.$code.'.png';
+        }
 
     
 }

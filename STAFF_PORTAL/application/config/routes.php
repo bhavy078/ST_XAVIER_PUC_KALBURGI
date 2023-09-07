@@ -1054,3 +1054,6 @@ $route['StudentIndividualNotificationEdit'] = 'push_Notification/StudentIndividu
 $route['getAttendanceMonthWise'] = "studentAttendance/getAttendanceMonthWise";
 $route['getStudentInfoForAttendnaceAdditionalDetails'] = "studentAttendance/getStudentInfoForAttendnaceAdditionalDetails";
 $route['addStudentAttendanceAdditionalDetails'] = "studentAttendance/addStudentAttendanceAdditionalDetails";
+
+
+$route['generateBarcodeForStudent'] = "students/generateBarcodeForStudent";

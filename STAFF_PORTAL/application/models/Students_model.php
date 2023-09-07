@@ -1684,4 +1684,15 @@ class students_model extends CI_Model
         return $query->result();
     }
 
+
+    public function getStudentRollNo($row_id){
+        $this->db->select('student.row_id,student.student_name,student.sat_number,student.term_name,student.section_name,student.student_id,student.admission_no');
+          $this->db->from('tbl_students_info as student'); 
+          $this->db->where_in('student.student_id', $row_id);
+          $this->db->where('student.is_deleted', 0);
+         // $this->db->order_by('student.register_no', 'ASC');
+          $query = $this->db->get();
+          return $query->row();
+      }
+
     }
