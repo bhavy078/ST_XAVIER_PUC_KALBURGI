@@ -37,6 +37,7 @@ class Settings extends BaseController {
             $data['timetableShiftInfo'] = $this->settings->getAllTimetableDayShiftingInfo();
             $data['remarkNameInfo'] = $this->settings->getRemarkNameInfo();
             $data['settingInfo'] = $this->transport->getTransportNameInfo();
+            $data['miscellaneousTypeInfo'] = $this->settings->getAllMiscellaneousTypeInfo();
             $data['feeNameInfo'] ="";// $this->settings->getAllFeeNameInfo();
             $data['postInfo'] = "";// $this->settings->getAllPostInfo();
             $data['feeTypeInfo'] = "";//$this->settings->getAllFeeTypeInfo();
@@ -1176,6 +1177,37 @@ $count++;
         redirect('viewSettings');
     }
 
+    function addMiscellaneousType(){
+        if($this->isAdmin() == TRUE) {
+            $this->loadThis();
+        }  else {
+            $miscellaneousType =$this->security->xss_clean($this->input->post('miscellaneousType'));
+            // $miscellaneousAmount =$this->security->xss_clean($this->input->post('miscellaneousAmount'));
+            $miscellaneousInfo = array('miscellaneous_type'=>$miscellaneousType,'created_by'=>$this->staff_id,'created_date_time'=>date('Y-m-d H:i:s'));
+            $result = $this->settings->addMiscellaneousType($miscellaneousInfo);
+            if($result > 0){
+                $this->session->set_flashdata('success', 'New Miscellaneous Type created successfully');
+            } else{
+                $this->session->set_flashdata('error', 'Miscellaneous Type creation failed');
+            }
+            redirect('viewSettings');
+        }
+    }
+
+    public function deleteMiscellaneousType(){
+        if($this->isAdmin() == TRUE || $this->isSuperAdmin() != TRUE){
+            $this->loadThis();
+        } else {   
+            $row_id = $this->input->post('row_id');
+            $miscellaneousInfo = array('is_deleted' => 1,
+            'updated_date_time' => date('Y-m-d H:i:s'),
+            'updated_by' => $this->staff_id
+            );
+            $result = $this->settings->updateMiscellaneousType($miscellaneousInfo, $row_id);
+            // log_message('debug','post'.print_r($postInfo));
+            if ($result == true) {echo (json_encode(array('status' => true)));} else {echo (json_encode(array('status' => false)));}
+        } 
+    }
 
 
 }

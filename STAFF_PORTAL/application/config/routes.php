@@ -911,6 +911,17 @@ $route['updateStdInfo'] = "settings/updateStdInfo";
 $route['addLibData'] = "settings/addLibData";
 $route['addStudentMissingData'] = "settings/addStudentMissingData";
 
+//miscellaneous fee
+$route['miscellaneousFeeListing'] = "fee/miscellaneousFeeListing";
+$route['miscellaneousFeeListing/(:any)'] = "fee/miscellaneousFeeListing/$1";
+$route['addMiscellaneousPayment'] = "fee/addMiscellaneousPayment";
+$route['getMiscellaneousFeeInfo'] = "fee/getMiscellaneousFeeInfo";
+$route['deleteMiscellaneousFee'] = "fee/deleteMiscellaneousFee";
+$route['miscellaneousReceiptPrint/(:any)'] = "fee/miscellaneousReceiptPrint/$1";
+$route['addMiscellaneousType'] = "settings/addMiscellaneousType";
+$route['deleteMiscellaneousType'] = "settings/deleteMiscellaneousType";
+$route['downloadMiscellaneousFeePaidReport'] = "reports/downloadMiscellaneousFeePaidReport";
+
 // routes for Stock Management
 $route['viewStockSettings'] = "stock/viewStockSettings";
 $route['addStockName'] = "stock/addStockName";

@@ -44,6 +44,7 @@ class Reports extends BaseController
             $data['streamInfo'] = $this->student->getAllStreamName();
             $data['subjectInfo'] = $this->subject->getAllSubjectInfo();
             $data['routeInfo'] = $this->transport->getTransportNameInfo();
+            $data['miscellaneousTypeInfo'] = $this->settings->getAllMiscellaneousTypeInfo();
             $this->global['pageTitle'] = '' . TAB_TITLE . ' : Reports';
             $this->loadViews("reports/reports", $this->global, $data, NULL);
         }
@@ -4479,6 +4480,159 @@ public function downloadTransportDueInfoReport()
         header('Cache-Control: max-age=0');
         setcookie('isDownLoaded', 1);
         $writer->save("php://output");
+    }
+}
+
+public function downloadMiscellaneousFeePaidReport(){
+    if($this->isAdmin() == TRUE) {
+        setcookie('isDownloading',0);
+        $this->loadThis();
+    } else {  
+        $filter = array();
+        $miscellaneous_type = $this->security->xss_clean($this->input->post('miscellaneous_type'));
+        $date_from = $this->security->xss_clean($this->input->post('date_from'));
+        $date_to = $this->security->xss_clean($this->input->post('date_to'));
+        $reportFormat = $this->security->xss_clean($this->input->post('reportFormat'));
+        $payment_type = $this->security->xss_clean($this->input->post('payment_type'));
+
+      
+        if(!empty($date_from)){
+            $filter['date_from'] = date('Y-m-d',strtotime($date_from));
+        }else{
+            $filter['date_from'] = '';
+        }
+        if(!empty($date_to)){
+            $filter['date_to'] = date('Y-m-d',strtotime($date_to));
+        }else{
+            $filter['date_to'] = '';
+        }
+
+        if($payment_type[0] == 'ALL'){
+            $filter['payment_type'] = '';
+            }else{
+            $filter['payment_type'] = $payment_type;
+        }
+        if($miscellaneous_type[0] == 'ALL'){
+            $filter['miscellaneous_type'] = '';
+        }else{
+            $filter['miscellaneous_type'] = $miscellaneous_type;
+        }
+        if($reportFormat == 'VIEW'){
+            $data['dt_filter'] = $filter;
+            //$data['miscellaneous'] = $miscellaneous;
+            $data['fee'] = $this->fee;
+            $this->global['pageTitle'] = ''.TAB_TITLE.' : MISCELLANEOUS FEE INFO';
+            $mpdf = new \Mpdf\Mpdf(['tempDir' => sys_get_temp_dir().DIRECTORY_SEPARATOR.'mpdf','default_font' => 'timesnewroman']);
+            $mpdf->AddPage('P','','','','',10,10,10,10,8,8);
+            $mpdf->SetTitle('MISCELLANEOUS FEE INFO');
+            $html = $this->load->view('reports/misView',$data,true);
+            $mpdf->WriteHTML($html);
+            $mpdf->Output('MIS.pdf', 'I');                                                              
+        }else{
+            // $filter['miscellaneous_type'] = $miscellaneous_type;
+            $report_date = date('d-m-Y');
+            $sheet = 0;
+            $this->excel->setActiveSheetIndex($sheet);
+            //name the worksheet
+            $this->excel->getActiveSheet()->setTitle("MISCELLANEOUS FEE INFO");
+            $this->excel->getActiveSheet()->getPageSetup()->setPrintArea('A1:J500');
+            //set Title content with some text
+            $this->excel->getActiveSheet()->setCellValue('A1', EXCEL_TITLE);
+            $this->excel->getActiveSheet()->setCellValue('A2'," MISCELLANEOUS FEE INFO");
+            $this->excel->getActiveSheet()->getStyle('A1')->getFont()->setSize(18);
+            $this->excel->getActiveSheet()->getStyle('A2')->getFont()->setSize(14);
+            $this->excel->getActiveSheet()->mergeCells('A1:L1');
+            $this->excel->getActiveSheet()->mergeCells('A2:L2');
+            $this->excel->getActiveSheet()->getStyle('A1:L4')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+            $this->excel->getActiveSheet()->getStyle('A1:L1')->getFont()->setBold(true);
+    
+            $this->excel->getActiveSheet()->getColumnDimension('A')->setWidth(8);
+            $this->excel->getActiveSheet()->getColumnDimension('B')->setWidth(12);
+            $this->excel->getActiveSheet()->getColumnDimension('C')->setWidth(8);
+            $this->excel->getActiveSheet()->getColumnDimension('D')->setWidth(15);
+            $this->excel->getActiveSheet()->getColumnDimension('E')->setWidth(30);
+            $this->excel->getActiveSheet()->getColumnDimension('F')->setWidth(10);
+            $this->excel->getActiveSheet()->getColumnDimension('G')->setWidth(10);
+            $this->excel->getActiveSheet()->getColumnDimension('H')->setWidth(8);
+            $this->excel->getActiveSheet()->getColumnDimension('I')->setWidth(15);
+            $this->excel->getActiveSheet()->getColumnDimension('J')->setWidth(10);
+            $this->excel->getActiveSheet()->getColumnDimension('K')->setWidth(10);
+            $this->excel->getActiveSheet()->getColumnDimension('L')->setWidth(10);
+
+            $this->excel->setActiveSheetIndex($sheet)->setCellValue('A3', 'SL. NO.');
+            $this->excel->setActiveSheetIndex($sheet)->setCellValue('B3', 'Paid Date');
+            $this->excel->setActiveSheetIndex($sheet)->setCellValue('C3', 'Receipt No');
+            $this->excel->setActiveSheetIndex($sheet)->setCellValue('D3', 'Register No.');
+            $this->excel->setActiveSheetIndex($sheet)->setCellValue('E3', 'Name');
+            $this->excel->setActiveSheetIndex($sheet)->setCellValue('F3', 'Term');
+            $this->excel->setActiveSheetIndex($sheet)->setCellValue('G3', 'Stream');
+            $this->excel->setActiveSheetIndex($sheet)->setCellValue('H3', 'Year');
+            $this->excel->setActiveSheetIndex($sheet)->setCellValue('I3', 'Miscellaneous Type');
+            $this->excel->setActiveSheetIndex($sheet)->setCellValue('J3', 'Quantity');
+            $this->excel->setActiveSheetIndex($sheet)->setCellValue('K3', 'Amount');
+            $this->excel->setActiveSheetIndex($sheet)->setCellValue('L3', 'Total Amount');
+
+
+            $this->excel->getActiveSheet()->getStyle('A3:L3')->getAlignment()->setWrapText(true); 
+            $this->excel->getActiveSheet()->getStyle('A3:L3')->getFont()->setBold(true); 
+            $this->excel->getActiveSheet()->getStyle('A3:L3')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+            $styleBorderArray = array('borders' => array('allborders' => array('style' => PHPExcel_Style_Border::BORDER_THIN)));
+            $this->excel->getActiveSheet()->getStyle('A1:L3')->applyFromArray($styleBorderArray);
+            // log_message('debug','ndcjd'.print_r($feeRecord,true));
+            $j=1;
+            $excel_row = 4;
+           // for($i=0; $i<count($miscellaneous);$i++){
+               /// $filter['miscellaneous'] = $miscellaneous[$i];
+            //log_message('debug','mis'.print_r($filter,true));
+                $miscellaneousFeePaidInfo = $this->fee->getMiscellaneousFeesInfoReport($filter);
+
+                foreach($miscellaneousFeePaidInfo as $fee){
+
+                    if(empty($fee->qnty)){
+
+                        $total_amount =  $fee->amount;   
+        
+                    }else {
+                    $total_amount = $fee->qnty * $fee->amount;
+                    }
+
+                    $this->excel->setActiveSheetIndex($sheet)->setCellValue('A'.$excel_row,$j++);
+                    $this->excel->setActiveSheetIndex($sheet)->setCellValue('B'.$excel_row, date('d-m-Y',strtotime($fee->date)));
+                    $this->excel->setActiveSheetIndex($sheet)->setCellValue('C'.$excel_row, $fee->ref_receipt_no);
+                    $this->excel->setActiveSheetIndex($sheet)->setCellValue('D'.$excel_row, $fee->student_id);
+                    $this->excel->setActiveSheetIndex($sheet)->setCellValue('E'.$excel_row, $fee->student_name);
+                    $this->excel->setActiveSheetIndex($sheet)->setCellValue('F'.$excel_row, $fee->term);
+                    $this->excel->setActiveSheetIndex($sheet)->setCellValue('G'.$excel_row, $fee->stream);
+                    $this->excel->setActiveSheetIndex($sheet)->setCellValue('H'.$excel_row, $fee->year);
+                    $this->excel->setActiveSheetIndex($sheet)->setCellValue('I'.$excel_row, $fee->miscellaneous_type);
+                    $this->excel->setActiveSheetIndex($sheet)->setCellValue('J'.$excel_row, $fee->qnty);
+                    $this->excel->setActiveSheetIndex($sheet)->setCellValue('K'.$excel_row, $fee->amount);
+                    $this->excel->setActiveSheetIndex($sheet)->setCellValue('L'.$excel_row,  $total_amount);
+
+
+                    $this->excel->getActiveSheet()->getStyle('A'.$excel_row.':L'.$excel_row)->applyFromArray($styleBorderArray);
+                    $this->excel->getActiveSheet()->getStyle('A'.$excel_row.':E'.$excel_row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $this->excel->getActiveSheet()->getStyle('F'.$excel_row.':L'.$excel_row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $excel_row++;
+                }
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('J'.$excel_row, 'TOTAL');
+                $this->excel->getActiveSheet()->getStyle('J'.$excel_row.':L'.$excel_row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                                     
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('K'.$excel_row,"=SUM(K4:K".($excel_row-1).")");
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('L'.$excel_row,"=SUM(L4:L".($excel_row-1).")");
+                $this->excel->getActiveSheet()->getStyle('A'.$excel_row.':O'.$excel_row)->getFont()->setBold(true);
+           // }
+            $this->excel->createSheet(); 
+        
+            $filename ='Miscellaneous_Fee_Report_'.$report_date.'.xls'; //save our workbook as this file name
+            header('Content-Type: application/vnd.ms-excel'); //mime type
+            header('Content-Disposition: attachment;filename="'.$filename.'"'); //tell browser what's the file name
+            header('Cache-Control: max-age=0'); //no cache
+            $objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel5');  
+            ob_start();
+            setcookie('isDownloading',0);
+            $objWriter->save("php://output");
+        }
     }
 }
 

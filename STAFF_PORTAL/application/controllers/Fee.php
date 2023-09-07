@@ -15,6 +15,7 @@ class Fee extends BaseController
         $this->load->model('account_model','account');
         $this->load->model('admission_model','admission');
         $this->load->model('application_model','application');
+        $this->load->model('settings_model','settings');
         $this->load->library('pdf');
         $this->load->library('excel');
         $this->isLoggedIn();
@@ -1072,9 +1073,7 @@ class Fee extends BaseController
         $this->global['pageTitle'] = ''.TAB_TITLE.' : Fee Receipt';
         $mpdf = new \Mpdf\Mpdf(['tempDir' => sys_get_temp_dir().DIRECTORY_SEPARATOR.'mpdf','default_font' => 'timesnewroman', 'format' => 'A4-L']);
         $mpdf->AddPage('L','','','','',10,10,3,1,8,8);
-        // $mpdf->SetTitle('Fee Receipt');
-        // $html = $this->load->view('fees/feeReceiptPrint',$data,true);
-        // $mpdf->WriteHTML($html);
+        
         $data['paid_amount'] = $data['feeInfo']->paid_amount;
         $data['previousFeePaidInfo'] = $this->fee->getPreviousFeePaidInfo($row_id,$data['feeInfo']->application_no, $studentInfo->term_name);
         $data['paid_amount_words'] = $this->getIndianCurrency(floatval($data['paid_amount']));
@@ -1087,8 +1086,6 @@ class Fee extends BaseController
         $mpdf->WriteHTML('<columns column-count="2" vAlign="J" column-gap="10" />');
         $mpdf->WriteHTML($html_student_copy);
         $mpdf->WriteHTML($html_office_copy);
-       
-        
 
         $mpdf->Output('Fee_Receipt.pdf', 'I');
         
@@ -2767,7 +2764,7 @@ public function processTheFeePayment(){
             $filter = array();
             $ref_receipt_no = $this->input->post("reference_receipt_no");
             $data['result'] = $this->fee->getCheckReceiptNo($ref_receipt_no);
-            log_message('debug','result'.print_r($data['result'],true));
+            //log_message('debug','result'.print_r($data['result'],true));
             header('Content-type: text/plain'); 
             header('Content-type: application/json'); 
             echo json_encode($data);
@@ -2830,5 +2827,257 @@ public function processTheFeePayment(){
 
         }
     }
+
+    public function miscellaneousFeeListing(){
+        if ($this->isAdmin() == true ) {
+            $this->loadThis();
+        } else {
+            $data['studentInfo'] = $this->student->getstudentInfo();
+          
+
+            $data['miscellaneousTypeInfo'] = $this->settings->getAllMiscellaneousTypeInfo();
+            // $data['streamInfo'] = $this->application->getStreamNames();
+            $this->global['pageTitle'] = ''.TAB_TITLE.' : Miscellaneous Fee';
+            $this->loadViews("fees/miscellaneousFee.php", $this->global, $data, null);
+        }
+    }
+
+    public function getMiscellaneousFeeInfo(){
+        if($this->isAdmin() == TRUE )
+        {
+            $this->loadThis();
+        } else {
+        $draw = intval($this->input->post("draw"));
+        $start = intval($this->input->post("start"));
+        $length = intval($this->input->post("length"));
+        $data_array_new = [];
+        $miscellaneousFeeInfo = $this->fee->getMiscellaneousFeesInfo();
+       // log_message('debug','mis'.print_r($miscellaneousFeeInfo,true));
+        foreach($miscellaneousFeeInfo as $fee) {
+            $checkbox="";
+            $infoButton = "";
+            $deleteButton = "";
+            $receipt= "";
+            $approve="";
+            $payButton="";
+            if(empty($fee->qnty)){
+                $total_amount =  $fee->amount;   
+            }else {
+            $total_amount = $fee->qnty * $fee->amount;
+            }
+            $staffName = $this->fee->getStaffNameById($fee->created_by);
+
+            // $infoButton = '<span><a href="#" title="Cashier Info : '. $staffName->name.'" data-toggle="popover" data-content="Name: '. $staffName->name.'"><span class="badge badge-primary"> <i class="fa fa-info-circle"></i></span></a></span>'; 
+
+                    // $approve = '<a class="btn btn-xs p-2 btn-success approvePayment" href="#"
+                    // data-row_id="'.$hostel->row_id.'" title="Approve"><i class="fas fa-thumbs-up"></i></a>';
+                    $deleteButton = '<a class="btn btn-xs btn-danger deleteMiscellaneousFee" href="#"
+                    data-row_id="'.$fee->row_id.'" title="Delete"><i class="fa fa-trash"></i></a>';
+                
+                    // $editButton = '<a class="btn btn-xs btn-primary"
+                    // href="'.base_url().'editHostelPayment/'.$hostel->row_id.'" title="Edit"><i
+                    // class="fas fa-pencil-alt"></i></a>';
+                  
+            
+                // $editButton = '<a class="btn btn-xs btn-primary"
+                // href="'.base_url().'editHostelPayment/'.$hostel->row_id.'" title="Edit"><i
+                // class="fas fa-pencil-alt"></i></a>';
+               
+                    $receipt = '<a class="btn btn-xs btn-primary" 
+                    href="'.base_url().'miscellaneousReceiptPrint/'.$fee->row_id.'"
+                            target="_blank" title="Receipt"><i class="material-icons">receipt</i></a>';
+               
+                
+            
+            $data_array_new[] = array(
+                $checkbox,
+                date('d-m-Y',strtotime($fee->date)),
+                $fee->ref_receipt_no,
+                $fee->student_id,
+                strtoupper($fee->student_name),
+                strtoupper($fee->miscellaneous_type),
+                // $fee->amount,
+                $fee->qnty,
+                $total_amount,
+               $fee->payment_type,
+                $deleteButton.' '.$approve.' '.$receipt.' '.$payButton 
+                );
+            }
+        $count = count($miscellaneousFeeInfo);
+            $result = array(
+                "draw" => $draw,
+                "recordsTotal" => $count,
+                "recordsFiltered" => $count,
+                "data" => $data_array_new
+            );
+        echo json_encode($result);
+        exit();
+        }
+    }
+
+    
+   
+    public function addMiscellaneousPayment(){
+        if($this->isAdmin() == TRUE)
+        {
+            $this->loadThis();
+        } else {
+            $this->load->library('form_validation');
+            $this->form_validation->set_rules('miscellaneous_type', 'MISCELLANEOUS', 'trim|required');
+            if($this->form_validation->run() == FALSE)
+            {
+                redirect('miscellaneousFeeListing');  
+            } else {
+                $student_row_id = $this->security->xss_clean($this->input->post('stud_row_id'));
+                $date = $this->security->xss_clean($this->input->post('date'));
+                $miscellaneous_type = $this->security->xss_clean($this->input->post('miscellaneous_type'));
+                $student_name = $this->security->xss_clean($this->input->post('student_name'));
+                $course = $this->security->xss_clean($this->input->post('course'));
+                $semester = $this->security->xss_clean($this->input->post('semester'));
+                $ref_receipt_no = $this->security->xss_clean($this->input->post('ref_receipt_no'));
+                $register_no = $this->security->xss_clean($this->input->post('register_no'));
+                $quantity = $this->security->xss_clean($this->input->post('quantity'));
+                $status = $this->security->xss_clean($this->input->post('status'));
+                $amount = $this->security->xss_clean($this->input->post('amount'));
+                $type = $this->security->xss_clean($this->input->post('type'));
+                $ref_no = $this->security->xss_clean($this->input->post('ref_no'));
+                $neft_ref_no = $this->security->xss_clean($this->input->post('neft_ref_no'));
+
+
+                //  if($student_status == 'Active')
+                //  {
+                    $studentDetails = $this->student->getStudentInfoByRowId($student_row_id);
+                    //log_message('debug','student'.print_r($studentDetails,true));
+                    $stud_name = $studentDetails->student_name;
+                    $student_id =   $studentDetails->student_id;
+                    $term =   $studentDetails->term_name;
+                    $stream = $studentDetails->stream_name;
+
+                // }
+
+                // else   if($student_status == 'Alumni')
+                // {
+                   // $stud_name = $student_name;
+                    // $semester_name  =   $semester;
+                    // $course_name =   $course;
+                    // $register_no =   $register_no;
+                    // $section_name = '';
+               // }
+
+
+                // $amount = $this->fee->getFeeByMiscId($miscellaneous_type);
+                 
+                $miscellaneousInfo = array(
+                    'student_name' => $stud_name,
+                    'date'=> date('Y-m-d',strtotime($date)), 
+                    'created_by' => $this->staff_id, 
+                    'miscellaneous_type' => $miscellaneous_type,
+                    'amount'  => $amount,
+                    'year' => CURRENT_YEAR,
+                    'student_id' =>$student_id,
+                    'student_row_id' => $student_row_id,
+                  //  'student_status' =>$student_status,
+                    'qnty'       =>$quantity,
+                    'term' => $term,
+                    //'section_name' => $section,
+                    'stream' => $stream,
+                    'total' => $amount * $quantity,
+                    //'payment_status' => $status,
+                    'payment_type' => $type,
+                    'upi_ref_no' => $ref_no,
+                    'ref_number' => $neft_ref_no,
+                    'ref_receipt_no' => $ref_receipt_no,
+                    'created_date_time' => date('Y-m-d H:i:s'));
+          
+                $result = $this->fee->addMiscellaneousPayment($miscellaneousInfo);
+            
+                if($result>0){
+                    $this->session->set_flashdata('success', 'Added Miscellaneous Fee payment Successfully');
+                    redirect('miscellaneousFeeListing');
+                } else {
+                    $this->session->set_flashdata('error', 'Failed to add Miscellaneous Fee payment');
+                    redirect('miscellaneousFeeListing');
+                }
+                
+            }
+        }
+    }
+
+    public function deleteMiscellaneousFee(){
+        if($this->isAdmin() == TRUE){
+            $this->loadThis();
+        } else {   
+            $row_id = $this->input->post('row_id');
+            $miscellaneousInfo = array('is_deleted' => 1,'updated_date_time' => date('Y-m-d H:i:s'),'updated_by'=>$this->staff_id);
+            $result = $this->fee->updateMiscellaneousFee($miscellaneousInfo, $row_id);
+            if ($result == true) {echo (json_encode(array('status' => true)));} else {echo (json_encode(array('status' => false)));}
+        }
+    }
+
+    // public function miscellaneousReceiptPrint($row_id){
+    //     if($this->isAdmin() == TRUE){
+    //         $this->loadThis();
+    //     } else {   
+    //         error_reporting(0);
+    //         $mpdf = new \Mpdf\Mpdf(['tempDir' => sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'mpdf', 'default_font' => 'timesnewroman', 'format' => 'A4-L']);
+    //         $mpdf->AddPage('L', '', '', '', '', 7, 7, 25, 15, 8, 8);
+    //         $mpdf->SetTitle('Transport Receipt');
+    //        log_message('debug','row'.$row_id);
+    //         $data['miscellaneousInfo'] = $this->fee->getMiscellaneousFeesInfoById($row_id);
+    //         log_message('debug','row'.print_r($data['miscellaneousInfo'],true));
+           
+           
+    //         $data['name_count'] = 0;
+    //         $html_student_copy = $this->load->view('fees/miscellaneousReceiptPrint',$data,true);
+    //         $data['name_count'] = 1;
+    //         $html_office_copy = $this->load->view('fees/miscellaneousReceiptPrint',$data,true);
+           
+    //         $mpdf->WriteHTML('<columns column-count="2" vAlign="J" column-gap="10" />');
+    //         $mpdf->WriteHTML($html_student_copy);
+    //         $mpdf->WriteHTML($html_office_copy);
+    //         $mpdf->Output('Miscellaneous_Fee_Receipt.pdf', 'I');
+    //     } 
+    // }
+
+    public function miscellaneousReceiptPrint($row_id = null)
+    {
+        if ($this->isAdmin() == true) {
+            $this->loadThis();
+        } else {
+            if ($row_id == null) {
+                redirect('miscellaneousFeeListing');
+            }
+           // error_reporting(0);
+            $mpdf = new \Mpdf\Mpdf(['tempDir' => sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'mpdf', 'default_font' => 'timesnewroman', 'format' => 'A4-L']);
+            $mpdf->AddPage('L', '', '', '', '', 7, 7, 25, 15, 8, 8);
+            $mpdf->SetTitle('Miscellaneous Receipt');
+           
+            $data['miscellaneousInfo'] = $this->fee->getMiscellaneousFeesInfoById($row_id);
+            if(empty($data['miscellaneousInfo']->qnty)){
+
+                $amount = $data['miscellaneousInfo']->amount;
+            }else{
+            
+                $amount = $data['miscellaneousInfo']->qnty * $data['miscellaneousInfo']->amount;
+            
+            }
+            $data['amount_in_words'] = $this->getIndianCurrency(floatval($amount));
+            $data['name_count'] = 0;
+            $html_student_copy = $this->load->view('fees/miscellaneousReceiptPrint',$data,true);
+            $data['name_count'] = 1;
+            $html_office = $this->load->view('fees/miscellaneousReceiptPrint',$data,true);
+          
+        
+            $mpdf->WriteHTML('<columns column-count="2" vAlign="J" column-gap="10" />');
+            $mpdf->WriteHTML($html_student_copy);
+            $mpdf->WriteHTML($html_office);
+         
+
+            $mpdf->Output('Fee_Receipt.pdf', 'I');
+      
+        }
+    }
+
+
 }
 ?>

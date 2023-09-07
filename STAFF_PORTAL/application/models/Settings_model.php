@@ -417,4 +417,26 @@ class Settings_model extends CI_Model{
         return TRUE;
     }
 
+    public function addMiscellaneousType($miscellaneousInfo){
+        $this->db->trans_start();
+        $this->db->insert('tbl_miscellaneous_type', $miscellaneousInfo);
+        $insert_id = $this->db->insert_id();
+        $this->db->trans_complete();
+        return $insert_id;
+    }
+
+    public function getAllMiscellaneousTypeInfo(){
+        $this->db->from('tbl_miscellaneous_type as fee');
+        $this->db->where('fee.is_deleted', 0);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    public function updateMiscellaneousType($miscellaneousInfo, $row_id){
+        $this->db->where('row_id', $row_id);
+        $this->db->update('tbl_miscellaneous_type', $miscellaneousInfo);
+        return TRUE;
+
+    }
+
 }

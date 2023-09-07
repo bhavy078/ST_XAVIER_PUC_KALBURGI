@@ -1488,7 +1488,83 @@ class Fee_model extends CI_Model
     }
 
 
+    public function getMiscellaneousFeesInfo()
+    {
+        $this->db->select('fee.row_id,fee.qnty,std.student_id,fee.student_name,fee.term,fee.amount,fee.ref_receipt_no,
+         fee.created_by,fee.date, type.miscellaneous_type,fee.miscellaneous_type as miscellaneous,fee.payment_type');
+        $this->db->from('tbl_miscellaneous_fee as fee'); 
+        $this->db->join('tbl_miscellaneous_type as type', 'type.row_id = fee.miscellaneous_type','left');
+       // $this->db->join('tbl_student_academic_info as acd', 'acd.student_id = fee.student_id','left');
+        $this->db->join('tbl_students_info as std', 'std.row_id = fee.student_row_id','left');
+        $this->db->where('fee.is_deleted', 0);
+        $this->db->order_by('fee.row_id', 'DESC');
+        $query = $this->db->get();
+        return $query->result();
+    }
+
     
+    public function getStaffNameById($row_id) {
+        $this->db->from('tbl_staff as staff'); 
+        $this->db->where('staff.staff_id', $row_id);
+        $this->db->where('staff.is_deleted', 0);
+        $query = $this->db->get();
+        return $query->row();  
+    }
+
+    public function addMiscellaneousPayment($miscellaneousInfo){
+        $this->db->trans_start();
+        $this->db->insert('tbl_miscellaneous_fee', $miscellaneousInfo);
+        $insert_id = $this->db->insert_id();
+        $this->db->trans_complete();
+        return $insert_id; 
+    }
+
+    
+    public function updateMiscellaneousFee($miscellaneousInfo, $row_id){
+        $this->db->where('row_id',$row_id);
+        $this->db->update('tbl_miscellaneous_fee', $miscellaneousInfo);
+        return true;
+    }
+
+    public function getMiscellaneousFeesInfoById($row_id)
+    { $this->db->select('fee.row_id,fee.qnty,fee.student_row_id,fee.stream,fee.student_name,fee.term,fee.amount,fee.created_by,fee.date, type.miscellaneous_type,fee.ref_receipt_no,fee.student_id');
+        $this->db->from('tbl_miscellaneous_fee as fee'); 
+        $this->db->join('tbl_miscellaneous_type as type', 'type.row_id = fee.miscellaneous_type','left');
+        $this->db->where('fee.row_id', $row_id);
+        $this->db->where('fee.is_deleted', 0);
+        $query = $this->db->get();
+        return $query->row();
+    }
+
+    public function getMiscellaneousFeesInfoReport($filter='')
+    {
+        $this->db->select('fee.row_id,fee.qnty,fee.student_id,fee.stream,fee.ref_receipt_no,fee.payment_type,fee.student_name ,fee.term,fee.amount, fee.date, type.miscellaneous_type,fee.year,fee.stream');
+        $this->db->from('tbl_miscellaneous_fee as fee'); 
+        $this->db->join('tbl_miscellaneous_type as type', 'type.row_id = fee.miscellaneous_type','left');
+
+        if(!empty($filter['date_from']) && !empty($filter['date_to'])){
+            $this->db->where('fee.date >=', $filter['date_from']);
+            $this->db->where('fee.date <=', $filter['date_to']);
+        }else if(!empty($filter['date_from'])){
+            $this->db->where('fee.date >=', $filter['date_from']);
+        }else if(!empty($filter['date_to'])){
+            $this->db->where('fee.date <=', $filter['date_to']);
+        }
+
+       
+        if(!empty($filter['payment_type'])){
+            $this->db->where_in('fee.payment_type',$filter['payment_type']);
+        }
+        if(!empty($filter['miscellaneous_type'])){
+            $this->db->where_in('fee.miscellaneous_type',$filter['miscellaneous_type']);
+        }
+       
+
+        $this->db->where('fee.is_deleted', 0);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
     
 }
 ?>

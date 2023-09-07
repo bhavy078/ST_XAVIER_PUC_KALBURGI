@@ -131,11 +131,11 @@
                 </div>
             </a>
         </div>
-        <!-- <div class="col-lg-3 col-6 mb-2 column_padding_card">
-            <a data-toggle="modal" data-target="#IpucMarkSheetSubjectWise" class="more-info text-white dashboard_link" href="#">
+        <div class="col-lg-3 col-6 mb-2 column_padding_card">
+            <a data-toggle="modal" data-target="#downloadMiscellaneousFeePaidReport" class="more-info text-white dashboard_link" href="#">
                 <div class="card card-small dash-card" style="background: #3e50b3;">
                     <div class="card-body pt-1 pb-1">
-                        <h6 class="stats-small__value text-uppercase text-white">Exam Mark Sheet - 21</h6>
+                        <h6 class="stats-small__value text-uppercase text-white">Miscellaneous Fee Report</h6>
                         <div class="icon pull-right mt-4">
                             <i class="fas fa-file dash-icons"></i></i>
                         </div>
@@ -146,7 +146,7 @@
                     </div>
                 </div>
             </a>
-        </div> -->
+        </div>
         <!-- <div class="col-lg-3 col-6 mb-2 column_padding_card">
             <a data-toggle="modal" data-target="#assignmentConsolidatedMarkReport" class="more-info text-white dashboard_link" href="#">
                 <div class="card card-small dash-card" style="background: #3e50b3;">
@@ -756,6 +756,68 @@
                 </form>
 
             </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="downloadMiscellaneousFeePaidReport">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header bg-primary">
+                <h4 class="modal-title">Miscellaneous Fee Paid</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body p-2">
+                <form action="<?php echo base_url() ?>downloadMiscellaneousFeePaidReport"  data-download_form="true" method="POST">
+                    <div class="row">
+                        <div class="col-6 mb-2">
+                            <label for="role">Date From</label>
+                            <input type="text" name="date_from" id="date_from_mis" class="form-control datepicker" style="text-transform: uppercase" placeholder="Date From" autocomplete="off" />
+                        </div>
+                        <div class="col-6 mb-2">
+                            <label for="role">Date To</label>
+                            <input type="text" name="date_to" id="date_to_mis" class="form-control datepicker" style="text-transform: uppercase" placeholder="Date To" autocomplete="off" />
+                        </div>
+                        <div class="col-6 mb-2">
+                            <label>Miscellaneous type</label>
+                            <select class="form-control text-dark selectpicker" id="miscellaneous_type" name="miscellaneous_type[]" multiple>
+                                <option value="ALL">All</option>
+                                <?php if (!empty($miscellaneousTypeInfo)) {
+                                    foreach ($miscellaneousTypeInfo as $type) { ?>
+                                        <option value="<?php echo $type->row_id ?>"><?php echo $type->miscellaneous_type ?></option>
+                                <?php }
+                                } ?>
+                            </select>
+                        </div>
+                        <div class="col-6 mb-2">
+                            <label>Payment type</label>
+                            <select class="form-control selectpicker text-dark" id="payment_type" name="payment_type[]" multiple>
+                                <option value="ALL">All</option>
+                                <option value="CASH">CASH</option>
+                                <!-- <option value="DD">DD</option> -->
+                                <option value="NEFT">NEFT</option>
+                                <option value="UPI">UPI</option>
+                               
+                            </select>
+                        </div>
+                    </div>
+            </div>
+
+            <div class="modal-footer">
+                <div class="col-4">
+                    <select class="form-control text-dark" id="reportFormat" name="reportFormat" required>
+                        <option value="VIEW">VIEW</option>
+                        <option value="DOWNLOAD">DOWNLOAD</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-md btn-primary float-right"><i class="fa fa-download"></i> Download</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+            </form>
         </div>
     </div>
 </div>
@@ -2178,7 +2240,7 @@ jQuery(document).ready(function() {
         format: "dd-mm-yyyy"
 
     });
-    jQuery('#date_select, #date_day, .dateSearch, #date_from, #date_to, #date_from_bulk, #date_to_bulk,#date_from_transport, #date_to_transport, #settle_date_bank, .bank_date_search, #date_from_fee, #date_to_fee').datepicker({
+    jQuery('#date_select, #date_day, .dateSearch, #date_from, #date_to, #date_from_bulk, #date_to_bulk, #date_from_mis, #date_to_mis,#date_from_transport, #date_to_transport, #settle_date_bank, .bank_date_search, #date_from_fee, #date_to_fee').datepicker({
         autoclose: true,
         orientation: "bottom",
         format: "dd-mm-yyyy"

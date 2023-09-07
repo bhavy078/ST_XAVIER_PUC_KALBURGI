@@ -927,8 +927,16 @@
                                     </a>
                                 </li>
                                 <?php } ?>
-                    </ul>
+                  
+                    <li class="nav-item">
+                            <a class="nav-link " href="<?php echo base_url(); ?>miscellaneousFeeListing">
+                                <i class="fas fa-rupee-sign header_icons"></i>
+                                <span>Miscellaneous Fee</span>
+                            </a>
+                        </li>
+                        </ul>
                 </li>
+                
                 <?php } ?>
 
                 <?php if($role == ROLE_ADMIN || $role == ROLE_PRINCIPAL || $role == ROLE_PRIMARY_ADMINISTRATOR || $role == ROLE_ACCOUNT ) { ?>
