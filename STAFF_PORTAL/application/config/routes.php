@@ -1070,3 +1070,4 @@ $route['addStudentAttendanceAdditionalDetails'] = "studentAttendance/addStudentA
 $route['generateBarcodeForStudent'] = "students/generateBarcodeForStudent";
 
 $route['generateBarcodeForStaff'] = "staffs/generateBarcodeForStaff";
+$route['generateBarcodeForBook'] = "libraryManagement/generateBarcodeForBook";

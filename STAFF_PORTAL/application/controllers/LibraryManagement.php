@@ -854,4 +854,36 @@ class LibraryManagement extends BaseController
     }
 
 
+    public function generateBarcodeForBook($row_id = null){
+        if($this->isAdmin() == TRUE) {
+            $this->loadThis();
+        } else {
+            if($row_id == null){
+                $row_id = $this->security->xss_clean($this->input->get('row_id'));
+                $row_id = base64_decode(urldecode($row_id));
+                $row_id = json_decode(stripslashes($row_id));
+            }
+          
+            foreach($row_id as $id){
+                
+                $roll_number[$id] = $this->library->getBookAccessNo($id);
+                // log_message('debug','data'.print_r($roll_number[$id],true));
+                // log_message('debug','data'.$roll_number[$id]->student_id);
+                $generate_barcode[$id] = $this->set_barcode($roll_number[$id]->access_code);
+            }
+            $data['generate_barcode'] = $generate_barcode;
+           
+            $mpdf = new \Mpdf\Mpdf(['tempDir' => sys_get_temp_dir().DIRECTORY_SEPARATOR.'mpdf','default_font' => 'timesnewroman','format' => 'A4-L']);
+            $mpdf->AddPage('P','','','','',7,7,7,7,8,8);
+            $mpdf->SetTitle('Bar Code');
+            $this->global['pageTitle'] = ''.TAB_TITLE.' : Barcode';
+
+            $html = $this->load->view('libraryManagement/viewBarCodePrintForBook',$data,true);
+            $mpdf->WriteHTML($html);
+            $mpdf->Output('BarCode.pdf', 'I'); 
+
+        }
+    }
+
+
 }

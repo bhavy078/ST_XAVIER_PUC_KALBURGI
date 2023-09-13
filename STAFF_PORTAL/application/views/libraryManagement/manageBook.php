@@ -66,18 +66,18 @@ if ($success) {
                         <div class="row c-m-b">
                             <div class="col-lg-5 col-12 col-md-12 box-tools">
                                 <span class="page-title">
-                                    <i class="material-icons">book</i> Library Managment Details
+                                    <i class="material-icons">book</i> Library Management Details
                                 </span>
                             </div>
                             <div class="col-lg-3 col-12 col-md-6 col-sm-6">
                                 <b class="text-dark" style="font-size: 20px;">Total Entry: <?php echo $totalLibraryMgmtCount; ?></b>
                             </div>
                             <div class="col-lg-4 col-12 col-md-6 col-sm-6">
-
-                            <a onclick="window.history.back();" class="btn primary_color mobile-btn float-right text-white border_left_radius"
+                                <a onclick="window.history.back();" class="btn primary_color mobile-btn float-right text-white border_left_radius"
                                     value="Back"><i class="fa fa-arrow-circle-left"></i> Back </a>
                                 <a class="btn btn-primary mobile-btn float-right border_right_radius" href="<?php echo base_url(); ?>addLibraryInfo"><i class="fa fa-plus"></i>
                                     Add New</a>
+                                <a class="btn btn-danger mobile-btn float-right" href="#" id="barcode"><i class="fa fa-file"></i> Generate Barcode</a>
                             </div>
                         </div>
                     </div>
@@ -91,6 +91,7 @@ if ($success) {
                         <table class="display table table-bordered table-striped table-hover w-100">
                             <form action="<?php echo base_url(); ?>libraryManagementSystem" method="POST" id="byFilterMethod">
                                 <tr class="filter_row" class="text-center">
+                                <td></td>
                                     <td>
                                         <div class="form-group mb-0">
                                             <input type="text" value="<?php echo $bill_date; ?>" name="bill_date"  id="date" class="form-control input-sm datepicker" placeholder="By Date" autocomplete="off">
@@ -153,6 +154,7 @@ if ($success) {
                             </form>
                             <thead>
                                 <tr class="table_row_background text-center">
+                                <th width="25"><input type="checkbox" id="selectAll" /></th>
                                     <th width="100">Bill No./Date</th>
                                     <!-- <th>Bill No.</th> -->
                                     <th>Price</th>
@@ -172,6 +174,7 @@ if ($success) {
                                 <?php if (!empty($libraryMgmtInfo)) {
                                     foreach ($libraryMgmtInfo as $library) { ?>
                                         <tr>
+                                        <th><input type="checkbox" class="singleSelect" value="<?php echo $library->access_code; ?>" /></th>
                                         <th class="text-center"><?php if(empty($library->bill_date) || $library->bill_date == '0000-00-00'|| $library->bill_date == '1970-01-01'){
                                                         echo $library->bill_no;
                                                     } else{
@@ -268,6 +271,23 @@ if ($success) {
                 $('.singleSelect').prop('checked', false);
             }
         });
+
+
+
+            $('#barcode').click(function(){
+            students = [];
+            if ($('.singleSelect:checkbox:checked').length == 0) {
+                alert("Select atleast one Book to generate barcode!");
+                return;
+            }
+            $('.singleSelect:checked').each(function(i){
+                students.push($(this).val());
+            });
+            students = JSON.stringify(students);
+            // alert(students);
+            window.open('<?php echo base_url(); ?>generateBarcodeForBook?row_id='+btoa(students));
+        });
+
 
         // popover
         $('[data-toggle="popover"]').popover({

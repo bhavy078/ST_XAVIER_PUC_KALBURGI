@@ -591,5 +591,16 @@ class Library_model extends CI_Model
         return $query->row()->access_code;
     }
 
+
+    public function getBookAccessNo($row_id){
+        $this->db->select('mgmt.row_id,mgmt.category,mgmt.book_title,mgmt.author_name,mgmt.publisher_name,mgmt.access_code');
+          $this->db->from('tbl_library_managemnt as mgmt'); 
+          $this->db->where_in('mgmt.access_code', $row_id);
+          $this->db->where('mgmt.is_deleted', 0);
+         // $this->db->order_by('student.register_no', 'ASC');
+          $query = $this->db->get();
+          return $query->row();
+      }
+
 }
 ?>
