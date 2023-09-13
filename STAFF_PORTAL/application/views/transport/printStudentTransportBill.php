@@ -82,9 +82,15 @@ table{
             </table>
             <hr class="border_bottom hr_line">
             <table class="table" style="font-size: 12px;">
+            <?php if($studentTransportInfo->intake_year == CURRENT_YEAR) { ?>
                 <tr>
                     <td class="centered-td">Fee Receipt (<?php echo $copy_name[$name_count]; ?>)</td>
                 </tr>
+                <?php }else{ ?>
+                <tr>
+                    <td class="centered-td">Arrear Fee Receipt (<?php echo $copy_name[$name_count]; ?>)</td>
+                </tr>
+            <?php } ?>
                 </table>
             <table class="table" style="font-size: 12px;">
                 <tr>
@@ -99,7 +105,7 @@ table{
                 <tr>
                     <td>Class  : <?php echo strtoupper($studentTransportInfo->term_name); ?></td> 
                 </tr>
-                <?php if($studentTransportInfo->intake_year == CUURENT_YEAR) { ?>
+                <?php if($studentTransportInfo->intake_year == CURRENT_YEAR) { ?>
                     <tr>
                         <td>Month From: <?php echo date('M-Y',strtotime($studentTransportInfo->from_date));?></td>
                     </tr>
@@ -113,7 +119,7 @@ table{
                     <tr>
                         <td colspan="2">Bus Pick Point : <?php echo $studentTransportInfo->route_name;?></td>
                     </tr>
-                <?PHP } ?>
+                <?php } ?>
                 <tr>
                     <td colspan="2">Date : <?php echo date('d-m-Y',strtotime($studentTransportInfo->created_date_time)); ?></td>
                 </tr>   

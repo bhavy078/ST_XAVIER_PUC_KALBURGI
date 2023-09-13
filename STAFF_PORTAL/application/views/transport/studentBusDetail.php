@@ -156,7 +156,7 @@ if ($error) {
                                             </select>
                                         </div>
                                     </td> -->
-                                    
+                                    <?php if($year == CURRENT_YEAR){ ?>
                                     <td>
                                         <div class="form-group mb-0">
                                             <input type="text" value="<?php echo $payment_date; ?>" name="date_from" id="date_from" class="form-control input-sm datepicker" placeholder="Search Month From" autocomplete="off">
@@ -168,7 +168,7 @@ if ($error) {
                                             <input type="text" value="<?php echo $payment_date; ?>" name="date_to" id="date_to" class="form-control input-sm datepicker" placeholder="Search Month To" autocomplete="off">
                                         </div>
                                     </td>
-                                    <?php if($year == CURRENT_YEAR){ ?>
+                                   
                                     <td>
                                         <div class="form-group mb-0">
                                            
@@ -234,10 +234,10 @@ if ($error) {
                                     <th class="text-center">Student ID</th>
                                     <th class="text-center">Name</th>
                                     <!-- <th class="text-center">Vehicle Number</th> -->
-                                   
+                                    <?php if($year == CURRENT_YEAR){ ?>
                                     <th class="text-center">Month From</th>
                                     <th class="text-center">Month To</th>
-                                    <?php if($year == CURRENT_YEAR){ ?>
+                                  
                                     <th class="text-center">Route</th>
                                     <th class="text-center">Bus No.</th>
                                     <?php } ?>
@@ -256,10 +256,10 @@ if ($error) {
                                         <th class="text-center"><?php echo $trans->student_id; ?></th>
                                          <th><?php echo strtoupper($trans->student_name); ?></th>
                                         <!-- <th class="text-center"><?php echo $trans->vehicle_number; ?></th> -->
-                                       
+                                        <?php if($year == CURRENT_YEAR){ ?>
                                         <th class="text-center"><?php echo date('M-Y',strtotime($trans->from_date)); ?></th>
                                         <th class="text-center"><?php echo date('M-Y',strtotime($trans->to_date)); ?></th>
-                                        <?php if($year == CURRENT_YEAR){ ?>
+                                       
                                         <th><?php echo $trans->route_name; ?></th>
                                         <th class="text-center"><?php echo $trans->bus_no; ?></th>
                                         <?php } ?>

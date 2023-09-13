@@ -502,6 +502,7 @@ $route['viewStudentTransportListing/(:any)'] = "transport/viewStudentTransportLi
 
 //transport report 
 $route['downloadTransportFeeInfoReport'] = "reports/downloadTransportFeeInfoReport";
+$route['downloadArrearTransportFeeInfoReport'] = "reports/downloadArrearTransportFeeInfoReport";
 $route['downloadTransportDueInfoReport'] = "reports/downloadTransportDueInfoReport";
 
 //

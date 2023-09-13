@@ -1679,6 +1679,28 @@ class students_model extends CI_Model
         return $query->result();
     }
 
+    public function getArrearStudentInfoForTransReport($filter)
+    {
+        $this->db->select('student.row_id as student_row_id,student.student_name,student.student_id,
+        student.stream_name,student.route_id,bus.total_amount,bus.pending_balance,bus.bus_fees');
+        $this->db->from('tbl_student_bus_management_details as bus'); 
+        $this->db->join('tbl_students_info as student','student.row_id  = bus.student_id','left');
+        $this->db->join('tbl_pending_amount_bus as bal','bal.std_row_id  = bus.student_id','left');
+      
+        if(!empty($filter['term_name'])){
+            $this->db->where('bus.term_name', $filter['term_name']);
+        }
+        if(!empty($filter['year'])){
+            $this->db->where('bus.intake_year', $filter['year']);
+        }
+        $this->db->where('student.is_deleted', 0);
+        $this->db->where('bus.is_deleted', 0);
+        $this->db->where('bal.is_deleted', 0);
+        $this->db->where('student.route_id!=', 0);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
     public function getStudentInfoForTransReport($filter)
     {
        
