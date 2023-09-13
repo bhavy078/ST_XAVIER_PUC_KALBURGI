@@ -683,15 +683,14 @@
                             </select>
                         </div>
 
-                        <!-- <div class="col-lg-12 mt-2">
-                            <label>By Payment Type</label>
-                            <select class="form-control input-md required" name="payment_type">
-                                <option value="ALL">ALL</option>
-                                <option value="FULL_PAYMENT">Full Payment</option>
-                                <option value="HALF_PAYMENT">Half Payment</option>
-                                <option value="NOT_PAID">Not Paid</option>
+                        <div class="col-lg-12 mt-2">
+                            <label>Fee Year</label>
+                            <select class="form-control input-md required" name="fee_year">
+                                <option value="2023">2023</option>
+                                <option value="2022">2022</option>
+                               
                             </select>
-                        </div> -->
+                        </div>
                     </div>
                     <!-- Modal footer -->
                     <div class="modal-footer" style="padding:5px;">

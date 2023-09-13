@@ -151,17 +151,17 @@ if ($error) {
                                             <?php if(!empty($year)){ ?>
                                                 <option value="<?php echo $year; ?>"><?php echo $year; ?></option>
                                             <?php } ?>
-                                            <!-- <option value="">Select Year</option> -->
+                                            <option value="">Select Year</option>
                                             <option value="2023">2023</option>
-                                            <!-- <option value="2021">2021</option> -->
+                                            <option value="2022">2022</option>
                                         </select>
 
                                     </div>
                                 </div>   
-                                <div class="col-lg-8">
+                                <div class="col-lg-8 transport23">
                                     <div class="form-group">
                                         <select class="form-control selectpicker" data-live-search="true"
-                                            name="student_row_id" id="student_row_id" required autocomplete="off">
+                                            name="student_row_id23" id="student_row_id23" required autocomplete="off">
                                             <?php if(!empty($studentData)){ ?>
                                                 <option value="<?php echo $studentData->row_id; ?>">
                                                 <b><?php echo $studentData->student_name.' - '.$studentData->term_name.' '.$studentData->section_name; ?></b></option>
@@ -175,7 +175,25 @@ if ($error) {
                                         </select>
 
                                     </div>
-                                </div>           
+                                </div>    
+                                <div class="col-lg-8 transport22">
+                                    <div class="form-group">
+                                        <select class="form-control selectpicker" data-live-search="true"
+                                            name="student_row_id22" id="student_row_id22" required autocomplete="off">
+                                            <?php if(!empty($studentData)){ ?>
+                                                <option value="<?php echo $studentData->row_id; ?>">
+                                                <b><?php echo $studentData->student_name.' - '.$studentData->term_name.' '.$studentData->section_name; ?></b></option>
+                                            <?php } ?>
+                                            <option value="">Select Student</option>
+                                            <?php if(!empty($studentInfo22)){
+                                            foreach($studentInfo22 as $std){  ?>
+                                            <option value="<?php echo $std->std_row_id; ?>">
+                                                <b><?php echo $std->student_name.' - '.$std->term_name; ?></b></option>
+                                            <?php } } ?>
+                                        </select>
+
+                                    </div>
+                                </div>         
                                 <div class="col-lg-2">
                                     <div class="form-group">
                                         <button id="searchStudentFeeInfo" class="btn btn-primary btn-block"
@@ -207,13 +225,13 @@ if ($error) {
                                                         <tr class="table-success">
                                                             <th class="text-left" scope="col">Term & Stream</th>
                                                             <th class="text-left" scope="col">
-                                                                <?php echo $studentData->term_name.' '.$studentData->stream_name; ?></th>
+                                                                <?php if($year == CURRENT_YEAR){echo $studentData->term_name.' '.$studentData->stream_name;}else{echo $previousbal->term_name;} ?></th>
                                                         </tr>
                                                         <tr class="table-primary">
                                                             <th class="text-left" scope="col">Stud ID</th>
                                                             <th class="text-left" scope="col"><?php echo $studentData->student_id; ?></th>
                                                         </tr>
-                                                        
+                                                        <?php if($year == CURRENT_YEAR){ ?>
                                                         <tr class="table-primary">
                                                             <th class="text-left" scope="col">Bus Pick Point</th>
                                                             <th class="text-left" scope="col"><?php echo $studentData->route_name; ?></th>
@@ -222,12 +240,14 @@ if ($error) {
                                                             <th class="text-left" scope="col">Bus No.</th>
                                                             <th class="text-left" scope="col"><?php echo $studentData->bus_no; ?></th>
                                                         </tr>
+                                                       
                                                         <tr class="bg-primary text-white">
                                                             <th class="text-left" scope="col">Total Fee</th>
                                                             <th class="text-left" scope="col">
                                                                 <?php echo number_format($total_fee,2); ?>
                                                             </th>
                                                         </tr>
+                                                        <?php } ?>
                                                         <?php if(!empty($feePaidInfo->paid_amount)){ ?>
                                                         <tr class="bg-success text-white">
                                                             <th class="text-left" scope="col">Total Fee Paid</th>
@@ -286,6 +306,7 @@ if ($error) {
                                                         <option value="December">December</option>
                                                     </select>
                                                 </div> -->
+                                                <?php if($year == CURRENT_YEAR){?>
                                             <div class="row mt-2">
                                                 <div class="col-6">
                                                     <div class="form-group">
@@ -306,10 +327,12 @@ if ($error) {
                                                     </div>
                                                 </div>
                                             </div>
+                                         
                                             <div class="form-group">
                                                 <label for="month_difference">Months</label>
                                                 <input type="text" class="form-control" id="month_difference" readonly>
                                             </div>
+                                            <?php } ?>
                                                 <div class="form-group mb-2">
                                                     <input type="text" class="form-control reference_receipt_no" id="receipt_number"
                                                         name="receipt_number" placeholder="Reference Receipt No."
@@ -365,8 +388,10 @@ if ($error) {
                                                     <th>Receipt No.</th>
                                                     <!-- <th>Order ID.</th> -->
                                                     <th>Amount</th>
+                                                    <?php if($year == CURRENT_YEAR){?>
                                                     <th>Month From</th>
                                                     <th>Month To</th>
+                                                    <?php } ?>
                                                     <!-- <th>Pending Amt</th> -->
                                                     <th>Payment Type</th>
                                                     <!-- <th>Bank</th> -->
@@ -382,8 +407,10 @@ if ($error) {
                                                         <th class="text-center"><?php echo $fee->ref_receipt_no; ?></th>
                                                         <!-- <th class="text-center"><?php echo $fee->order_id; ?></th> -->
                                                         <th class="text-center"><?php echo $fee->bus_fees; ?></th>
+                                                        <?php if($year == CURRENT_YEAR){?>
                                                         <th class="text-center"><?php echo date('M-Y',strtotime($fee->from_date)); ?></th>
                                                         <th class="text-center"><?php echo date('M-Y',strtotime($fee->to_date)); ?></th>
+                                                        <?php } ?>
                                                         <!-- <th class="text-center"><?php if($fee->pending_balance == 0){ ?>
                                                             <b style="color:green"><?php echo $fee->pending_balance; ?></b>
                                                             <?php }else{
@@ -638,6 +665,7 @@ jQuery(document).ready(function() {
     $('.receiptHide').hide();
     $('.reference_receipt_no').on('keyup', function(evt){
             let reference_receipt_no = $(this).val();
+            let year = $('#year').val();
           //alert(reference_receipt_no);
             $('.receiptHide').hide();
             $.ajax({
@@ -645,7 +673,8 @@ jQuery(document).ready(function() {
                 type: 'POST',
                 dataType: "json",
                 data: { 
-                    reference_receipt_no : reference_receipt_no
+                    reference_receipt_no : reference_receipt_no,
+                    year: year
                 },
                 success: function(data) {
                     //var examObject = JSON.parse(data);
@@ -695,7 +724,20 @@ jQuery(document).ready(function() {
     $('.neft_info').hide();
     $('.upi_info').hide();
    // $('.loaderScreen').hide();
-
+   <?php if(empty($year)){ ?>
+    
+    $('.transport22').hide();
+    $('.transport23').hide();
+    <?php }else if($year == '2023'){ ?>
+ 
+    $('.transport22').hide();
+    $('.transport23').show();
+    <?php }else if($year == '2022'){ ?>
+   
+    $('.transport22').show();
+    $('.transport23').hide();
+   
+    <?php } ?>
     
     // $("#searchStudentFeeInfo").click(function() {
     //     $('.loaderScreen').show();
@@ -837,6 +879,24 @@ jQuery(document).ready(function() {
         orientation: "bottom",
         format: "dd-mm-yyyy"
 
+    });
+    $("#year").on('change',function(){
+        var year = this.value;
+    
+       if(year == '2022'){
+            $('.transport23').hide();
+            $('#student_row_id23').prop('required',false);
+            $('.transport22').show();
+            $('#student_row_id22').prop('required',true);
+          
+        }else{
+            $('.transport23').show();
+            $('#student_row_id23').prop('required',true);
+            $('.transport22').hide();
+            $('#student_row_id22').prop('required',false);
+          
+        }
+       
     });
 });
 

@@ -562,6 +562,7 @@ class Transport extends BaseController
             $payment_type = $this->security->xss_clean($this->input->post('payment_type'));
             $from_date = $this->security->xss_clean($this->input->post('date_from'));
             $to_date = $this->security->xss_clean($this->input->post('date_to'));
+            $year = $this->security->xss_clean($this->input->post('year'));
 
             $data['receipt_no'] = $receipt_no;
             $data['student_id'] = $student_id;
@@ -571,6 +572,7 @@ class Transport extends BaseController
             $data['route_from'] = $route_from;
             $data['route_to'] = $route_to;
             $data['payment_type'] = $payment_type;
+            $data['year'] = $year;
         
             $filter['receipt_no'] = $receipt_no;
             $filter['student_id'] = $student_id;
@@ -580,6 +582,7 @@ class Transport extends BaseController
             $filter['route_from'] = $route_from;
             $filter['route_to'] = $route_to;
             $filter['payment_type'] = $payment_type;
+            $filter['by_year'] = $year;
            
 
             if (!empty($payment_date)) {
@@ -1203,6 +1206,8 @@ class Transport extends BaseController
         } else {
             $data['fee_pending_status'] = false;
             $data['studentInfo'] = $this->student->getCurrentStudentInfoForTrans();
+            $data['studentInfo22'] = $this->student->getStudentPreviousPendingAmt();
+          
             $this->global['pageTitle'] = ''.TAB_TITLE.' : Pay Now';
             $this->loadViews("transport/busPaymentPortal", $this->global, $data, null);
         }
@@ -1213,12 +1218,19 @@ class Transport extends BaseController
             $this->loadThis();
         } else {
             $filter = array();
-            $student_row_id = $this->security->xss_clean($this->input->post('student_row_id'));
             $year = $this->security->xss_clean($this->input->post('year'));
+            if($year == '2022'){
+                $student_row_id = $this->security->xss_clean($this->input->post('student_row_id22'));
+            }else{
+                $student_row_id = $this->security->xss_clean($this->input->post('student_row_id23'));
+            }
+        
             if(empty($student_row_id)){
                 $student_row_id = $_SESSION['studentRowID'];
                 $year = $_SESSION['year'];
             }
+            $data['studentInfo'] = $this->student->getCurrentStudentInfoForTrans();
+            $data['studentInfo22'] = $this->student->getStudentPreviousPendingAmt();
             if(!empty($student_row_id)){
 
                 $data['studentInfo'] = $this->student->getCurrentStudentInfoForTrans(); 
@@ -1226,8 +1238,13 @@ class Transport extends BaseController
                 $data['total_fee_paid'] = 0.00;
                 $studentData = $this->student->getStudentsInfoById($student_row_id);
                 $total_fee = $data['total_fee'] = $studentData->rate;
-                
-                $total_fee_amount = $studentData->rate;
+                if($year == CURRENT_YEAR){
+                    $total_fee_amount = $studentData->rate;
+                }else{
+                    $previousbal = $this->transport->getStdPreviousBalByID($student_row_id);
+                    $total_fee_amount = $previousbal->amount;
+                }
+               
                 $feePaidInfo = $this->transport->getTransportTotalPaidAmount($student_row_id,$year);
                 if(!empty($feePaidInfo->paid_amount)){
                     $total_fee_amount -= $feePaidInfo->paid_amount;
@@ -1236,6 +1253,9 @@ class Transport extends BaseController
                 $data['stdFeePaymentInfo'] = $this->transport->getStudentOverallTransFeePaymentInfo($student_row_id,$year);
                 $data['feePaidInfo'] = $feePaidInfo;
                 $data['studentData'] = $studentData;
+                $data['previousbal'] = $previousbal;
+               
+               
                 $data['fee_amount'] = $total_fee_amount;
                 $data['year'] = $year;
                 if($total_fee_amount == 0 || $total_fee_amount < 0){
@@ -1251,8 +1271,6 @@ class Transport extends BaseController
             }else{
                 redirect('transFeePayNow');
             }
-            
-           
             
         }
     }
@@ -1289,7 +1307,7 @@ class Transport extends BaseController
             $to_date = $this->security->xss_clean($this->input->post('month_to'));
             $month = $this->security->xss_clean($this->input->post('month_diff'));
             $ref_receipt_no = $this->security->xss_clean($this->input->post('receipt_no'));
-            $isExist = $this->transport->checkReceiptNoExists($ref_receipt_no);
+            $isExist = $this->transport->checkReceiptNoExists($ref_receipt_no,$year);
             if(!empty($isExist)){
                 $this->session->set_flashdata('error', 'Receipt No. Already Exists');
                 $_SESSION['studentRowID'] = $student_row_id;
@@ -1321,10 +1339,16 @@ class Transport extends BaseController
             }else{
                 $tran_date = '';
             }
-            
+         
             $studentInfo = $this->student->getStudentsInfoById($student_row_id);
-            $total_fee = $studentInfo->rate;
-
+            if($year == CURRENT_YEAR){
+                $total_fee = $studentInfo->rate;
+                $term_name = $studentInfo->term_name;
+            }else{
+                $previousbal = $this->transport->getStdPreviousBalByID($student_row_id);
+                $total_fee = $previousbal->amount;
+                $term_name = $previousbal->term_name;
+            }
             $total_fee_pending_to_pay = $total_fee;
 
             $feePaidInfo = $this->transport->getTransportTotalPaidAmount($student_row_id,$year);
@@ -1361,6 +1385,7 @@ class Transport extends BaseController
                     'payment_date' => date('Y-m-d',strtotime($payment_date)),
                     'from_date' => date('Y-m',strtotime($from_date)),
                     'to_date' => date('Y-m',strtotime($to_date)),
+                    'term_name' => $term_name,
                     'bus_fees' => $paid_fee_amount,
                     'pending_balance' => $pending_fee_balance,
                     'payment_type' => $payment_type,
@@ -1377,23 +1402,23 @@ class Transport extends BaseController
                     'created_date_time' => date('Y-m-d H:i:s'));
     
             $receipt_number = $this->transport->addNewStudentTransport($overallFee);
+            if($year == CURRENT_YEAR){
+                $start    = new DateTime($from_date);
+                $start->modify('first day of this month');
+                $end      = new DateTime($to_date);
+                $end->modify('first day of next month');
+                $interval = DateInterval::createFromDateString('1 month');
+                $period   = new DatePeriod($start, $interval, $end);
 
-            $start    = new DateTime($from_date);
-            $start->modify('first day of this month');
-            $end      = new DateTime($to_date);
-            $end->modify('first day of next month');
-            $interval = DateInterval::createFromDateString('1 month');
-            $period   = new DatePeriod($start, $interval, $end);
-
-            foreach ($period as $dt) {
-                echo $dt->format("Y-m") . "<br>\n";
-                $overallMonth = array(
-                    'payment_id' => $receipt_number,
-                    'month' => $dt->format("m"),
-                    'amount' => $paid_fee_amount / $month);
-                    $result = $this->transport->addTransportMonth($overallMonth);
-            }
-                
+                foreach ($period as $dt) {
+                    echo $dt->format("Y-m") . "<br>\n";
+                    $overallMonth = array(
+                        'payment_id' => $receipt_number,
+                        'month' => $dt->format("m"),
+                        'amount' => $paid_fee_amount / $month);
+                        $result = $this->transport->addTransportMonth($overallMonth);
+                }
+            }     
                 
             $data['studentData'] = $studentInfo;
             $_SESSION['studentRowID'] = $student_row_id;
@@ -1427,8 +1452,8 @@ class Transport extends BaseController
         } else {   
             $filter = array();
             $ref_receipt_no = $this->input->post("reference_receipt_no");
-            
-            $data['result'] = $this->transport->getCheckReceiptNo($ref_receipt_no);
+            $year = $this->input->post("year");
+            $data['result'] = $this->transport->getCheckReceiptNo($ref_receipt_no,$year);
             header('Content-type: text/plain'); 
             header('Content-type: application/json'); 
             echo json_encode($data);

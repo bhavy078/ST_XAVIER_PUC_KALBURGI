@@ -459,6 +459,11 @@ class Transport_model extends CI_Model
         if(!empty($filter['payment_date'])){
             $this->db->where('studentBus.payment_date', $filter['payment_date']);
         }
+        if(!empty($filter['by_year'])){
+            $this->db->where('studentBus.intake_year', $filter['by_year']);
+        }else{
+            $this->db->where('studentBus.intake_year', CURRENT_YEAR);
+        }
 
         // $this->db->where('bus.is_deleted', 0);
         $this->db->where('studentBus.is_deleted', 0);
@@ -512,6 +517,11 @@ class Transport_model extends CI_Model
         if(!empty($filter['payment_date'])){
             $this->db->where('studentBus.payment_date', $filter['payment_date']);
         }
+        if(!empty($filter['by_year'])){
+            $this->db->where('studentBus.intake_year', $filter['by_year']);
+        }else{
+            $this->db->where('studentBus.intake_year', CURRENT_YEAR);
+        }
         // $this->db->where('bus.is_deleted', 0);
         $this->db->where('studentBus.is_deleted', 0);
         $query = $this->db->get();
@@ -527,8 +537,8 @@ class Transport_model extends CI_Model
     }
 
     public function getStudentTransportInfoById($row_id) {
-        $this->db->select('stdbus.row_id, stdbus.bus_number, stdbus.receipt_no,stdbus.payment_date,  stdbus.bus_fees, stdbus.route_from,student.admission_no,stdbus.upi_ref_no,stdbus.transaction_number,stdbus.dd_number,student.register_no,student.application_no,stdbus.ref_receipt_no,stdbus.month,
-        stdbus.route_to, stdbus.from_date, stdbus.to_date, bus.vehicle_number,student.sat_number,student.student_name,stdbus.intake_year,stdbus.payment_type,stdbus.payment_status,student.term_name,stdbus.created_date_time,rate.bus_no,student.student_id,rate.name as route_name');
+        $this->db->select('stdbus.row_id, stdbus.bus_number, stdbus.receipt_no,stdbus.payment_date, stdbus.bus_fees, stdbus.route_from,student.admission_no,stdbus.upi_ref_no,stdbus.transaction_number,stdbus.dd_number,student.register_no,student.application_no,stdbus.ref_receipt_no,stdbus.month,
+        stdbus.route_to, stdbus.from_date, stdbus.to_date, bus.vehicle_number,student.sat_number,student.student_name,stdbus.intake_year,stdbus.payment_type,stdbus.payment_status,stdbus.term_name,stdbus.created_date_time,rate.bus_no,student.student_id,rate.name as route_name');
         $this->db->from('tbl_student_bus_management_details as stdbus');
         $this->db->join('tbl_bus_management_details as bus', 'bus.vehicle_number = stdbus.bus_number','left');
         $this->db->join('tbl_students_info as student', 'student.row_id = stdbus.student_id','left');
@@ -863,9 +873,10 @@ class Transport_model extends CI_Model
         return $query->result();
     }
 
-    public function getCheckReceiptNo($receipt_no){
+    public function getCheckReceiptNo($receipt_no,$year){
         $this->db->from('tbl_student_bus_management_details as bus'); 
         $this->db->where('bus.ref_receipt_no', $receipt_no);
+        $this->db->where('bus.intake_year', $year);
         $this->db->where('bus.is_deleted', 0);
         $query = $this->db->get();
         return $query->row();
@@ -879,10 +890,11 @@ class Transport_model extends CI_Model
         return $insert_id;
     }
 
-    function checkReceiptNoExists($ref_receipt_no){
+    function checkReceiptNoExists($ref_receipt_no,$year){
         $this->db->from('tbl_student_bus_management_details as bus');
         $this->db->where('bus.is_deleted', 0);
         $this->db->where('bus.ref_receipt_no', $ref_receipt_no);
+        $this->db->where('bus.intake_year', $year);
         $query = $this->db->get();
         return $query->row();
     }
@@ -913,7 +925,16 @@ class Transport_model extends CI_Model
         $query = $this->db->get();
         return $query->result();
     }
-
+    
+    public function getStdPreviousBalByID($row_id)
+    {
+        $this->db->select('fee.row_id,fee.term_name,fee.amount');
+        $this->db->from('tbl_pending_amount_bus as fee'); 
+        $this->db->where('fee.std_row_id', $row_id);
+        $this->db->where('fee.is_deleted', 0);
+        $query = $this->db->get();
+        return $query->row();
+    }
     
 }
 ?>

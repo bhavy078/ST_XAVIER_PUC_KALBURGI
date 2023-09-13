@@ -63,16 +63,31 @@ if ($error) {
             <div class="col column_padding_card">
                 <div class="card card-small card_heading_title p-0 m-b-1">
                     <div class="card-body p-2">
+                    <form action="<?php echo base_url(); ?>viewStudentTransportListing" method="POST" id="byFilterMethod">
                         <div class="row c-m-b">
-                            <div class="col-lg-5 col-12 col-md-12 box-tools">
+                            <div class="col-lg-4 col-12 col-md-12 box-tools">
                                 <span class="page-title">
-                                <i class="material-icons">group</i> Student Transport Payment Info
+                                <i class="material-icons">group</i> Transport Payment Info
                                 </span>
                             </div>
                             <div class="col-lg-3 col-12 col-md-6 col-sm-6">
                                 <b class="text-dark" style="font-size: 20px;">Total : <?php echo $totalStudentTransportCount; ?></b>
                             </div>
-                            <div class="col-lg-4 col-12 col-md-6 col-sm-6">
+                            <div class="col-lg-2 input-group float-right">
+                                <select class="form-control" name="year" id="year">
+                                    <?php if(!empty($year)){ ?>
+                                    <option value="<?php echo $year; ?>" selected><b><?php echo $year; ?></b>
+                                    </option>
+                                    <?php } ?>
+                                    <option value="2023">2023</option>
+                                    <option value="2022">2022</option>
+                              
+                                </select>
+                                <div class="form-group">
+                                    <button class="btn btn-success border_left_radius" type="submit">Search</button>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-12 col-md-6 col-sm-6">
                             <a onclick="window.history.back();" class="btn primary_color mobile-btn float-right text-white "
                                     value="Back"><i class="fa fa-arrow-circle-left"></i> Back </a>
                                 <!-- <a class="btn btn-primary mobile-btn float-right border_right_radius"
@@ -90,7 +105,7 @@ if ($error) {
                 <div class="card card-small mb-4">
                     <div class="card-body p-1 pb-2 table-responsive">
                         <table class="display table table-bordered table-striped table-hover w-100">
-                        <form action="<?php echo base_url(); ?>viewStudentTransportListing" method="POST" id="byFilterMethod">
+                      
                                 <tr class="filter_row" class="text-center">
                                    
                                     <!-- <td>
@@ -153,7 +168,7 @@ if ($error) {
                                             <input type="text" value="<?php echo $payment_date; ?>" name="date_to" id="date_to" class="form-control input-sm datepicker" placeholder="Search Month To" autocomplete="off">
                                         </div>
                                     </td>
-
+                                    <?php if($year == CURRENT_YEAR){ ?>
                                     <td>
                                         <div class="form-group mb-0">
                                            
@@ -175,7 +190,7 @@ if ($error) {
                                             <input type="text" value="<?php echo $bus_no; ?>" name="bus_no" id="bus_no" class="form-control input-sm datepicker" placeholder="Search Bus No." autocomplete="off">
                                         </div>
                                     </td>
-
+                                    <?php } ?>
                                     <td>
                                         <div class="form-group mb-0">
                                         <select class="form-control text-dark" id="payment_type"
@@ -222,8 +237,10 @@ if ($error) {
                                    
                                     <th class="text-center">Month From</th>
                                     <th class="text-center">Month To</th>
+                                    <?php if($year == CURRENT_YEAR){ ?>
                                     <th class="text-center">Route</th>
                                     <th class="text-center">Bus No.</th>
+                                    <?php } ?>
                                     <th class="text-center">Payment Type</th>
                                     <!-- <th class="text-center">From Date</th>
                                     <th class="text-center">To Date</th> -->
@@ -242,8 +259,10 @@ if ($error) {
                                        
                                         <th class="text-center"><?php echo date('M-Y',strtotime($trans->from_date)); ?></th>
                                         <th class="text-center"><?php echo date('M-Y',strtotime($trans->to_date)); ?></th>
+                                        <?php if($year == CURRENT_YEAR){ ?>
                                         <th><?php echo $trans->route_name; ?></th>
                                         <th class="text-center"><?php echo $trans->bus_no; ?></th>
+                                        <?php } ?>
                                         <th class="text-center"><?php echo $trans->payment_type; ?></th>
                                         
                                         <!-- <th><?php echo $trans->route_to; ?></th> -->

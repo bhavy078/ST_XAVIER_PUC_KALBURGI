@@ -99,21 +99,21 @@ table{
                 <tr>
                     <td>Class  : <?php echo strtoupper($studentTransportInfo->term_name); ?></td> 
                 </tr>
-                
-                <tr>
-                    <td>Month From: <?php echo date('M-Y',strtotime($studentTransportInfo->from_date));?></td>
-                </tr>
-                <tr>
-                    <td>Month To: <?php echo date('M-Y',strtotime($studentTransportInfo->to_date));?></td>
-                </tr>
-
-                <tr>
-                    <td>Bus No. : <?php echo $studentTransportInfo->bus_no;?></td>
-                </tr>
-                <tr>
-                    <td colspan="2">Bus Pick Point : <?php echo $studentTransportInfo->route_name;?></td>
-                </tr>
-                
+                <?php if($studentTransportInfo->intake_year == CUURENT_YEAR) { ?>
+                    <tr>
+                        <td>Month From: <?php echo date('M-Y',strtotime($studentTransportInfo->from_date));?></td>
+                    </tr>
+                    <tr>
+                        <td>Month To: <?php echo date('M-Y',strtotime($studentTransportInfo->to_date));?></td>
+                    </tr>
+               
+                    <tr>
+                        <td>Bus No. : <?php echo $studentTransportInfo->bus_no;?></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">Bus Pick Point : <?php echo $studentTransportInfo->route_name;?></td>
+                    </tr>
+                <?PHP } ?>
                 <tr>
                     <td colspan="2">Date : <?php echo date('d-m-Y',strtotime($studentTransportInfo->created_date_time)); ?></td>
                 </tr>   

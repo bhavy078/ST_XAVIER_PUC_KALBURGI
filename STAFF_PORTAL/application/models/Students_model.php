@@ -1646,6 +1646,17 @@ class students_model extends CI_Model
         return $query->result();
     }
 
+    public function getStudentPreviousPendingAmt()
+    {
+        $this->db->select('bus.std_row_id,student.student_name,bus.amount,bus.term_name'); 
+        $this->db->from('tbl_pending_amount_bus as bus'); 
+        $this->db->join('tbl_students_info as student', 'student.row_id = bus.std_row_id');
+        $this->db->where('student.is_deleted', 0);
+        $this->db->where('bus.is_deleted', 0);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
     public function getCurrentStudentInfoForTransReport($filter)
     {
         $this->db->select('student.row_id as student_row_id,student.student_name,student.student_id,
@@ -1694,5 +1705,7 @@ class students_model extends CI_Model
           $query = $this->db->get();
           return $query->row();
       }
+
+     
 
     }
