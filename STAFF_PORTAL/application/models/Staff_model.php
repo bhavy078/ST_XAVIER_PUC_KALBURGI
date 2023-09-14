@@ -100,7 +100,7 @@ class Staff_model extends CI_Model
     {
         $this->db->select('staff.doj, staff.gender, staff.dob, staff.type, staff.row_id, 
         staff.staff_id, staff.email, staff.name,dept.name as department, staff.mobile_one,staff.mobile, 
-        Role.role, staff.role as role_id, staff.photo_url, staff.address, staff.department_id,staff.voter_no,staff.pan_no,staff.aadhar_no,leave.casual_leave_earned,leave.sick_leave_earned,leave.marriage_leave_earned,leave.paternity_leave_earned,leave.maternity_leave_earned, leave.lop_leave,leave.casual_leave_used, leave.sick_leave_used, leave.marriage_leave_used,leave.paternity_leave_used, leave.maternity_leave_used');
+        Role.role, staff.role as role_id, staff.photo_url, staff.address, staff.department_id,staff.voter_no,staff.pan_no,staff.aadhar_no,leave.casual_leave_earned,leave.sick_leave_earned,leave.marriage_leave_earned,leave.paternity_leave_earned,leave.maternity_leave_earned, leave.lop_leave,leave.casual_leave_used, leave.sick_leave_used, leave.marriage_leave_used,leave.paternity_leave_used, leave.maternity_leave_used,staff.blood_group');
         $this->db->from('tbl_staff as staff');
         $this->db->join('tbl_roles as Role', 'Role.roleId = staff.role','left');
         $this->db->join('tbl_staff_sections as sec', 'staff.staff_id = sec.staff_id','left');

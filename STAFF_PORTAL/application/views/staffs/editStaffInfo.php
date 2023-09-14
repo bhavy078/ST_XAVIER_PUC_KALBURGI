@@ -192,6 +192,27 @@ if ($error) {
                                                                     <option value="female">Female</option>
                                                                 </select>
                                                             </div>
+                                                            <div class="form-group">
+                                                                <label for="blood_group">Blood Group<span class="text-danger">*</span></label>
+                                                                <select class="form-control required selectpicker" id="blood_group"
+                                                                    name="blood_group" required>
+                                                                    <?php if(!empty($staffInfo->blood_group)){ ?>
+                                                                    <option value="<?php echo $staffInfo->blood_group; ?>"
+                                                                        selected>
+                                                                        <?php echo strtoupper($staffInfo->blood_group); ?>
+                                                                    </option>
+                                                                    <?php } ?>
+                                                                    <option value="">Select Blood Group</option>
+                                                                    <option value="A+">A+</option>
+                                                                    <option value="A-">A-</option>
+                                                                    <option value="B+">B+</option>
+                                                                    <option value="B-">B-</option>
+                                                                    <option value="O+">O+</option>
+                                                                    <option value="O-">O-</option>
+                                                                    <option value="AB+">AB+</option>
+                                                                    <option value="AB-">AB-</option>
+                                                                </select>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-8 col-12">

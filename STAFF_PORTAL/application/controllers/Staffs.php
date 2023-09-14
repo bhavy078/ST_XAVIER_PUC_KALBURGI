@@ -173,6 +173,7 @@ class Staffs extends BaseController
                     $dob = "";
                 }
                 $gender = $this->input->post('gender');
+                $blood_group = $this->input->post('blood_group');
                 $staff_id = $this->security->xss_clean($this->input->post('staff_id'));
                 $isExist = $this->staff->checkStaffIdExists($staff_id);
                 if(!empty($isExist)){
@@ -209,6 +210,7 @@ class Staffs extends BaseController
                     'aadhar_no' => $aadhar_no,
                     'pan_no' => $pan_no,
                     'voter_no' => $voter_no,
+                    'blood_group' => $blood_group,
                     'createdBy' => $this->staff_id, 
                     'modified_date_time' => date('Y-m-d H:i:s'));
                     $result = $this->staff->addNewStaff($staffInfo);
@@ -315,6 +317,7 @@ class Staffs extends BaseController
                     $dob = "";
                 }
                 $gender = $this->input->post('gender');
+                $blood_group = $this->input->post('blood_group');
                 $staff_id = $this->security->xss_clean($this->input->post('staff_id'));
                 $isExist = $this->staff->checkStaffIdExists($staff_id);
                 if(!empty($isExist)){
@@ -347,6 +350,7 @@ class Staffs extends BaseController
                     'aadhar_no' => $aadhar_no,
                     'pan_no' => $pan_no,
                     'voter_no' => $voter_no,
+                    'blood_group' => $blood_group,
                     'createdBy' => $this->staff_id, 
                     'modified_date_time' => date('Y-m-d H:i:s'));
 
