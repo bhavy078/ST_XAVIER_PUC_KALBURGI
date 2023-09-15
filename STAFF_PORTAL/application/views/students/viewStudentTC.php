@@ -415,7 +415,7 @@ h4{
                                                <!-- <br/>   Admission No.  &nbsp; &nbsp; &nbsp; : &nbsp; &nbsp; &nbsp; <?php echo $record->admission_no; ?>
                                                <br/> Class Reg No. &nbsp; &nbsp; &nbsp; &nbsp; : &nbsp; &nbsp; &nbsp; <?php echo $record->register_no; ?> -->
                                                <div class="col-12">
-                                                <h6 class="place_date" style="font-size: 16px;"> <span class="footer_sign"><br/><br/><br/><br/><br/><br/>PRINCIPAL</span></h6>
+                                                <h6 class="place_date" style="font-size: 16px;"> <span class="footer_sign"><br/><br/><br/><br/><br/><br/>PRINCIPAL/VICE PRINCIPAL</span></h6>
                                             </div>
                                             </th>
                                             </tr>
