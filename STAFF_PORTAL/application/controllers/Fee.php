@@ -2429,7 +2429,7 @@ public function processTheFeePayment(){
                         $first_puc_total_bal -= $paidFee;
                      
                         //if alumni first_puc_total_bal =0
-                        if($studentInfo->is_active == 0){
+                        if($studentInfo->is_active == 0 && trim($studentInfo->intake_year_id) == '2021'){
                             $first_puc_total_bal = 0;
                         }
 
@@ -2462,10 +2462,12 @@ public function processTheFeePayment(){
                     }
 
                     //if alumni bal total fee pending else total fee
-                    if($studentInfo->is_active == 0){
+                    if($studentInfo->is_active == 0 && trim($studentInfo->intake_year_id) == '2021'){
                         $total_fee_obj = $this->fee->getfirstpucbal($application_no);
                         $data['second_puc_total_fee'] =  $data['total_fee_amount'] =  $total_fee_amount = $total_fee_obj->amount;
 
+                    }else if($studentInfo->is_active == 0 && trim($studentInfo->intake_year_id) == '2022'){
+                        $total_fee_amount = 0;
                     }else{
                         $total_fee_obj = $this->fee->getTotalFeeAmount($filter);
                         $data['second_puc_total_fee'] =  $data['total_fee_amount'] =  $total_fee_amount = $total_fee_obj->total_fee;
