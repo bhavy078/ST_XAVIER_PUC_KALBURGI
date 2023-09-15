@@ -75,6 +75,7 @@
                 $this->db->where('exam.time', $filter['time']);
             } 
             $this->db->where('exam.is_deleted', 0);
+            $this->db->where('sub.is_deleted', 0);
             $this->db->order_by('exam.row_id', 'DESC');
             $query = $this->db->get();
             return $query->num_rows();
@@ -114,6 +115,7 @@
             $this->db->order_by('exam.class', 'ASC');
             $this->db->order_by('exam.subject_code', 'ASC');
             $this->db->where('exam.is_deleted', 0);
+            $this->db->where('sub.is_deleted', 0);
             $this->db->order_by('exam.row_id', 'DESC');
             // $this->db->order_by('exam.section_name', 'ASC');
             $this->db->limit($page, $segment);
