@@ -581,6 +581,14 @@ class Transport_model extends CI_Model
         return $query->result();
     }
 
+    public function getTransportBusNo(){
+        $this->db->from('tbl_student_transport_rate_info as trans');
+        $this->db->where('trans.is_deleted', 0);
+        $this->db->group_by('trans.bus_no');
+        $query = $this->db->get();
+        return $query->result();
+    }
+
     public function getSelectedTransportNameInfo($filter){
         $this->db->from('tbl_student_transport_rate_info as trans');
         $this->db->where('trans.is_deleted', 0);

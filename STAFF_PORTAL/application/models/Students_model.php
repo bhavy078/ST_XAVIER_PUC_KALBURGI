@@ -1696,7 +1696,6 @@ class students_model extends CI_Model
         $this->db->where('student.is_deleted', 0);
         $this->db->where('bus.is_deleted', 0);
         $this->db->where('bal.is_deleted', 0);
-        $this->db->where('student.route_id!=', 0);
         $query = $this->db->get();
         return $query->result();
     }
@@ -1705,11 +1704,13 @@ class students_model extends CI_Model
     {
        
         $this->db->from('tbl_students_info as student'); 
-       
+        $this->db->join('tbl_student_transport_rate_info as route','route.row_id  = student.route_id','left');
         if(!empty($filter['term_name'])){
             $this->db->where('student.term_name', $filter['term_name']);
         }
-      
+        if(!empty($filter['bus_no'])){
+            $this->db->where('route.bus_no', $filter['bus_no']);
+        }
         $this->db->where('student.is_active', 1);
         $this->db->where('student.is_deleted', 0);
         $this->db->where('student.route_id!=', 0);

@@ -742,6 +742,18 @@
                                 <option value="II PUC">II PUC</option>
                             </select>
                         </div>
+                        <div class="col-lg-12">
+                            <label for="inputEmail4">Bus No.</label>
+                            <select class="form-control text-dark"  name="bus_no" >
+                                <option value="">Select Bus No.</option>
+                                <?php if (!empty($busNoInfo)) {
+                                    foreach ($busNoInfo as $busno) { ?>
+                                        <option value="<?php echo $busno->bus_no; ?>"><?php echo $busno->bus_no ?></option>
+                                <?php }
+                                } ?>
+                            </select>
+                            
+                        </div>
 
                        
                     </div>

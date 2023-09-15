@@ -1430,18 +1430,20 @@ class Fee_model extends CI_Model
         return TRUE;
     }
 
-    public function getCheckReceiptNo($receipt_no){
+    public function getCheckReceiptNo($receipt_no,$year){
         $this->db->from('tbl_students_overall_fee_payment_info_i_puc_2021 as fee'); 
         $this->db->where('fee.ref_receipt_no', $receipt_no);
+        $this->db->where('fee.payment_year', $year);
         $this->db->where('fee.is_deleted', 0);
         $query = $this->db->get();
         return $query->row();
     }
 
-    function checkReceiptNoExists($ref_receipt_no){
+    function checkReceiptNoExists($ref_receipt_no,$year){
         $this->db->from('tbl_students_overall_fee_payment_info_i_puc_2021 as fee');
         $this->db->where('fee.is_deleted', 0);
         $this->db->where('fee.ref_receipt_no', $ref_receipt_no);
+        $this->db->where('fee.payment_year', $year);
         $query = $this->db->get();
         return $query->row();
     }
@@ -1564,6 +1566,18 @@ class Fee_model extends CI_Model
         $query = $this->db->get();
         return $query->result();
     }
+
+    
+    public function getfirstpucbal($row_id)
+    {
+      $this->db->select('fee.row_id,fee.term_name,fee.amount');
+      $this->db->from('tbl_pending_amount as fee'); 
+      $this->db->where('fee.std_row_id', $row_id);
+      $this->db->where('fee.is_deleted', 0);
+      $query = $this->db->get();
+      return $query->row();
+    }
+
 
     
 }

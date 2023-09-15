@@ -2379,8 +2379,9 @@ public function processTheFeePayment(){
                     // }
 
                     $filter['term_name'] = $term_name;
-                    $filter['fee_year'] = CURRENT_YEAR;
-                    $total_fee_obj = $this->fee->getTotalFeeAmount($filter);
+                    $data['year'] = $filter['fee_year'] = CURRENT_YEAR;
+                   
+                    $total_fee_obj = $this->fee->getTotalFeeAmount($filter);        
                     $total_fee_amount = $data['total_fee_amount'] = $total_fee_obj->total_fee;
                     $paidFee = $this->fee->getTotalFeePaidInfo($application_no,CURRENT_YEAR);
                     $paid = $this->fee->getFeePaidInfoAttempt($application_no,CURRENT_YEAR);
@@ -2397,7 +2398,6 @@ public function processTheFeePayment(){
                     $total_fee_amount -= $paidFee;
                     if($paid->attempt == '1'){
                         $total_fee_amount = $total_fee_amount -2000;
-                        
                     }else{
                         $total_fee_amount =$total_fee_amount;
                     }
@@ -2412,14 +2412,19 @@ public function processTheFeePayment(){
                        $data['text_display_view']  = "II PUC Student info";
                     
                         $filter['term_name'] = 'I PUC';
-                        $filter['fee_year'] = CURRENT_YEAR; //trim($studentInfo->intake_year_id);
+                        $data['year']=$filter['fee_year'] = trim($studentInfo->intake_year_id);
+                    
+                        $total_fee_obj = $this->fee->getfirstpucbal($application_no);
+                        $data['first_puc_total_fee'] = $first_puc_total_bal = $total_fee_obj->amount;
 
-                        $total_fee_obj = $this->fee->getTotalFeeAmount($filter);
+                        // $total_fee_obj = $this->fee->getTotalFeeAmount($filter);
 
-                        $data['first_puc_total_fee'] = $first_puc_total_bal = $total_fee_obj->total_fee;
+                        // $data['first_puc_total_fee'] = $first_puc_total_bal = $total_fee_obj->total_fee;
                     
                         $paidFee = $this->fee->getTotalFeePaidInfo($application_no,$filter['fee_year']);
                         $data['feePaidInfo'] = $this->fee->getFeePaidInfo($application_no,$filter['fee_year']);
+                       
+
                         $data['fee_installment'] = $this->fee->checkInstalmentExists($application_no);
                         $first_puc_total_bal -= $paidFee;
                         //prev year fee
@@ -2434,13 +2439,15 @@ public function processTheFeePayment(){
                             $data['I_balance'] = 0;
                             $data['first_puc_pending_amount'] = $data['previousBal'] = 0;
                 
-                  
+                            $data['I_balance'] = $first_puc_total_bal ;
+                            $data['first_puc_pending_amount'] = $data['previousBal'] = $first_puc_total_bal;
                     //I PUC PENDING END --------//
 
                     // II PUC fee calculation start
                     $filter['term_name'] = 'II PUC';
                     //add extra ine year to intake year only (based on clg database data)
                     $data['fee_year_II'] =  $filter['fee_year'] = trim($studentInfo->intake_year_id)+1;
+                   
                     $filter['board_name'] = 'SSLC';
                     if($studentInfo->is_admitted == 1){
                         $filter['term_name'] = 'I PUC';
@@ -2481,7 +2488,7 @@ public function processTheFeePayment(){
                     $data['concession'] = $concession_amt;
                 }
                 // $data['balance'] = $total_fee_to_pay;
-
+                
                 $data['studentInfo'] = $studentInfo;
             }else{
                 $this->session->set_flashdata('error', 'Sorry!, Student data not found!');
@@ -2500,7 +2507,7 @@ public function processTheFeePayment(){
         } else {  
             $filter = array();
             $term_name = $this->security->xss_clean($this->input->post('term_name_selected')); 
-
+          
             $application_no = $this->security->xss_clean($this->input->post('application_no'));
             $paid_fee_amount = $this->security->xss_clean($this->input->post('paid_fee_amount'));
             $payment_type = $this->security->xss_clean($this->input->post('payment_type'));
@@ -2520,7 +2527,8 @@ public function processTheFeePayment(){
 
             $excess_amount = $this->security->xss_clean($this->input->post('excess_amount'));
             $ref_receipt_no = $this->security->xss_clean($this->input->post('ref_receipt_no'));
-            $isExist = $this->fee->checkReceiptNoExists($ref_receipt_no);
+            $payment_year = $this->security->xss_clean($this->input->post('payment_year')); 
+            $isExist = $this->fee->checkReceiptNoExists($ref_receipt_no,$payment_year);
             if(!empty($isExist)){
                 $this->session->set_flashdata('error', 'Receipt No. Already Exists');
                 
@@ -2533,10 +2541,9 @@ public function processTheFeePayment(){
             $_SESSION["FEE_STUDENT_ID"] = $application_no;
             $_SESSION["FEE_TERM_NAME"] = $term_name;
 
-
             $filter['student_id'] = $student_id;
             $studentInfo =  $this->student->getStudentInfoByRowId($application_no);
-            $filter['fee_year'] = CURRENT_YEAR; //$studentInfo->intake_year_id;
+            $filter['fee_year'] = $studentInfo->intake_year_id;
             // if(empty($studentInfo)){
             //     //check student exist in new admission info
             //     $studentInfo = $this->admission->getStudentStudentInfo($application_no);
@@ -2546,10 +2553,31 @@ public function processTheFeePayment(){
             // if($term_name == 'II PUC'){
             //     $filter['fee_year'] = ($studentInfo->intake_year_id)+1;
             // }
+            if($term_name == 'II PUC'){
+                $filter['fee_year'] = ($studentInfo->intake_year_id)+1;
+               
+            }
         
                 $filter['term_name'] = $term_name;
                 $filter['stream_name'] = $studentInfo->stream_name;
             
+                if($term_name == 'I PUC' && $filter['fee_year'] == '2022'){
+                    $total_fee = $this->fee->getfirstpucbal($application_no);
+                    $total_fee_to_pay = $total_fee->amount;
+                    
+                }else{
+                
+                    $total_fee = $this->fee->getTotalFeeAmount($filter);
+                   
+                    $total_fee_to_pay = $total_fee->total_fee;
+                    
+                    if ($fee_type == "1") {
+                        $total_fee_to_pay = $total_fee_to_pay - 2000;
+                      
+                    } else {
+                        $total_fee_to_pay = $total_fee_to_pay;
+                    }
+                }
                 // if(strtoupper($studentInfo->elective_sub) == 'FRENCH'){
                 //     $filter['lang_fee_status'] = true;
                 // }else{
@@ -2575,17 +2603,8 @@ public function processTheFeePayment(){
                 //         $filter['board_name'] = "SSLC";
                 //     }
                 // }
-                
-                $total_fee = $this->fee->getTotalFeeAmount($filter);
-                // log_message('debug','filter='.print_r($filter,true));
-                // $feeStructureInfo = $this->fee->getFeeStructureInfo2021($filter);
-                $total_fee_to_pay = $total_fee->total_fee;
 
-                if ($fee_type == "1") {
-                    $total_fee_to_pay = $total_fee_to_pay - 2000;
-                } else {
-                    $total_fee_to_pay = $total_fee_to_pay;
-                }
+              
 
                 $data['total_fee'] = $total_fee->total_fee;
                 $concession_amt = 0;
@@ -2763,7 +2782,8 @@ public function processTheFeePayment(){
         } else {   
             $filter = array();
             $ref_receipt_no = $this->input->post("reference_receipt_no");
-            $data['result'] = $this->fee->getCheckReceiptNo($ref_receipt_no);
+            $year = $this->input->post("year");
+            $data['result'] = $this->fee->getCheckReceiptNo($ref_receipt_no,$year);
             //log_message('debug','result'.print_r($data['result'],true));
             header('Content-type: text/plain'); 
             header('Content-type: application/json'); 

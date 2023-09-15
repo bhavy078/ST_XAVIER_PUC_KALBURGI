@@ -134,8 +134,6 @@ if ($error) {
 
                                 <div class="col-12">
                                     <div class="input-group mb-1">
-
-
                                         <select class="form-control selectpicker" data-live-search="true"
                                             name="application_no" required>
                                             <?php if(!empty($application_no)){ ?>
@@ -250,8 +248,8 @@ if ($error) {
                                                         </tr>
                                                         <?php } ?>
 
-                                                    <?php if ($term_name == "III PUC") { ?>
-                                                    <tr class="bg-danger text-white">
+                                                    <?php if ($term_name == "II PUC") { ?>
+                                                    <tr class="table-danger text-white">
                                                         <th class="text-left" scope="col">I PUC Balance</th>
                                                         <th class="text-left" scope="col">
                                                             <?php if ($previousBal < 0) {
@@ -278,7 +276,7 @@ if ($error) {
                                     <div class="card border-success mb-3">
                                         <div class="card-header bg-primary border-success p-1 text-white"> II PUC Fee Info</div>
                                         <div class="card-body">
-                                            <?php if(trim($studentInfo->intake_year_id) != '2020'){ if ($previousBal <= 0 ) {
+                                            <?php if(trim($studentInfo->intake_year_id) != '2020'){
                                                         if ($pending_amount > 0) { ?>
                                             <div class="row">
                                                 <div class="col-6">
@@ -329,6 +327,7 @@ if ($error) {
                                             <div class="row">
                                                 <div class="col-6">
                                                     <div class="form-group">
+                                                    <input type="hidden" value="<?php echo $fee_year_II; ?>" id="II_PUC_year">
                                                         <input type="text" class="form-control reference_receipt_no" id="ref_receipt_number"
                                                             name="ref_receipt_number" placeholder="Reference Receipt No."
                                                             onkeypress="return isNumberKey(event)" required
@@ -349,9 +348,7 @@ if ($error) {
                                             <?php } else { ?>
                                             <h5 style="color:green">II PUC Fee cleared</h5>
                                             <?php }
-                                                    } else { ?>
-                                            <h5 style="color:red">I PUC Fee Pending</h5>
-                                            <?php } } ?>
+                                                     } ?>
                                             <table style="margin-top: 2px;" class="table table-hover">
                                                 <thead>
                                                     <tr class="table_row_background">
@@ -397,15 +394,15 @@ if ($error) {
                                         </div>
                                     </div>
                                     <?php } ?>
-                                    <?php if(trim($studentInfo->term_name) == 'I PUC'){ ?>
+                                    <?php //if(trim($studentInfo->term_name) == 'I PUC'){ ?>
                                     <div class="card border-success mb-1">
                                         <div class="card-header bg-primary border-success p-1 text-white">I PUC Fee Info
                                         </div>
                                         <div class="card-body">
-                                            <?php if($pending_amount > 0){ //if(trim($studentInfo->term_name) == 'I PUC'){ if ($previousBal > 0) { ?>
+                                            <?php if($previousBal > 0){ //if(trim($studentInfo->term_name) == 'I PUC'){ if ($previousBal > 0) { ?>
                                             <div class="row">
 
-                                                <div class="col-6">
+                                                <div class="col-12">
                                                     <div class="form-group">
                                                         <input type="text" name="transaction_date"
                                                             value="<?php echo date('d-m-Y'); ?>"
@@ -414,18 +411,21 @@ if ($error) {
                                                             autocomplete="off">
                                                     </div>
                                                 </div>
-                                                <div class="col-6">
+                                            </div>
+                                            <?php if(empty($first_puc_total_fee)){ ?>
+                                            <div class="row">
+                                                <div class="col-12">
                                                     <div class="form-group">
                                                         <select class="form-control text-dark" id="fee_type_select"
                                                             name="fee_type">
                                                             <option value="">Select Fee Type</option>
                                                             <option value="1">FIRST ATTEMPT</option>
-                                                            <option value="2">SECOND ATTEMPT</option>
+                                                            <option value="2" >SECOND ATTEMPT</option>
                                                         </select>
                                                     </div>
                                                 </div>
-                                                
-                                            </div>
+                                            </div>  
+                                           <?php } ?>
 
                                             <div class="row">
                                                 <div class="col-6">
@@ -456,7 +456,8 @@ if ($error) {
                                             <div class="row">
                                                 <div class="col-6">
                                                     <div class="form-group">
-                                                        <input type="text" class="form-control reference_receipt_no" id="ref_receipt_number"
+                                                        <input type="hidden" value="<?php echo $year; ?>" id="II_PUC_year">
+                                                        <input type="text" class="form-control reference_receipt_no" id="ref_receipt_number1"
                                                             name="ref_receipt_number" placeholder="Reference Receipt No."
                                                             onkeypress="return isNumberKey(event)" required
                                                             autocomplete="off" >
@@ -481,7 +482,9 @@ if ($error) {
                                                         <th>Date</th>
                                                         <th>Receipt No.</th>
                                                         <th>Amt.</th>
+                                                        <?php if($year == '2023'){?>
                                                         <th>Fee Type</th>
+                                                        <?php }?>
                                                         <th>Type</th>
                                                         <th>Action</th>
                                                     </tr>
@@ -497,7 +500,9 @@ if ($error) {
                                                     <td><?php echo date('d-m-Y', strtotime($fee->payment_date)); ?></td>
                                                     <td class="text-center"><?php echo $fee->ref_receipt_no; ?></td>
                                                     <td><?php echo number_format($fee->paid_amount,2); ?></td>
+                                                    <?php if($year == '2023'){?>
                                                     <td><?php if($fee->attempt == "1"){echo "First Attempt";}else{echo "Second Attempt";}; ?></td>
+                                                    <?php } ?>
                                                     <td><?php echo $fee->payment_type; ?></td>
                                                     <td>   
                                                             <a href="<?php echo base_url(); ?>feePaymentReceiptPrint/<?php echo $fee->row_id; ?>"
@@ -514,7 +519,7 @@ if ($error) {
                                             </table>
                                         </div>
                                     </div>
-                                    <?php } ?>
+                                    <?php //} ?>
                                 </div>
 
 
@@ -670,6 +675,7 @@ if ($error) {
                     <input type="hidden" name="application_no" value="<?php echo $application_no; ?>"
                         required />
                     <input type="hidden" id="term_name_selected" name="term_name_selected" value="" required />
+                    <input type="hidden" id="payment_year" name="payment_year" value="" required />
                     <input type="hidden" name="student_id" value="<?php echo $studentInfo->student_id; ?>" required />
                     <input type="hidden" id="paid_fee_amount" name="paid_fee_amount" value="" required />
                     <input type="hidden" id="payment_type_input" name="payment_type" value="" required />
@@ -743,13 +749,14 @@ if ($error) {
 
 jQuery(document).ready(function() {
 
-   
         const feeTypeSelect = $("#fee_type_select");
         const paidAmountInput = $("#paid_amount");
         const paidAmtHidden = $("#paid_amt");
 
         feeTypeSelect.on("change", function () {
+           
             if (feeTypeSelect.val() == "1") {
+               
                 paidAmountInput.val(paidAmtHidden.val());
                 paidAmountInput.prop("readonly", true);
             } else {
@@ -766,13 +773,18 @@ jQuery(document).ready(function() {
     $('.receiptHide').hide();
     $('.reference_receipt_no').on('keyup', function(evt){
             let reference_receipt_no = $(this).val();
+           
+            let year = $('#II_PUC_year').val();
+          
             $('.receiptHide').hide();
             $.ajax({
                 url: '<?php echo base_url(); ?>/getReceiptNumber',
                 type: 'POST',
                 dataType: "json",
                 data: { 
-                    reference_receipt_no : reference_receipt_no
+                    reference_receipt_no : reference_receipt_no,
+                    year: year
+                   
                 },
                 success: function(data) {
                     //var examObject = JSON.parse(data);
@@ -917,13 +929,14 @@ jQuery(document).ready(function() {
         $('#ref_receipt_no').val(ref_receipt_number);
         $('#fee_type_input').val(fee_type);
         $('#term_name_selected').val('II PUC');
+        $('#payment_year').val('2023');
 
         $('#myReportModal').modal('show');
     });
 
     $("#firstPaymentInfoSubmit").on('click', function() {
         var payment_type = $('#payment_type').val();
-        var ref_receipt_number = $('#ref_receipt_number').val();
+        var ref_receipt_number = $('#ref_receipt_number1').val();
         var fee_type = $('#fee_type_select').val();
         var fee_amount = <?php echo $I_balance; ?>;
         var excess_amount = 0;
@@ -938,10 +951,11 @@ jQuery(document).ready(function() {
             alert("Please Select Transaction Date");
             return;
         }
-        if (fee_type == "") {
-            alert("Please Select Fee Type");
-            return;
-        }
+        
+        // if (fee_type == "") {
+        //     alert("Please Select Fee Type");
+        //     return;
+        // }
         if (payment_type == "") {
             alert("Please Select Payment Type");
             return;

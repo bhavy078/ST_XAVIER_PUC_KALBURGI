@@ -80,9 +80,16 @@ table{
             </table>
             <hr class="border_bottom hr_line">
             <table class="table" style="font-size: 10px;">
+            <?php if($feeInfo->payment_year == CURRENT_YEAR) { ?>
                 <tr>
                     <td class="centered-td">Fee Receipt (<?php echo $copy_name[$name_count]; ?>)</td>
                 </tr>
+                <?php }else{ ?>
+                <tr>
+                    <td class="centered-td">Arrear Fee Receipt (<?php echo $copy_name[$name_count]; ?>)</td>
+                </tr>
+            <?php } ?>
+               
                 </table>
                 <table class="table" style="font-size: 12px;">
                 <tr>
@@ -99,7 +106,7 @@ table{
                     <!-- <td>Transaction Id : <?php echo $feeInfo->order_id; ?></td> -->
                 </tr>
                 <tr>
-                    <td width="300">Class & Section : <?php echo strtoupper($studentInfo->term_name.' '.$studentInfo->section_name); ?></td>
+                    <td width="300">Class & Section : <?php echo strtoupper($feeInfo->term_name.' '.$studentInfo->section_name); ?></td>
                     <td >Payment Received Mode : <?php if(!empty($feeInfo->payment_type)){ echo $feeInfo->payment_type; }else{ echo 'Online'; } ?></td>
                 </tr>
             </table>
@@ -109,7 +116,7 @@ table{
                     <th>Particulars</th>
                     <th>Amount</th>
                 </tr> 
-                <?php if(!empty($feeStructureInfo) && (empty($previousFeePaidInfo))) {
+                <?php if(!empty($feeStructureInfo) && (empty($previousFeePaidInfo)) && ($feeInfo->payment_year != '2022')) {
                     $i=1; $total_fee_amt=0;
                     foreach($feeStructureInfo as $fee){ 
                         if($fee->fees_type != 'College Dept Fee' && $fee->fees_type != 'Eligibility Fee'){

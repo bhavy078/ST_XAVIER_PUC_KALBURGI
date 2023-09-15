@@ -306,32 +306,32 @@ if ($error) {
                                                         <option value="December">December</option>
                                                     </select>
                                                 </div> -->
-                                                <?php if($year == CURRENT_YEAR){?>
-                                            <div class="row mt-2">
-                                                <div class="col-6">
-                                                    <div class="form-group">
-                                                      
-                                                        <input type="text" name="from_date" 
-                                                            class="form-control datepicker"
-                                                            Placeholder="Month From" id="from_date"
-                                                            autocomplete="off" >
+                                                <?php if($year == CURRENT_YEAR){ ?>
+                                                    <div class="row mt-2">
+                                                        <div class="col-6">
+                                                            <div class="form-group">
+                                                            
+                                                                <input type="text" name="from_date" 
+                                                                    class="form-control datepicker"
+                                                                    Placeholder="Month From" id="from_date"
+                                                                    autocomplete="off" >
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <div class="form-group">
+                                                                
+                                                                <input type="text" name="to_date" 
+                                                                    class="form-control datepicker"
+                                                                    Placeholder="Month To" id="to_date"
+                                                                    autocomplete="off" >
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="col-6">
-                                                    <div class="form-group">
-                                                        
-                                                        <input type="text" name="to_date" 
-                                                            class="form-control datepicker"
-                                                            Placeholder="Month To" id="to_date"
-                                                            autocomplete="off" >
-                                                    </div>
-                                                </div>
-                                            </div>
                                          
-                                            <div class="form-group">
-                                                <label for="month_difference">Months</label>
-                                                <input type="text" class="form-control" id="month_difference" readonly>
-                                            </div>
+                                                    <div class="form-group">
+                                                        <label for="month_difference">Months</label>
+                                                        <input type="text" class="form-control" id="month_difference" readonly>
+                                                    </div>
                                             <?php } ?>
                                                 <div class="form-group mb-2">
                                                     <input type="text" class="form-control reference_receipt_no" id="receipt_number"

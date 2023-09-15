@@ -44,6 +44,7 @@ class Reports extends BaseController
             $data['streamInfo'] = $this->student->getAllStreamName();
             $data['subjectInfo'] = $this->subject->getAllSubjectInfo();
             $data['routeInfo'] = $this->transport->getTransportNameInfo();
+            $data['busNoInfo'] = $this->transport->getTransportBusNo();
             $data['miscellaneousTypeInfo'] = $this->settings->getAllMiscellaneousTypeInfo();
             $this->global['pageTitle'] = '' . TAB_TITLE . ' : Reports';
             $this->loadViews("reports/reports", $this->global, $data, NULL);
@@ -4231,7 +4232,7 @@ public function downloadArrearTransportFeeInfoReport()
         $spreadsheet->getActiveSheet()->getStyle("A1:A1")->applyFromArray($headerFontSize);
 
         $spreadsheet->getActiveSheet()->getStyle('A1')->getAlignment()->setHorizontal('center');
-        $spreadsheet->getActiveSheet()->setCellValue('A2', $term_name . " TRANSPORT FEE PAID REPORT -" . date('Y'));
+        $spreadsheet->getActiveSheet()->setCellValue('A2', $term_name . " TRANSPORT FEE PAID REPORT - " . 2022);
         $spreadsheet->getActiveSheet()->mergeCells("A2:E2");
         $spreadsheet->getActiveSheet()->getStyle("A2:A2")->applyFromArray($headerFontSize);
         $spreadsheet->getActiveSheet()->getStyle('A2')->getAlignment()->setHorizontal('center');
@@ -4287,7 +4288,7 @@ public function downloadArrearTransportFeeInfoReport()
         $filter = array();
         $filter['term_name'] = $term_name;
         $filter['year'] = $year;
-        
+        //log_message('debug','filter'.print_r($filter,true));
       
         // foreach($feeTypeInfo as $type){
     
@@ -4481,6 +4482,7 @@ public function downloadTransportDueInfoReport()
     } else {
         $filter = array();
         $term_name = $this->security->xss_clean($this->input->post('term_name_select'));
+        $bus_no = $this->security->xss_clean($this->input->post('bus_no'));
         $year = CURRENT_YEAR;
         $spreadsheet = new Spreadsheet();
         $headerFontSize = [
@@ -4574,6 +4576,7 @@ public function downloadTransportDueInfoReport()
        
         $filter = array();
         $filter['term_name'] = $term_name;
+        $filter['bus_no'] = $bus_no;
         // foreach($feeTypeInfo as $type){
       
             $studentInfo = $this->student->getStudentInfoForTransReport($filter);
