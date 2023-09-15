@@ -122,7 +122,7 @@ foreach ($studentInfo as $std) {
         </div>
         <div class="row">
         
-            <p width="100%" style="text-align: justify;font-size: 13pt; font-family: times new roman;">This is to certify that <?php if(!empty($std->gender == "MALE")){ echo "Sri."; } else{ echo "Kum.";} ?>&nbsp;<u><?php echo strtoupper($std->student_name) ?></u>
+            <p width="100%" style="text-align: justify;font-size: 13pt; font-family: times new roman;">This is to certify that <?php if(!empty($std->gender == "MALE")){ echo "Sri."; } else{ echo "Kum.";} ?>&nbsp;<u><?php echo strtoupper($std->student_name) ?></u>&nbsp;<?php if(!empty($std->gender == "MALE")){ echo "S/o"; } else{ echo "D/o";} ?> <u><?php echo strtoupper($std->father_name) ?></u>
                  was a bonafide student of this Institution/College during the year from <u><?php echo $std->college_from?></u> to <u><?php echo $std->college_to?></u> studying from <u><?php echo $std->classes_from?></u> to <u><?php echo $std->classes_to?></u>. During this studying period <?php if(!empty($std->gender == "MALE")){ echo "his"; } else{ echo "her";} ?>&nbsp; Character was found <?php echo $std->character_conduct?>. <?php if(!empty($std->gender == "MALE")){ echo "His"; } else{ echo "Her";} ?> Date of birth is <u><?php echo date('d-m-Y',strtotime($std->dob)) ?></u> as per <?php if(!empty($std->gender == "MALE")){ echo "his"; } else{ echo "her";} ?>&nbsp; Admission Register No <u><?php echo $std->student_id?></u>.
             </p>
             <!-- <p width="100%" style="text-align: left;font-size: 12pt; font-family: times new roman;"> 
