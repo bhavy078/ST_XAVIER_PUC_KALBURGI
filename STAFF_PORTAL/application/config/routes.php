@@ -545,7 +545,7 @@ $route['shorlitedStudentPDF_PRINT'] = "reports/shorlitedStudentPDF_PRINT";
 $route['downloadAdmittedStudentInfo'] = "reports/downloadAdmittedStudentInfo";
 
 $route['downloadDayWiseFeeReport'] = "reports/downloadDayWiseFeeReport";
-
+$route['downloadFeeDueReport'] = "reports/downloadFeeDueReport";
 
 
 

@@ -2427,6 +2427,12 @@ public function processTheFeePayment(){
 
                         $data['fee_installment'] = $this->fee->checkInstalmentExists($application_no);
                         $first_puc_total_bal -= $paidFee;
+                     
+                        //if alumni first_puc_total_bal =0
+                        if($studentInfo->is_active == 0){
+                            $first_puc_total_bal = 0;
+                        }
+
                         //prev year fee
                         // if(trim($studentInfo->intake_year_id) == '2020'){
                         //     $paidFee = $this->fee->getTotalFeePaidInfo2020($application_no);
@@ -2441,22 +2447,33 @@ public function processTheFeePayment(){
                 
                             $data['I_balance'] = $first_puc_total_bal ;
                             $data['first_puc_pending_amount'] = $data['previousBal'] = $first_puc_total_bal;
+                           
                     //I PUC PENDING END --------//
 
                     // II PUC fee calculation start
                     $filter['term_name'] = 'II PUC';
                     //add extra ine year to intake year only (based on clg database data)
                     $data['fee_year_II'] =  $filter['fee_year'] = trim($studentInfo->intake_year_id)+1;
-                   
+                  
                     $filter['board_name'] = 'SSLC';
                     if($studentInfo->is_admitted == 1){
                         $filter['term_name'] = 'I PUC';
                         $filter['fee_year'] = CURRENT_YEAR;
                     }
-                    $total_fee_obj = $this->fee->getTotalFeeAmount($filter);
-                    $data['second_puc_total_fee'] =  $data['total_fee_amount'] =  $total_fee_amount = $total_fee_obj->total_fee;
+
+                    //if alumni bal total fee pending else total fee
+                    if($studentInfo->is_active == 0){
+                        $total_fee_obj = $this->fee->getfirstpucbal($application_no);
+                        $data['second_puc_total_fee'] =  $data['total_fee_amount'] =  $total_fee_amount = $total_fee_obj->amount;
+
+                    }else{
+                        $total_fee_obj = $this->fee->getTotalFeeAmount($filter);
+                        $data['second_puc_total_fee'] =  $data['total_fee_amount'] =  $total_fee_amount = $total_fee_obj->total_fee;
+                    }
+                    
 
                     $paidFee = $this->fee->getTotalFeePaidInfo($application_no,$filter['fee_year']);
+                  
                     $paid = $this->fee->getFeePaidInfoAttempt($application_no,$filter['fee_year']);
                    
                     $data['II_feePaidInfo'] = $this->fee->getFeePaidInfo($application_no,$filter['fee_year']);
@@ -2561,16 +2578,14 @@ public function processTheFeePayment(){
                 $filter['term_name'] = $term_name;
                 $filter['stream_name'] = $studentInfo->stream_name;
             
-                if($term_name == 'I PUC' && $filter['fee_year'] == '2022'){
+                if(($term_name == 'I PUC' && $filter['fee_year'] == '2022') || ($term_name == 'II PUC' && $studentInfo->is_active == 0)){
                     $total_fee = $this->fee->getfirstpucbal($application_no);
                     $total_fee_to_pay = $total_fee->amount;
                     
                 }else{
                 
-                    $total_fee = $this->fee->getTotalFeeAmount($filter);
-                   
+                    $total_fee = $this->fee->getTotalFeeAmount($filter); 
                     $total_fee_to_pay = $total_fee->total_fee;
-                    
                     if ($fee_type == "1") {
                         $total_fee_to_pay = $total_fee_to_pay - 2000;
                       

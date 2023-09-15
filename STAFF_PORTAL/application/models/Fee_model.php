@@ -645,6 +645,19 @@ class Fee_model extends CI_Model
         return $query->row();
     }
 
+    public function getTotalFeeAmountForReport($term_name,$stream,$year){
+ 
+        $this->db->select('SUM(fee.fee_amount_state_board) as total_fee');
+        $this->db->from('tbl_admission_fee_structure as fee');
+        $this->db->where_in('fee.stream_name', [$stream,'ALL']);
+        $this->db->where_in('fee.term_name', [$term_name,'ALL']);
+        $this->db->where('fee.fee_year', $year);
+        $this->db->where('fee.is_deleted', 0);
+        $query = $this->db->get();
+        return $query->row();
+    }
+
+
 
     public function addFeeDetailsNewAdmission($feeInfo){
         $this->db->trans_start();
@@ -1345,6 +1358,17 @@ class Fee_model extends CI_Model
         $this->db->where('fee.is_deleted', 0);
         $query = $this->db->get();
         $result = $query->result();
+        return $result;
+    }
+
+    public function getFeePaidInfoForReport($application_no,$payment_year){
+        $this->db->select('SUM(fee.paid_amount) as paid_amount');
+        $this->db->from('tbl_students_overall_fee_payment_info_i_puc_2021 as fee'); 
+        $this->db->where('fee.application_no', $application_no);
+        $this->db->where('fee.payment_year',$payment_year);
+        $this->db->where('fee.is_deleted', 0);
+        $query = $this->db->get();
+        $result = $query->row();
         return $result;
     }
 
