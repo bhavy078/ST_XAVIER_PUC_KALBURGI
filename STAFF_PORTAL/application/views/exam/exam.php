@@ -227,7 +227,7 @@ if ($noMatch) {
                             <div class="form-group">
                                 <select class="form-control input-sm" id="time" name="time" data-live-search="true" required>
                                     <option value="">Select Session</option>
-                                    <option value="Morning session">Morning session</option>
+                                    <option value="Morning session" selected>Morning session</option>
                                     <!-- <option value="Afternoon session">Afternoon session</option> -->
                                 </select>
                                 </select>
@@ -267,10 +267,10 @@ if ($noMatch) {
                             <div class="form-group">
                                 <select class="form-control input-sm" id="exam_type" name="exam_type" required>
                                     <option value="">Select Exam Type</option>
-                                    <option value="THEORY">THEORY</option>
+                                    <option value="THEORY" selected>THEORY</option>
                                     <!-- <option value="LAB">LAB</option> -->
                                 </select>
-                                </select>
+                                </select>  
                             </div>
                         </div>
                         <div class="col-lg-6">
