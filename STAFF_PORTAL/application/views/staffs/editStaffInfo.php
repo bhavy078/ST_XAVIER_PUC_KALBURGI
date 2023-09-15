@@ -164,19 +164,19 @@ if ($error) {
                                                                     required>
                                                             </div>
                                                             <label for="return_date">Date Of Birth (optional)</label>
-                                                            <div class="input-group mb-3">
-                                                                <div class="input-group-append">
-                                                                    <span class="input-group-text material-icons date-icon">date_range</span>
-                                                                </div>
-                                                                <input id="dob" type="text" name="dob"
-                                                                    class="form-control datepicker emp-dob required "
-                                                                    value="<?php  if(empty($staffInfo->dob) || $staffInfo->dob == '0000-00-00'){
+                                                            <div class="input-group mb-0 mobile_input_width">
+                                                                    <input id="dob" type="text" name="dob" class="form-control datepicker emp-dob required"
+                                                                        value="<?php if(empty($staffInfo->dob) || $staffInfo->dob == '0000-00-00'){
                                                                             echo "";
                                                                         } else{
                                                                             echo date('d-m-Y',strtotime($staffInfo->dob));
-                                                                        } ?>" placeholder="Date of Birth"
-                                                                    autocomplete="off" />
-                                                            </div>
+                                                                        } ?>" placeholder="Date of Birth" autocomplete="off" onkeydown="allowHyphen(event)" />
+                                                                    <div class="input-group-append">
+                                                                        <button class="btn btn-outline-secondary" type="button" id="datepicker-trigger">
+                                                                            <i class="material-icons date-icon p-2">date_range</i>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
                                                             <div class="form-group">
                                                                 <label for="gender">Gender<span class="text-danger">*</span></label>
                                                                 <select class="form-control required selectpicker" id="gender"
@@ -876,6 +876,29 @@ jQuery(document).ready(function() {
 
 
 });
+
+
+$(document).ready(function() {
+        // Initialize your datepicker here
+        $('#dob').datepicker({
+            format: 'dd-mm-yyyy', // Use the desired date format
+            autoclose: true
+        });
+
+        // Trigger the datepicker when the button is clicked
+        $('#datepicker-trigger').click(function() {
+            $('#dob').datepicker('show');
+        });
+    });
+
+    // Function to allow hyphen (-) to be entered
+    function allowHyphen(event) {
+        const input = event.target;
+        if (event.key === '-' && input.value.length <= 10) {
+            input.value += '-';
+            event.preventDefault();
+        }
+    }
 
 function readURL(input) {
     if (input.files && input.files[0]) {
