@@ -1296,27 +1296,27 @@ class Students extends BaseController
             }
             $students = $this->student->getStdInfoByStudentId($filter);
             $data['examData'] = $this->student;
-            $students= $this->student->getStudentsInfoForPrintMarkCard($student_id,'I_PUC');
-            $studentExamInfo = array();
+            // $students= $this->student->getStudentsInfoForPrintMarkCard($student_id,'I_PUC');
+            // $studentExamInfo = array();
 
-            foreach($students as $std){
-                $subjects_code = array();
-                $elective_sub = strtoupper($std->elective_sub); 
-                if($elective_sub == "KANNADA"){
-                    array_push($subjects_code, '01');
-                }else if($elective_sub == 'HINDI'){
-                    array_push($subjects_code, '03');
-                } else if($elective_sub == 'FRENCH'){
-                    array_push($subjects_code, '12');
-                }
-                array_push($subjects_code, '02');
+            // foreach($students as $std){
+            //     $subjects_code = array();
+            //     $elective_sub = strtoupper($std->elective_sub); 
+            //     if($elective_sub == "KANNADA"){
+            //         array_push($subjects_code, '01');
+            //     }else if($elective_sub == 'HINDI'){
+            //         array_push($subjects_code, '03');
+            //     } else if($elective_sub == 'FRENCH'){
+            //         array_push($subjects_code, '12');
+            //     }
+            //     array_push($subjects_code, '02');
                 
-                $subjects = $this->getSubjectCodes($std->stream_name);
-                //$subjects_code = array_merge($subjects_code,$subjects);
-                $examInfo = $this->student->getSubjectsForHallTicketPrintFirstYear($subjects_code);
+            //     $subjects = $this->getSubjectCodes($std->stream_name);
+            //     $subjects_code = array_merge($subjects_code,$subjects);
+            //     $examInfo = $this->student->getSubjectsForHallTicketPrintFirstYear($subjects_code);
             //     $studentExamInfo[$std->student_id] = $examInfo;
             //     $stdImageInfo[$std->student_id] = $this->student->getFirstYearProfileImage($std->application_no);
-         }     
+            // }     
 
             $data['studentsRecords'] = $students;
             // $data['studentExamInfo'] = $studentExamInfo;
