@@ -101,6 +101,8 @@ if ($error) {
                                         <div class="dropdown-divider m-0"></div> -->
                                         <?php if($role != ROLE_TEACHING_STAFF){ ?>
                                         <a class="dropdown-item" href="#" id="conduct_certificate"><i class="fa fa-file"></i> Conduct Certificate</a>
+                                        <div class="dropdown-divider m-0"></div>
+                                        <a class="dropdown-item" href="#" id="first_year_hall_ticket"><i class="fa fa-file"></i> Hall ticket</a>
                                         <!-- <div class="dropdown-divider m-0"></div>
                                         <a class="dropdown-item" href="#" id="mark_card_print"><i class="fa fa-file"></i> Mark Card</a> -->
                                         <!-- <a class="dropdown-item" href="#" id="first_year_hall_ticket"><i class="fa fa-file"></i> Hall ticket</a> -->

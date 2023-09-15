@@ -260,7 +260,7 @@ if ($noMatch) {
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <input type="text" value="II UNIT TEST" name="exam_name" id="exam_name" class="form-control input-sm" placeholder="Exam Name" autocomplete="off" required>
+                                <input type="text" value="MID-TERM EXAMINATION" name="exam_name" id="exam_name" class="form-control input-sm" placeholder="Exam Name" autocomplete="off" required>
                             </div>
                         </div>
                         <div class="col-lg-6">

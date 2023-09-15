@@ -1001,7 +1001,7 @@ class students_model extends CI_Model
     }
 
     //get single student info from I Puc biodata
-    function getStudentsInfoForPrintMarkCard($student_id,$term){
+    function getStudentsInfoForPrintMarkCard($student_id){
         // if($term == 'I_PUC'){
         //     $this->db->from('tbl_first_puc_students_info as student');
         //  }else{
@@ -1067,9 +1067,10 @@ class students_model extends CI_Model
         $this->db->where('exam.class', $term_name);
         $this->db->where('exam.stream', $stream_name);
         $this->db->where_in('exam.subject_code', $subject_code);
-        $this->db->where('exam.exam_year', '2022');
+        $this->db->where('exam.exam_year', '2023');
         $this->db->where('exam.is_deleted', 0);
         $this->db->where('exam.exam_status', 0);
+        $this->db->where('sub.is_deleted', 0);
         $this->db->order_by('exam.exam_date', 'ASC');
         $query = $this->db->get();
         return $query->result();

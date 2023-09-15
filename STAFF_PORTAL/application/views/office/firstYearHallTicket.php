@@ -253,7 +253,7 @@
                     <div class="card-body p-1 card-content-title">
                         <div class="row ">
                             <div class="col-md-8 col-8 text-black  " style="font-size:22px;"><i
-                                    class="fa fa-file"></i> Students Admission Ticket - 2022
+                                    class="fa fa-file"></i> Students Admission Ticket - 2023
                                 </div>
                             <div class="col-md-4 col-4"> 
                                 <button style="float:right;" class="btn btn-primary" type="button" title="Print or Save the Mark Card" onClick="window.print()"><i class="fa fa-print"></i> Print/Save</button>
@@ -278,7 +278,6 @@
                         foreach ($studentsRecords as $record) {
                             $studentCount++;
                             $total_students_selected--;
-
                             $examDetails = getExamDetails($con,$record->term_name,$record->stream_name);
                             $subjects_code = array();
                             $elective_sub = strtoupper($record->elective_sub);
@@ -291,6 +290,7 @@
                             }
                             array_push($subjects_code, '02');
                             $subjects = getSubjectCodes($record->stream_name);
+                            
                             $subjects_code = array_merge($subjects_code,$subjects);
                      if ($record->term_name == 'I PUC') {    
                         $img_path = "assets/images/PHOTOS_22_23_ALL/".$record->student_id.".JPG";
@@ -306,9 +306,8 @@
                                 </div>
                                 <div class="col-10">
                                     <div class="header-heading text-center">
-                                        <b style="font-size: 28px; text-transform: uppercase;">St. Joseph’s Pre-University
-                                            College, Bengaluru-25</b>
-                                        <p style="margin-top: 0px; font-size:19px; text-transform: uppercase;"><b><?php echo strtoupper($record->term_name); ?> MID-TERM EXAMINATION OCTOBER - 2022 <br/><u style="font-weight: bold;">Admission Ticket</u></b></p>
+                                        <b style="font-size: 28px; text-transform: uppercase;">ST XAVIER'S PRE–UNIVERSITY COLLEGE, KALABURAGI</b>
+                                        <p style="margin-top: 0px; font-size:19px; text-transform: uppercase;"><b><?php echo strtoupper($record->term_name); ?> MID-TERM EXAMINATION SEPTEMBER - 2023 <br/><u style="font-weight: bold;">Admission Ticket</u></b></p>
                                     </div>
                                 </div>
                             </div>
@@ -336,7 +335,7 @@
                                 <div class="col-3" colspan="3" style="margin-top: -10px;">
                                     <div class=" photo1">
                                         <p style="font-size: 14px;margin-top: -15px;">
-                                            <img width="145" height="145" class="text-right" src="<?php echo $img_path; ?>" alt="profile Img">
+                                            <!-- <img width="145" height="145" class="text-right" src="<?php echo $img_path; ?>" alt="profile Img"> -->
                                         </p>
                                     </div>
                                 </div>
@@ -348,7 +347,7 @@
                                             <!-- <thead> -->
                                                 <tr>
                                                     <th class="text-center">DATE</th>
-                                                    <th class="text-center"><!-- MORNING SESSION <br> -->TIME : 9.30AM TO 12.45PM</th>
+                                                    <th class="text-center"><!-- MORNING SESSION <br> -->TIME : 9.30AM TO 12.30PM</th>
                                                     <!-- <th class="text-center">AFTER NOON SESSION <br>TIME : 2.00PM TO 5.15PM</th> -->
                                                     <th class="text-center">INVIGILATOR'S SIGNATURE</th>
                                                 </tr>
@@ -381,7 +380,7 @@
                                 <div class="col-12">
                                     <div class="footer-sign">
                                         <span style="font-size: 16px;" class=""><b>Signature of the Student</b></span>
-                                        <span style="font-size: 16px;" class="pull-right"><b>Signature of the Principal</b></span>
+                                        <span style="font-size: 16px;" class="pull-right"><b>Signature of the Co-Ordinator</b></span>
                                     </div>
                                 </div>
 
@@ -441,7 +440,7 @@
 function getExamDetails($con,$term_name,$stream_name){
     $query = "SELECT * FROM  tbl_exam_info
     WHERE class = '$term_name' AND stream = '$stream_name'
-    AND is_deleted = 0 AND exam_status = 0 AND exam_year = '2022' AND exam_name ='MID-TERM EXAM' GROUP BY class,stream";
+    AND is_deleted = 0 AND exam_status = 0 AND exam_year = '2023' AND exam_name ='MID-TERM EXAMINATION' GROUP BY class,stream";
     $pdo_statement = $con->prepare($query);
     $pdo_statement->execute();
     return $pdo_statement->fetch();
@@ -458,13 +457,14 @@ function getSubjectCodes($stream_name){
     $BSBA = array("75", "31", "27", '30');
     $CSBA = array("41", "31", "27", '30');
     $SEBA = array("31", "22", "27", '30');
-    $CEBA = array("41", "22", "27", '30');
+    $EBAC = array("41", "22", "27", '30');
     $PEBA = array("29", "22", "27", '30');
     //art
     $HEPP = array("21", "22", "32", '29');
     $MEBA = array("75", "22", "27", '30');
     $MSBA = array("75", "31", "27", '30');
     $HEPS = array("21", "22", "29", '28');
+    $HEPE = array("21", "22", "29", '52');
   
     switch ($stream_name) {
         case "PCMB":
@@ -494,8 +494,8 @@ function getSubjectCodes($stream_name){
         case "SEBA":
             return $SEBA;
             break;
-        case "CEBA":
-            return $CEBA;
+        case "EBAC":
+            return $EBAC;
             break;
         case "HEPP":
             return $HEPP;
@@ -508,6 +508,9 @@ function getSubjectCodes($stream_name){
             break;
         case "MSBA":
             return $MSBA;
+            break;
+        case "HEPE":
+            return $HEPE;
             break;
     }
   }
