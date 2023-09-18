@@ -17,6 +17,7 @@ class Students extends BaseController
         $this->load->model('studentAttendance_model','attendance');
         $this->load->model('push_notification_model');
         $this->load->model('transport_model', 'transport');
+        $this->load->model('fee_model', 'fee');
         $this->load->library('pagination');
         $this->load->library('excel');
         $this->isLoggedIn();   
@@ -353,8 +354,11 @@ class Students extends BaseController
                 $data['date_to'] = date('d-m-Y', strtotime($date_to));
             }
             $data['notifications'] = $this->push_notification_model->getStudentIndividualNotificationsforView($filter,$row_id);
-
-
+           
+            $data['stdFeePaymentInfo'] = $this->fee->getFeePaidInfoForStudentView($row_id,CURRENT_YEAR);
+            $feeInfo = $this->fee->getTotalFeeAmountForReport($student->term_name,$student->stream_name,CURRENT_YEAR);
+            $data['total_fee'] = $feeInfo->total_fee;
+            $data['bill_model'] = $this->fee;
             $data['active'] = '';
             $this->global['pageTitle'] = ''.TAB_TITLE.' : View Student Details';
             $this->loadViews("students/viewStudent", $this->global, $data, null);

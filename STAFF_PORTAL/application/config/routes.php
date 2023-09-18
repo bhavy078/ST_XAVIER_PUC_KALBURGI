@@ -507,6 +507,7 @@ $route['downloadTransportDueInfoReport'] = "reports/downloadTransportDueInfoRepo
 
 //
 $route['downloadBulkFeeReport'] = "reports/downloadBulkFeeReport";
+$route['downloadArrearFeeInfoReport'] = "reports/downloadArrearFeeInfoReport";
 $route['downloadTransportBulkFeeReport'] = "reports/downloadTransportBulkFeeReport";
 
 // this routes for Push Notification

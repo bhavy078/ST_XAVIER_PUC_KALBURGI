@@ -361,23 +361,25 @@ class Reports extends BaseController
             $spreadsheet->setActiveSheetIndex(0);
             $spreadsheet->getActiveSheet()->setTitle('FEE');
             $spreadsheet->getActiveSheet()->setCellValue('A1', EXCEL_TITLE);
-            $spreadsheet->getActiveSheet()->mergeCells("A1:G1");
+            $spreadsheet->getActiveSheet()->mergeCells("A1:I1");
             $spreadsheet->getActiveSheet()->getStyle("A1:A1")->applyFromArray($headerFontSize);
 
             $spreadsheet->getActiveSheet()->getStyle('A1')->getAlignment()->setHorizontal('center');
-            $spreadsheet->getActiveSheet()->setCellValue('A2', $term_name . " FEES PENDING FOR THE YEAR -" . date('Y'));
-            $spreadsheet->getActiveSheet()->mergeCells("A2:G2");
+            $spreadsheet->getActiveSheet()->setCellValue('A2', $term_name . " FEES PAID FOR THE YEAR -" . date('Y'));
+            $spreadsheet->getActiveSheet()->mergeCells("A2:I2");
             $spreadsheet->getActiveSheet()->getStyle("A2:A2")->applyFromArray($headerFontSize);
             $spreadsheet->getActiveSheet()->getStyle('A2')->getAlignment()->setHorizontal('center');
-            $spreadsheet->getActiveSheet()->setCellValue('A3', 'SL No');
-            $spreadsheet->getActiveSheet()->setCellValue('B3', 'Application No');
-            $spreadsheet->getActiveSheet()->setCellValue('C3', 'Name');
-            $spreadsheet->getActiveSheet()->setCellValue('D3', 'Stream');
-            $spreadsheet->getActiveSheet()->setCellValue('E3', 'Total Fee');
-            $spreadsheet->getActiveSheet()->setCellValue('F3', 'Fee Paid');
-            $spreadsheet->getActiveSheet()->setCellValue('G3', 'Fee Pending');
-            $spreadsheet->getActiveSheet()->getStyle("A3:G3")->applyFromArray($font_style_total);
-            $spreadsheet->getActiveSheet()->getStyle("A3:G3")->applyFromArray($font_style_total);
+            $spreadsheet->getActiveSheet()->setCellValue('A3', 'SL No.');
+            $spreadsheet->getActiveSheet()->setCellValue('B3', 'Payment Date');
+            $spreadsheet->getActiveSheet()->setCellValue('C3', 'Application No');
+            $spreadsheet->getActiveSheet()->setCellValue('D3', 'Name');
+            $spreadsheet->getActiveSheet()->setCellValue('E3', 'Stream');
+            $spreadsheet->getActiveSheet()->setCellValue('F3', 'Receipt No.');
+            $spreadsheet->getActiveSheet()->setCellValue('G3', 'Total Fee');
+            $spreadsheet->getActiveSheet()->setCellValue('H3', 'Fee Paid');
+            $spreadsheet->getActiveSheet()->setCellValue('I3', 'Fee Pending');
+            $spreadsheet->getActiveSheet()->getStyle("A3:I3")->applyFromArray($font_style_total);
+            $spreadsheet->getActiveSheet()->getStyle("A3:I3")->applyFromArray($font_style_total);
             $spreadsheet->getActiveSheet()->getStyle('C3')->getAlignment()->setWrapText(true);
             $spreadsheet->getActiveSheet()->getStyle('D3')->getAlignment()->setWrapText(true);
             $spreadsheet->getActiveSheet()->getStyle('I3')->getAlignment()->setWrapText(true);
@@ -408,7 +410,7 @@ class Reports extends BaseController
             $total_nri_fee = 0;
             $spreadsheet->getActiveSheet()->getRowDimension('1')->setRowHeight(25);
             $spreadsheet->getActiveSheet()->getColumnDimension('B')->setWidth(20);
-            $spreadsheet->getActiveSheet()->getColumnDimension('C')->setWidth(25);
+            $spreadsheet->getActiveSheet()->getColumnDimension('C')->setWidth(20);
             $spreadsheet->getActiveSheet()->getColumnDimension('D')->setWidth(25);
             $spreadsheet->getActiveSheet()->getColumnDimension('E')->setWidth(18);
             $spreadsheet->getActiveSheet()->getColumnDimension('F')->setWidth(18);
@@ -420,10 +422,10 @@ class Reports extends BaseController
             $filter = array();
          
             $filter['preference'] = $preference;
-            $filter['term'] = $term_name;
+            $filter['term_name'] = $term_name;
             // foreach($feeTypeInfo as $type){
           
-                $studentInfo = $this->student->getStudentInfoForReportDownload($filter);
+                $studentInfo = $this->fee->getAllFeePaymentInfoForDueReport($filter);
                 
                 if (!empty($studentInfo)) {
                     foreach ($studentInfo as $std) {
@@ -439,12 +441,14 @@ class Reports extends BaseController
                         $pending_bal = $total_fee - $paid_amt;
                         $spreadsheet->getActiveSheet()->getStyle("A" . $excel_row)->getFont()->setSize(14);
                         $spreadsheet->getActiveSheet()->setCellValue('A' . $excel_row,  $sl_number);
-                        $spreadsheet->getActiveSheet()->setCellValue('B' . $excel_row,  $std->student_id);
-                        $spreadsheet->getActiveSheet()->setCellValue('C' . $excel_row,  $std->student_name);
-                        $spreadsheet->getActiveSheet()->setCellValue('D' . $excel_row,  $std->stream_name);
-                        $spreadsheet->getActiveSheet()->setCellValue('E' . $excel_row,  $total_fee);
-                        $spreadsheet->getActiveSheet()->setCellValue('F' . $excel_row,  $paid_amt);
-                        $spreadsheet->getActiveSheet()->setCellValue('G' . $excel_row,  $pending_bal);
+                        $spreadsheet->getActiveSheet()->setCellValue('B' . $excel_row,  date('d-m-Y', strtotime($std->payment_date)));
+                        $spreadsheet->getActiveSheet()->setCellValue('C' . $excel_row,  $std->student_id);
+                        $spreadsheet->getActiveSheet()->setCellValue('D' . $excel_row,  $std->student_name);
+                        $spreadsheet->getActiveSheet()->setCellValue('E' . $excel_row,  $std->stream_name);
+                        $spreadsheet->getActiveSheet()->setCellValue('F' . $excel_row,  $std->ref_receipt_no);
+                        $spreadsheet->getActiveSheet()->setCellValue('G' . $excel_row, $std->total_amount);
+                        $spreadsheet->getActiveSheet()->setCellValue('H' . $excel_row,  $std->paid_amount);
+                        $spreadsheet->getActiveSheet()->setCellValue('I' . $excel_row,  $std->pending_balance);
 
                         $spreadsheet->getActiveSheet()->getStyle('A' . $excel_row)->getAlignment()->setWrapText(true);
 
@@ -461,7 +465,7 @@ class Reports extends BaseController
 
             $writer = new Xlsx($spreadsheet);
             header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-            header('Content-Disposition: attachment;filename="fee_paid_' . $term_name . '.xlsx"');
+            header('Content-Disposition: attachment;filename="fee_due_' . $term_name . '.xlsx"');
             header('Cache-Control: max-age=0');
             setcookie('isDownLoaded', 1);
             $writer->save("php://output");
@@ -4472,6 +4476,145 @@ public function downloadArrearTransportFeeInfoReport()
         $writer = new Xlsx($spreadsheet);
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment;filename="Arrear_Transport_fee_paid_' . $term_name . '.xlsx"');
+        header('Cache-Control: max-age=0');
+        setcookie('isDownLoaded', 1);
+        $writer->save("php://output");
+    }
+}
+
+public function downloadArrearFeeInfoReport()
+{
+    if ($this->isAdmin() == true) {
+        setcookie('isDownLoaded', 1);
+        $this->loadThis();
+    } else {
+        $filter = array();
+        $term_name = $this->security->xss_clean($this->input->post('term_name'));
+       
+        $year = CURRENT_YEAR - 1;
+        $spreadsheet = new Spreadsheet();
+        $headerFontSize = [
+            'font' => [
+                'size' => 16,
+                'bold' => true,
+            ]
+        ];
+        $font_style_total = [
+            'font' => [
+                'size' => 12,
+                'bold' => true,
+            ]
+        ];
+        $filter['term_name'] = $term_name;
+       // $filter['month'] = $month;
+
+        $spreadsheet->getProperties()
+            ->setCreator("SJPUC")
+            ->setLastModifiedBy($this->staff_id)
+            ->setTitle("SJPUC Fee Info")
+            ->setSubject("Fee Structure")
+            ->setDescription(
+                "SJPUC"
+            )
+            ->setKeywords("SJPUC")
+            ->setCategory("Fee");
+        $i = 0;
+
+        $spreadsheet->setActiveSheetIndex(0);
+        $spreadsheet->getActiveSheet()->setTitle('FEE');
+        $spreadsheet->getActiveSheet()->setCellValue('A1', EXCEL_TITLE);
+        $spreadsheet->getActiveSheet()->mergeCells("A1:E1");
+        $spreadsheet->getActiveSheet()->getStyle("A1:A1")->applyFromArray($headerFontSize);
+
+        $spreadsheet->getActiveSheet()->getStyle('A1')->getAlignment()->setHorizontal('center');
+        $spreadsheet->getActiveSheet()->setCellValue('A2', $term_name . " FEE PAID REPORT - " . 2022);
+        $spreadsheet->getActiveSheet()->mergeCells("A2:E2");
+        $spreadsheet->getActiveSheet()->getStyle("A2:A2")->applyFromArray($headerFontSize);
+        $spreadsheet->getActiveSheet()->getStyle('A2')->getAlignment()->setHorizontal('center');
+        $spreadsheet->getActiveSheet()->setCellValue('A3', 'SL No');
+        $spreadsheet->getActiveSheet()->setCellValue('B3', 'Application No');
+        $spreadsheet->getActiveSheet()->setCellValue('C3', 'Name');
+        //$spreadsheet->getActiveSheet()->setCellValue('D3', 'Stream');
+        // $spreadsheet->getActiveSheet()->setCellValue('E3', 'Total Amt.');
+        $spreadsheet->getActiveSheet()->setCellValue('D3', 'Paid Amt.');
+     
+        
+            
+        $spreadsheet->getActiveSheet()->getStyle("A3:J3")->applyFromArray($font_style_total);
+        $spreadsheet->getActiveSheet()->getStyle("A3:J3")->applyFromArray($font_style_total);
+        $spreadsheet->getActiveSheet()->getStyle('C3')->getAlignment()->setWrapText(true);
+        $spreadsheet->getActiveSheet()->getStyle('D3')->getAlignment()->setWrapText(true);
+        $spreadsheet->getActiveSheet()->getStyle('I3')->getAlignment()->setWrapText(true);
+        // $feeTypeInfo = $this->fee->getAllFeeTypesForByStatus(1);
+
+        $spreadsheet->getActiveSheet()->getStyle('A3:E3')->applyFromArray(
+            array(
+                'fill' => array(
+                    'type' => Fill::FILL_SOLID,
+                    'color' => array('rgb' => 'E5E4E2')
+                ),
+                'font'  => array(
+                    'bold'  =>  true
+                )
+            )
+        );
+
+        $spreadsheet->getActiveSheet()->getStyle('A:B')->getAlignment()->setHorizontal('center');
+        $spreadsheet->getActiveSheet()->getStyle('D:K')->getAlignment()->setHorizontal('center');
+        $styleBorderArray = array('borders' => array('allborders' => array('style' => PHPExcel_Style_Border::BORDER_THIN)));
+
+        $this->excel->getActiveSheet()->getStyle('A1:K3')->applyFromArray($styleBorderArray);
+        $excel_row = 4;
+        $sl_number = 1;
+        $total_sslc_state_fee = 0;
+        $total_cbse_icse_fee = 0;
+        $total_nri_fee = 0;
+        $spreadsheet->getActiveSheet()->getRowDimension('1')->setRowHeight(25);
+        $spreadsheet->getActiveSheet()->getColumnDimension('B')->setWidth(20);
+        $spreadsheet->getActiveSheet()->getColumnDimension('C')->setWidth(35);
+        $spreadsheet->getActiveSheet()->getColumnDimension('D')->setWidth(18);
+        $spreadsheet->getActiveSheet()->getColumnDimension('E')->setWidth(18);
+        $spreadsheet->getActiveSheet()->getColumnDimension('F')->setWidth(18);
+        $spreadsheet->getActiveSheet()->getColumnDimension('G')->setWidth(25);
+        $spreadsheet->getActiveSheet()->getColumnDimension('H')->setWidth(20);
+        $spreadsheet->getActiveSheet()->getColumnDimension('I')->setWidth(25);
+        $spreadsheet->getActiveSheet()->getColumnDimension('J')->setWidth(15);
+       
+        $filter = array();
+        $filter['term_name'] = $term_name;
+        $filter['year'] = $year;
+        //log_message('debug','filter'.print_r($filter,true));
+      
+        // foreach($feeTypeInfo as $type){
+    
+            $studentInfo = $this->student->getArrearStudentInfoForFeeReport($filter);
+         
+            if (!empty($studentInfo)) {
+                foreach ($studentInfo as $std) {
+               
+                    $spreadsheet->getActiveSheet()->getStyle("A" . $excel_row)->getFont()->setSize(14);
+                    $spreadsheet->getActiveSheet()->setCellValue('A' . $excel_row,  $sl_number);
+                    $spreadsheet->getActiveSheet()->setCellValue('B' . $excel_row,  $std->student_id);
+                    $spreadsheet->getActiveSheet()->setCellValue('C' . $excel_row,  $std->student_name);
+                    $spreadsheet->getActiveSheet()->setCellValue('D' . $excel_row,  $std->paid_amount);
+                 
+                    $spreadsheet->getActiveSheet()->getStyle('A' . $excel_row)->getAlignment()->setWrapText(true);
+
+                    $sl_number++;
+                    $excel_row++;
+                  //  }
+                }
+            }
+   
+       
+        $spreadsheet->getActiveSheet()->getStyle("A" . $excel_row . ":E" . $excel_row)->applyFromArray($font_style_total);
+        $spreadsheet->createSheet();
+        $i++;
+     
+
+        $writer = new Xlsx($spreadsheet);
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="Arrear_Fee_paid_' . $term_name . '.xlsx"');
         header('Cache-Control: max-age=0');
         setcookie('isDownLoaded', 1);
         $writer->save("php://output");

@@ -149,6 +149,17 @@ class Fee_model extends CI_Model
         $query = $this->db->get();
         return $query->row();
     }
+
+    public function getStudentFeeConcessionForview($application_no,$year){
+        $this->db->from('tbl_student_fee_concession as fee');
+        $this->db->where('fee.application_no', $application_no);
+        $this->db->where('fee.year', $year);
+        $this->db->where('fee.payment_status', 0);
+        $this->db->where('fee.approved_status', 1);
+        $this->db->where('fee.is_deleted', 0);
+        $query = $this->db->get();
+        return $query->row();
+    }
     
     public function updateConcession($feeInfo, $row_id) {
         $this->db->where('row_id', $row_id);
@@ -1207,6 +1218,41 @@ class Fee_model extends CI_Model
              
          }
 
+         public function getAllFeePaymentInfoForDueReport($filter)
+         {
+            $this->db->select('fee.payment_date,fee.row_id,
+            fee.ref_receipt_no,
+            fee.order_id,
+            fee.application_no,
+            fee.paid_amount,
+            fee.pending_balance,
+            fee.payment_type, fee.total_amount,
+            fee.bank_settlement_status,
+            student.student_name,student.student_id,student.stream_name,student.row_id');
+            $this->db->from('tbl_students_overall_fee_payment_info_i_puc_2021 as fee');
+            $this->db->join('tbl_students_info as student','student.row_id = fee.application_no','left');
+            if(!empty($filter['date_from'])){
+                $this->db->where('fee.payment_date>=', $filter['date_from']);
+                $this->db->where('fee.payment_date<=', $filter['date_to']);
+               }
+               if(!empty($filter['preference'])){
+                $this->db->where('student.stream_name', $filter['preference']);
+               }
+               if(!empty($filter['term_name'])){
+                $this->db->where('student.term_name', $filter['term_name']);
+               }
+           
+
+            $this->db->where('fee.is_deleted', 0);
+            $this->db->order_by('student.student_id ASC, fee.payment_date ASC,fee.receipt_number ASC');
+
+            
+             $this->db->limit($page, $segment);
+             $query = $this->db->get();
+             return $query->result();
+             
+         }
+
     // order id process - readmission -----------------------------------------------
     public function getReadmissionPayTmLogByAppNo($order_id){
         $this->db->from('tbl_readmission_paytm_fee_payment_log as fee');
@@ -1353,6 +1399,28 @@ class Fee_model extends CI_Model
 
     public function getFeePaidInfo($application_no,$payment_year){
         $this->db->from('tbl_students_overall_fee_payment_info_i_puc_2021 as fee'); 
+        $this->db->where('fee.application_no', $application_no);
+        $this->db->where('fee.payment_year',$payment_year);
+        $this->db->where('fee.is_deleted', 0);
+        $query = $this->db->get();
+        $result = $query->result();
+        return $result;
+    }
+
+    public function getFeePaidInfoForStudentView($application_no,$payment_year){
+        $this->db->select('fee.payment_date,
+        fee.row_id,
+        fee.ref_receipt_no,
+        fee.order_id,
+        fee.application_no,
+        fee.paid_amount,
+        fee.pending_balance,
+        fee.payment_type, 
+        fee.bank_settlement_status,
+        fee.term_name,std.student_id,std.stream_name,
+        fee.bank_settlement_date as date');
+        $this->db->from('tbl_students_overall_fee_payment_info_i_puc_2021 as fee'); 
+        $this->db->join('tbl_students_info as std', 'std.row_id = fee.application_no','left');
         $this->db->where('fee.application_no', $application_no);
         $this->db->where('fee.payment_year',$payment_year);
         $this->db->where('fee.is_deleted', 0);

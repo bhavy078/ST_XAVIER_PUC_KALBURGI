@@ -56,6 +56,10 @@
                                                 role="tab" aria-controls="first_unit_test" aria-selected="true">I Unit Test
                                             </a>
                                         </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="paidInfo-tab" data-toggle="tab" href="#paidInfo"
+                                                role="tab" aria-controls="paidInfo" aria-selected="true">Fee Paid Info</a>
+                                        </li>
                                         <!-- <li class="nav-item">
                                             <a class="nav-link" id="first_term-tab" data-toggle="tab" href="#first_term"
                                                 role="tab" aria-controls="first_term" aria-selected="true">I Term
@@ -370,7 +374,91 @@
                                                 </table>  
                                             </div>
                                         </div>
+                                        <div class="tab-pane fade p-1" id="paidInfo" role="tabpanel" aria-labelledby="paidInfo-tab">
+                                            <div class="row">
+                                                <div class="col-12 table-responsive">
+                                                    <table class="table table-bordered">
+                                                        <tr class="text-center table-primary">
+                                                            <th>Date</th>
+                                                            <th>Student ID</th>
+                                                            <th>Class</th>
+                                                            <th>Stream</th>
+                                                            <th>Receipt No.</th>
+                                                            <th>Amount</th>
+                                                            <!-- <th>Pending Amt</th> -->
+                                                            <th>Payment Type</th>
+                                                            <th>Bank</th>
+                                                            <th>Bank Date</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                        <?php if(!empty($stdFeePaymentInfo)){
+                                                        foreach($stdFeePaymentInfo as $fee){ ?>
+                                                            <tr>
+                                                                <th class="text-center"><?php echo date('d-m-Y',strtotime($fee->payment_date)); ?></th>
+                                                                <th class="text-center"><?php echo $fee->student_id; ?></th>
+                                                                <th class="text-center"><?php echo $fee->term_name; ?></th>
+                                                                <th class="text-center"><?php echo $fee->stream_name; ?></th>
+                                                                <th class="text-center"><?php echo $fee->ref_receipt_no; ?></th>
+                                                                
+                                                                <th class="text-center"><?php echo $fee->paid_amount; ?></th>
+                                                                <!-- <th class="text-center"><?php if($fee->pending_balance == 0){ ?>
+                                                                    <b style="color:green"><?php echo $fee->pending_balance; ?></b>
+                                                                    <?php }else{
+                                                                        $feeConcession = $bill_model->getStudentFeeConcessionForview($studentInfo->row_id,'2023');
+                                                                        ?>
+                                                                    <b style="color:red"><?php echo $fee->pending_balance-$feeConcession->fee_amt; ?></b>
+                                                                    <?php
+                                                                    } ?></th> -->
 
+                                                                <th class="text-center"><?php echo $fee->payment_type; ?></th>
+                                                                <th class="text-center"><?php if($fee->bank_settlement_status == 1){
+                                                                    echo "<b class='color-green'>Settled</b>";
+                                                                }else{
+                                                                    echo "<b class='color-red'>Pending</b>";
+                                                                }  ?></th>
+                                                                <th class="text-center"><?php if(!empty($fee->date)){
+                                                                        echo date('d-m-Y',strtotime($fee->date)); 
+                                                                    } ?>
+                                                                </th>
+                                                                <th>
+                                                                    <a href="<?php echo base_url(); ?>feePaymentReceiptPrint/<?php echo $fee->row_id; ?>"
+                                                                        target="_blank">Receipt</a>
+                                                                </th>
+                                                            </tr>
+                                                        <?php } }else{ ?>
+                                                            <tr>
+                                                                <th class="text-center" colspan="12">No record found</th>
+                                                            </tr>
+                                                        <?php } ?>
+                                                    </table>
+                                                    
+                                                </div>
+                                            </div>
+                                            <?php if(!empty($stdFeePaymentInfo)){ $paid_amt =0 ; ?>
+                                                        <div class="card-body" style="padding:5px;">
+                                                            <div class="row">
+                                                                <div style="font-size: 18px;" class="col-12 col-lg-3">
+                                                                    <b>Total Fee: Rs. <?php echo $total_fee; ?></b>
+                                                                </div>
+                                                                <?php $concession=0; foreach($stdFeePaymentInfo as $fee){ 
+                                                                    $paid_amt += $fee->paid_amount;
+                                                                } ?>
+                                                                <?php  
+                                                                $feeConcession = $bill_model->getStudentFeeConcessionForview($studentInfo->row_id,'2023');
+                                                                ?>
+                                                                <div style="font-size: 18px;" class="col-12 col-lg-3">
+                                                                    <b>Concession: Rs. <?php $concession += $feeConcession->fee_amt; if($concession>0){ echo $concession; } else { echo 0; } ?></b>
+                                                                </div>
+                                                                <div style="font-size: 18px;" class="col-12 col-lg-3">
+                                                                    <b>Paid Fee Amount: Rs. <?php echo $paid_amt; ?></b>
+                                                                </div>
+                                                                <div style="font-size: 18px;" class="col-12 col-lg-3">
+                                                                    <b>Pending Fee: Rs. <?php if(($total_fee - $paid_amt - $concession)>0){ echo $total_fee - $paid_amt - $concession; }else{ echo 0; } ?></b>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                            <?php }  ?>  
+                                        </div>
 
                                       
                                         <!-- II UNIT TEST -->

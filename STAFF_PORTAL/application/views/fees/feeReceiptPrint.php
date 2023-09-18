@@ -106,7 +106,11 @@ table{
                     <!-- <td>Transaction Id : <?php echo $feeInfo->order_id; ?></td> -->
                 </tr>
                 <tr>
+                <?php if($feeInfo->payment_year == CURRENT_YEAR) { ?>
                     <td width="300">Class & Section : <?php echo strtoupper($feeInfo->term_name.' '.$studentInfo->section_name); ?></td>
+                    <?php }else{?>
+                    <td width="300">Class : <?php echo strtoupper($feeInfo->term_name); ?></td>
+                    <?php } ?>
                     <td >Payment Received Mode : <?php if(!empty($feeInfo->payment_type)){ echo $feeInfo->payment_type; }else{ echo 'Online'; } ?></td>
                 </tr>
             </table>

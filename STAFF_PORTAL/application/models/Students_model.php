@@ -1701,6 +1701,28 @@ class students_model extends CI_Model
         return $query->result();
     }
 
+    public function getArrearStudentInfoForFeeReport($filter)
+    {
+        $this->db->select('student.row_id as student_row_id,student.student_name,student.student_id,
+        student.stream_name,fee.total_amount,fee.pending_balance,fee.paid_amount');
+        $this->db->from('tbl_students_overall_fee_payment_info_i_puc_2021 as fee'); 
+        $this->db->join('tbl_students_info as student','student.row_id  = fee.application_no','left');
+        $this->db->join('tbl_pending_amount as bal','bal.std_row_id  = fee.application_no','left');
+      
+        if(!empty($filter['term_name'])){
+            $this->db->where('fee.term_name', $filter['term_name']);
+        }
+        if(!empty($filter['year'])){
+            $this->db->where('fee.payment_year', $filter['year']);
+        }
+        $this->db->where('student.is_deleted', 0);
+        $this->db->where('fee.is_deleted', 0);
+        $this->db->where('bal.is_deleted', 0);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+
     public function getStudentInfoForTransReport($filter)
     {
        

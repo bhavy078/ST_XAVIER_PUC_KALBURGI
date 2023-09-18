@@ -359,7 +359,10 @@ if ($error) {
                                                         <th>Date</th>
                                                         <th>Receipt No.</th>
                                                         <th>Amt.</th>
+                                                        <?php if($fee_year_II == '2023'){
+                                                           ?>
                                                         <th>Fee Type</th>
+                                                        <?php } ?>
                                                         <th>Type</th>
                                                         <th>Action</th>
                                                     </tr>
@@ -375,7 +378,10 @@ if ($error) {
                                                     <td><?php echo date('d-m-Y', strtotime($fee->payment_date)); ?></td>
                                                     <td class="text-center"><?php echo $fee->ref_receipt_no; ?></td>
                                                     <td><?php echo number_format($fee->paid_amount,2); ?></td>
+                                                    <?php if($fee_year_II == '2023'){
+                                                           ?>
                                                     <td><?php if($fee->attempt == "1"){echo "First Attempt";}else{echo "Second Attempt";}; ?></td>
+                                                    <?php } ?>
                                                     <td><?php echo $fee->payment_type; ?></td>
                                                     <td>
                                                         <?php if(trim($studentInfo->intake_year_id) == '2020'){ ?>
