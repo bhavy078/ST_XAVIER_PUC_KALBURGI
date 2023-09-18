@@ -50,6 +50,12 @@ table{
         text-align: center !important;
     }
 
+    .dashed-line {
+    border-top: 1px dashed black;
+    margin-top: 10px; /* Adjust this margin as needed */
+    margin-bottom: 10px; /* Adjust this margin as needed */
+  }
+
 </style>
 
 
@@ -93,25 +99,32 @@ table{
                 </table>
                 <table class="table" style="font-size: 12px;">
                 <tr>
-                    <td width="50%">Name of the child : <?php echo strtoupper($studentInfo->student_name); ?></td>
+                    <td width="50%">Name of the student : <?php echo strtoupper($studentInfo->student_name); ?></td>
                     <td>Application/Register no. : <?php if(!empty($studentInfo->register_number) && $studentInfo->term_name == 'II PUC'){ echo $studentInfo->register_number; }else{ echo $studentInfo->application_no; } ?></td>
                 </tr>
                 <tr>
-                    <!-- <td>Name of the father : <?php echo $studentInfo->father_name; ?></td> -->
-                    <td>Receipt no.: <?php echo $feeInfo->ref_receipt_no; ?></td>
-                    <td>Payment Received Date : <?php echo date('d-m-Y',strtotime($feeInfo->payment_date)); ?></td>
+                    <?php if(!empty($studentInfo->father_name)){ ?>
+                    <td>Name of the father : <?php   echo $studentInfo->father_name;  ?></td>
+                    <?php } ?>
+                    <?php if($feeInfo->payment_year == CURRENT_YEAR) { ?>
+                    <td width="300">Class & Section : <?php echo strtoupper($feeInfo->term_name.' '.$studentInfo->section_name); ?></td>
+                    <?php }else{?>
+                    <td width="300">Class : <?php echo strtoupper($feeInfo->term_name); ?></td>
+                    <?php } ?>
+                   
+                   
                 </tr>
                 <tr>
       
                     <!-- <td>Transaction Id : <?php echo $feeInfo->order_id; ?></td> -->
                 </tr>
                 <tr>
-                <?php if($feeInfo->payment_year == CURRENT_YEAR) { ?>
-                    <td width="300">Class & Section : <?php echo strtoupper($feeInfo->term_name.' '.$studentInfo->section_name); ?></td>
-                    <?php }else{?>
-                    <td width="300">Class : <?php echo strtoupper($feeInfo->term_name); ?></td>
-                    <?php } ?>
-                    <td >Payment Received Mode : <?php if(!empty($feeInfo->payment_type)){ echo $feeInfo->payment_type; }else{ echo 'Online'; } ?></td>
+                <td>Payment Received Date : <?php echo date('d-m-Y',strtotime($feeInfo->payment_date)); ?></td>
+                <td>Receipt no.: <?php echo $feeInfo->ref_receipt_no; ?></td>
+                   
+                </tr>
+                <tr>
+                <td >Payment Received Mode : <?php if(!empty($feeInfo->payment_type)){ echo $feeInfo->payment_type; }else{ echo 'Online'; } ?></td>
                 </tr>
             </table>
             <table class="table table_bordered" style="font-size: 12px;">

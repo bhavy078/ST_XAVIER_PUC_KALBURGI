@@ -538,7 +538,7 @@ class Transport_model extends CI_Model
 
     public function getStudentTransportInfoById($row_id) {
         $this->db->select('stdbus.row_id, stdbus.bus_number, stdbus.receipt_no,stdbus.payment_date, stdbus.bus_fees, stdbus.route_from,student.admission_no,stdbus.upi_ref_no,stdbus.transaction_number,stdbus.dd_number,student.register_no,student.application_no,stdbus.ref_receipt_no,stdbus.month,
-        stdbus.route_to, stdbus.from_date, stdbus.to_date, bus.vehicle_number,student.sat_number,student.student_name,stdbus.intake_year,stdbus.payment_type,stdbus.payment_status,stdbus.term_name,stdbus.created_date_time,rate.bus_no,student.student_id,rate.name as route_name');
+        stdbus.route_to, stdbus.from_date, stdbus.to_date, bus.vehicle_number,student.sat_number,student.student_name,student.father_name,stdbus.intake_year,stdbus.payment_type,stdbus.payment_status,stdbus.term_name,stdbus.created_date_time,rate.bus_no,student.student_id,rate.name as route_name');
         $this->db->from('tbl_student_bus_management_details as stdbus');
         $this->db->join('tbl_bus_management_details as bus', 'bus.vehicle_number = stdbus.bus_number','left');
         $this->db->join('tbl_students_info as student', 'student.row_id = stdbus.student_id','left');
@@ -909,7 +909,7 @@ class Transport_model extends CI_Model
 
     public function getTransportFeeBulkReceipt($filter='') {
         
-        $this->db->select('student.row_id as student_row_id,student.student_name,student.student_id,bus.ref_receipt_no,student.term_name,rate.bus_no,rate.name as route_name,bus.dd_number,bus.from_date,bus.to_date,
+        $this->db->select('student.row_id as student_row_id,student.student_name,student.father_name,student.student_id,bus.ref_receipt_no,student.term_name,rate.bus_no,rate.name as route_name,bus.dd_number,bus.from_date,bus.to_date,
         student.stream_name,month.month,month.amount,student.route_id,bus.total_amount,bus.pending_balance,bus.bus_fees,bus.created_date_time,bus.payment_type,bus.transaction_number,bus.upi_ref_no');
         
         $this->db->from('tbl_student_bus_management_details as bus');

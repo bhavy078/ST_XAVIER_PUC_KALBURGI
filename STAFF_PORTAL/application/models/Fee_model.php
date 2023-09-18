@@ -1416,7 +1416,7 @@ class Fee_model extends CI_Model
         fee.paid_amount,
         fee.pending_balance,
         fee.payment_type, 
-        fee.bank_settlement_status,
+        fee.bank_settlement_status,fee.attempt,
         fee.term_name,std.student_id,std.stream_name,
         fee.bank_settlement_date as date');
         $this->db->from('tbl_students_overall_fee_payment_info_i_puc_2021 as fee'); 

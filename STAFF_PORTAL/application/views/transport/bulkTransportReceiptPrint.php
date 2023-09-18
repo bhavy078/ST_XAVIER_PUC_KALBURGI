@@ -99,6 +99,11 @@ $copy_name = ['STUDENT COPY','OFFICE COPY','BUS COPY'] ?>
                 <tr>
                     <td>Name of the student : <?php echo strtoupper($studentTransportInfo->student_name); ?></td>
                 </tr>
+                <?php if(!empty($studentTransportInfo->father_name)){ ?>
+                <tr>
+                    <td>Name of the father : <?php echo strtoupper($studentTransportInfo->father_name); ?></td>
+                </tr>
+                <?php } ?>
                 <tr>
                     <td>Student ID : <?php echo $studentTransportInfo->student_id;?></td>
                 </tr>

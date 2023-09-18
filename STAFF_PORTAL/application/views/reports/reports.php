@@ -53,7 +53,7 @@
         </div> -->
         <div class="col-12 mb-1">
                 <div class="card p-2 main_card">
-                    <h6 class="font-weight-bold mb-2">Fee Report</h6>
+                    <h6 class="font-weight-bold mb-2">College Fee Report</h6>
                 </div>
             </div>
         <div class="col-lg-3 col-6 mb-2 column_padding_card">
@@ -88,6 +88,59 @@
                 </div>
             </a>
         </div>
+        <div class="col-lg-3 col-6 mb-2 column_padding_card">
+            <a data-toggle="modal" data-target="#bulkFeeReport" class="more-info text-white dashboard_link" href="#">
+                <div class="card card-small dash-card" style="background: #3e50b3;">
+                    <div class="card-body pt-1 pb-1">
+                        <h6 class="stats-small__value text-uppercase text-white">Bulk Fee Report</h6>
+                        <div class="icon pull-right mt-4">
+                            <i class="fas fa-file dash-icons"></i></i>
+                        </div>
+                    </div>
+                    <div class="card-footer text-center dash-footer p-1">
+                        <div class="more-info text-white"></div>
+                        <span class="text-center">Download</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-lg-3 col-6 mb-2 column_padding_card">
+            <a data-toggle="modal" data-target="#downloadMiscellaneousFeePaidReport" class="more-info text-white dashboard_link" href="#">
+                <div class="card card-small dash-card" style="background: #3e50b3;">
+                    <div class="card-body pt-1 pb-1">
+                        <h6 class="stats-small__value text-uppercase text-white">Miscellaneous Fee Report</h6>
+                        <div class="icon pull-right mt-4">
+                            <i class="fas fa-file dash-icons"></i></i>
+                        </div>
+                    </div>
+                    <div class="card-footer text-center dash-footer p-1">
+                        <div class="more-info text-white"></div>
+                        <span class="text-center">Download</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-lg-3 col-6 mb-2 column_padding_card">
+            <a data-toggle="modal" data-target="#downloadArrearFeeReport" class="more-info text-white dashboard_link" href="#">
+                <div class="card card-small dash-card" style="background: #3e50b3;">
+                    <div class="card-body pt-1 pb-1">
+                        <h6 class="stats-small__value text-uppercase text-white">Arrear Fee Report</h6>
+                        <div class="icon pull-right mt-4">
+                            <i class="fas fa-file dash-icons"></i></i>
+                        </div>
+                    </div>
+                    <div class="card-footer text-center dash-footer p-1">
+                        <div class="more-info text-white"></div>
+                        <span class="text-center">Download</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-12 mb-1">
+                <div class="card p-2 main_card">
+                    <h6 class="font-weight-bold mb-2">Transport Fee Report</h6>
+                </div>
+            </div>
         <div class="col-lg-3 col-6 mb-2 column_padding_card">
             <a data-toggle="modal" data-target="#transportFeePaidReport" class="more-info text-white dashboard_link" href="#">
                 <div class="card card-small dash-card" style="background: #3e50b3;">
@@ -152,54 +205,9 @@
                 </div>
             </a>
         </div>
-        <div class="col-lg-3 col-6 mb-2 column_padding_card">
-            <a data-toggle="modal" data-target="#bulkFeeReport" class="more-info text-white dashboard_link" href="#">
-                <div class="card card-small dash-card" style="background: #3e50b3;">
-                    <div class="card-body pt-1 pb-1">
-                        <h6 class="stats-small__value text-uppercase text-white">Bulk Fee Report</h6>
-                        <div class="icon pull-right mt-4">
-                            <i class="fas fa-file dash-icons"></i></i>
-                        </div>
-                    </div>
-                    <div class="card-footer text-center dash-footer p-1">
-                        <div class="more-info text-white"></div>
-                        <span class="text-center">Download</span>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="col-lg-3 col-6 mb-2 column_padding_card">
-            <a data-toggle="modal" data-target="#downloadMiscellaneousFeePaidReport" class="more-info text-white dashboard_link" href="#">
-                <div class="card card-small dash-card" style="background: #3e50b3;">
-                    <div class="card-body pt-1 pb-1">
-                        <h6 class="stats-small__value text-uppercase text-white">Miscellaneous Fee Report</h6>
-                        <div class="icon pull-right mt-4">
-                            <i class="fas fa-file dash-icons"></i></i>
-                        </div>
-                    </div>
-                    <div class="card-footer text-center dash-footer p-1">
-                        <div class="more-info text-white"></div>
-                        <span class="text-center">Download</span>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="col-lg-3 col-6 mb-2 column_padding_card">
-            <a data-toggle="modal" data-target="#downloadArrearFeeReport" class="more-info text-white dashboard_link" href="#">
-                <div class="card card-small dash-card" style="background: #3e50b3;">
-                    <div class="card-body pt-1 pb-1">
-                        <h6 class="stats-small__value text-uppercase text-white">Arrear Fee Report</h6>
-                        <div class="icon pull-right mt-4">
-                            <i class="fas fa-file dash-icons"></i></i>
-                        </div>
-                    </div>
-                    <div class="card-footer text-center dash-footer p-1">
-                        <div class="more-info text-white"></div>
-                        <span class="text-center">Download</span>
-                    </div>
-                </div>
-            </a>
-        </div>
+       
+        
+       
         <!-- <div class="col-lg-3 col-6 mb-2 column_padding_card">
             <a data-toggle="modal" data-target="#assignmentConsolidatedMarkReport" class="more-info text-white dashboard_link" href="#">
                 <div class="card card-small dash-card" style="background: #3e50b3;">
@@ -217,11 +225,27 @@
             </a>
         </div> -->
         <div class="col-12 mb-1">
-                <div class="card p-2 main_card">
-                    <h6 class="font-weight-bold mb-2">Academic Report</h6>
-                </div>
+            <div class="card p-2 main_card">
+                <h6 class="font-weight-bold mb-2">Academic Report</h6>
             </div>
-         <div class="col-lg-3 col-6 mb-2 column_padding_card">
+        </div>
+        <div class="col-lg-3 col-6 mb-2 column_padding_card">
+            <a data-toggle="modal" data-target="#downloadStaffReport" class="more-info text-white dashboard_link" href="#">
+                <div class="card card-small dash-card" style="background: #3e50b3;">
+                    <div class="card-body pt-1 pb-1">
+                        <h6 class="stats-small__value text-uppercase text-white">Staff</h6>
+                        <div class="icon pull-right mt-4">
+                            <i class="fas fa-file dash-icons"></i></i>
+                        </div>
+                    </div>
+                    <div class="card-footer text-center dash-footer p-1">
+                        <div class="more-info text-white"></div>
+                        <span class="text-center">Download</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-lg-3 col-6 mb-2 column_padding_card">
             <a data-toggle="modal" data-target="#andlyticReport" class="more-info text-white dashboard_link" href="#">
                 <div class="card card-small dash-card" style="background: #3e50b3;">
                     <div class="card-body pt-1 pb-1">
@@ -326,22 +350,7 @@
                 </div>
             </a>
         </div> -->
-         <div class="col-lg-3 col-6 mb-2 column_padding_card">
-            <a data-toggle="modal" data-target="#downloadStaffReport" class="more-info text-white dashboard_link" href="#">
-                <div class="card card-small dash-card" style="background: #3e50b3;">
-                    <div class="card-body pt-1 pb-1">
-                        <h6 class="stats-small__value text-uppercase text-white">Staff</h6>
-                        <div class="icon pull-right mt-4">
-                            <i class="fas fa-file dash-icons"></i></i>
-                        </div>
-                    </div>
-                    <div class="card-footer text-center dash-footer p-1">
-                        <div class="more-info text-white"></div>
-                        <span class="text-center">Download</span>
-                    </div>
-                </div>
-            </a>
-        </div>
+    
          <!-- <div class="col-lg-3 col-6 mb-2 column_padding_card">
             <a data-toggle="modal" data-target="#downloadMunExternalReport" class="more-info text-white dashboard_link" href="#">
                 <div class="card card-small dash-card" style="background: #3e50b3;">
@@ -626,12 +635,13 @@
                                 <option value="PCMS" >PCMS</option> -->
                                 <option value="EBAC">EBAC</option>
                                 <option value="HEPE">HEPE</option>
+                                <option value="HEPS">HEPS</option>
                                 <!-- <option value="CSBA">CSBA</option>
                                 <option value="MEBA">MEBA</option>
                                 <option value="MSBA">MSBA</option>
                                 <option value="PEBA">PEBA</option>
                                 <option value="SEBA">SEBA</option>
-                                <option value="HEPS">HEPS</option> -->
+                                 -->
                             </select>
                         </div>
                     </div>
@@ -690,6 +700,7 @@
                                 <option value="PCMS" >PCMS</option> -->
                                 <option value="EBAC">EBAC</option>
                                 <option value="HEPE">HEPE</option>
+                                <option value="HEPS">HEPS</option>
                                 <!-- <option value="CSBA">CSBA</option>
                                 <option value="MEBA">MEBA</option>
                                 <option value="MSBA">MSBA</option>

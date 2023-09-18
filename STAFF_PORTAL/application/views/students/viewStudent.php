@@ -385,7 +385,7 @@
                                                             <th>Stream</th>
                                                             <th>Receipt No.</th>
                                                             <th>Amount</th>
-                                                            <!-- <th>Pending Amt</th> -->
+                                                            <th>Attempt</th>
                                                             <th>Payment Type</th>
                                                             <th>Bank</th>
                                                             <th>Bank Date</th>
@@ -401,6 +401,7 @@
                                                                 <th class="text-center"><?php echo $fee->ref_receipt_no; ?></th>
                                                                 
                                                                 <th class="text-center"><?php echo $fee->paid_amount; ?></th>
+                                                                <th class="text-center"><?php if($fee->attempt == "1"){echo "First Attempt";}else{echo "Second Attempt";} ?></th>
                                                                 <!-- <th class="text-center"><?php if($fee->pending_balance == 0){ ?>
                                                                     <b style="color:green"><?php echo $fee->pending_balance; ?></b>
                                                                     <?php }else{
@@ -452,8 +453,14 @@
                                                                 <div style="font-size: 18px;" class="col-12 col-lg-3">
                                                                     <b>Paid Fee Amount: Rs. <?php echo $paid_amt; ?></b>
                                                                 </div>
-                                                                <div style="font-size: 18px;" class="col-12 col-lg-3">
-                                                                    <b>Pending Fee: Rs. <?php if(($total_fee - $paid_amt - $concession)>0){ echo $total_fee - $paid_amt - $concession; }else{ echo 0; } ?></b>
+                                                                <div style="font-size: 18px;" class="col-12 col-lg-3"> 
+                                                                    <b>Pending Fee: Rs. <?php if(($total_fee - $paid_amt - $concession)>0){ 
+                                                                        if ($fee->attempt == 1) {
+                                                                            echo $total_fee - $paid_amt - $concession - 2000; 
+                                                                            }else{
+                                                                                echo  $total_fee - $paid_amt - $concession;
+                                                                            }
+                                                                        }else{ echo 0; } ?></b>
                                                                 </div>
                                                             </div>
                                                         </div>
