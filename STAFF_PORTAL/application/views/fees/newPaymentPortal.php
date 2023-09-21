@@ -283,7 +283,7 @@ if ($error) {
                                                     <div class="form-group">
                                                         <input type="text" name="transaction_date"
                                                             value="<?php echo date('d-m-Y'); ?>"
-                                                            class="form-control card_date"
+                                                            class="form-control card_date I_datepicker"
                                                             Placeholder="Transaction Date" id="transaction_date"
                                                             autocomplete="off">
                                                     </div>
@@ -416,8 +416,8 @@ if ($error) {
                                                     <div class="form-group">
                                                         <input type="text" name="transaction_date"
                                                             value="<?php echo date('d-m-Y'); ?>"
-                                                            class="form-control card_date"
-                                                            Placeholder="Transaction Date" id="transaction_date"
+                                                            class="form-control card_date dateSearch"
+                                                            Placeholder="Transaction Date" id="transaction_date1"
                                                             autocomplete="off">
                                                     </div>
                                                 </div>
@@ -858,7 +858,7 @@ jQuery(document).ready(function() {
             });
         });
         
-    jQuery('#transaction_date, .dateSearch, #tran_date, #dd_date').datepicker({
+    jQuery('#transaction_date1, #tran_date, #dd_date,.I_datepicker').datepicker({
         autoclose: true,
         orientation: "top",
         format: "dd-mm-yyyy"
@@ -972,7 +972,7 @@ jQuery(document).ready(function() {
             alert("Please Enter I PUC  Paid Amount");
             return;
         }
-        var transaction_date = $('#transaction_date').val();
+        var transaction_date = $('#transaction_date1').val();
         if (transaction_date == "") {
             alert("Please Select Transaction Date");
             return;
