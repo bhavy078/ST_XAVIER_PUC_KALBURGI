@@ -792,7 +792,7 @@ jQuery(document).ready(function() {
         I_feeTypeSelect.on("change", function () {
           
             if (I_feeTypeSelect.val() == "1") {  
-                alert(I_paidAmtHidden.val());
+                //alert(I_paidAmtHidden.val());
                 I_paidAmountInput.val(I_paidAmtHidden.val());
                 I_paidAmountInput.prop("readonly", true);
             } else {
