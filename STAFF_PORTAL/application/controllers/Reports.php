@@ -319,6 +319,157 @@ class Reports extends BaseController
         }
     }
 
+    public function downloadRejectedAppFeeReport()
+    {
+        if ($this->isAdmin() == true) {
+            setcookie('isDownLoaded', 1);
+            $this->loadThis();
+        } else {
+            $filter = array();
+            $term_name = $this->security->xss_clean($this->input->post('term_name_select'));
+            // $preference = $this->security->xss_clean($this->input->post('preference'));
+            // $date_from = $this->security->xss_clean($this->input->post('date_from'));
+            // $date_to = $this->security->xss_clean($this->input->post('date_to'));
+            
+            $spreadsheet = new Spreadsheet();
+            $headerFontSize = [
+                'font' => [
+                    'size' => 16,
+                    'bold' => true,
+                ]
+            ];
+            $font_style_total = [
+                'font' => [
+                    'size' => 12,
+                    'bold' => true,
+                ]
+            ];
+            $filter['term_name'] = $term_name;
+            //$streamInfo = $this->staff->getStaffSectionByTerm($filter);
+
+            $spreadsheet->getProperties()
+                ->setCreator("SJPUC")
+                ->setLastModifiedBy($this->staff_id)
+                ->setTitle("SJPUC Fee Info")
+                ->setSubject("Fee Structure")
+                ->setDescription(
+                    "SJPUC"
+                )
+                ->setKeywords("SJPUC")
+                ->setCategory("Fee");
+            $i = 0;
+
+            $spreadsheet->setActiveSheetIndex(0);
+            $spreadsheet->getActiveSheet()->setTitle('FEE');
+            $spreadsheet->getActiveSheet()->setCellValue('A1', EXCEL_TITLE);
+            $spreadsheet->getActiveSheet()->mergeCells("A1:J1");
+            $spreadsheet->getActiveSheet()->getStyle("A1:A1")->applyFromArray($headerFontSize);
+
+            $spreadsheet->getActiveSheet()->getStyle('A1')->getAlignment()->setHorizontal('center');
+            $spreadsheet->getActiveSheet()->setCellValue('A2', $term_name . " REJECTED APPLICATION FEES PAID FOR THE YEAR -" . date('Y'));
+            $spreadsheet->getActiveSheet()->mergeCells("A2:J2");
+            $spreadsheet->getActiveSheet()->getStyle("A2:A2")->applyFromArray($headerFontSize);
+            $spreadsheet->getActiveSheet()->getStyle('A2')->getAlignment()->setHorizontal('center');
+            $spreadsheet->getActiveSheet()->setCellValue('A3', 'SL No');
+            $spreadsheet->getActiveSheet()->setCellValue('B3', 'Date');
+          //  $spreadsheet->getActiveSheet()->setCellValue('C3', 'Application No');
+            $spreadsheet->getActiveSheet()->setCellValue('C3', 'Name');
+          //  $spreadsheet->getActiveSheet()->setCellValue('E3', 'Stream');
+            $spreadsheet->getActiveSheet()->setCellValue('D3', 'Receipt No.');
+            $spreadsheet->getActiveSheet()->setCellValue('E3', 'Order Id');
+            $spreadsheet->getActiveSheet()->setCellValue('F3', 'Fee Paid');
+            $spreadsheet->getActiveSheet()->setCellValue('G3', 'Mode');
+            $spreadsheet->getActiveSheet()->setCellValue('H3', 'Pending');
+            $spreadsheet->getActiveSheet()->getStyle("A3:J3")->applyFromArray($font_style_total);
+            $spreadsheet->getActiveSheet()->getStyle("A3:J3")->applyFromArray($font_style_total);
+            $spreadsheet->getActiveSheet()->getStyle('C3')->getAlignment()->setWrapText(true);
+            $spreadsheet->getActiveSheet()->getStyle('D3')->getAlignment()->setWrapText(true);
+            $spreadsheet->getActiveSheet()->getStyle('I3')->getAlignment()->setWrapText(true);
+            // $feeTypeInfo = $this->fee->getAllFeeTypesForByStatus(1);
+
+            $spreadsheet->getActiveSheet()->getStyle('A3:E3')->applyFromArray(
+                array(
+                    'fill' => array(
+                        'type' => Fill::FILL_SOLID,
+                        'color' => array('rgb' => 'E5E4E2')
+                    ),
+                    'font'  => array(
+                        'bold'  =>  true
+                    )
+                )
+            );
+
+
+            $spreadsheet->getActiveSheet()->getStyle('A')->getAlignment()->setHorizontal('center');
+            $spreadsheet->getActiveSheet()->getStyle('B:K')->getAlignment()->setHorizontal('center');
+            $styleBorderArray = array('borders' => array('allborders' => array('style' => PHPExcel_Style_Border::BORDER_THIN)));
+
+            $this->excel->getActiveSheet()->getStyle('A1:K3')->applyFromArray($styleBorderArray);
+            $excel_row = 4;
+            $sl_number = 1;
+            $total_sslc_state_fee = 0;
+            $total_cbse_icse_fee = 0;
+            $total_nri_fee = 0;
+            $spreadsheet->getActiveSheet()->getRowDimension('1')->setRowHeight(25);
+            $spreadsheet->getActiveSheet()->getColumnDimension('B')->setWidth(20);
+            $spreadsheet->getActiveSheet()->getColumnDimension('C')->setWidth(20);
+            $spreadsheet->getActiveSheet()->getColumnDimension('D')->setWidth(25);
+            $spreadsheet->getActiveSheet()->getColumnDimension('E')->setWidth(18);
+            $spreadsheet->getActiveSheet()->getColumnDimension('F')->setWidth(18);
+            $spreadsheet->getActiveSheet()->getColumnDimension('G')->setWidth(20);
+            $spreadsheet->getActiveSheet()->getColumnDimension('H')->setWidth(15);
+            $spreadsheet->getActiveSheet()->getColumnDimension('I')->setWidth(15);
+            $spreadsheet->getActiveSheet()->getColumnDimension('J')->setWidth(15);
+           
+            $filter = array();
+            // $filter['date_from'] = date('Y-m-d', strtotime($date_from));
+            // $filter['date_to'] = date('Y-m-d', strtotime($date_to));
+            // $filter['preference'] = $preference;
+            $filter['term_name'] = $term_name;
+            // foreach($feeTypeInfo as $type){
+          
+                $studentInfo = $this->fee->getRejectedAppFeePaymentInfoForReport($filter);
+                
+                if (!empty($studentInfo)) {
+                    foreach ($studentInfo as $std) {
+                        //$frenchFeePaid = $this->fee->getFrenchFeePaidByReceipt($std->row_id);
+                        if($frenchFeePaid == ''){
+                            $frenchFeePaid = 0;
+                        }
+                        $spreadsheet->getActiveSheet()->getStyle("A" . $excel_row)->getFont()->setSize(14);
+                        $spreadsheet->getActiveSheet()->setCellValue('A' . $excel_row,  $sl_number);
+                        $spreadsheet->getActiveSheet()->setCellValue('B' . $excel_row,  date('d-m-Y', strtotime($std->payment_date)));
+                       // $spreadsheet->getActiveSheet()->setCellValue('C' . $excel_row,  $std->student_id);
+                        $spreadsheet->getActiveSheet()->setCellValue('C' . $excel_row,  $std->student_name);
+                      //  $spreadsheet->getActiveSheet()->setCellValue('E' . $excel_row,  $std->stream_name);
+                        $spreadsheet->getActiveSheet()->setCellValue('D' . $excel_row,  $std->ref_receipt_no);
+                        $spreadsheet->getActiveSheet()->setCellValue('E' . $excel_row,  $std->order_id);
+                        $spreadsheet->getActiveSheet()->setCellValue('F' . $excel_row,  $std->paid_amount);
+                        $spreadsheet->getActiveSheet()->setCellValue('G' . $excel_row,  $std->payment_type);
+                        $spreadsheet->getActiveSheet()->setCellValue('H' . $excel_row,  $std->pending_balance);
+
+                        $spreadsheet->getActiveSheet()->getStyle('A' . $excel_row)->getAlignment()->setWrapText(true);
+
+                        $sl_number++;
+                        $excel_row++;
+                    }
+                }
+       
+           
+            $spreadsheet->getActiveSheet()->getStyle("A" . $excel_row . ":E" . $excel_row)->applyFromArray($font_style_total);
+            $spreadsheet->createSheet();
+            $i++;
+         
+
+            $writer = new Xlsx($spreadsheet);
+            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            header('Content-Disposition: attachment;filename="fee_paid_' . $term_name . '.xlsx"');
+            header('Cache-Control: max-age=0');
+            setcookie('isDownLoaded', 1);
+            $writer->save("php://output");
+        }
+    }
+
     public function downloadFeeDueReport()
     {
         if ($this->isAdmin() == true) {

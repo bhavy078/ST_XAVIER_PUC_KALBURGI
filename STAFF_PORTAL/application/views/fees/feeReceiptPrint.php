@@ -133,12 +133,11 @@ table{
                     <th>Particulars</th>
                     <th>Amount</th>
                 </tr> 
-                <?php if(!empty($feeStructureInfo) && (empty($previousFeePaidInfo)) && ($feeInfo->payment_year != '2022')) {
+                <?php if(!empty($feeStructureInfo) && (empty($previousFeePaidInfo)) && ($feeInfo->payment_year != '2022') && ($studentInfo->std_status == 0)) {
                     $i=1; $total_fee_amt=0;
                     foreach($feeStructureInfo as $fee){ 
                         if($fee->fees_type != 'College Dept Fee' && $fee->fees_type != 'Eligibility Fee'){
-                        $total_fee_amt +=  $fee->fee_amount_state_board;
-                ?>
+                        $total_fee_amt +=  $fee->fee_amount_state_board; ?>
                      <tr>
                         <!-- <th style="text-align:center;"><?php echo $i; ?></th> -->
                         <th style="text-align: left;"><?php echo strtoupper($fee->fees_type); ?></th>

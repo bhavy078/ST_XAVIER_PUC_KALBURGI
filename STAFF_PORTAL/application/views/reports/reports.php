@@ -136,6 +136,22 @@
                 </div>
             </a>
         </div>
+        <div class="col-lg-3 col-6 mb-2 column_padding_card">
+            <a data-toggle="modal" data-target="#downloadRejectedAppFeeReport" class="more-info text-white dashboard_link" href="#">
+                <div class="card card-small dash-card" style="background: #3e50b3;">
+                    <div class="card-body pt-1 pb-1">
+                        <h6 class="stats-small__value text-uppercase text-white">Rejected Application Fee Paid Report</h6>
+                        <div class="icon pull-right mt-4">
+                            <i class="fas fa-file dash-icons"></i></i>
+                        </div>
+                    </div>
+                    <div class="card-footer text-center dash-footer p-1">
+                        <div class="more-info text-white"></div>
+                        <span class="text-center">Download</span>
+                    </div>
+                </div>
+            </a>
+        </div>
         <div class="col-12 mb-1">
                 <div class="card p-2 main_card">
                     <h6 class="font-weight-bold mb-2">Transport Fee Report</h6>
@@ -645,6 +661,83 @@
                             </select>
                         </div>
                     </div>
+                    <!-- Modal footer -->
+                    <div class="modal-footer" style="padding:5px;">
+                        <div class="row">
+                            <div class="col-lg-12 col-12">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-success"><i class="fa fa-download"
+                                        aria-hidden="true"></i> Download</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="downloadRejectedAppFeeReport">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header p-2">
+                <h6 class="modal-title">Download Rejected Application Fee Report</h6>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body p-2">
+                <form id="downloadRejectedAppFeeReport" method="POST" action="<?php echo base_url().'downloadRejectedAppFeeReport'?>">
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label>Select Term</label>
+                                <select class="form-control" name="term_name_select" id="term_name_select" required>
+                                    <option value="I PUC">I PUC</option>
+                                    <option value="II PUC">II PUC</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="row mt-2">
+
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="account_type">Date From</label>
+                                <input type="text" class="form-control" id="date_from_fee" name="date_from"
+                                    placeholder="Select Date From" autocomplete="off" required>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="account_type">Date To</label>
+                                <input type="text" class="form-control" id="date_to_fee" name="date_to"
+                                    placeholder="Select Date To" autocomplete="off" required>
+                            </div>
+                        </div>
+
+
+                    </div> -->
+                        <!-- <div class="row">
+                        <div class="col-lg-12">
+                            <label>By Stream</label>
+                            <select class="form-control input-md required" id="" name="preference">
+                                
+                                <option value="">Select One Preference</option>
+                                <option value="PCMB">PCMB</option>
+                                <option value="PCMC">PCMC</option>
+                                
+                                <option value="EBAC">EBAC</option>
+                                <option value="HEPE">HEPE</option>
+                                <option value="HEPS">HEPS</option>
+                                
+                            </select>
+                        </div>
+                    </div> -->
                     <!-- Modal footer -->
                     <div class="modal-footer" style="padding:5px;">
                         <div class="row">

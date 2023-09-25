@@ -2359,6 +2359,7 @@ public function processTheFeePayment(){
                 $data['application_no'] = $application_no;
                 $data['term_name'] = $term_name;
                 $filter['stream_name'] = $studentInfo->stream_name;
+                $data['std_status'] = $studentInfo->std_status;
                 
                 // if(strtoupper($studentInfo->elective_sub) == 'FRENCH'){
                 //     $filter['lang_fee_status'] = true;
@@ -2380,9 +2381,14 @@ public function processTheFeePayment(){
 
                     $filter['term_name'] = $term_name;
                     $data['year'] = $filter['fee_year'] = CURRENT_YEAR;
-                   
-                    $total_fee_obj = $this->fee->getTotalFeeAmount($filter);        
-                    $total_fee_amount = $data['total_fee_amount'] = $total_fee_obj->total_fee;
+                 
+                    $total_fee_obj = $this->fee->getTotalFeeAmount($filter);  
+                    if($studentInfo->std_status  == 1){ //std_status = 1,then std is rejected
+                        $paidFee = $this->fee->getTotalFeePaidInfo($application_no,CURRENT_YEAR);
+                        $total_fee_amount = $paidFee;
+                    }else{      
+                        $total_fee_amount = $data['total_fee_amount'] = $total_fee_obj->total_fee;
+                    }
                     $paidFee = $this->fee->getTotalFeePaidInfo($application_no,CURRENT_YEAR);
                     $paid = $this->fee->getFeePaidInfoAttempt($application_no,CURRENT_YEAR);
                     $data['feePaidInfo'] = $this->fee->getFeePaidInfo($application_no,CURRENT_YEAR);
@@ -2395,12 +2401,13 @@ public function processTheFeePayment(){
                         $total_fee_amount -= $concession_amt;
                     }
                     
-                    $total_fee_amount -= $paidFee;
-                    if($paid->attempt == '1'){
-                        $total_fee_amount = $total_fee_amount -2000;
-                    }else{
-                        $total_fee_amount =$total_fee_amount;
-                    }
+                        $total_fee_amount -= $paidFee;
+                        if($paid->attempt == '1'){
+                            $total_fee_amount = $total_fee_amount -2000;
+                        }else{
+                            $total_fee_amount =$total_fee_amount;
+                        }
+                  
                     $data['previousBal'] = $data['first_puc_pending_amount'] = $data['pending_amount'] = $total_fee_amount;
                     $data['I_balance'] = $total_fee_amount;
                     $data['concession'] = $concession_amt;
@@ -2466,8 +2473,11 @@ public function processTheFeePayment(){
                         $total_fee_obj = $this->fee->getfirstpucbal($application_no);
                         $data['second_puc_total_fee'] =  $data['total_fee_amount'] =  $total_fee_amount = $total_fee_obj->amount;
 
-                    }else if($studentInfo->is_active == 0 && trim($studentInfo->intake_year_id) == '2022'){
+                    }else if($studentInfo->is_active == 0 && trim($studentInfo->intake_year_id) == '2022' && $studentInfo->std_status == 0){
                         $total_fee_amount = 0;
+                    }else if($studentInfo->std_status  == 1){ //std_status = 1,then std is rejected
+                        $paidFee = $this->fee->getTotalFeePaidInfo($application_no,$filter['fee_year']);
+                        $total_fee_amount = $paidFee;
                     }else{
                         $total_fee_obj = $this->fee->getTotalFeeAmount($filter);
                         $data['second_puc_total_fee'] =  $data['total_fee_amount'] =  $total_fee_amount = $total_fee_obj->total_fee;
@@ -2482,8 +2492,7 @@ public function processTheFeePayment(){
                     $total_fee_amount -= $paidFee;
                   
                         if($paid->attempt == '1'){
-                            $total_fee_amount = $total_fee_amount -2000;
-                            
+                            $total_fee_amount = $total_fee_amount -2000;    
                         }else{
                             $total_fee_amount =$total_fee_amount;
                         }

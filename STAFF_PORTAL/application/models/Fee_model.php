@@ -1218,6 +1218,40 @@ class Fee_model extends CI_Model
              
          }
 
+         public function getRejectedAppFeePaymentInfoForReport($filter)
+         {
+            $this->db->select('fee.payment_date,fee.row_id,
+            fee.ref_receipt_no,
+            fee.order_id,
+            fee.application_no,
+            fee.paid_amount,
+            fee.pending_balance,
+            fee.payment_type, 
+            fee.bank_settlement_status,
+            student.student_name,student.student_id,student.stream_name,student.row_id');
+            $this->db->from('tbl_students_overall_fee_payment_info_i_puc_2021 as fee');
+            $this->db->join('tbl_students_info as student','student.row_id = fee.application_no','left');
+            // if(!empty($filter['date_from'])){
+            //     $this->db->where('fee.payment_date>=', $filter['date_from']);
+            //     $this->db->where('fee.payment_date<=', $filter['date_to']);
+            //    }
+            //    if(!empty($filter['preference'])){
+            //     $this->db->where('student.stream_name', $filter['preference']);
+            //    }
+               if(!empty($filter['term_name'])){
+                $this->db->where('student.term_name', $filter['term_name']);
+               }
+           
+
+            $this->db->where('fee.is_deleted', 0);
+            $this->db->where('student.std_status', 1);
+             $this->db->order_by('fee.ref_receipt_no', 'ASC');
+             $this->db->limit($page, $segment);
+             $query = $this->db->get();
+             return $query->result();
+             
+         }
+
          public function getAllFeePaymentInfoForDueReport($filter)
          {
             $this->db->select('fee.payment_date,fee.row_id,
@@ -1670,6 +1704,26 @@ class Fee_model extends CI_Model
       return $query->row();
     }
 
+    
+    public function getStdCancelAdmissionFeeByID($row_id)
+    {
+      $this->db->select('fee.row_id,fee.term_name,fee.amount');
+      $this->db->from('tbl_cancel_admission_pending_fee as fee'); 
+      $this->db->where('fee.std_row_id', $row_id);
+      $this->db->where('fee.is_deleted', 0);
+      $query = $this->db->get();
+      return $query->row();
+    }
+
+    public function getTransportTotalPaidAmount($stud_id,$year){
+        $this->db->select('SUM(fee.bus_fees) as paid_amount');
+        $this->db->from('tbl_student_bus_management_details as fee');
+        $this->db->where('fee.is_deleted', 0);
+        $this->db->where('fee.student_id', $stud_id);
+        $this->db->where('fee.intake_year',$year);
+        $query = $this->db->get();
+        return $query->row();
+    }
 
     
 }

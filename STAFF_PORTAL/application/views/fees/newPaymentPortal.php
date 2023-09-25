@@ -185,16 +185,18 @@ if ($error) {
                                                         <th class="text-left" scope="col">
                                                             <?php echo  $studentInfo->student_name; ?></th>
                                                     </tr>
-
+                                                    <?php if($std_status == 0){?>
                                                     <tr class="table-success">
                                                         <th class="text-left" scope="col">Stud ID</th>
                                                         <th class="text-left" scope="col">
                                                             <?php echo $studentInfo->student_id; ?></th>
                                                     </tr>
+                                                    <?php } ?>
                                                     <tr class="table-primary">
                                                         <th class="text-left" scope="col">Term</th>
                                                         <th class="text-left" scope="col"><?php echo $term_name; ?></th>
                                                     </tr>
+                                                    <?php if($std_status == 0){?>
                                                     <tr class="table-success">
                                                         <th class="text-left" scope="col">Stream </th>
                                                         <th class="text-left" scope="col">
@@ -215,7 +217,15 @@ if ($error) {
                                                             <?php echo number_format($total_fee_amount,2); ?>
                                                         </th>
                                                     </tr>
-
+                                                    <?php } ?>
+                                                    <?php if($std_status == 1){?>
+                                                    <tr class="bg-primary text-white">
+                                                        <th class="text-left" scope="col">Student Status</th>
+                                                        <th class="text-left" scope="col">
+                                                            <?php if($std_status == 1){echo 'REJECTED';} ?>
+                                                        </th>
+                                                    </tr>
+                                                    <?php } ?>
                                                     <?php if($concession != 0){ ?>
                                                         <tr class="bg-secondary text-white">
                                                             <th class="text-left" scope="col">Scholarship Amt</th>
@@ -359,7 +369,7 @@ if ($error) {
                                                         <th>Date</th>
                                                         <th>Receipt No.</th>
                                                         <th>Amt.</th>
-                                                        <?php if($fee_year_II == '2023'){
+                                                        <?php if($fee_year_II == '2023' && $std_status == 0){
                                                            ?>
                                                         <th>Fee Type</th>
                                                         <?php } ?>
@@ -378,7 +388,7 @@ if ($error) {
                                                     <td><?php echo date('d-m-Y', strtotime($fee->payment_date)); ?></td>
                                                     <td class="text-center"><?php echo $fee->ref_receipt_no; ?></td>
                                                     <td><?php echo number_format($fee->paid_amount,2); ?></td>
-                                                    <?php if($fee_year_II == '2023'){
+                                                    <?php if($fee_year_II == '2023' && $std_status == 0){
                                                            ?>
                                                     <td><?php if($fee->attempt == "1"){echo "First Attempt";}else{echo "Second Attempt";}; ?></td>
                                                     <?php } ?>
@@ -492,7 +502,7 @@ if ($error) {
                                                         <th>Date</th>
                                                         <th>Receipt No.</th>
                                                         <th>Amt.</th>
-                                                        <?php if($year == '2023'){?>
+                                                        <?php if($year == '2023' && $std_status == 0){?>
                                                         <th>Fee Type</th>
                                                         <?php }?>
                                                         <th>Type</th>
@@ -510,7 +520,7 @@ if ($error) {
                                                     <td><?php echo date('d-m-Y', strtotime($fee->payment_date)); ?></td>
                                                     <td class="text-center"><?php echo $fee->ref_receipt_no; ?></td>
                                                     <td><?php echo number_format($fee->paid_amount,2); ?></td>
-                                                    <?php if($year == '2023'){?>
+                                                    <?php if($year == '2023' && $std_status == 0){?>
                                                     <td><?php if($fee->attempt == "1"){echo "First Attempt";}else{echo "Second Attempt";}; ?></td>
                                                     <?php } ?>
                                                     <td><?php echo $fee->payment_type; ?></td>

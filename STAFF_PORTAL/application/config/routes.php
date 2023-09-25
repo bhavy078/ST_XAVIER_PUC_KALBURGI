@@ -547,7 +547,7 @@ $route['downloadAdmittedStudentInfo'] = "reports/downloadAdmittedStudentInfo";
 
 $route['downloadDayWiseFeeReport'] = "reports/downloadDayWiseFeeReport";
 $route['downloadFeeDueReport'] = "reports/downloadFeeDueReport";
-
+$route['downloadRejectedAppFeeReport'] = "reports/downloadRejectedAppFeeReport";
 
 
 //student Election routes
@@ -904,6 +904,7 @@ $route['getNewStudentFeePaymentInfo'] = "fee/getNewStudentFeePaymentInfo";
 $route['newAddFeePaymentInfo'] = "fee/newAddFeePaymentInfo";
 $route['getReceiptNumber'] = "fee/getReceiptNumber";
 $route['getReceiptNo'] = "fee/getReceiptNo";
+
 //Bio Data
 $route['getStudentBiodata'] = "students/getStudentBiodata";
 
