@@ -502,46 +502,32 @@ public function collegeNotificationsApi(){
         $student_id = $obj['student_id'];
         $row_id = $obj['row_id'];
         $student = $this->student_model->getStudentInfoBystudId($student_id);
-        //log_message('debug','student'.print_r($student,true));
-        // $term_name='KG II';
-        // $section_name='C';
-        // $student_id = '565464';
-        // $row_id = '2';
         $notifications = $this->student_model->getStudentNotifications($student->term_name,$student->section_name,$student->stream_name);
-        //log_message('debug','notii'.print_r($notifications,true));
-         
-        ////
-        // $date = date('Y-m-d');
-        // $notificationMsg = $this->student_model->getStudentNotification($student_id,$date);
 
          $bulkNotifications = $this->student_model->getStudentBulkNotificationsApi($date,$student_id);        
-        /////
-        // log_message('debug','old='.print_r($notifications,true));
-
-        // log_message('debug','mss='.print_r($notificationMsg,true));
-        // log_message('debug','aaw='.print_r($bulkNotifications,true));
-        $db_data = array();
+        $db_data = $data1 = $data2= array();
             foreach($bulkNotifications as $info){
                 if($info->active_date!=null){
                     $info->date_time =date('d-m-Y h:i A',strtotime($info->updated_date_time));
                     $info->subject = "Class Notification";
                 }
-                $db_data[] = $info;
+                $data1[] = $info;
             }
             foreach($notifications as $info){
                 if($info->date_time!=null){
                     $info->date_time =date('d-m-Y h:i A',strtotime($info->date_time));
                 }
-                $db_data[] = $info;
+                $data2[] = $info;
             }
-            // foreach($notificationMsg as $info){
-            //     if($info->date_time!=null){
-            //         $info->date_time =date('d-m-Y H:i',strtotime($info->date_time));
-            //         $info->subject = "Notification";
-            //         $info->filepath = "";
-            //     }
-            //     $db_data[] = $info;
-            // }
+
+            $db_data = array_merge($data1,$data2);
+            usort($db_data, function ($element1, $element2) {
+                $datetime1 = strtotime($element1->date_time);
+                $datetime2 = strtotime($element2->date_time);
+                return $datetime2 - $datetime1;
+            });
+           
+
             
             $data = json_encode($db_data);
         echo $data;

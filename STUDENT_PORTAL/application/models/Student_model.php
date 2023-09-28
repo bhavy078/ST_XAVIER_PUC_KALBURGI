@@ -594,7 +594,7 @@ public function updateCoursePaymentLogByRowId($paymentInfo,$order_id) {
                 $this->db->where('notification.section_name',"ALL");
             }
             $this->db->where('notification.is_deleted', 0);
-            $this->db->order_by("date_time","DESC");
+            $this->db->order_by("notification.row_id","DESC");
             $this->db->limit(50);
             $query = $this->db->get(); 
             return $query->result();
@@ -762,7 +762,7 @@ public function updateCoursePaymentLogByRowId($paymentInfo,$order_id) {
             $this->db->where('notification.userId',"ALL");
         }
        // $this->db->where('notification.active_date >=', date('Y-m-d',strtotime($todayDate)));
-        $this->db->order_by("updated_date_time","DESC");
+        $this->db->order_by("notification.row_id","DESC");
         $this->db->where('notification.is_deleted',0);
         $this->db->limit($limit);
         $query = $this->db->get(); 
