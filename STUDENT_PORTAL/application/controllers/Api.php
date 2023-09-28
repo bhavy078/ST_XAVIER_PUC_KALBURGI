@@ -482,7 +482,7 @@ public function collegeNotificationsApi(){
     $notifications = $this->student_model->getStudentNotifications($student->term_name,$student->section_name,$student->stream_name);
         foreach($notifications as $info){
             if($info->date_time!=null){
-                $info->date_time =date('d-m-Y h:i ',strtotime($info->date_time));
+                $info->date_time =date('d-m-Y h:i A ',strtotime($info->date_time));
             }
             $db_data[] = $info;
         }
@@ -523,14 +523,14 @@ public function collegeNotificationsApi(){
         $db_data = array();
             foreach($bulkNotifications as $info){
                 if($info->active_date!=null){
-                    $info->date_time =date('d-m-Y h:i',strtotime($info->updated_date_time));
+                    $info->date_time =date('d-m-Y h:i A',strtotime($info->updated_date_time));
                     $info->subject = "Class Notification";
                 }
                 $db_data[] = $info;
             }
             foreach($notifications as $info){
                 if($info->date_time!=null){
-                    $info->date_time =date('d-m-Y h:i',strtotime($info->date_time));
+                    $info->date_time =date('d-m-Y h:i A',strtotime($info->date_time));
                 }
                 $db_data[] = $info;
             }
@@ -567,7 +567,7 @@ public function collegeNotificationsApi(){
     
             foreach($bulkNotifications as $info){
                 if($info->active_date!=null){
-                    $info->date_time =date('d-m-Y h:i',strtotime($info->updated_date_time));
+                    $info->date_time =date('d-m-Y h:i A',strtotime($info->updated_date_time));
                     $info->subject = "Class Notification";
                 }
                 $db_data[] = $info;
