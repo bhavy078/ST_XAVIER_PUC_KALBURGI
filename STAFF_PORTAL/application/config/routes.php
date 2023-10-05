@@ -1074,3 +1074,6 @@ $route['generateBarcodeForStudent'] = "students/generateBarcodeForStudent";
 
 $route['generateBarcodeForStaff'] = "staffs/generateBarcodeForStaff";
 $route['generateBarcodeForBook'] = "libraryManagement/generateBarcodeForBook";
+
+
+$route['downloadSMSReport'] = "reports/downloadSMSReport";

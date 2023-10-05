@@ -277,6 +277,24 @@
                 </div>
             </a>
         </div>
+
+
+        <div class="col-lg-3 col-6 mb-2 column_padding_card">
+            <a data-toggle="modal" data-target="#smsReport" class="more-info text-white dashboard_link" href="#">
+                <div class="card card-small dash-card" style="background: #3e50b3;">
+                    <div class="card-body pt-1 pb-1">
+                        <h6 class="stats-small__value text-uppercase text-white">SMS Report </h6>
+                        <div class="icon pull-right mt-4">
+                            <i class="fas fa-file dash-icons"></i></i>
+                        </div>
+                    </div>
+                    <div class="card-footer text-center dash-footer p-1">
+                        <div class="more-info text-white"></div>
+                        <span class="text-center">Download</span>
+                    </div>
+                </div>
+            </a>
+        </div>
         <?php }
          if($role == ROLE_ADMIN || $role == ROLE_PRIMARY_ADMINISTRATOR || $role == ROLE_PRINCIPAL){ ?>
         <!-- <div class="col-lg-3 col-6 mb-2 column_padding_card">
@@ -2479,6 +2497,99 @@
 </div>
 
 
+<div class="modal" id="smsReport">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header" style="padding: 10px;">
+                <h6 class="modal-title">SMS Sent Report</h6>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body p-2">
+                <form action="<?php echo base_url() ?>downloadSMSReport" method="POST">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="account_type">Date From</label>
+                                <input type="text" class="form-control" id="sms_date_from" name="date_from"
+                                    placeholder="Select Date From" autocomplete="off" >
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="account_type">Date To</label>
+                                <input type="text" class="form-control" id="sms_date_to" name="date_to"
+                                    placeholder="Select Date To" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label>Select Term</label>
+                                <select class="form-control input-sm selectpicker" id="term" name="term" required>
+                                    <option value="">Select Term</option>
+                                    <option value="I PUC">I PUC</option>
+                                    <option value="II PUC">II PUC</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label>Select Preference</label>
+                                <select class="form-control input-sm selectpicker" id="preference" name="preference" required>
+                                    <option value="">Select One Preference</option>
+                                   
+                                    <?php foreach($streamInfo as $stream){ ?>
+                                        <option value="<?php echo $stream->stream_name; ?>"><?php echo $stream->stream_name; ?></option>
+                                    <?php } ?>
+                                
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label>Select Section</label>
+                                <select class="form-control input-sm selectpicker" id="section_name" name="section_name" required>
+                                    <option value="">Select Section</option>
+                                    <option value="A">A</option>
+                                    <option value="B">B</option>
+                                    <option value="C">C</option>
+                                    <option value="D">D</option>
+                                    <option value=" ">All(No Section)</option>
+                                
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-6 mb-2">
+                            <label>Report type</label>
+                            <select class="form-control text-dark" id="reportFormat" name="reportFormat" required>
+                                <!-- <option value="">Report Type</option> -->
+                                <!-- <option value="SMS Report">SMS Report</option> -->
+                                <option value="Absentees Report">Absentees Report</option>
+                                
+                            </select>
+                        </div>
+                        
+                    </div>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button id="" type="submit" class="btn btn-md btn-primary float-right"><i
+                        class="fa fa-download"></i> Download</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
 <script type="text/javascript">
 const checkDownloadStatus = ()=>{
     const downloadIntervalID = setInterval(() => {
@@ -2559,7 +2670,7 @@ jQuery(document).ready(function() {
         format: "dd-mm-yyyy"
 
     });
-    jQuery('#date_select, #date_day, .dateSearch, #date_from, #date_to, #date_from_bulk, #date_to_bulk, #date_from_mis, #date_to_mis,#date_from_transport, #date_to_transport, #settle_date_bank, .bank_date_search, #date_from_fee, #date_to_fee').datepicker({
+    jQuery('#date_select, #date_day, .dateSearch, #date_from, #date_to, #date_from_bulk, #date_to_bulk, #date_from_mis, #date_to_mis,#date_from_transport, #date_to_transport, #settle_date_bank, .bank_date_search, #date_from_fee, #date_to_fee, #sms_date_from, #sms_date_to').datepicker({
         autoclose: true,
         orientation: "bottom",
         format: "dd-mm-yyyy"

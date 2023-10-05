@@ -28,6 +28,7 @@ class Reports extends BaseController
         $this->load->model('Mun_model', 'mun');
         $this->load->model('fee_model', 'fee');
         $this->load->model('transport_model','transport');
+        $this->load->model('sms_model', 'sms');
         $this->load->library('excel');
         $this->load->library('pdf');
         $this->isLoggedIn();
@@ -5223,6 +5224,272 @@ public function downloadMiscellaneousFeePaidReport(){
         }
     }
 }
+
+
+public function downloadSMSReport()
+    {
+        if ($this->isAdmin() == true) {
+            setcookie('isDownLoaded', 1);
+            $this->loadThis();
+        } else {
+            set_time_limit(0);
+            ini_set('memory_limit', '2048M');
+            $filter = array();
+            $date_from = $this->security->xss_clean($this->input->post('date_from'));
+            $date_to = $this->security->xss_clean($this->input->post('date_to'));
+            $term = $this->security->xss_clean($this->input->post('term'));
+            $preference = $this->security->xss_clean($this->input->post('preference'));
+            $section_name = $this->security->xss_clean($this->input->post('section_name'));
+            $reportFormat = $this->security->xss_clean($this->input->post('reportFormat'));
+            if($reportFormat == 'SMS Report'){ 
+            $sheet = 0;
+            $this->excel->setActiveSheetIndex($sheet);
+            //name the worksheet
+            // $this->excel->getActiveSheet()->setTitle($stream[$sheet]);
+            $this->excel->getActiveSheet()->getPageSetup()->setPrintArea('A1:T500');
+            //set Title content with some text
+            $this->excel->getActiveSheet()->setCellValue('A1', EXCEL_TITLE);
+            $this->excel->getActiveSheet()->setCellValue('A2', "SMS Report");
+            $this->excel->getActiveSheet()->getStyle('A1')->getFont()->setSize(18);
+            $this->excel->getActiveSheet()->getStyle('A2')->getFont()->setSize(14);
+            $this->excel->getActiveSheet()->mergeCells('A1:K1');
+            $this->excel->getActiveSheet()->mergeCells('A2:K2');
+            $this->excel->getActiveSheet()->getStyle('A1:K1')->getFont()->setBold(true);
+            $this->excel->getActiveSheet()->getStyle('A2:K2')->getFont()->setBold(true);
+            $this->excel->getActiveSheet()->getStyle('A1:K1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+            $this->excel->getActiveSheet()->getStyle('A1:K2')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+
+            $excel_row = 3;
+            $this->excel->getActiveSheet()->getColumnDimension('A')->setWidth(12);
+            $this->excel->getActiveSheet()->getColumnDimension('B')->setWidth(15);
+            $this->excel->getActiveSheet()->getColumnDimension('C')->setWidth(17);
+            $this->excel->getActiveSheet()->getColumnDimension('D')->setWidth(17);
+            $this->excel->getActiveSheet()->getColumnDimension('E')->setWidth(35);
+            $this->excel->getActiveSheet()->getColumnDimension('F')->setWidth(15);
+            $this->excel->getActiveSheet()->getColumnDimension('G')->setWidth(15);
+            $this->excel->getActiveSheet()->getColumnDimension('H')->setWidth(15);
+            $this->excel->getActiveSheet()->getColumnDimension('I')->setWidth(45);
+            $this->excel->getActiveSheet()->getColumnDimension('J')->setWidth(15);
+            $this->excel->getActiveSheet()->getColumnDimension('K')->setWidth(15);
+            $this->excel->getActiveSheet()->getColumnDimension('L')->setWidth(15);
+
+            $this->excel->getActiveSheet()->getStyle('A3:R3')->getFont()->setBold(true);
+            $this->excel->getActiveSheet()->getStyle('A3:R3')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+            $this->excel->setActiveSheetIndex($sheet)->setCellValue('A' . $excel_row, 'SL No.');
+            $this->excel->setActiveSheetIndex($sheet)->setCellValue('B' . $excel_row, 'Date');
+            $this->excel->setActiveSheetIndex($sheet)->setCellValue('C' . $excel_row, 'Student Id');
+            $this->excel->setActiveSheetIndex($sheet)->setCellValue('D' . $excel_row, 'Application No');
+            $this->excel->setActiveSheetIndex($sheet)->setCellValue('E' . $excel_row, 'Name');
+            $this->excel->setActiveSheetIndex($sheet)->setCellValue('F' . $excel_row, 'Term Name');
+            $this->excel->setActiveSheetIndex($sheet)->setCellValue('G' . $excel_row, 'Stream');
+            $this->excel->setActiveSheetIndex($sheet)->setCellValue('H' . $excel_row, 'Section');
+            $this->excel->setActiveSheetIndex($sheet)->setCellValue('I' . $excel_row, 'Message');
+            $this->excel->setActiveSheetIndex($sheet)->setCellValue('J' . $excel_row, 'Mobile');
+            $this->excel->setActiveSheetIndex($sheet)->setCellValue('K' . $excel_row, 'Sms Count');
+            $this->excel->setActiveSheetIndex($sheet)->setCellValue('L' . $excel_row, 'Status');
+
+
+            if ($date_from != '') {
+                $filter['date_from'] = date('Y-m-d', strtotime($date_from));
+            } else {
+                $filter['date_from'] = '';
+            }
+            if ($date_to != '') {
+                $filter['date_to'] = date('Y-m-d', strtotime($date_to));
+            } else {
+                $filter['date_to'] = '';
+            }
+
+            $filter['term_name'] = $term;
+            $filter['stream_name'] = $preference;
+            $filter['section_name'] = $section_name;
+
+            $sl = 1;
+            $excelRow = 4;
+            $excel_row = 4;
+            $accountDetails = $this->student->getSMSReport($filter);
+            $smsDetails = $this->sms->getSMSListReport($filter);
+            // log_message('debug','sms'.print_r($smsDetails,true));
+            foreach ($accountDetails as $account) {
+                if(empty($account->term_name)){
+                    $term = 'I PUC';
+                }else{
+                    $term = $account->term_name;
+                }
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('A' . $excel_row, $sl++);
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('B' . $excel_row, date('d-m-Y',strtotime($account->sent_date)));
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('C' . $excel_row, $account->student_id);
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('D' . $excel_row, $account->application_no);
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('E' . $excel_row, strtoupper($account->student_name));
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('F' . $excel_row, $term);
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('G' . $excel_row, $account->stream_name);
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('H' . $excel_row, $account->section_name);
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('I' . $excel_row, $account->message);
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('J' . $excel_row, $account->mobile);
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('K' . $excel_row, $account->sms_count);
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('L' . $excel_row, $account->status);
+
+                // $this->excel->getActiveSheet()->mergeCells('E'.$excel_row);
+                $this->excel->getActiveSheet()->getStyle('E' . $excel_row)->getAlignment()->setWrapText(true);
+                $this->excel->getActiveSheet()->getStyle('A' . $excel_row . ':D' . $excel_row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $this->excel->getActiveSheet()->getStyle('F' . $excel_row . ':H' . $excel_row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $this->excel->getActiveSheet()->getStyle('J' . $excel_row . ':L' . $excel_row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $excel_row++;
+                $row_no = $excel_row;
+            }
+            foreach ($smsDetails as $sms) {
+               
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('A' . $excel_row, $sl++);
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('B' . $excel_row, date('d-m-Y',strtotime($sms->sent_date)));
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('C' . $excel_row, );
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('D' . $excel_row, );
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('E' . $excel_row, );
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('F' . $excel_row, );
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('G' . $excel_row, );
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('H' . $excel_row, );
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('I' . $excel_row, $sms->message);
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('J' . $excel_row, $sms->mobile);
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('K' . $excel_row, $sms->sms_count);
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('L' . $excel_row, $sms->status);
+
+                // $this->excel->getActiveSheet()->mergeCells('E'.$excel_row);
+                $this->excel->getActiveSheet()->getStyle('E' . $excel_row)->getAlignment()->setWrapText(true);
+                $this->excel->getActiveSheet()->getStyle('A' . $excel_row . ':D' . $excel_row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $this->excel->getActiveSheet()->getStyle('F' . $excel_row . ':H' . $excel_row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $this->excel->getActiveSheet()->getStyle('J' . $excel_row . ':L' . $excel_row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $excel_row++;
+                $row_no = $excel_row;
+            }
+            $this->excel->getActiveSheet()->getStyle('A' . $row_no . ':K' . $row_no)->getFont()->setBold(true);
+            $this->excel->getActiveSheet()->getStyle('A' . $row_no . ':K' . $row_no)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+            $this->excel->createSheet();
+
+
+            $filename =  'SMS_Report_-' . date('d-m-Y') . '.xls'; //save our workbook as this file name
+            header('Content-Type: application/vnd.ms-excel'); //mime type
+            header('Content-Disposition: attachment;filename="' . $filename . '"'); //tell browser what's the file name
+            header('Cache-Control: max-age=0'); //no cache
+
+            //save it to Excel5 format (excel 2003 .XLS file), change this to 'Excel2007' (and adjust the filename extension, also the header mime type)
+            //if you want to save it as .XLSX Excel 2007 format
+            $objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel5');
+            ob_start();
+            setcookie('isDownLoaded', 1);
+            $objWriter->save("php://output");
+        }else{
+            $sheet = 0;
+            $this->excel->setActiveSheetIndex($sheet);
+            //name the worksheet
+            // $this->excel->getActiveSheet()->setTitle($stream[$sheet]);
+            $this->excel->getActiveSheet()->getPageSetup()->setPrintArea('A1:T500');
+            //set Title content with some text
+            $this->excel->getActiveSheet()->setCellValue('A1', EXCEL_TITLE);
+            $this->excel->getActiveSheet()->setCellValue('A2', "Absentees SMS Report");
+            $this->excel->getActiveSheet()->getStyle('A1')->getFont()->setSize(18);
+            $this->excel->getActiveSheet()->getStyle('A2')->getFont()->setSize(14);
+            $this->excel->getActiveSheet()->mergeCells('A1:I1');
+            $this->excel->getActiveSheet()->mergeCells('A2:I2');
+            $this->excel->getActiveSheet()->getStyle('A1:K1')->getFont()->setBold(true);
+            $this->excel->getActiveSheet()->getStyle('A2:K2')->getFont()->setBold(true);
+            $this->excel->getActiveSheet()->getStyle('A1:K1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+            $this->excel->getActiveSheet()->getStyle('A1:K2')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+
+            $excel_row = 3;
+            $this->excel->getActiveSheet()->getColumnDimension('A')->setWidth(12);
+            $this->excel->getActiveSheet()->getColumnDimension('B')->setWidth(15);
+            $this->excel->getActiveSheet()->getColumnDimension('C')->setWidth(17);
+            $this->excel->getActiveSheet()->getColumnDimension('D')->setWidth(17);
+            $this->excel->getActiveSheet()->getColumnDimension('E')->setWidth(35);
+            $this->excel->getActiveSheet()->getColumnDimension('F')->setWidth(15);
+            $this->excel->getActiveSheet()->getColumnDimension('G')->setWidth(15);
+            $this->excel->getActiveSheet()->getColumnDimension('H')->setWidth(15);
+            $this->excel->getActiveSheet()->getColumnDimension('I')->setWidth(20);
+            $this->excel->getActiveSheet()->getColumnDimension('J')->setWidth(25);
+            $this->excel->getActiveSheet()->getColumnDimension('K')->setWidth(15);
+            $this->excel->getActiveSheet()->getColumnDimension('L')->setWidth(15);
+
+
+            $this->excel->getActiveSheet()->getStyle('A3:R3')->getFont()->setBold(true);
+            $this->excel->getActiveSheet()->getStyle('A3:R3')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+            $this->excel->setActiveSheetIndex($sheet)->setCellValue('A' . $excel_row, 'SL No.');
+            $this->excel->setActiveSheetIndex($sheet)->setCellValue('B' . $excel_row, 'Date');
+            $this->excel->setActiveSheetIndex($sheet)->setCellValue('C' . $excel_row, 'Student Id');
+            $this->excel->setActiveSheetIndex($sheet)->setCellValue('D' . $excel_row, 'Application No');
+            $this->excel->setActiveSheetIndex($sheet)->setCellValue('E' . $excel_row, 'Name');
+            $this->excel->setActiveSheetIndex($sheet)->setCellValue('F' . $excel_row, 'Term Name');
+            $this->excel->setActiveSheetIndex($sheet)->setCellValue('G' . $excel_row, 'Stream');
+            $this->excel->setActiveSheetIndex($sheet)->setCellValue('H' . $excel_row, 'Section');
+            $this->excel->setActiveSheetIndex($sheet)->setCellValue('I' . $excel_row, 'Subject');
+            // $this->excel->setActiveSheetIndex($sheet)->setCellValue('J' . $excel_row, 'Mobile');
+            // $this->excel->setActiveSheetIndex($sheet)->setCellValue('K' . $excel_row, 'Sms Count');
+            // $this->excel->setActiveSheetIndex($sheet)->setCellValue('L' . $excel_row, 'Status');
+
+
+            if ($date_from != '') {
+                $filter['date_from'] = date('Y-m-d', strtotime($date_from));
+            } else {
+                $filter['date_from'] = '';
+            }
+            if ($date_to != '') {
+                $filter['date_to'] = date('Y-m-d', strtotime($date_to));
+            } else {
+                $filter['date_to'] = '';
+            }
+            $filter['term_name'] = $term;
+            $filter['stream_name'] = $preference;
+            $filter['section_name'] = $section_name;
+            
+            $sl = 1;
+            $excelRow = 4;
+            $excel_row = 4;
+            $smsDetails = $this->student->getAbsenteesSMSReport($filter);
+       
+            foreach ($smsDetails as $account) {
+                if(empty($account->term_name)){
+                    $term = 'I PUC';
+                }else{
+                    $term = $account->term_name;
+                }
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('A' . $excel_row, $sl++);
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('B' . $excel_row, date('d-m-Y',strtotime($account->date)));
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('C' . $excel_row, $account->student_id);
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('D' . $excel_row, $account->application_no);
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('E' . $excel_row, strtoupper($account->student_name));
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('F' . $excel_row, $term);
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('G' . $excel_row, $account->stream_name);
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('H' . $excel_row, $account->section_name);
+                 $this->excel->setActiveSheetIndex($sheet)->setCellValue('I' . $excel_row, $account->name);
+                // $this->excel->setActiveSheetIndex($sheet)->setCellValue('J' . $excel_row, $account->mobile);
+                // $this->excel->setActiveSheetIndex($sheet)->setCellValue('K' . $excel_row, $account->sms_count);
+                // $this->excel->setActiveSheetIndex($sheet)->setCellValue('L' . $excel_row, $account->status);
+
+                // $this->excel->getActiveSheet()->mergeCells('E'.$excel_row);
+                $this->excel->getActiveSheet()->getStyle('E' . $excel_row)->getAlignment()->setWrapText(true);
+                $this->excel->getActiveSheet()->getStyle('A' . $excel_row . ':D' . $excel_row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $this->excel->getActiveSheet()->getStyle('F' . $excel_row . ':H' . $excel_row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $this->excel->getActiveSheet()->getStyle('J' . $excel_row . ':L' . $excel_row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $excel_row++;
+                $row_no = $excel_row;
+            } 
+            $this->excel->getActiveSheet()->getStyle('A' . $row_no . ':K' . $row_no)->getFont()->setBold(true);
+            $this->excel->getActiveSheet()->getStyle('A' . $row_no . ':K' . $row_no)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+            $this->excel->createSheet();
+
+
+            $filename =  'Absentees_SMS_Report_-' . date('d-m-Y') . '.xls'; //save our workbook as this file name
+            header('Content-Type: application/vnd.ms-excel'); //mime type
+            header('Content-Disposition: attachment;filename="' . $filename . '"'); //tell browser what's the file name
+            header('Cache-Control: max-age=0'); //no cache
+
+            //save it to Excel5 format (excel 2003 .XLS file), change this to 'Excel2007' (and adjust the filename extension, also the header mime type)
+            //if you want to save it as .XLSX Excel 2007 format
+            $objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel5');
+            ob_start();
+            setcookie('isDownLoaded', 1);
+            $objWriter->save("php://output");
+        }
+        }
+    }
 
     public function getSubjectCodes($stream_name){
         //science

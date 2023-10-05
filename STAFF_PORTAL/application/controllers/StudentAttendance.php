@@ -16,6 +16,7 @@ class StudentAttendance extends BaseController
         $this->load->model('subjects_model','subject');
         $this->load->model('staff_model','staff');
         $this->load->model('timetable_model','timetable');
+        $this->load->model('sms_model','sms');
         $this->load->model('push_notification_model');
         $this->load->library('pagination');
         $this->load->library('excel');
@@ -257,6 +258,7 @@ class StudentAttendance extends BaseController
                         'created_date_time' => date('Y-m-d H:i:s'));
                     $result =  $this->attendance->addAbsentStudentInfo($attendanceInfo);
                     $sub_name = $this->subject->getSubjectInfoById($subject_code);
+
                     //FCM////////////
                     $notification_message = "Dear Parent,Your ward ".$student->student_name." was absent for the ".$subName->sub_name." class on ".date('d-m-Y',strtotime($attendanceDate))." between ".$timeID->start_time." to ".$timeID->end_time." .- ST XAVIER'S PRE–UNIVERSITY COLLEGE";
                     // $message = 'Your ward is absent for '.$sub_name->name.' on '.date('d-m-Y');
@@ -266,6 +268,59 @@ class StudentAttendance extends BaseController
                         $this->push_notification_model->sendMessage('Absent For Class',$notification_message,$tokenBatch[$itr],"student");
                     }
                     //FCM///////////
+                    $today_date = date('Y-m-d');
+
+                    if($attendanceDate == $today_date){
+                        $stdInfo = $this->sms->getStudentListForSMSByRowID($student->row_id);
+                        $isExistsAtt = $this->attendance->getStudentattendanceStatus($student->row_id,$class_row_id);
+                        $primary_contact = $stdInfo->father_mobile;
+
+                        if(strlen($primary_contact) == 10){
+                            $parent_mobile = $primary_contact;
+                            
+                        }else{
+                            $country_code = '91';
+                            $mobileNo = preg_replace("/^\+?{$country_code}/", '',$primary_contact);
+                            $parent_mobile = $mobileNo;
+                        }
+
+                        $message = "Dear Parent, Your ward " .$student->student_name. " is Absent for the subject " . $subName->sub_name. " - Regards, Principal, St Xaviers's PU College Kalaburagi.";
+
+
+                        if(empty($isExistsAtt)){
+
+                    
+
+                    if(strlen($parent_mobile) == 10){
+                        $result_sms = $this->sendSMS($parent_mobile, $message);
+                        $parts = explode(' ', $result_sms);
+                            if (count($parts) > 0) {
+                                $results = $parts[0];
+                            }
+
+                            // $attendanceUpdateInfo = array(
+                            //     'sms_sent_status' => 1,
+                            //     'updated_date_time' => date('Y-m-d H:i:s')
+                            // );
+
+                            $absentInfo = array(
+                                'student_id' => $student->row_id,
+                                // 'session_type' => $smsDetails->session_type,
+                                'date' => $attendanceDate,	
+                                'status' => $results,
+                                'class_row_id' => $class_row_id,	
+                                'created_by' => $this->staff_id,
+                                'created_date_time' => date('Y-m-d H:i:s'),
+                            );
+                            $this->sms->addAbsentSMSInfo($absentInfo); 
+                            // $this->sms->updateAttendanceSMSStatus($student->student_id, date("Y-m-d"), $attendanceUpdateInfo);
+                        
+                    }
+                        }
+
+
+                    }
+                    
                 }
             }
             if($result > 0){
@@ -1299,6 +1354,55 @@ class StudentAttendance extends BaseController
                 return $PEBA;
                 break;
         }
+    }
+
+
+    function sendSMS($mobile, $message){
+        $request =""; //initialise the request variable
+        $param['method']= "sendMessage";
+        $param['send_to'] = $mobile;
+        $param['msg'] = $message;
+        $param['userid'] = "2000232122";
+        $param['password'] = "iHDNnLKji";
+        $param['v'] = "1.1";
+        $param['msg_type'] = "TEXT"; //Can be "FLASH”/"UNICODE_TEXT"/”BINARY”
+        $param['auth_scheme'] = "PLAIN";
+        //Have to URL encode the values
+        foreach($param as $key=>$val) {
+        $request.= $key."=".urlencode($val);
+        //we have to urlencode the values
+        $request.= "&";
+        //append the ampersand (&) sign after each parameter/value pair
+        }
+        $request = substr($request, 0, strlen($request)-1);
+        //remove final (&) sign from the request
+        $url = "http://enterprise.smsgupshup.com/GatewayAPI/rest?".$request;
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($ch);
+        // curl_close($ch);
+        // echo $curl_scraped_page;
+       // $response = json_decode($result_sms, true);
+        log_message('debug', 'JSON='.print_r($result_sms,true));
+     
+        curl_close($ch);
+        return $response;
+        // log_message('error', 'message='.$message);
+        // $message = $message;
+        // $message = rawurlencode($message);  
+        // $data = "username=".USERNAME_TEXTLOCAL."&hash=".HASH_TEXTLOCAL."&message=".$message."&sender=".SENDERID_TEXTLOCAL."&numbers=".$mobile;
+        // $ch = curl_init('https://api.textlocal.in/send/?');
+        // curl_setopt($ch, CURLOPT_POST, true);
+        // curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        // $result_sms = curl_exec($ch); // This is the result from the API
+        // $json = json_decode($result_sms, true);
+        // //log_message('error', 'JSON=' );
+        // // log_message('error', 'JSON='.print_r($json,true));
+        // $status= $json['status'];
+        // // log_message('error', 'status='.print_r($status,true));
+        // curl_close($ch);
+        // return $status;
     }
 }
 ?>

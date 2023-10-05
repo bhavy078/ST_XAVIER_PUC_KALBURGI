@@ -692,5 +692,14 @@ class StudentAttendance_model extends CI_Model{
         $this->db->update('tbl_attendance_additional_info', $attendanceInfoUpdate);
         return true;
     }
+
+    public function getStudentattendanceStatus($student_id,$class_row_id){
+        $this->db->from('tbl_absent_sms_info as ab');
+        $this->db->where('ab.student_id', $student_id);
+        $this->db->where('ab.class_row_id', $class_row_id);
+        $this->db->where('ab.is_deleted', 0);
+        $query = $this->db->get();
+        return $query->row();
+    }
 }
 ?>

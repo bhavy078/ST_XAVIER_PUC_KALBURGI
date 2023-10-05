@@ -1752,6 +1752,85 @@ class students_model extends CI_Model
           return $query->row();
       }
 
-     
+
+
+      public function getSMSReport($filter = '') {
+        $this->db->select('std.term_name, 
+        std.stream_name, std.section_name,
+            std.student_id,
+            std.student_name,
+            log.enrollment_no,
+            log.mobile_number as mobile,
+            log.sms_count,
+            log.sent_date, 
+            log.message, 
+            log.status');
+        $this->db->from('tbl_student_bulk_sms_log as log');
+        $this->db->join('tbl_students_info as std', 'std.student_id = log.enrollment_no','left');
+        // $this->db->join('tbl_student_academic_info as acdmic', 'acdmic.application_no = std.application_no','left');
+        if (!empty($filter['date_from'])) {
+            $this->db->where('log.sent_date >=', $filter['date_from']);
+        }
+        if (!empty($filter['date_to'])) {
+            $this->db->where('log.sent_date <=', $filter['date_to']);
+        }
+        if (!empty($filter['term_name'])) {
+            $this->db->where('std.term_name', $filter['term_name']);
+        }
+        if (!empty($filter['stream_name'])) {
+            $this->db->where('std.stream_name', $filter['stream_name']);
+        }
+        if (!empty($filter['section_name'])) {
+            $this->db->where('std.section_name', $filter['section_name']);
+        }
+        $this->db->where('std.is_deleted', 0);
+        $this->db->where('std.is_active', 1);
+        $this->db->order_by('log.sent_date','ASC');
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    public function getAbsenteesSMSReport($filter = '') {
+        $this->db->select('std.term_name, 
+        std.stream_name, std.section_name,
+        std.student_id,
+        std.student_name,log.date,
+        sub.name');
+        $this->db->from('tbl_absent_sms_info as log');
+        $this->db->join('tbl_students_info as std', 'std.row_id = log.student_id','left');
+        $this->db->join('tbl_student_attendance_details as attendance', 'attendance.student_id = std.student_id','left');
+        $this->db->join('tbl_class_completed_by_staff as class','class.row_id = attendance.class_row_id','left');
+        $this->db->join('tbl_subjects as sub', 'sub.subject_code = class.subject_code','left');
+        if (!empty($filter['date_from'])) {
+            $this->db->where('log.date >=', $filter['date_from']);
+        }
+        if (!empty($filter['date_to'])) {
+            $this->db->where('log.date <=', $filter['date_to']);
+        }
+        if (!empty($filter['date_from'])) {
+            $this->db->where('attendance.absent_date >=', $filter['date_from']);
+        }
+        if (!empty($filter['date_to'])) {
+            $this->db->where('attendance.absent_date <=', $filter['date_to']);
+        }
+        if (!empty($filter['term_name'])) {
+            $this->db->where('std.term_name', $filter['term_name']);
+        }
+        if (!empty($filter['stream_name'])) {
+            $this->db->where('std.stream_name', $filter['stream_name']);
+        }
+        if (!empty($filter['section_name'])) {
+            $this->db->where('std.section_name', $filter['section_name']);
+        }
+        $this->db->where('std.is_deleted', 0);
+        $this->db->where('std.is_active', 1);
+        $this->db->order_by('log.date','ASC');
+        $this->db->order_by('std.student_id', 'ASC');
+        $this->db->group_by('attendance.row_id');
+        $this->db->where('attendance.is_deleted', 0);
+        $query = $this->db->get();
+        return $query->result();
+   
+    }
 
     }
