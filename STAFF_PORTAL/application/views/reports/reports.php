@@ -2565,8 +2565,8 @@
                         <div class="col-6 mb-2">
                             <label>Report type</label>
                             <select class="form-control text-dark" id="reportFormat" name="reportFormat" required>
-                                <!-- <option value="">Report Type</option> -->
-                                <!-- <option value="SMS Report">SMS Report</option> -->
+                                <option value="">Report Type</option>
+                                <option value="SMS Report">SMS Report</option>
                                 <option value="Absentees Report">Absentees Report</option>
                                 
                             </select>

@@ -1759,14 +1759,14 @@ class students_model extends CI_Model
         std.stream_name, std.section_name,
             std.student_id,
             std.student_name,
-            log.enrollment_no,
+            log.application_no,
             log.mobile_number as mobile,
             log.sms_count,
             log.sent_date, 
             log.message, 
             log.status');
         $this->db->from('tbl_student_bulk_sms_log as log');
-        $this->db->join('tbl_students_info as std', 'std.student_id = log.enrollment_no','left');
+        $this->db->join('tbl_students_info as std', 'std.student_id = log.application_no','left');
         // $this->db->join('tbl_student_academic_info as acdmic', 'acdmic.application_no = std.application_no','left');
         if (!empty($filter['date_from'])) {
             $this->db->where('log.sent_date >=', $filter['date_from']);

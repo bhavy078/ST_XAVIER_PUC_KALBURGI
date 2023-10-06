@@ -8,11 +8,9 @@ class SMS extends BaseController {
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('SMS_model','sms');
+        $this->load->model('sms_model','sms');
+        $this->load->model('staff_model','staff');
         $this->load->model('students_model','student');
-        // $this->load->model('billing_model','bill');
-              $this->load->model('timetable_model','timetable');
-              $this->load->model('push_notification_model');
         $this->isLoggedIn();
     }
 
@@ -20,32 +18,109 @@ class SMS extends BaseController {
         if ($this->isAdmin() == true ) {
             $this->loadThis();
         } else {
-            $this->global['pageTitle'] = ''.TAB_TITLE.' : SMS Portal';
+            $data['templates'] = $this->sms->getSMSTemplates();
+            $data['departments'] = $this->staff->getStaffDepartment();
+            $data['streamInfo'] = $this->student->getAllStreamName();
             $data['sms_balance'] =  $this->checkSMSBalance();
+            $data['studentInfo'] = $this->student->getStudentInfo();
+           // $data['studentGroupInfo'] = $this->student->getAllStdMessageGroupInfo();
+            $this->global['pageTitle'] = ''.TAB_TITLE.' : SMS Portal';
             $this->loadViews("sms/send_bulk_sms.php", $this->global, $data, null);
         }
     }
+
+    public function getSMSTemplateByID(){
+        if($this->input->server('REQUEST_METHOD') == "POST"){
+            $templateID = $this->input->post('template_id');
+            
+            $result = $this->sms->getSMSTemplateByID($templateID);
+            if(empty($result))
+                echo 0;
+            else{
+                $result->template = $this->getProcessedTemplate($result->content);
+                echo json_encode($result);
+            }
+        }else{
+            echo 0;
+        }
+    }
+
+    function getProcessedTemplate($templateStr){
+        $searchVal = "{#var#}";
+        $replaceVal = "<span class='editableSpan' contenteditable='true' placeholder='".$searchVal."'></span>";
+        return str_replace($searchVal, $replaceVal, $templateStr);
+    }
+
     public function openSMSSentReport(){
         if ($this->isAdmin() == true ) {
             $this->loadThis();
         } else {
             $this->global['pageTitle'] = ''.TAB_TITLE.' : SMS Report';
-            $data['sms_balance'] =  $this->checkSMSBalance();
-            $data['sms_count'] =  $this->sms->totalSMSSentCount();
+            
+            $student_id = $this->security->xss_clean($this->input->post('student_id'));
+            $by_name = $this->security->xss_clean($this->input->post('by_name'));
+            $by_stream = $this->security->xss_clean($this->input->post('by_stream'));
             $term_name = $this->security->xss_clean($this->input->post('term_name'));
-            $date = $this->security->xss_clean($this->input->post('date_search'));
-            if(empty($date)){
+            $date_search = $this->security->xss_clean($this->input->post('date_search'));
+            $mobile = $this->security->xss_clean($this->input->post('mobile'));
+            $message = $this->security->xss_clean($this->input->post('message'));
+            $sms_count = $this->security->xss_clean($this->input->post('sms_count'));
+            $filter = array();
+           
+
+
+            $filter['mobile'] = $mobile;
+            // if(empty($date_search)){
+            //     $filter['date_search'] =  date('Y-m-d')
+            //     $data['date_search'] = date('Y-m-d');
+            // }else{
+            //     $filter['date_search'] = date('Y-m-d',strtotime($date_search));
+            //     $data['date_search'] = $date_search;
+            // }
+
+            if(empty($date_search)){
+                $filter['date_search'] = date('Y-m-d');
                 $data['date_search'] = date('d-m-Y');
             }else{
-                $data['date_search'] = $date;
+                $filter['date_search'] = date('Y-m-d',strtotime($date_search));
+                $data['date_search'] = date('d-m-Y',strtotime($date_search));
             }
+
             if(empty($term_name)){
-                $data['term_name'] = 'ALL';
+                $data['term_name'] ='';
             }else{
+                $filter['term_name'] = $term_name;
                 $data['term_name'] = $term_name;
             }
-            $data['mobile'] = $this->security->xss_clean($this->input->post('mobile'));
+            $data['message'] = $message;
+            $filter['message'] = $message;
+
+            $data['student_id'] = $student_id;
+            $filter['student_id'] = $student_id;
+
+            $data['by_name'] = $by_name;
+            $filter['by_name'] = $by_name;
+
+            $data['by_stream'] = $by_stream;
+            $filter['by_stream'] = $by_stream;
+
+            $data['mobile'] = $mobile;
+            $filter['mobile'] = $mobile;
+
+            $data['sms_count'] = $sms_count;
+            $filter['sms_count'] = $sms_count;
+
+            $data['streamInfo'] = $this->student->getAllStreamName();
+            $count = $this->sms->getSMSSentReportCount($filter);
+            $returns = $this->paginationCompress("openSMSSentReport/", $count, 100);
+            $data['sms_counts'] = $count;
+            $filter['page'] = $returns["page"];
+            $filter['segment'] = $returns["segment"];
+            $data['accountDetails'] = $this->sms->getSMSSentReport($filter);
+            $data['sms_balance'] =  $this->checkSMSBalance();
+            //$data['sms_count'] =  $this->sms->totalSMSSentCount();
             $this->loadViews("sms/sms_sent_report", $this->global, $data, null);
+            
         }
     }
 
@@ -110,51 +185,90 @@ class SMS extends BaseController {
         }
     }
 
-    public function sendSMSToStaff(){
-        if ($this->isAdmin() == true ) {
-            $this->loadThis();
-        } else {
-            $this->global['pageTitle'] = ''.TAB_TITLE.' : Staffs Details';
-            $this->load->library('form_validation');
-            $this->form_validation->set_rules('message','Message','trim|required');
-            if($this->form_validation->run() == FALSE)
-            {
-                $this->session->set_flashdata('error', 'Sending Staff SMS Failed!');
-                $this->loadViews("staffs/staffs", $this->global, NULL , NULL);
-            }
-            else
-            {
-                $number = '';
-                $message = $this->security->xss_clean($this->input->post('message'));
-                $staffInfo = $this->sms->getAllStaffInfoForSMS();
-                $sms_cost = $this->countSmsCost(strlen($message));
-                foreach($staffInfo as $staff){
-                    if(strlen($staff->mobile_one) == 10){
-                        $number .= $staff->mobile_one.',';
+    public function sendSMSToSingleNumber(){
+        if($this->input->server('REQUEST_METHOD') == "POST"){
+            $smsDetails = json_decode($this->input->post('data'));
+           
+            $smsLog = array(
+                'sent_date' => date('Y-m-d'),	
+                'sent_time' => date('H:i:s'),
+                'application_no' => '',
+                'message' => $smsDetails->message,
+                'status' => 'success',
+                'sent_by' => $this->staff_id,
+                'sms_count' => $smsDetails->sms_cost,
+                'mobile_number' => $smsDetails->mobile
+            );
+            // $this->sendSMS($smsDetails->mobile, $smsDetails->message);
+            $this->sendSMSBulkNumber($smsDetails->mobile, $smsDetails->message);
+            echo $this->sms->saveSMSLog($smsLog); 
+        }else echo 0;
+    }
+
+    public function sendSMSToStudentGroup(){
+        if($this->input->server('REQUEST_METHOD') == "POST"){
+            $smsDetails = json_decode($this->input->post('data'));
+            $studentInfo = $this->sms->getStudentInfoForSMS($smsDetails->term_name,$smsDetails->stream_name,$smsDetails->section_name);
+           
+            $number = array();
+            if(!empty($studentInfo)){
+                foreach($studentInfo as $std){
+                    $primary_contact = $std->father_mobile;
+
+                    if(!empty($primary_contact)){
+                        $contactInfo = $std->father_mobile;
+                    } else {
+                        $contactInfo = $std->mother_mobile;
+                    }
+                 
+                $results = $this->sendSMSBulkNumber($contactInfo,$smsDetails->message);
+                $parts = explode(' ', $results);
+                if (count($parts) > 0) {
+                    $result = $parts[0];
+                } 
                         $smsLog = array(
                             'sent_date' => date('Y-m-d'),	
-                            'sent_time' => date('H:m:s'),
-                            'application_no' => 'STF-'.$staff->staff_id,
-                            'message' => $message,
+                            'sent_time' => date('H:i:s'),
+                            'application_no' => $std->application_no,
+                            'message' => $smsDetails->message,
+                            'status' => $result,
+                            'sent_by' => $this->staff_id,
+                            'sms_count' => $smsDetails->sms_cost,
+                            'mobile_number' => $contactInfo);
+                        $this->sms->saveSMSLog($smsLog);
+            }
+                echo 1;
+        }else{ echo 0; } 
+        }else{ echo 0; }
+    }
+
+    public function sendSMSToStaffGroup(){
+        if($this->input->server('REQUEST_METHOD') == "POST"){
+            $smsDetails = json_decode($this->input->post('data'));
+            $staffInfo = $this->sms->getAllStaffInfoForSMSByDepartment($smsDetails->department_id);
+            log_message('debug','staff'.print_r($staffInfo,true));
+            if(!empty($staffInfo)){
+                foreach($staffInfo as $staff){
+                    if(strlen($staff->mobile) == 10){
+                        $smsLog = array(
+                            'sent_date' => date('Y-m-d'),	
+                            'sent_time' => date('H:i:s'),
+                            'application_no' => '',
+                            'message' => $smsDetails->message,
                             'status' => 'success',
                             'sent_by' => $this->staff_id,
-                            'sms_count' => $sms_cost,
-                            'mobile_number' => $staff->mobile_one
+                            'sms_count' => $smsDetails->sms_cost,
+                            'mobile_number' => $staff->mobile
                         );
                         $this->sms->saveSMSLog($smsLog); 
-                    }
+                        $this->sendSMS($staff->mobile,$smsDetails->message);
+                    }                    
                 }
-               // $smsStatus['status'] = 'success';
-                $smsStatus = $this->sendSMS($number,$message);
-                if($smsStatus['status'] == 'success'){
-                    $this->session->set_flashdata('success', 'SMS Sent Successfully');
-                }else{
-                    $this->session->set_flashdata('error', 'Something Went wrong please contact us');
-                }
-                $this->loadViews("staffs/staffs", $this->global, NULL , NULL);
-            }
-        }
+                echo 1;
+            }else echo 0;
+        }else echo 0;
     }
+
     public function sendBulkSMS(){
         if($this->isAdmin() == TRUE)
         {
@@ -265,6 +379,137 @@ class SMS extends BaseController {
         
     }
 
+    function getSMSResponse()
+    {
+        if($this->isAdmin() == TRUE)
+        {
+            $this->loadThis();
+        } else {
+            $start_date = $this->input->post('date_from');
+            $end_date = $this->input->post('date_to');
+            if(empty($start_date)){
+                if(empty($_SESSION['sms_start_date'])){
+                    $data['start_date'] = date('d-m-Y 00:00:00'); 
+                    $data['end_date'] = date('d-m-Y H:i:s');
+                }else{
+                    $data['start_date'] = $_SESSION['sms_start_date']; 
+                    $data['end_date'] = $_SESSION['sms_end_date'];
+                }
+            }else{
+                $data['start_date'] = $_SESSION['sms_start_date'] = $start_date;
+                $data['end_date'] = $_SESSION['sms_end_date'] = $end_date;
+
+            }
+            $this->global['pageTitle'] = ''.TAB_TITLE.' : Subject Details';
+            $this->loadViews("sms/sms_status", $this->global,$data, NULL);
+        }
+    }
+
+    public function get_sms_response(){
+        if($this->isAdmin() == TRUE)
+        {
+            $this->loadThis();
+        } else {
+            $draw = intval($this->input->post("draw"));
+            $start = intval($this->input->post("start"));
+            $length = intval($this->input->post("length"));
+            $data_array_new = [];
+
+            // if(empty($_SESSION['sms_start_date'])){
+            //     $start_date = date('d-m-Y 00:00:00'); 
+            //     $end_date = date('d-m-Y H:i:s');
+            // }else{
+            //     $start_date = date('d-m-Y 00:00:00',strtotime($_SESSION['sms_start_date'])); 
+            //     $end_date = date('d-m-Y 24:00:00',strtotime($_SESSION['sms_end_date']));
+            // }
+            
+            // $apiKey = API_KEY;
+            // // Prepare data for POST request
+            // $data = array('apikey' => $apiKey,'min_time' => strtotime($start_date),'max_time' => strtotime($end_date));
+            // // Send the POST request with cURL
+            // $ch = curl_init('https://api.textlocal.in/get_history_api/');
+            // curl_setopt($ch, CURLOPT_POST, true);
+            // curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+            // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            // $response = curl_exec($ch);
+            // curl_close($ch);
+            // // Process your response here
+            // // echo $response;
+
+            // // log_message('debug','response'.print_r($response['messages'],true));
+            // $smsInfo = json_decode($response);
+            // $smsInfo = $smsInfo->messages;
+            
+            // // log_message('debug','cc'.count($response));
+            
+            // // foreach($smsInfo['messages'] as $subject) {
+            //     for($i=0;$i<count($smsInfo);$i++){
+            //         $status = 'UnKnown';
+            //         switch($smsInfo[$i]->status){
+            //             case 'D': $status = 'Delivered'; 
+            //             break; 
+            //             case 'U': $status = 'Undelivered'; 
+            //             break;
+            //             case 'P': $status = 'Pending'; 
+            //             break;
+            //             case 'I': $status = 'Invalid'; 
+            //             break;
+            //             case 'E': $status = 'Expired'; 
+            //             break;
+            //             case '?': $status = 'Pushed'; 
+            //             break;
+            //             case 'B': $status = 'Blocked'; 
+            //             break;
+            //         }   
+            //         $smsNumber = $smsInfo[$i]->number;
+            //         if (substr($smsNumber, 0, 2) == '91') {
+            //             $studentNumber = substr($smsNumber, 2); // Remove the "91" prefix
+            //         } else {
+            //             $studentNumber = $smsNumber;
+            //         }
+                   
+            //         $studentInfo = $this->student->getStudentInfoByPhoneNumber($studentNumber);
+                  
+            //     $data_array_new[] = array(
+            //         date('d-m-Y H:i:s',strtotime($smsInfo[$i]->datetime)),
+            //         $smsInfo[$i]->number,
+            //         $studentInfo->student_name,
+            //         $studentInfo->term_name,
+            //         $studentInfo->stream_name,
+            //         $studentInfo->section_name,
+            //         $smsInfo[$i]->content,
+            //         $status
+            //     );
+            // }
+            $data_array_new = [];
+            $accountDetails = $this->sms->getSMSSentReport($filter);
+            foreach($accountDetails as $account) {
+    
+
+                $data_array_new[] = array(
+
+                    date('d-m-Y',strtotime($account->sent_date)),
+                    $account->mobile,
+                    $account->student_name,
+                    $account->term_name,
+                    $account->stream_name,
+                    $account->section_name,
+                    $account->message,
+                    $account->status,
+                );
+            }
+            $count = count($accountDetails);
+            $result = array(
+                "draw" => $draw,
+                    "recordsTotal" => $count,
+                    "recordsFiltered" => $count,
+                    "data" => $data_array_new
+            );
+            echo json_encode($result);
+            exit();
+        }
+    }
+
 //send sms to single number
     public function sendSMS_to_SingleNumber(){
         if($this->isAdmin() == TRUE)
@@ -323,43 +568,85 @@ class SMS extends BaseController {
             
     }
     
-    public function sendSingleSMS(){
-        if($this->isAdmin() == TRUE){
-            $this->loadThis();
-        }else{
-            $filter = array();
-            $to = $this->input->post('to_msg');
-            $students = json_decode(stripslashes($this->input->post('student_id')));
-            // $onlyParents = $this->input->post('onlyParents');
-            // $onlyStudent = $this->input->post('onlyStudent');
-            $message = $this->input->post('message');
-            // $term = $this->input->post('term');
-            $message = "$to %n $message -Principal, AGNES";
-            foreach($students as $student_id){  
-                $mobile = "";         
-                $filter['student_id'] = $student_id;
-                $stdInfo = $this->student->getStudentInfoByStudentId($filter);
-                $data_students = $this->sms->getStudentMobileNumberById($stdInfo->application_no,$stdInfo->primary_mobile);
-                $mobile_no = $data_students->mobile_no;
-
-                
-                if($mobile_no != ""){
-                    $status = $this->sendSingleNumberSMS($mobile_no,$message);
+    public function sendSMSToNumberList(){
+        if($this->input->server('REQUEST_METHOD') == "POST"){
+            $smsDetails = json_decode($this->input->post('data'));
+            $phoneNumbers = json_decode($smsDetails->mobile);
+            foreach($phoneNumbers as $number){
+                if(strlen($number) == 10){
                     $smsLog = array(
-                        'date_time' => date('Y-m-d H:i:s'),
-                        'student_id' => $student_id,
-                        'message' => $message,
-                        'status' => $status,
+                        'sent_date' => date('Y-m-d'),	
+                        'sent_time' => date('H:i:s'),
+                        'application_no' => '',
+                        'message' => $smsDetails->message,
+                        'status' => 'success',
                         'sent_by' => $this->staff_id,
-                        'sms_count' => 1,
-                        'mobile_number' => $mobile_no
+                        'sms_count' => $smsDetails->sms_cost,
+                        'mobile_number' => $number
                     );
-                    $return_id = $this->sms->addNewSMS_Log($smsLog);
+                    $this->sms->saveSMSLog($smsLog); 
+                    $this->sendSMS($number, $smsDetails->message);
                 }
             }
-        echo "success";
-        exit;
-        }
+            echo 1;
+        }else echo 0;
+    }
+
+    public function sendSMSByStudentList(){
+        if($this->input->server('REQUEST_METHOD') == "POST"){
+            $smsDetails = json_decode($this->input->post('data'));
+            $application_no = json_decode($smsDetails->application_no);
+            $number = array();
+            foreach($application_no as $application){
+                if(!empty($application)){
+                    // log_message('debug','application'.$application);
+                    $stdInfo = $this->sms->getStudentListForSMS($application);
+                    
+                    
+                        $contactInfo = $stdInfo->father_mobile;
+                        
+                    
+                    // $contactInfo = $this->sms->getParentContactInfo($stdInfo->application_no,$primary_contact);
+                  
+                  
+                    if(strlen($contactInfo) == 10){
+                        $number .= $contactInfo.',';
+                        
+                    }
+                }
+            }
+
+            $result = $this->sendSMS($number, $smsDetails->message);
+            // if($result == 'success'){
+                $parts = explode(' ', $result);
+                if (count($parts) > 0) {
+                    $results = $parts[0];
+                }
+                foreach($application_no as $application){
+                    if(!empty($application)){
+                        
+                        $stdInfo = $this->sms->getStudentListForSMS($application);
+                        $contactInfo = $stdInfo->father_mobile;
+                       
+                        //$contactInfo = $this->sms->getParentContactInfo($stdInfo->application_no,$primary_contact);
+                       
+                       
+                        $smsLog = array(
+                            'sent_date' => date('Y-m-d'),	
+                            'sent_time' => date('H:i:s'),
+                            'application_no' => $stdInfo->student_id,
+                            'message' => $smsDetails->message,
+                            'status' => $results,
+                            'sent_by' => $this->staff_id,
+                            'sms_count' => $smsDetails->sms_cost,
+                            'mobile_number' => $contactInfo
+                        );
+                        $this->sms->saveSMSLog($smsLog); 
+                    }
+                }
+            // }
+            echo 1;
+        }else echo 0;
     }
 
 
@@ -477,24 +764,14 @@ class SMS extends BaseController {
 
 
     function sendSMS($mobile, $message){
-        // $message = rawurlencode($message);  
-        // $data = "username=".USERNAME_TEXTLOCAL."&hash=".HASH_TEXTLOCAL."&message=".$message."&sender=".SENDERID_TEXTLOCAL."&numbers=".$mobile;
-        // $ch = curl_init('http://api.textlocal.in/send/?');
-        // curl_setopt($ch, CURLOPT_POST, true);
-        // curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        // $result_sms = curl_exec($ch); // This is the result from the API
-        // $response = json_decode($result_sms, true);
-        // //log_message('error', 'JSON=' );
-     
         // curl_close($ch);
         // return $response;
         $request =""; //initialise the request variable
         $param['method']= "sendMessage";
         $param['send_to'] = $mobile;
         $param['msg'] = $message;
-        $param['userid'] = "2000115198";
-        $param['password'] = "adminjnpuc";
+        $param['userid'] = "2000232122";
+        $param['password'] = "iHDNnLKji";
         $param['v'] = "1.1";
         $param['msg_type'] = "TEXT"; //Can be "FLASH”/"UNICODE_TEXT"/”BINARY”
         $param['auth_scheme'] = "PLAIN";
@@ -514,7 +791,7 @@ class SMS extends BaseController {
         // curl_close($ch);
         // echo $curl_scraped_page;
        // $response = json_decode($result_sms, true);
-        //log_message('debug', 'JSON='.print_r($result_sms,true));
+        log_message('debug', 'JSON='.print_r($result_sms,true));
      
         curl_close($ch);
         return $response;
@@ -549,9 +826,9 @@ class SMS extends BaseController {
         $param['method']= "sendMessage";
         $param['send_to'] = $mobile;
         $param['msg'] = $message;
-        $param['userid'] = "2000115198";
-        $param['password'] = "adminjnpuc";
-        $param['v'] = "1.0";
+        $param['userid'] = "2000232122";
+        $param['password'] = "iHDNnLKji";
+        $param['v'] = "1.1";
         $param['msg_type'] = "TEXT"; //Can be "FLASH”/"UNICODE_TEXT"/”BINARY”
         $param['auth_scheme'] = "PLAIN";
         //Have to URL encode the values
@@ -570,11 +847,12 @@ class SMS extends BaseController {
         // curl_close($ch);
         // echo $curl_scraped_page;
        // $response = json_decode($result_sms, true);
-        log_message('debug', 'JSON='.print_r($response,true));
+        // log_message('debug', 'JSON='.print_r($response,true));
      
         curl_close($ch);
         return $response;
     }
+
     function countSmsCost($len) {
 
        if($len <= 160){

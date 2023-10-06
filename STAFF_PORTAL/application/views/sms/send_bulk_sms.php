@@ -25,6 +25,10 @@
         width: 270px !important;
     }
 }
+
+#text_message_count{
+    font-size: 18px !important;
+}
 </style>
 <?php
 $this->load->helper('form');
@@ -89,131 +93,809 @@ if ($error) {
                             <div class="row">
                                 <div class="col-lg-6 col-md-12 col-sm-12">
                                     <div class="card text-center">
-                                        <div class="card-header bg-info">
-                                            <div class="row">
-                                                <div class="col-6 col-md-6 text-left h5 text-black">
-                                                    Choose send options
+                                        <div class="card-header bg-info h4 text-black m-0">
+                                        Choose send options
+                                        </div>
+                                        <div class="card-body p-0">
+                                            <input type="hidden" name="input_sms_option_type" id="sms_option_type" value="sms_option_single"/>
+                                            <ul class="nav nav-tabs" id="sms_options_tab" role="tablist">
+                                                <li class="nav-item" data-sms_option_type="sms_option_single">
+                                                    <a class="nav-link active" id="sms_option_single_tab" data-toggle="tab" href="#sms_option_single_tab_content" role="tab" aria-controls="single" aria-selected="true">Single</a>
+                                                </li>
+                                                <li class="nav-item" data-sms_option_type="sms_option_std_group">
+                                                    <a class="nav-link" id="sms_option_std_group_tab" data-toggle="tab" href="#sms_option_std_group_tab_content" role="tab" aria-controls="std_group" aria-selected="false">Student</a>
+                                                </li>
+                                                <li class="nav-item" data-sms_option_type="sms_option_staff_group">
+                                                    <a class="nav-link" id="sms_option_staff_group_tab" data-toggle="tab" href="#sms_option_staff_group_tab_content" role="tab" aria-controls="staff_group" aria-selected="false">Staff</a>
+                                                </li>
+                                                <li class="nav-item" data-sms_option_type="sms_option_list">
+                                                    <a class="nav-link" id="sms_option_list_tab" data-toggle="tab" href="#sms_option_list_tab_content" role="tab" aria-controls="list" aria-selected="false">List</a>
+                                                </li>
+                                                <li class="nav-item" data-sms_option_type="sms_option_by_student">
+                                                    <a class="nav-link" id="sms_option_by_student" data-toggle="tab" href="#sms_option_by_student_content" role="tab" aria-controls="list" aria-selected="false">By Student</a>
+                                                </li>
+                                                <!-- <li class="nav-item" data-sms_option_type="sms_option_by_group">
+                                                    <a class="nav-link" id="sms_option_by_group" data-toggle="tab" href="#sms_option_by_group_content" role="tab" aria-controls="list" aria-selected="false">By Group</a>
+                                                </li> -->
+                                            </ul>
+                                            <style>
+                                                p{
+                                                    text-align: start;
+                                                }
+                                                .sms_option_tab_content.flex_container{
+                                                    display: flex;
+                                                    flex-direction: column;
+                                                }
+                                                .sms_option_tab_content.flex_item{
+                                                    display: flex;
+                                                    width: 100%;
+                                                }
+                                                .sms_option_tab_content.option_info{
+                                                    border: 1px solid black;
+                                                }
+                                                .sms_option_tab_content.input{
+                                                    flex-direction: column;
+                                                    align-items: flex-start;
+                                                }
+                                            </style>
+                                            <div class="tab-content" id="myTabContent">
+                                                <div class="tab-pane fade show active" id="sms_option_single_tab_content" role="tabpanel" aria-labelledby="single-tab">
+                                                    <div class="sms_option_tab_content flex_container m-3">
+                                                        <div class="sms_option_tab_content option_info flex_item p-2">
+                                                            <div class="pr-2">
+                                                                <i style="font-size: 30px" class="fas fa-info-circle"></i>
+                                                            </div>
+                                                            <p class="m-0">
+                                                                Please enter a valid mobile number.
+                                                            </p>
+                                                        </div>
+                                                        <div class="sms_option_tab_content input flex_item mt-3">
+                                                            <input class="form-control" type="text" name="input_single_phone_number" id="single_phone_number" placeholder="Enter the phone number"/>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div class="col-6 col-md-6 text-right">
-                                                    <a tabindex="0" class="btn btn-sm btn-info" role="button"
-                                                        data-toggle="popover" data-trigger="focus"
-                                                        title="Send Option Help"
-                                                        data-content="Choose Select option for specified students and Check the below option for specified mobile number.">Help
-                                                        <span class="material-icons small">
-                                                            help
-                                                        </span></a>
-
+                                                <div class="tab-pane fade" id="sms_option_std_group_tab_content" role="tabpanel" aria-labelledby="group-tab">
+                                                    <div class="sms_option_tab_content flex_container m-3">
+                                                        <div class="sms_option_tab_content option_info flex_item p-2">
+                                                            <div class="pr-2">
+                                                                <i style="font-size: 30px" class="fas fa-info-circle"></i>
+                                                            </div>
+                                                            <p class="m-0">
+                                                                Please select the group.
+                                                            </p>
+                                                        </div>
+                                                        <div class="sms_option_tab_content input flex_item mt-3">
+                                                            <label style="float:left" for="">Select By Term</label>
+                                                            <select class="form-control" name="term_name" id="term_name_select" required>
+                                                                <option value="">Select Term</option>  
+                                                                <option value="I PUC">I PUC</option>
+                                                                <option value="II PUC">II PUC</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="sms_option_tab_content input flex_item mt-3">
+                                                            <label style="float:left"  for="">Select By Stream</label>
+                                                            <select data-live-search="true" class="form-control selectpicker"
+                                                                name="stream_name" id="stream_stream_select" multiple required>
+                                                                <option value="">Select Stream</option>
+                                                                <!-- <option value="ALL">ALL</option> -->
+                                                                <?php 
+                                                                    if(!empty($streamInfo)){
+                                                                        foreach($streamInfo as $stream){
+                                                                            echo "<option value='".$stream->stream_name."'>".$stream->stream_name."</option>";
+                                                                        }
+                                                                    }
+                                                                ?>
+                                                            </select>
+                                                        </div>
+                                                        <div class="sms_option_tab_content input flex_item mt-3">
+                                                            <label style="float:left"  for="">Select By Section</label>
+                                                            <select data-live-search="true" class="form-control"
+                                                                name="section_name" id="section_select" required>
+                                                                <option value="ALL">ALL</option>
+                                                                <option value="A">A</option>
+                                                                <option value="B">B</option>
+                                                                <option value="C">C</option>
+                                                                <option value="D">D</option>
+                                                                <option value="E">E</option>
+                                                                <option value="F">F</option>
+                                                                <option value="G">G</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
                                                 </div>
+                                                <div class="tab-pane fade" id="sms_option_staff_group_tab_content" role="tabpanel" aria-labelledby="group-tab">
+                                                    <div class="sms_option_tab_content flex_container m-3">
+                                                        <div class="sms_option_tab_content option_info flex_item p-2">
+                                                            <div class="pr-2">
+                                                                <i style="font-size: 30px" class="fas fa-info-circle"></i>
+                                                            </div>
+                                                            <p class="m-0">
+                                                                Please select the group.
+                                                            </p>
+                                                        </div>
+                                                        <div class="sms_option_tab_content input flex_item mt-3">
+                                                            <label style="float:left" for="">Select By Department</label>
+                                                            <select class="form-control" name="department" id="department_select" required>                                                                 
+                                                                <option value="ALL">ALL</option> 
+                                                                <?php 
+                                                                    if(!empty($departments)){
+                                                                        foreach($departments as $dept){
+                                                                            echo "<option value='".$dept->dept_id."'>".$dept->name."</option>";
+                                                                        }
+                                                                    }
+                                                                ?>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane fade" id="sms_option_list_tab_content" role="tabpanel" aria-labelledby="list-tab">
+                                                    <div class="sms_option_tab_content flex_container m-3">
+                                                        <div class="sms_option_tab_content option_info flex_item p-2">
+                                                            <div class="pr-2">
+                                                                <i style="font-size: 30px" class="fas fa-info-circle"></i>
+                                                            </div>
+                                                            <p class="m-0">
+                                                                Copy and paste a list of mobile numbers in to the bo below. Ensure that you enter one number per line.
+                                                                (All duplicates will automatically be removed)
+                                                            </p>
+                                                        </div>
+                                                        <div class="sms_option_tab_content input flex_item mt-3">
+                                                            <textarea style="width:100%;" rows="11" id="input_list_phone_number" name="input_list_phone_number"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>   
+                                                
+                                                <div class="tab-pane fade" id="sms_option_by_student_content" role="tabpanel" aria-labelledby="list-tab">
+                                                    <div class="sms_option_tab_content flex_container m-3">
+                                                        <!-- <div class="sms_option_tab_content option_info flex_item p-2">
+                                                            <div class="pr-2">
+                                                                <i style="font-size: 30px" class="fas fa-info-circle"></i>
+                                                            </div>
+                                                            <p class="m-0">
+                                                                Copy and paste a list of mobile numbers in to the bo below. Ensure that you enter one number per line.
+                                                                (All duplicates will automatically be removed)
+                                                            </p>
+                                                        </div> -->
+                                                        <div class="sms_option_tab_content input flex_item mt-3">
+                                                            <label style="float:left" for="">Select By Student</label>
+                                                            <select class="form-control selectpicker" name="student" id="student_select" data-live-search="true" required>    
+                                                                <option value="">Select Student</option>
+                                                                <?php 
+                                                                    if(!empty($studentInfo)){
+                                                                        foreach($studentInfo as $std){
+                                                                            echo "<option value='".$std->student_id."'>".$std->student_id.' '.$std->student_name.' - '.$std->term_name."</option>";
+                                                                        }
+                                                                    }
+                                                                ?>
+                                                            </select>
+                                                        </div>
+                                                        <div class="sms_option_tab_content input flex_item mt-3">
+                                                            <textarea style="width:100%;" rows="11" id="input_student_phone_number" name="input_student_phone_number"></textarea>
+                                                        </div>
+                                                        <button class="btn btn-success" id="student_select_button" type="button" class="mt-2">Add</button>
+                                                    </div>
+                                                </div> 
+                                                
+                                                <div class="tab-pane fade" id="sms_option_by_group_content" role="tabpanel" aria-labelledby="list-tab">
+                                                    <div class="sms_option_tab_content flex_container m-3">
+                                                        
+                                                        <div class="sms_option_tab_content input flex_item mt-3">
+                                                            <label style="float:left" for="">Select By Student</label>
+                                                            <select class="form-control selectpicker" name="student[]" id="student_group_select" data-live-search="true" multiple required>    
+                                                                <option value="">Select Student</option>
+                                                                <?php 
+                                                                    if(!empty($studentGroupInfo)){
+                                                                        foreach($studentGroupInfo as $std){
+                                                                            echo "<option value='".$std->student_id."'>".$std->sms_name.'-'.$std->student_name."</option>";
+                                                                            //  log_message('debug','test=='.print_r($std->student_id,true));
+                                                                        }
+                                                                    }
+                                                                ?>
+                                                            </select>
+                                                        </div>
+                                                        <!-- <div class="sms_option_tab_content input flex_item mt-3">
+                                                            <textarea style="width:100%;" rows="11" id="input_student_phone_number" name="input_student_phone_number"></textarea>
+                                                        </div>
+                                                        <button class="btn btn-success" id="student_select_button" type="button" class="mt-2">Add</button> -->
+                                                    </div>
+                                                </div>                  
+                                            </div>
+                                            <div class="customCheckBox m-3">
+                                                <input id="parentsMobile" type="checkbox" value="parentsMobile"
+                                                    name="parentsMobile" checked>
+                                                <label for="parentsMobile" class="mr-3">Parent's Mobile</label>
+                                                <span></span>
                                             </div>
                                         </div>
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="form-group col-6">
-                                                <label style="float:left" for="stream_section_select">Select By Term</label>
-                                                    <select class="form-control" name="term_name" id="term_name_select"
-                                                        required>
-                                                        <option value="">Select Term</option>
-                                                       
-                                                        <option value="I">I PUC</option>
-                                                        <option value="II">II PUC</option>
-                                                    </select>
-                                                </div>
-                                                <div class="form-group col-6">
-                                                <label style="float:left"  for="stream_section_select">Select By Stream</label>
-                                                    <select data-live-search="true" class="form-control"
-                                                        name="stream_name" id="stream_stream_select" required>
-                                                        <option value="">Select Stream</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                            
-                                                <div class="form-group col-6">
-                                                <label style="float:left"  for="stream_section_select">Select By Section Name</label>
-                                                    <select data-live-search="true" class="form-control"
-                                                        name="section_name" id="stream_section_select" required>
-                                                        <option value="ALL">ALL</option>
-                                                        <option value="A">A</option>
-                                                        <option value="B">B</option>
-                                                        <option value="C">C</option>
-                                                        <option value="D">D</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-
-                                                <div class="form-group col-6">
-                                                    <div class="customCheckBox ">
-                                                        <input id="parentsMobile" type="checkbox" value="parentsMobile"
-                                                            name="parentsMobile">
-                                                        <label for="parentsMobile">Parent's Mobile</label>
-                                                        <span></span>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group col-6">
-                                                    <div class="customCheckBox">
-                                                        <input id="onlyStudent" type="checkbox" value="onlyStudent"
-                                                            name="onlyStudent">
-                                                        <label for="onlyStudent">Student's Mobile</label>
-                                                        <span></span>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group col-6">
-                                                    <div class="customCheckBox">
-                                                        <input id="onlyGuardian" type="checkbox" value="onlyGuardian"
-                                                            name="onlyGuardian">
-                                                        <label for="onlyGuardian">Guardian's Mobile</label>
-                                                        <span></span>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-
-                                            <!-- <div class="row">
-                                                <div class="form-group col-12">
-                                                    <textarea class="form-control" rows="2" onkeypress="allowNumbersOnly(event)"
-                                                        placeholder="Enter Mobile Number here...(without 91)"
-                                                        id="mobile" name="mobile"></textarea>
-                                                </div>
-
-                                            </div> -->
-                                        </div>
-
                                     </div>
                                 </div>
-
                                 <div class="col-lg-6 col-md-12 col-sm-12">
                                     <div class="card text-center">
-                                        <div class="card-header bg-info h4 text-black">
-                                            Message
+                                        <div class="card-header bg-info h4 text-black m-0">
+                                            Message Details
                                         </div>
                                         <div class="card-body">
-                                            <input type="hidden" value="" id="per_sms_cost" name="sms_cost" />
-                                            <div class="form-group">
-                                                <textarea class="form-control" rows="6"
-                                                    placeholder="Write messages here...(Messages above 159 characters will be sent as 2 texts)"
-                                                    id="message" name="message" required></textarea>
+                                            <style>
+                                                .sms_details.flex_container{
+                                                    display: flex;
+                                                    flex-direction: column;
+                                                }
+                                                .sms_details.flex_item{
+                                                    display: flex;
+                                                    width: 100%;
+                                                }
+                                                .sms_details.input{
+                                                    flex-direction: column;
+                                                    align-items: flex-start;
+                                                }
+                                                .sms_details.info, .sms_details.msg_area{
+                                                    border: 1px solid black;
+                                                }
+                                                .sms_details.msg_area > p{
+                                                    font-size: 20px;
+                                                    line-height: 2.2rem;
+                                                }
+                                                span.editableSpan[contenteditable=true]:empty:before{
+                                                    content: attr(placeholder);
+                                                }
+                                                span.editableSpan[contenteditable]{
+                                                    font-style: bold;
+                                                    color: green;
+                                                }
+                                                span.multipleEditableText[contenteditable=true]:empty:before{
+                                                    content: attr(placeholder);
+                                                }
+                                                span.multipleEditableText[contenteditable]{
+                                                    font-style: bold;
+                                                    color: green;
+                                                }
+                                            </style>
+                                            <div class="sms_details flex_container">
+                                                <div class="sms_details input flex_item">
+                                                    <label>Template</label>
+                                                    <select class="form-control form-control-md selectpicker" id="template_id" data-live-search="true" required>
+                                                        <?php
+                                                            foreach($templates as $tmp){?>
+                                                            <option value="<?=$tmp->row_id;?>"><?=$tmp->name;?></option>
+                                                        <?php    }
+                                                        ?>
+                                                    </select>
+                                                </div>
+                                                <div class="sms_details input flex_item mt-2">
+                                                    <label>Linked Headers</label>
+                                                    <input class="form-control" type="text" id="linked_header" value="" disabled/>
+                                                </div>
+                                                <div class="sms_details input flex_item mt-2">
+                                                    <label>Template Registration Number</label>
+                                                    <input class="form-control" type="text" id="template_reg_no" value="" disabled/>
+                                                </div>
+                                                <div class="sms_details info flex_item p-2 mt-3">
+                                                    <div class="pr-2">
+                                                        <i style="font-size: 30px" class="fas fa-info-circle"></i>
+                                                    </div>
+                                                    <p class="m-0">
+                                                        Please fill out the following to generate the required message.
+                                                    </p>
+                                                </div>
+                                                <div class="sms_details msg_area flex_item p-2 mt-3">
+                                                    <p class="m-0" id="msg_body"></p>
+                                                </div>
+                                                <span id="text_message_count" class="text-dark text-right float-right"></span>
+                                                <div class="mt-2">
+                                                    <button type="button" onclick="validateSMSForm()" class="btn btn-primary float-right">Submit</button>
+                                                </div>
                                             </div>
-                                            <input type="button" class="btn btn-success font-weight-bold btn-block"
-                                                id="submitBtn" value="Send" />
                                         </div>
-
                                     </div>
                                 </div>
-
-
-
-
                             </div>
                         </form>
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script>
+    const setErrorMessage = err_msg =>{
+        if(err_msg){
+            $('#errorMsg').html(`<div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong>Error!</strong> ` + err_msg + `</div>`);
+        }else $('#errorMsg').html('');
+    }
+    const getMessage = ()=>{
+        let msgStr = $("#msg_body").text();
+        // msgStr = msgStr.replace(/\s+/g, " ").trim();
+        return msgStr;
+    }
+    const confirmSMSDelivery = ()=>{
+        const smsOpt = $('#sms_option_type').val();
+        const message = getMessage();
+        const msg_cost = countSmsCost(message.length);
+        var tableRows = "";
+        if(smsOpt == "sms_option_single"){
+            const phoneNumber = $("#single_phone_number").val();
+            tableRows += "<tr>" +
+                            "<th>Phone Number</th>" +
+                            "<td>"+ $("#single_phone_number").val() +"</td>" +
+                        "</tr><tr>" +
+                            "<th>To</th>" +
+                            "<td>Parent's</td>" +
+                        "</tr><tr>" +
+                            "<th>Message</th>" +
+                            "<td>"+ message +"</td>" +
+                        "</tr><tr>" +
+                            "<th>Per SMS Cost</th>" +
+                            "<td>"+ msg_cost +"</td>" +
+                        "</tr>";
+            $("#smsConfirmModalTable").html(tableRows);
+            $('#confirm-submit').modal('show');
+            
+        }else if(smsOpt == "sms_option_std_group"){
+            const termName = $("#term_name_select").val();
+            const sectionName = $("#section_select").val();
+            const streamName = $("#stream_stream_select").val();
+            tableRows += "<tr>" +
+                            "<th>Term</th>" +
+                            "<td>"+ termName +"</td>" +
+                        "</tr><tr>" +
+                            "<th>Stream</th>" +
+                            "<td>"+ streamName +"</td>" +
+                        "</tr>"
+                        "<tr>" +
+                            "<th>Section</th>" +
+                            "<td>"+ sectionName +"</td>" +
+                        "</tr><tr>" +
+                            "<th>To</th>" +
+                            "<td>Parent's</td>" +
+                        "</tr><tr>" +
+                            "<th>Message</th>" +
+                            "<td>"+ message +"</td>" +
+                        "</tr><tr>" +
+                            "<th>Per SMS Cost</th>" +
+                            "<td>"+ msg_cost +"</td>" +
+                        "</tr>";
+            $("#smsConfirmModalTable").html(tableRows);
+            $('#confirm-submit').modal('show');
+        }else if(smsOpt == "sms_option_staff_group"){
+            const departmentName = $("#department_select option:selected" ).text();
+            tableRows += "<tr>" +
+                            "<th>Department</th>" +
+                            "<td>"+ departmentName +"</td>" +
+                        "</tr><tr>" +
+                            "<th>To</th>" +
+                            "<td>Parent's</td>" +
+                        "</tr><tr>" +
+                            "<th>Message</th>" +
+                            "<td>"+ message +"</td>" +
+                        "</tr><tr>" +
+                            "<th>Per SMS Cost</th>" +
+                            "<td>"+ msg_cost +"</td>" +
+                        "</tr>";
+            $("#smsConfirmModalTable").html(tableRows);
+            $('#confirm-submit').modal('show');
 
+        }else if(smsOpt == "sms_option_by_group"){
+            const groupName = $("#student_group_select option:selected" ).text();
+            tableRows += "<tr>" +
+                            "<th>Group Name</th>" +
+                            "<td>"+ groupName +"</td>" +
+                        "</tr><tr>" +
+                            "<th>To</th>" +
+                            "<td>Parent's</td>" +
+                        "</tr><tr>" +
+                            "<th>Message</th>" +
+                            "<td>"+ message +"</td>" +
+                        "</tr><tr>" +
+                            "<th>Per SMS Cost</th>" +
+                            "<td>"+ msg_cost +"</td>" +
+                        "</tr>";
+            $("#smsConfirmModalTable").html(tableRows);
+            $('#confirm-submit').modal('show');
+
+        } else if(smsOpt == "sms_option_list"){
+            let phoneNumbers = $("#input_list_phone_number").val().split(',');
+            let uniquePhoneNumbers = [...new Set(phoneNumbers)];
+            let phnoList = "";
+            uniquePhoneNumbers.map((phno,ind)=>{
+                if(ind == (uniquePhoneNumbers.length-1)) phnoList += phno;
+                else phnoList += phno+", ";
+            });
+            tableRows += "<tr>" +
+                            "<th>Phone Numbers</th>" +
+                            "<td>"+ phnoList +"</td>" +
+                        "</tr><tr>" +
+                            "<th>To</th>" +
+                            "<td>Parent's</td>" +
+                        "</tr><tr>" +
+                            "<th>Message</th>" +
+                            "<td>"+ message +"</td>" +
+                        "</tr><tr>" +
+                            "<th>Per SMS Cost</th>" +
+                            "<td>"+ msg_cost +"</td>" +
+                        "</tr>";
+            $("#smsConfirmModalTable").html(tableRows);
+            $('#confirm-submit').modal('show');
+        }else if(smsOpt == "sms_option_by_student"){
+            let application_no = $("#input_student_phone_number").val().split('\n');
+            // let uniquePhoneNumbers = [...new Set(phoneNumbers)];
+            // let phnoList = "";
+            // uniquePhoneNumbers.map((phno,ind)=>{
+            //     if(ind == (uniquePhoneNumbers.length-1)) phnoList += phno;
+            //     else phnoList += phno+", ";
+            // });
+            tableRows += "<tr>" +
+                            "<th>Phone Numbers</th>" +
+                            "<td>"+ application_no +"</td>" +
+                        "</tr><tr>" +
+                            "<th>To</th>" +
+                            "<td>Parent's</td>" +
+                        "</tr><tr>" +
+                            "<th>Message</th>" +
+                            "<td>"+ message +"</td>" +
+                        "</tr><tr>" +
+                            "<th>Per SMS Cost</th>" +
+                            "<td>"+ msg_cost +"</td>" +
+                        "</tr>";
+            $("#smsConfirmModalTable").html(tableRows);
+            $('#confirm-submit').modal('show');
+        }
+    }
+
+    const validateSMSForm = ()=>{ 
+        const smsOpt = $('#sms_option_type').val();
+        if(smsOpt == "sms_option_single"){
+            const phoneNumber = $("#single_phone_number").val();
+            if(phoneNumber == "" || phoneNumber.length != 10){
+                setErrorMessage("Please enter valid mobile number");
+                return;
+            }else if(! $('#parentsMobile').prop("checked")){
+                setErrorMessage("Please choose sms delivery destination");
+                return;
+            }else{
+                setErrorMessage(false);
+                confirmSMSDelivery();
+            }
+        }else if(smsOpt == "sms_option_std_group"){
+            if ($('#term_name_select').val() == "") {
+                setErrorMessage("Please select Term Name option");
+                return;
+            } else if ($('#stream_stream_select').val() == "") {
+                setErrorMessage("Please select Stream option");
+                return;
+            }else if(! $('#parentsMobile').prop("checked")){
+                setErrorMessage("Please choose sms delivery destination");
+                return;
+            }else{
+                setErrorMessage(false);
+                confirmSMSDelivery();
+            }
+        }else if(smsOpt == "sms_option_staff_group"){
+            if(! $('#parentsMobile').prop("checked")){
+                setErrorMessage("Please choose sms delivery destination");
+                return;
+            }else{
+                setErrorMessage(false);
+                confirmSMSDelivery();
+            }
+        }else if(smsOpt == "sms_option_by_group"){
+            if(! $('#parentsMobile').prop("checked")){
+                setErrorMessage("Please choose sms delivery destination");
+                return;
+            }else{
+                setErrorMessage(false);
+                confirmSMSDelivery();
+            }
+        }else if(smsOpt == "sms_option_list"){
+            const list = $("#input_list_phone_number").val();
+            if(list == ""){
+                setErrorMessage("Please enter the list of phone numbers");
+                return;
+            }else if(! $('#parentsMobile').prop("checked")){
+                setErrorMessage("Please choose sms delivery destination");
+                return;
+            }else{
+                setErrorMessage(false);
+                confirmSMSDelivery();
+            }
+        }else if(smsOpt == "sms_option_by_student"){
+            const list = $("#input_student_phone_number").val();
+            if(list == ""){
+                setErrorMessage("Please Select Students");
+                return;
+            }else if(! $('#parentsMobile').prop("checked")){
+                setErrorMessage("Please choose sms delivery destination");
+                return;
+            }else{
+                setErrorMessage(false);
+                confirmSMSDelivery();
+            }
+        }
+    }
+
+    const setInitialTemplateView = ()=>{
+        const tempID = $("#template_id").val();
+        setTemplateView(tempID);
+    }
+    const setTemplateView = id =>{
+        showLoader();
+        $.post("<?=base_url()?>getSMSTemplateByID",{template_id: id}).done(res=>{
+            hideLoader();
+            if(res == 0){
+                alert('Something went wrong');
+            }else{
+                try{
+                    let dtls = JSON.parse(res);
+                    $("#linked_header").val(dtls.linked_header);
+                    $("#template_reg_no").val(dtls.reg_no);
+                    $("#msg_body").html(dtls.template);
+                    $('#text_message_count').html('0/0');
+                }catch(err2){
+                    console.log("Error2:",err2);
+                }
+            }
+        }).catch(err1=>{
+            hideLoader();
+            console.log("Error1:",err1);
+        })
+    }
+    $(document).ready(()=>{
+        setInitialTemplateView();
+        $("#template_id").on('change',function(){
+            const tempID = $(this).val();
+            setTemplateView(tempID);
+            $('#text_message_count').html('0/0');
+        });
+
+        $("#single_phone_number").on('keypress',function(evt){
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if($(this).val().length >= 10){
+                return false;
+            }
+            else if (charCode > 31 && (charCode < 48 || charCode > 57)){
+                return false;
+            }
+            return true;
+        });
+
+        $("#input_list_phone_number").on('keypress',function(evt){
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)){
+                return false;
+            }
+            return true;
+        });
+
+        // $("#input_list_phone_number").on('paste',function(evt){
+        //     const regexp = /^(?: *\d+ *(?:\n|$))+$/;
+        //     const copiedText = evt.originalEvent.clipboardData.getData('Text');
+        //     if(! regexp.test(copiedText)){
+        //         evt.preventDefault();
+        //     }
+        // });
+
+        $('body').on('keydown paste blur','.editableSpan',function(evt){
+            const max = 30;
+            if($(this).text().length >= max && evt.which != 8){
+                evt.preventDefault();
+            }
+            
+            $('#text_message_count').html($(this).text().length+'/'+max);
+        });
+        
+        $('body').on('keydown paste blur','.multipleEditableText',function(evt){
+            const max = 150;
+            if($(this).text().length >= max && evt.which != 8){
+                evt.preventDefault();
+            }
+            $('#text_message_count').html($(this).text().length+'/'+max);
+        });
+
+        $("#sms_options_tab > li").on('click',function(){
+            $('#sms_option_type').val($(this).data('sms_option_type'));
+        });
+        $("#modalConfirmBtn").click(function(){
+            $('#confirm-submit').modal('hide');
+            const smsOpt = $('#sms_option_type').val();
+            const message = getMessage();
+            const msg_cost = countSmsCost(message.length);
+            if(smsOpt == "sms_option_single"){
+                const phoneNumber = $("#single_phone_number").val();
+                let postData = {
+                    'message': message,
+                    'mobile': phoneNumber,
+                    'sms_cost': msg_cost
+                };
+                showLoader();
+                $.post("<?=base_url()?>sendSMSToSingleNumber",{data: JSON.stringify(postData)}).done(res=>{
+                    hideLoader();
+                    if(res > 0){
+                        Swal.fire({
+                            icon: 'success',
+                            title: "SMS sent successfully",
+                            text:"",
+                            showConfirmButton: true,
+                        }).then(()=>{
+                            // showLoader();
+                            // location.reload();
+                        });
+                    }else{
+                        Swal.fire({
+                            icon: 'error',
+                            title: "Something went wrong.",
+                            text: "Please try later."
+                        });
+                    }
+                }).catch(err1=>{
+                    hideLoader();
+                    console.log("Error1:",err1);
+                });
+            }else if(smsOpt == "sms_option_std_group"){
+                const termName = $("#term_name_select").val();
+                const sectionName = $("#section_select").val();
+                const streamName = $("#stream_stream_select").val();
+                let postData = {
+                    'message': message,
+                    'term_name': termName,
+                    'stream_name': streamName,
+                    'section_name': sectionName,
+                    'sms_cost': msg_cost
+                };
+                showLoader();
+                $.post("<?=base_url()?>sendSMSToStudentGroup",{data: JSON.stringify(postData)}).done(res=>{
+                    hideLoader();
+                    if(res == 1){
+                        Swal.fire({
+                            icon: 'success',
+                            title: "SMS sent successfully",
+                            text:"",
+                            showConfirmButton: true,
+                        }).then(()=>{
+                            // showLoader();
+                            // location.reload();
+                        });
+                    }else{
+                        Swal.fire({
+                            icon: 'error',
+                            title: "Something went wrong.",
+                            text: "Please try later."
+                        });
+                    }
+                }).catch(err1=>{
+                    hideLoader();
+                    console.log("Error1:",err1);
+                });
+            }else if(smsOpt == "sms_option_staff_group"){
+                const departmentID = $("#department_select").val();
+                let postData = {
+                    'message': message,
+                    'department_id': departmentID,
+                    'sms_cost': msg_cost
+                };
+                showLoader();
+                $.post("<?=base_url()?>sendSMSToStaffGroup",{data: JSON.stringify(postData)}).done(res=>{
+                    hideLoader();
+                    if(res == 1){
+                        Swal.fire({
+                            icon: 'success',
+                            title: "SMS sent successfully",
+                            text:"",
+                            showConfirmButton: true,
+                        }).then(()=>{
+                            // showLoader();
+                            // location.reload();
+                        });
+                    }else{
+                        Swal.fire({
+                            icon: 'error',
+                            title: "Something went wrong.",
+                            text: "Please try later."
+                        });
+                    }
+                }).catch(err1=>{
+                    hideLoader();
+                    console.log("Error1:",err1);
+                });
+            }else if(smsOpt == "sms_option_by_group"){
+                const studentID = $("#student_group_select").val();
+                let postData = {
+                    'message': message,
+                    'studentID': studentID,
+                    'sms_cost': msg_cost
+                };
+                showLoader();
+                $.post("<?=base_url()?>sendSMSToGroup",{data: JSON.stringify(postData)}).done(res=>{
+                    hideLoader();
+                    if(res == 1){
+                        Swal.fire({
+                            icon: 'success',
+                            title: "SMS sent successfully",
+                            text:"",
+                            showConfirmButton: true,
+                        }).then(()=>{
+                            // showLoader();
+                            // location.reload();
+                        });
+                    }else{
+                        Swal.fire({
+                            icon: 'error',
+                            title: "Something went wrong.",
+                            text: "Please try later."
+                        });
+                    }
+                }).catch(err1=>{
+                    hideLoader();
+                    console.log("Error1:",err1);
+                });
+            }else if(smsOpt == "sms_option_list"){
+                let phoneNumbers = $("#input_list_phone_number").val().split('\n');
+                let uniquePhoneNumbers = [...new Set(phoneNumbers)];
+                let postData = {
+                    'message': message,
+                    'mobile': JSON.stringify(uniquePhoneNumbers),
+                    'sms_cost': msg_cost
+                };
+                showLoader();
+                $.post("<?=base_url()?>sendSMSToNumberList",{data: JSON.stringify(postData)}).done(res=>{
+                    hideLoader();
+                    if(res == 1){
+                        Swal.fire({
+                            icon: 'success',
+                            title: "SMS sent successfully",
+                            text:"",
+                            showConfirmButton: true,
+                        }).then(()=>{
+                            // showLoader();
+                            // location.reload();
+                        });
+                    }else{
+                        Swal.fire({
+                            icon: 'error',
+                            title: "Something went wrong.",
+                            text: "Please try later."
+                        });
+                    }
+                }).catch(err1=>{
+                    hideLoader();
+                    console.log("Error1:",err1);
+                });
+            }else if(smsOpt == "sms_option_by_student"){
+                let application_no = $("#input_student_phone_number").val().split(', ');
+                // let uniquePhoneNumbers = [...new Set(phoneNumbers)];
+                let postData = {
+                    'message': message,
+                    'application_no': JSON.stringify(application_no),
+                    'sms_cost': msg_cost
+                };
+                showLoader();
+                $.post("<?=base_url()?>sendSMSByStudentList",{data: JSON.stringify(postData)}).done(res=>{
+                    hideLoader();
+                    if(res == 1){
+                        Swal.fire({
+                            icon: 'success',
+                            title: "SMS sent successfully",
+                            text:"",
+                            showConfirmButton: true,
+                        }).then(()=>{
+                            // showLoader();
+                            // location.reload();
+                        });
+                    }else{
+                        Swal.fire({
+                            icon: 'error',
+                            title: "Something went wrong.",
+                            text: "Please try later."
+                        });
+                    }
+                }).catch(err1=>{
+                    hideLoader();
+                    console.log("Error1:",err1);
+                });
+            }
+        });
+    });
+</script>
 
 
 <!-- Model alert -->
@@ -221,41 +903,22 @@ if ($error) {
     aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header text-white">
                 Confirm Before Send
             </div>
             <div class="modal-body" style="padding:2px;">
                 Are you sure you want to send the SMS?
 
                 <!-- We display the details entered by the user here -->
-                <table class="table">
-                    <tr>
-                        <th>Term</th>
-                        <td id="term_name_selected"></td>
-                    </tr>
-                    <tr>
-                        <th>Stream</th>
-                        <td id="stream_stream_selected"></td>
-                    </tr>
-                    <tr>
-                        <th>To</th>
-                        <td id="sms_to_checked"></td>
-                    </tr>
-                    <tr>
-                        <th>Message</th>
-                        <td id="written_msg"></td>
-                    </tr>
-                    <tr>
-                        <th>Per SMS Cost</th>
-                        <td id="sms_cost"></td>
-                    </tr>
+                <table class="table" id="smsConfirmModalTable">
+                    
                 </table>
 
             </div>
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                <a href="#" id="submit" class="btn btn-success success">Confirm</a>
+                <a href="#" id="modalConfirmBtn" class="btn btn-success success">Confirm</a>
             </div>
         </div>
     </div>
@@ -263,44 +926,43 @@ if ($error) {
 <script type="text/javascript">
 jQuery(document).ready(function() {
     $('#errorMsg').html('');
-    $("#term_name_select").on('change', function() {
-        $('#stream_stream_select option:not(:first)').remove();
-        var term_name = this.value;
 
-        if (term_name == "") {
-            $('#stream_stream_select').attr('disabled', true);
-        } else {
-            $.ajax({
-                url: '<?php echo base_url(); ?>/getStreamNamesByTermSelected',
-                type: 'POST',
-                data: {
-                    term_name: term_name
-                },
-                success: function(data) {
-                    $("#stream_stream_select").append(new Option("ALL", "ALL"));
-                    $('#stream_stream_select').attr('disabled', false);
-                    var count = data.term_name.length;
-                    for (var i = 0; i < count; i++) {
+    // $("#term_name_select").on('change', function() {
+    //     $('#stream_stream_select option:not(:first)').remove();
+    //     var term_name = this.value;
 
-                        $("#stream_stream_select").append(new Option(data.term_name[i]
-                            .stream_name, data.term_name[i].stream_name));
-                    }
-                },
-                error: function(result) {
-                    alert("Retry Again! Something Went Wrong");
-                },
-                fail: (function(status) {
-                    alert("Retry Again! Something Went Wrong");
-                }),
-                beforeSend: function(d) {
-                    // $("#loaderDiv").html(loader);
-                }
-            });
-        }
+    //     if (term_name == "") {
+    //         $('#stream_stream_select').attr('disabled', true);
+    //     } else {
+    //         $.ajax({
+    //             url: '<?php echo base_url(); ?>/getStreamNamesByTermSelected',
+    //             type: 'POST',
+    //             data: {
+    //                 term_name: term_name
+    //             },
+    //             success: function(data) {
+    //                 $("#stream_stream_select").append(new Option("ALL", "ALL"));
+    //                 $('#stream_stream_select').attr('disabled', false);
+    //                 var count = data.term_name.length;
+    //                 for (var i = 0; i < count; i++) {
 
-    });
+    //                     $("#stream_stream_select").append(new Option(data.term_name[i]
+    //                         .stream_name, data.term_name[i].stream_name));
+    //                 }
+    //             },
+    //             error: function(result) {
+    //                 alert("Retry Again! Something Went Wrong");
+    //             },
+    //             fail: (function(status) {
+    //                 alert("Retry Again! Something Went Wrong");
+    //             }),
+    //             beforeSend: function(d) {
+    //                 // $("#loaderDiv").html(loader);
+    //             }
+    //         });
+    //     }
 
-
+    // });
 
     jQuery('.datepicker, .dateSearch').datepicker({
         autoclose: true,
@@ -312,6 +974,8 @@ jQuery(document).ready(function() {
     $(function() {
         $('[data-toggle="popover"]').popover()
     })
+
+    $("#parentsMobile").attr("checked", true);
 });
 
 function allowNumbersOnly(e) {
@@ -341,14 +1005,14 @@ $('#submitBtn').click(function() {
         invalid_destination = false;
         to_send += " Parent's ";
     }
-    if ($('#onlyStudent').prop("checked")) {
-        invalid_destination = false;
-        to_send += " Student ";
-    }
-    if ($('#onlyGuardian').prop("checked")) {
-        invalid_destination = false;
-        to_send += " Guardian ";
-    }
+    // if ($('#onlyStudent').prop("checked")) {
+    //     invalid_destination = false;
+    //     to_send += " Student ";
+    // }
+    // if ($('#onlyGuardian').prop("checked")) {
+    //     invalid_destination = false;
+    //     to_send += " Guardian ";
+    // }
 
     if (invalid_destination == true) {
         error_msg = "Please choose sms delivery destination";
@@ -360,7 +1024,10 @@ $('#submitBtn').click(function() {
         /* when the button in the form, display the entered values in the modal */
         $('#written_msg').text($('#message').val());
         $('#term_name_selected').text($('#term_name_select').val());
-        $('#stream_stream_selected').text($('#stream_stream_select').val());
+        $('#section_select').text($('#section_select').val());
+        $('#stream_stream_select').text($('#stream_stream_select').val());
+
+        
         var msg_count = $('#message').val().length;
         //var msg_cost = Math.ceil(msg_count/160);
 
@@ -379,14 +1046,10 @@ $('#submitBtn').click(function() {
 
 });
 
-$('#submit').click(function() {
-    /* when the submit button in the modal is clicked, submit the form */
-    $('#formSmsBulk').submit();
-    $('#submitBtn').prop('disabled', true);
-    $('#errorMsg').html(`<div class="alert alert-info alert-dismissible">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            <strong>Processing..</strong> Please Wait...</div>`);
-    $('#confirm-submit').modal('hide');
+$('#student_select_button').click(function() {
+    var currentVal = $("#student_select option:selected").val();
+    // alert(currentVal);
+    $('#input_student_phone_number').append(currentVal + ", "); 
 });
 
 
@@ -419,3 +1082,4 @@ function countSmsCost(len) {
 
 }
 </script>
+

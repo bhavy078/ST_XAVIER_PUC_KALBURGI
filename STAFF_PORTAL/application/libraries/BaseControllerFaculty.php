@@ -177,21 +177,27 @@ class BaseController extends CI_Controller {
 	}
 
 	function checkSMSBalance(){
-		$apiKey = urlencode(API_KEY);
-		// Prepare data for POST request
-		$data = array('apikey' => $apiKey);
-		// Send the POST request with cURL
-		$ch = curl_init('https://api.textlocal.in/balance/');
-		curl_setopt($ch, CURLOPT_POST, true);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		$response = curl_exec($ch);
-		curl_close($ch);
-		$json = json_decode($response, true);
-		// Process your response here
-		//log_message('error', 'JSON='.print_r($json['balance']['sms'],true));
-		return  $json['balance']['sms'];
-	   // return $json;
- 
-}
+		$request =""; //initialise the request variable
+        $param['method']= "balanceCheck";
+        
+        $param['userid'] = "2000232122";
+        $param['password'] = "iHDNnLKji";
+       
+        //Have to URL encode the values
+        foreach($param as $key=>$val) {
+        $request.= $key."=".urlencode($val);
+        //we have to urlencode the values
+        $request.= "&";
+        //append the ampersand (&) sign after each parameter/value pair
+        }
+        $request = substr($request, 0, strlen($request)-1);
+        //remove final (&) sign from the request
+        $url = "http://enterprise.smsgupshup.com/apps/apis/accInfo?".$request;
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($ch);
+		$response = explode(":",$response);
+		return $response[1];
+
+    }
 }

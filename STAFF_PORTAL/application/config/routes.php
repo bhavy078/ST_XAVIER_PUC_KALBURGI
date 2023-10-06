@@ -1077,3 +1077,11 @@ $route['generateBarcodeForBook'] = "libraryManagement/generateBarcodeForBook";
 
 
 $route['downloadSMSReport'] = "reports/downloadSMSReport";
+$route['getSMSTemplateByID'] = "SMS/getSMSTemplateByID";
+$route['sendSMSToSingleNumber'] = "SMS/sendSMSToSingleNumber";
+$route['sendSMSToStudentGroup'] = "SMS/sendSMSToStudentGroup";
+$route['sendSMSToStaffGroup'] = "SMS/sendSMSToStaffGroup";
+$route['sendSMSToNumberList'] = "SMS/sendSMSToNumberList";
+$route['sendSMSByStudentList'] = "SMS/sendSMSByStudentList";
+$route['getSMSResponse'] = "SMS/getSMSResponse";
+$route['get_sms_response'] = "SMS/get_sms_response";

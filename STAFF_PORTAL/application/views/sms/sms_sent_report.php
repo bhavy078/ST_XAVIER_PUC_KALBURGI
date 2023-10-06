@@ -1,287 +1,239 @@
-<style>
-.select2-container .select2-selection--single {
-    height: 38px !important;
-    width: 360px !important;
-}
-
-
-.form-control {
-    border: 1px solid #000000 !important;
-}
-
-.select2-container--default .select2-selection--single .select2-selection__arrow b {
-    margin-top: 3px !important;
-    color: black !important;
-
-}
-
-@media screen and (max-width: 480px) {
-    .select2-container--default .select2-selection--single .select2-selection__arrow {
-
-        margin-right: 20px !important;
-    }
-
-    .select2-container .select2-selection--single {
-        width: 270px !important;
-    }
-}
-
-/* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-/* Firefox */
-input[type=number] {
-    -moz-appearance: textfield;
-}
-</style>
 <?php
+ini_set('memory_limit', '2000M');
 $this->load->helper('form');
 $error = $this->session->flashdata('error');
-if ($error) { 
-    ?>
-<div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">×</span>
-    </button>
-    <i class="fa fa-check mx-2"></i>
-    <strong>Error!</strong> <?php echo $this->session->flashdata('error'); ?>
-</div>
+if ($error) {
+?>
+    <div class="alert alert-danger alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <?php echo $this->session->flashdata('error'); ?>
+    </div>
 <?php } ?>
 <?php
-        $success = $this->session->flashdata('success');
-        if ($success) { 
-        ?>
-<div class="alert alert-success alert-dismissible fade show mb-0" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">×</span>
-    </button>
-    <i class="fa fa-check mx-2"></i>
-    <strong>Success!</strong> <?php echo $this->session->flashdata('success'); ?>
-</div>
-<?php }?>
-<div class="row column_padding_card">
-    <div class="col-12">
-        <?php echo validation_errors('<div class="alert alert-danger alert-dismissable">', ' <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button></div>'); ?>
+$success = $this->session->flashdata('success');
+if ($success) {
+?>
+    <div class="alert alert-success alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <?php echo $this->session->flashdata('success'); ?>
     </div>
-</div>
+<?php } ?>
 
-<div class="main-content-container px-3 pt-1 overall_content">
-    <div class="content-wrapper">
-        <div class="row p-0 column_padding_card">
-            <div class="col column_padding_card">
-                <div class="card card-small card_heading_title p-0 m-b-1">
-                    <div class="card-body p-2">
-                        <div class="row c-m-b">
-                            <div class="col-lg-4 col-12 col-md-4 box-tools">
-                                <span class="page-title">
-                                    <i class="fa fa-file"></i> SMS Report
-                                </span>
+<?php
+$warning = $this->session->flashdata('warning');
+if ($warning) {
+?>
+    <div class="alert alert-warning alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <?php echo $this->session->flashdata('warning'); ?>
+    </div>
+<?php } ?>
 
+
+<div class="main-content-container px-3 pt-1">
+    <div class="row">
+        <div class="col-md-12">
+
+            <?php echo validation_errors('<div class="alert alert-danger alert-dismissable">', ' <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button></div>'); ?>
+        </div>
+    </div>
+
+    <!-- Content Header (Page header) -->
+    <div class="row p-0">
+        <div class="col column_padding_card">
+            <div class="card card-small card_heading_title p-0 m-b-1">
+                <div class="card-body p-2">
+                    <div class="row c-m-b">
+                        <div class="col-8 col-sm-4 col-md-5">
+                            <span class="page-title absent_table_title_mobile">
+                                <i class="fa fa-file"></i> SMS Report
+                            </span>
+                        </div>
+
+                        <div class="col-4 col-sm-4 col-md-3">
+                            <div class="text-center text-dark">
+
+                                <b class="pull-left" style="font-size: 20px;"> Total SMS : <?php echo $sms_counts ?></b>
                             </div>
-                            <div class="col-lg-4 col-md-4 col-12">
-                                <span class="page-title">SMS Sent: <?php echo $sms_count->total_sent_sms; ?></span>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-12 ">
-                                <div class="btn-group float-right" role="group" aria-label="Button group with nested dropdown">
+                        </div>
 
-
-                                    <div class="btn-group " role="group">
-                                        <div class="input-group" id="adv-search">
-                                            <!-- <input type="text" class="form-control" placeholder="Search for snippets" /> -->
-                                            <div class="input-group-btn">
-                                                <div class="btn-group" role="group">
-                                                    <div class="dropdown dropdown-lg">
-                                                        <button type="button"
-                                                            class="btn btn-success dropdown-toggle "
-                                                            data-toggle="dropdown" aria-expanded="false">Filter <span
-                                                                class="caret"></span></button>
-                                                        <div style="padding:4px;"
-                                                            class="dropdown-menu dropdown-menu-right" role="menu">
-                                                            <form action="<?php echo base_url(); ?>openSMSSentReport"
-                                                                method="post" class="form-horizontal" role="form">
-                                                                <div class="form-group">
-                                                                    <label for="filter">Term</label>
-                                                                    <select id="term_name" name="term_name"
-                                                                        class="form-control">
-                                                                        <option value="<?php echo $term_name; ?>">
-                                                                            Filtered:
-                                                                            <?php echo $term_name; ?></option>
-                                                                        <option value="ALL">ALL</option>
-                                                                        <option value="I PUC">I PUC</option>
-                                                                        <option value="II PUC">II PUC</option>
-
-                                                                    </select>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="contain">By Date</label>
-                                                                    <input class="form-control"
-                                                                        value="<?php echo $date_search; ?>"
-                                                                        name="date_search" id="search_datepicker"
-                                                                        type="text" />
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="contain">Mobile Number</label>
-                                                                    <input maxlength="10" value="<?php echo $mobile; ?>"
-                                                                        id="mobile" class="form-control" name="mobile"
-                                                                        type="number" />
-                                                                </div>
-                                                                <button type="submit"
-                                                                    class="btn btn-primary float-right">Search</button>
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                    <!-- <button type="button" class="btn btn-primary"><span
-                                                    class="glyphicon glyphicon-search"
-                                                    aria-hidden="true"></span></button> -->
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                   
-
-                                </div>
-
-                            </div>
-
+                        <div class="col-12 col-sm-4 col-md-4 box-tools">
+                            <a onclick="window.history.back();" class="btn btn-md primary_color mobile-btn float-right text-white pt-2" value="Back"><i class="fa fa-arrow-circle-left"></i> Back </a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row p-0 column_padding_card">
-        <div class="col column_padding_card">
-            <div class="card card-small mb-4">
-                <div class="card-body p-1 pb-2 text-center table-responsive">
-                    <table id="item-list" style="width:100%"
-                        class="display table  table-bordered table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Student ID</th>
-                                <th>Term</th>
+
+    <div class="row form-employee">
+        <div class="col-12 column_padding_card">
+            <div class="card card-small c-border p-1">
+                <div class="table-responsive-sm">
+                    <table class="table table-bordered text-dark">
+
+                        <form action="<?php echo base_url() ?>openSMSSentReport" method="POST" id="searchList">
+
+                            <tr class="filter_row">
+                                <th>
+                                    <div class="form-group">
+                                        <input type="text" name="date_search" value="<?php echo $date_search; ?>" id="date_search" class="form-control form-control-md date_search" placeholder="Date" autocomplete="off" />
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="form-group">
+                                        <input type="text" name="student_id" value="<?php echo $student_id; ?>" class="form-control form-control-md pull-right" placeholder="student ID" autocomplete="off" />
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="form-group">
+                                        <input type="text" name="by_name" value="<?php echo $by_name; ?>" class="form-control form-control-md pull-right" placeholder="student Name" autocomplete="off" />
+                                    </div>
+                                </th>
+                                <td>
+                                    <div class="form-group mb-0">
+                                        <select class="form-control" name="term_name" id="term_name">
+                                            <?php if (!empty($term_name)) { ?>
+                                                <option value="<?php echo $term_name; ?>" selected><b>Selected: <?php echo $term_name; ?></b></option>
+                                            <?php } ?>
+                                            <option value="">By Term</option>
+                                            <option value="I PUC">I PUC</option>
+                                            <option value="II PUC">II PUC</option>
+                                        </select>
+                                    </div>
+                                </td>
+                                <th>
+                                    <div class="form-group">
+                                        <select class="form-control " name="by_stream">
+                                            <?php if (!empty($by_stream)) { ?>
+                                                <option value="<?php echo $by_stream; ?>" selected><b>Selected: <?php echo $by_stream; ?></b></option>
+                                            <?php } ?>
+                                            <option value="">select student Stream</option>
+                                             <?php 
+                                                if(!empty($streamInfo)){
+                                                    foreach($streamInfo as $stream){
+                                                        echo "<option value='".$stream->stream_name."'>".$stream->stream_name."</option>";
+                                                    }
+                                                }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="form-group">
+                                        <input type="text" name="message" value="<?php echo $message; ?>" class="form-control form-control-md pull-right" placeholder="Message" autocomplete="off" />
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="form-group">
+                                        <input type="text" name="mobile" value="<?php echo $mobile; ?>" class="form-control form-control-md pull-right" placeholder="mobile" autocomplete="off" />
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="form-group">
+                                        <input type="text" name="sms_count" value="<?php echo $sms_count; ?>" class="form-control form-control-md pull-right" placeholder="Sms Count" autocomplete="off" />
+                                    </div>
+                                </th>
+
+                                <th> <button class="btn btn-block btn-success "><i class="fa fa-filter"></i> Filter </button></th>
+                            </tr>
+                        </form>
+                        <thead class="text-center">
+                            <tr class="table_row_background">
+                                <th width="140">Date</th>
+                                <th >Student ID</th>
+                                <th width="180">Student name</th>
+                                <th>Term Name</th>
                                 <th>Stream</th>
                                 <th>Message</th>
                                 <th>Mobile</th>
-                                <th>Cost</th>
+                                <th>Sms Count</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
-                        <tbody>
-
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <th>Date</th>
-                                <th>Student ID</th>
-                                <th>Term</th>
+                        <thead>
+                            <?php if (!empty($accountDetails)) {
+                                foreach ($accountDetails as $account) { ?>
+                                    <tr>
+                                        <td class="text-center"><?php echo date('d-m-Y',strtotime($account->sent_date)); ?></td>
+                                        <td><?php echo $account->student_id ?></td>
+                                        <td class=""><?php echo strtoupper($account->student_name); ?></td>
+                                        <td class="text-center"><?php echo $account->term_name; ?></td>
+                                        <td class="text-center"><?php echo $account->stream_name; ?></td>
+                                        <td class="text-center"><?php echo $account->message; ?></td>
+                                        <td class="text-center"><?php echo $account->mobile; ?></td>
+                                        <td class="text-center"><?php echo $account->sms_count; ?></td>
+                                        <td class="text-center"><?php echo $account->status; ?></td>
+                                        
+                                    </tr>
+                                <?php }
+                            } else { ?>
+                                <tr class="table-info">
+                                    <td class="text-center" colspan="9">Record Not Found</td>
+                                </tr>
+                            <?php } ?>
+                        </thead>
+                        <thead class="text-center">
+                            <tr class="table_row_background">
+                                <th width="140">Date</th>
+                                <th width="120">Student ID</th>
+                                <th width="180">Student name</th>
+                                <th>Term Name</th>
                                 <th>Stream</th>
-                                <th>Message</th>
+                                <th width="180">Message</th>
                                 <th>Mobile</th>
-                                <th>Cost</th>
+                                <th>Sms Count</th>
                                 <th>Status</th>
                             </tr>
-                        </tfoot>
+                        </thead>
                     </table>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <span class="float-right"><?php echo $this->pagination->create_links(); ?></span>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-</div>
 
-<script type="text/javascript">
-jQuery(document).ready(function() {
-    // $('.datepicker, #dateSearch').datepicker({
-    //     autoclose: true,
-    //     orientation: "bottom",
-    //     format: "dd-mm-yyyy"
+    
+    <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/enquiry.js" charset="utf-8"></script>
+    <script>
+        jQuery(document).ready(function() {
 
-    // });
-    $(function() {
-        $("#dateSearch, #search_datepicker").datepicker({
-            format: "dd-mm-yyyy",
+            jQuery('ul.pagination li a').click(function(e) {
+                e.preventDefault();
+                var link = jQuery(this).get(0).href;
+                var value = link.substring(link.lastIndexOf('/') + 1);
+                jQuery("#searchList").attr("action", baseURL + "openSMSSentReport/" + value);
+                jQuery("#searchList").submit();
+            });
+
+            // jQuery('.date_search').datepicker({
+            //     autoclose: true,
+            //     orientation: "bottom",
+            //     format: "dd-mm-yyyy",
+            //     startDate: "01-11-2021"
+
+            // });
+
+            jQuery('.date_search').datepicker({
             autoclose: true,
-            orientation: "bottom",
+            format: "dd-mm-yyyy",
+            endDate: "today"
         });
-    });
-
-    $('#item-list thead tr').clone(true).appendTo('#item-list thead');
-    $('#item-list thead tr:eq(1) th').each(function(i) {
-        var title = $(this).text();
-        if (title == 'Date') {
-            $(this).html(
-                '<div class="form-group position-relative mb-0 mt-0" style="margin-top: -5px !important; margin-bottom: -5px !important;" ><input style="border: 1px solid #75787b !important;" type="text" id="dateSearch" class="form-control input-sm" placeholder="Search ' +
-                title + '" /> </div>');
-        } else {
-            $(this).html(
-                '<div class="form-group position-relative mb-0 mt-0" style="margin-top: -5px !important; margin-bottom: -5px !important;" ><input style="border: 1px solid #75787b !important;" type="text" class="form-control input-sm" placeholder="Search ' +
-                title + '" /> </div>');
-        }
 
 
-        $('input', this).on('keyup change', function() {
-            if (table.column(i).search() !== this.value) {
-                table
-                    .column(i)
-                    .search(this.value)
-                    .draw();
-            }
+            $('[data-toggle="popover"]').popover({
+                "container": "body",
+                "trigger": "focus",
+                "html": true
+            });
+            $('[data-toggle="popover"]').mouseenter(function() {
+                $(this).trigger('focus');
+            });
+
+
         });
-    });
-
-
-    var table = $('#item-list').DataTable({
-        columnDefs: [
-            // { className: "my_class", targets: "_all" },
-            {
-                className: "text-left",
-                targets: 4,
-
-            },
-            // {
-            //     className: "text-left",
-            //     targets: 1,
-
-            // }
-        ],
-        lengthMenu: [
-            [200, 150, 100, 50, 20, 10],
-            [200, 150, 100, 50, 20, 10]
-        ],
-        processing: true,
-        orderCellsTop: true,
-        fixedHeader: true,
-        responsive: true,
-        language: {
-            "info": "Showing _START_ to _END_ of _TOTAL_ SMS Report",
-            "infoFiltered": "(filtered from _MAX_ total SMS Report)",
-            "search": "",
-            searchPlaceholder: "Search SMS Report",
-            "lengthMenu": "Show _MENU_ SMS Report",
-            "infoEmpty": "Showing 0 to 0 of 0 SMS Report",
-            //processing: '<img src="'+baseURL+'assets/images/loader.gif" width="150"  alt="loader">'
-        },
-
-        "ajax": {
-            url: '<?php echo base_url(); ?>/get_sms_report',
-            type: 'POST',
-            data: {
-                term_name: $('#term_name').val(),
-                date_search: $('#search_datepicker').val(),
-                mobile: $('#mobile').val(),
-            }
-            // dataType: 'json',
-        },
-
-    });
-
-    new $.fn.dataTable.FixedHeader(table);
-
-});
-</script>
+    </script>

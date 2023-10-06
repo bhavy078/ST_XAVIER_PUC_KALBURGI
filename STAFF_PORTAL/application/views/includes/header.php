@@ -643,8 +643,7 @@
                     </a>
                     <ul class="collapse list-unstyled ml-3" id="admission">
 
-
-                        <!-- <li class="nav-item">
+             <li class="nav-item">
                 <a class="nav-link " href="<?php echo base_url(); ?>newAdm_feePayNow">
                 <i class="material-icons">description</i>
                     <span>Pay Now</span>
@@ -771,7 +770,7 @@
                         <span>Student Suggestion</span>
                     </a>
                 </li>
-                <!-- <li class="nav-item">
+                <li class="nav-item">
                     <a href="#sms_items" data-toggle="collapse" aria-expanded="false" class="nav-link  dropdown-toggle">
                         <i class="material-icons">chat</i>
                         <span>SMS</span>
@@ -789,8 +788,14 @@
                                 <span>Sent Report</span>
                             </a>
                         </li>
+                        <!-- <li class="nav-item">
+                            <a class="nav-link" href="<?php echo base_url(); ?>getSMSResponse">
+                                <i class="material-icons">insert_drive_file</i>
+                                <span>Sent SMS Status</span>
+                            </a>
+                        </li> -->
                     </ul>
-                </li> -->
+                </li>
                  <!-- <li class="nav-item">
                     <a href="#notification_items" data-toggle="collapse" aria-expanded="false" class="nav-link  dropdown-toggle">
                         <i class="material-icons">chat</i>
