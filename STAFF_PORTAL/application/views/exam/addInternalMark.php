@@ -153,6 +153,7 @@ input[type=number]::-webkit-outer-spin-button {
                                 <option value="I_PREPARATORY">I PREPARATORY</option>
                                 <option value="SUPPLEMENTARY">SUPPLEMENTARY</option> -->
                                 <option value="I_UNIT_TEST">I UNIT TEST</option>
+                                <option value="MID_TERM_EXAM">MID TERM</option>
                                 <!-- <option value="MID_TERM">MID TERM</option>
                                 <option value="II_UNIT_TEST">II UNIT TEST</option>
                                 <option value="I_PREPARATORY">I PREPARATORY</option> -->
@@ -234,7 +235,7 @@ input[type=number]::-webkit-outer-spin-button {
                                     $max_mark_theory = 100;
                                     $labStatus = false;
                                 } 
-                            }else if($exam_type == 'MID_TERM'){
+                            }else if($exam_type == 'MID_TERM_EXAM'){
                                 
                               /*  if($subject->subject_code == 12){
                                     $max_lab_mark = 20;
@@ -244,12 +245,12 @@ input[type=number]::-webkit-outer-spin-button {
                                 } else */ 
                                 if($subject->lab_status == 'true'){
                                     $max_lab_mark = 30;
-                                    $min_mark_pass = 24;
+                                    $min_mark_pass = 21;
                                     $max_mark_theory = 70;
                                     $labStatus = $subject->lab_status;
                                 } else {
-                                    $min_mark_pass = 35;
-                                    $max_mark_theory = 100;
+                                    $min_mark_pass = 28;
+                                    $max_mark_theory = 80;
                                     $labStatus = false;
                                 } 
                             }else if($exam_type == 'SUPPLEMENTARY'){
