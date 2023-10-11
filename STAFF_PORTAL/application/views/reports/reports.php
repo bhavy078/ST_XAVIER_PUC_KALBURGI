@@ -1981,8 +1981,8 @@
                             <select id="" name="exam_type" class="form-control" required>
                                 <option value="">Select Exam</option>
                                 <option value="I_UNIT_TEST">I UNIT TEST</option>
-                                <!-- <option value="MID_TERM">MID TERM</option>
-                                <option value="II_UNIT_TEST">II UNIT TEST</option> -->
+                                <option value="MID_TERM_EXAM">MID TERM</option>
+                                <!-- <option value="II_UNIT_TEST">II UNIT TEST</option> -->
                             </select>
                         </div>
                     </div>

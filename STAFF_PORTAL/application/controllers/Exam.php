@@ -403,6 +403,8 @@ function getInternalMarkSheet(){
     }
     if($exam_type == 'I_UNIT_TEST'){
         $examType = 'I UNIT TEST';
+    }else if($exam_type == 'MID_TERM_EXAM'){
+        $examType = 'MID TERM EXAM';
     }else{
         $examType = str_replace('_',' ',$exam_type);
     }
@@ -564,13 +566,11 @@ function getInternalMarkSheet(){
                 } else {
                     $calculate_mark = 100;
                 } 
-            }else if($exam_type == 'MID_TERM' || $exam_type == 'I_PREPARATORY'){
-                if($subjectInfo->subject_code == 12){
-                    $calculate_mark = 70;
-                } else if($subjectInfo->lab_status == 'true'){
+            }else if($exam_type == 'MID_TERM_EXAM' || $exam_type == 'I_PREPARATORY'){
+                 if($subjectInfo->lab_status == 'true'){
                     $calculate_mark = 70;
                 } else {
-                    $calculate_mark = 100;
+                    $calculate_mark = 80;
                 } 
             // }else if($exam_type == 'I_PREPARATORY'){
             //    if($subjectInfo->lab_status == 'true' && $subjectInfo->subject_code != 12){
@@ -666,7 +666,7 @@ function getInternalMarkSheet(){
                         $min_marks = 35;
                         $calculate_mark = 100;
                     } 
-                }else if($exam_type == 'MID_TERM' || $exam_type == 'I_PREPARATORY'){
+                }else if($exam_type == 'MID_TERM_EXAM' || $exam_type == 'I_PREPARATORY'){
                     if($mark->subject_code == 12){
                         $max_lab_mark = 20;
                         $min_marks = 24;
@@ -674,10 +674,10 @@ function getInternalMarkSheet(){
                     } else if($mark->lab_status == 'true'){
                         $max_lab_mark = 30;
                         $min_marks = 21;
-                        $calculate_mark = 100;
+                        $calculate_mark = 70;
                     } else {
-                        $min_marks = 35;
-                        $calculate_mark = 100;
+                        $min_marks = 28;
+                        $calculate_mark = 80;
                     } 
                 // }else if($exam_type == 'I_PREPARATORY'){
                 //    if($mark->lab_status == 'true' && $mark->subject_code != 12){
@@ -907,6 +907,15 @@ function getInternalMarkSheet(){
                         $total_max_mark = 240;
                     }else if($stream_name_id == 'EBAC'){
                         $total_max_mark = 235;
+                }
+            }
+            if($exam_type == 'MID_TERM_EXAM'){
+                if($stream_name_id == 'PCMB' || $stream_name_id == 'PCMC'){
+                        $total_max_mark = 450;
+                }else if($stream_name_id == 'HEPS' || $stream_name_id == 'HEPE'){
+                        $total_max_mark = 480;
+                    }else if($stream_name_id == 'EBAC'){
+                        $total_max_mark = 470;
                 }
             }
             $total_percentage = ($total_marks_overall / $total_max_mark) * 100;

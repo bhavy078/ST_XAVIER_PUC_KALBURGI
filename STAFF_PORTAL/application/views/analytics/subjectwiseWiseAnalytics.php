@@ -142,8 +142,8 @@ u {
                                     }else if($exam_type == "PREPARATORY_I"){
                                         $min_mark = 24;
                                         $max_mark = 100;
-                                    }else if($exam_type == "MID_TERM"){
-                                        $min_mark = 24;
+                                    }else if($exam_type == "MID_TERM_EXAM"){
+                                        $min_mark = 21;
                                         $max_mark = 70;
                                     }
                                 }else{
@@ -154,9 +154,9 @@ u {
                                     } else if($exam_type == "PREPARATORY_I"){
                                         $min_mark = 35;
                                         $max_mark = 100;
-                                    }else if($exam_type == "MID_TERM"){
-                                        $min_mark = 35;
-                                        $max_mark = 100;
+                                    }else if($exam_type == "MID_TERM_EXAM"){
+                                        $min_mark = 28;
+                                        $max_mark = 80;
                                     }
 
                                 } 

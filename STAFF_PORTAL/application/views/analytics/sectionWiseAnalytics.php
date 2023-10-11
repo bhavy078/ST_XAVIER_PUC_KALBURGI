@@ -135,7 +135,8 @@ input[type=number]::-webkit-outer-spin-button {
                                 <?php } ?>
                                 <option value="">Select Exam</option>
                                 <option value="I_UNIT_TEST">I UNIT TEST</option>
-                                <!-- <option value="MID_TERM">MID TERM</option>
+                                <option value="MID_TERM_EXAM">MID TERM</option>
+                                <!-- 
                                 <option value="II_UNIT_TEST">II UNIT TEST</option> -->
                             </select>
                         </div>
@@ -289,7 +290,7 @@ input[type=number]::-webkit-outer-spin-button {
                                                         $min_mark = 35;
                                                         $max_mark = 100;
                                                     }
-                                                    else if($exam_type == "MID_TERM"){
+                                                    else if($exam_type == "MID_TERM_EXAM"){
                                                         $min_mark = 35;
                                                         $max_mark = 100;
                                                     }
@@ -300,9 +301,10 @@ input[type=number]::-webkit-outer-spin-button {
                                                     } else if($exam_type == "PREPARATORY_I"){
                                                         $min_mark = 35;
                                                         $max_mark = 100;
-                                                    }else if($exam_type == "MID_TERM"){
-                                                        $min_mark = 35;
-                                                        $max_mark = 100;
+                                                    }
+                                                    else if($exam_type == "MID_TERM_EXAM"){
+                                                        $min_mark = 28;
+                                                        $max_mark = 80;
                                                     }
                                                 }
                                                 
@@ -404,8 +406,8 @@ input[type=number]::-webkit-outer-spin-button {
                                             }else if($exam_type == "PREPARATORY_I"){
                                                 $min_mark = 24;
                                                 $max_mark = 100;
-                                            }else if($exam_type == "MID_TERM"){
-                                                $min_mark = 24;
+                                            }else if($exam_type == "MID_TERM_EXAM"){
+                                                $min_mark = 21;
                                                 $max_mark = 70;
                                             }
                                         }else{
@@ -416,9 +418,9 @@ input[type=number]::-webkit-outer-spin-button {
                                             } else if($exam_type == "PREPARATORY_I"){
                                                 $min_mark = 35;
                                                 $max_mark = 100;
-                                            }else if($exam_type == "MID_TERM"){
-                                                $min_mark = 35;
-                                                $max_mark = 100;
+                                            }else if($exam_type == "MID_TERM_EXAM"){
+                                                $min_mark = 28;
+                                                $max_mark = 80;
                                             }
 
                                         } 

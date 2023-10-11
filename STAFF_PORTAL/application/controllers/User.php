@@ -218,9 +218,12 @@ class User extends BaseController
                      $getMarkOfFirstUnitTest = $this->student->getFirstInternaltMark($studentRecord->student_id,$subjects_code[$i]);
                 
                     $exam_mark_first_test[$i] = $getMarkOfFirstUnitTest;
-              
+
+                    $getMarkOfmidTermExam = $this->student->getMidTermMark($studentRecord->student_id,$subjects_code[$i]); 
+                    $exam_mark_mid_term[$i] = $getMarkOfmidTermExam;
                 }
                 $data['firstUnitTestMarkInfo'] = $exam_mark_first_test;
+                $data['midTermMarkInfo'] = $exam_mark_mid_term;
 
             } else {
                 $data['studentsRecords'] = '';

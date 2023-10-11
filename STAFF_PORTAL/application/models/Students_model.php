@@ -622,8 +622,8 @@ class students_model extends CI_Model
         $this->db->from('tbl_college_internal_exam_marks as exam');
         $this->db->where('exam.student_id', $student_id);
         $this->db->where('exam.subject_code', $subjects_code);
-        $this->db->where('exam.exam_type', 'MID_TERM');
-        $this->db->where('exam.exam_year', '2022-23');
+        $this->db->where('exam.exam_type', 'MID_TERM_EXAM');
+        $this->db->where('exam.exam_year', EXAM_YEAR);
         $this->db->where('exam.is_deleted', 0);
         $query = $this->db->get();
         return $query->row();

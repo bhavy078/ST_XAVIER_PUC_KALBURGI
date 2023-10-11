@@ -368,16 +368,18 @@ if ($warning) {
                                                 role="tab" aria-controls="first_unit_test" aria-selected="true">I Unit Test
                                             </a>
                                         </li>
+
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="mid_term-tab" data-toggle="tab" href="#mid_term"
+                                                role="tab" aria-controls="mid_term" aria-selected="true">MID TERM
+                                            </a>
+                                        </li>
                                         <!-- <li class="nav-item">
                                             <a class="nav-link" id="first_term-tab" data-toggle="tab" href="#first_term"
                                                 role="tab" aria-controls="first_term" aria-selected="true">I Term
                                             </a>
                                         </li> -->
-                                        <!-- <li class="nav-item">
-                                            <a class="nav-link" id="mid_term-tab" data-toggle="tab" href="#mid_term"
-                                                role="tab" aria-controls="mid_term" aria-selected="true">MID TERM
-                                            </a>
-                                        </li>
+                                        <!-- 
                                         <li class="nav-item">
                                             <a class="nav-link" id="second_unit_test-tab" data-toggle="tab"
                                                 href="#second_unit_test" role="tab" aria-controls="second_unit_test"
@@ -984,10 +986,10 @@ if ($warning) {
                                                         $result_subject_fail_status = false;
                                                         if($midTermMarkInfo[$i]->lab_status == 'true'){
                                                             $max_mark = 70;
-                                                            $min_mark_pass = 24;
+                                                            $min_mark_pass = 21;
                                                         }else{
-                                                            $max_mark = 100;
-                                                            $min_mark_pass = 35;
+                                                            $max_mark = 80;
+                                                            $min_mark_pass = 28;
                                                         }
                                                         $total_max_mark += $max_mark;
                                                         $total_min_mark += $min_mark_pass;
