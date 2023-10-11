@@ -108,19 +108,18 @@ if ($error) {
                                                             </th>
                                                             <th class="tbl-head mobile_input_width" width="140">Date of Birth</th>
                                                             <th width="170">
-                                                                <div class="input-group mb-0 mobile_input_width">
-                                                                    <input id="dob" type="text" name="dob" class="form-control datepicker emp-dob required"
-                                                                        value="<?php if(empty($studentInfo->dob) || $studentInfo->dob == '0000-00-00'){
-                                                                            echo "";
-                                                                        } else{
-                                                                            echo date('d-m-Y',strtotime($studentInfo->dob));
-                                                                        } ?>" placeholder="Date of Birth" autocomplete="off" onkeydown="allowHyphen(event)" />
-                                                                    <div class="input-group-append">
-                                                                        <button class="btn btn-outline-secondary" type="button" id="datepicker-trigger">
-                                                                            <i class="material-icons date-icon p-2">date_range</i>
-                                                                        </button>
-                                                                    </div>
+                                                            <div class="input-group mb-0">
+                                                            <div class="input-group mb-3">
+                                                                <div class="input-group-append">
+                                                                    <span class="input-group-text material-icons date-icon">date_range</span>
                                                                 </div>
+                                                                <input
+                                                                value="<?php if($studentInfo->dob != '0000-00-00' && $studentInfo->dob != '1970-01-01'){
+                                                                    echo ($studentInfo->dob);
+                                                                } ?>"
+                                                                id="dob" type="date" name="dob" class="form-control required " placeholder="Date of Birth" autocomplete="off" />
+                                                            </div>
+                                                        </div>
                                                             </th>
                                                         </tr>
                                                         <tr>
@@ -490,21 +489,15 @@ if ($error) {
                                                                     <th class="tbl-head" width="160">Date of Admission</th>
                                                     <th width="140">
                                                         <div class="input-group mb-0">
-                                                            <input
+                                                            <div class="input-group mb-3">
+                                                                <div class="input-group-append">
+                                                                    <span class="input-group-text material-icons date-icon">date_range</span>
+                                                                </div>
+                                                                <input
                                                                 value="<?php if($studentInfo->date_of_admission != '0000-00-00' && $studentInfo->date_of_admission != '1970-01-01'){
-                                                                    echo date('d-m-Y', strtotime($studentInfo->date_of_admission));
+                                                                    echo ($studentInfo->date_of_admission);
                                                                 } ?>"
-                                                                type="text"
-                                                                class="form-control required text-uppercase datepicker"
-                                                                placeholder="Admission Date"
-                                                                id="date_of_admission"
-                                                                name="date_of_admission"
-                                                                autocomplete="off"
-                                                            />
-                                                            <div class="input-group-append">
-                                                                <button class="btn btn-outline-secondary" type="button" id="datepicker-trigger-admission">
-                                                                    <i class="material-icons date-icon p-2">date_range</i>
-                                                                </button>
+                                                                id="date_of_admission" type="date" name="date_of_admission" class="form-control required " placeholder="Admisison Date" autocomplete="off" required />
                                                             </div>
                                                         </div>
                                                     </th>
@@ -519,24 +512,18 @@ if ($error) {
                                                             </th>
                                                             <th class="tbl-head" width="160">Date of Join</th>
                                                         <th width="140">
-                                                            <div class="input-group mb-0">
-                                                                <input
-                                                                    value="<?php if($studentInfo->doj != '0000-00-00' && $studentInfo->doj != '1970-01-01'){
-                                                                        echo date('d-m-Y', strtotime($studentInfo->doj));
-                                                                    } ?>"
-                                                                    type="text"
-                                                                    class="form-control required text-uppercase datepicker"
-                                                                    placeholder="Date of Join"
-                                                                    id="doj"
-                                                                    name="doj"
-                                                                    autocomplete="off"
-                                                                />
+                                                        <div class="input-group mb-0">
+                                                            <div class="input-group mb-3">
                                                                 <div class="input-group-append">
-                                                                    <button class="btn btn-outline-secondary" type="button" id="datepicker-trigger-join">
-                                                                        <i class="material-icons date-icon p-2">date_range</i>
-                                                                    </button>
+                                                                    <span class="input-group-text material-icons date-icon">date_range</span>
                                                                 </div>
+                                                                <input
+                                                                value="<?php if($studentInfo->doj != '0000-00-00' && $studentInfo->doj != '1970-01-01'){
+                                                                    echo ($studentInfo->doj);
+                                                                } ?>"
+                                                                id="doj" type="date" name="doj" class="form-control required " placeholder="Date of Join" autocomplete="off" required />
                                                             </div>
+                                                        </div>
                                                         </th>
                                                         <th class="tbl-head"></th>
 
@@ -613,19 +600,19 @@ $("#vImg").change(function() {
 
 $(document).ready(function() {
         // Initialize your datepicker here
-        $('#dob').datepicker({
-            format: 'dd-mm-yyyy', // Use the desired date format
-            autoclose: true
-        });
+        // $('#dob').datepicker({
+        //     format: 'dd-mm-yyyy', // Use the desired date format
+        //     autoclose: true
+        // });
 
         // Trigger the datepicker when the button is clicked
         $('#datepicker-trigger').click(function() {
             $('#dob').datepicker('show');
         });
 
-        $("#datepicker-trigger-admission").click(function() {
-            $("#date_of_admission").datepicker("show");
-        });
+        // $("#datepicker-trigger-admission").click(function() {
+        //     $("#date_of_admission").datepicker("show");
+        // });
 
         $("#datepicker-trigger-join").click(function() {
             $("#doj").datepicker("show");
