@@ -172,6 +172,13 @@
                                                             <?php echo $studentInfo->mobile; ?>
                                                         </th>
                                                     </tr>
+
+                                                    <tr>
+                                                        <th class="tbl-head">Primary Mobile</th>
+                                                        <th class="tbl-head-content">
+                                                            <?php echo $studentInfo->primary_mobile; ?>
+                                                        </th> 
+                                                    </tr>
                                                   
                                                 </table>
                                             </div>

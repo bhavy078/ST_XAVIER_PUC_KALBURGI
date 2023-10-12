@@ -4,7 +4,7 @@
         
    public function getStudentListForSMSByRowID($student_id){
         $this->db->select('std.row_id,std.admission_no,std.student_name,std.dob,std.application_no,std.term_name,
-        std.father_mobile');
+        std.primary_mobile');
         $this->db->from('tbl_students_info as std');
         $this->db->where_in('std.row_id', $student_id);
         $this->db->where('std.is_deleted', 0);

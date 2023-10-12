@@ -273,7 +273,7 @@ class StudentAttendance extends BaseController
                     if($attendanceDate == $today_date){
                         $stdInfo = $this->sms->getStudentListForSMSByRowID($student->row_id);
                         $isExistsAtt = $this->attendance->getStudentattendanceStatus($student->row_id,$class_row_id);
-                        $primary_contact = $stdInfo->father_mobile;
+                        $primary_contact = $stdInfo->primary_mobile;
 
                         if(strlen($primary_contact) == 10){
                             $parent_mobile = $primary_contact;

@@ -450,6 +450,7 @@ class Students extends BaseController
                 $mother_annual_income = $this->security->xss_clean($this->input->post('mother_annual_income'));
                 $mother_mobile = $this->security->xss_clean($this->input->post('mother_mobile'));
                 $mother_email = $this->security->xss_clean($this->input->post('mother_email'));
+                $primary_mobile = $this->security->xss_clean($this->input->post('primary_mobile'));
                 
                 if(!empty($dob)) {
                     $dob = date('Y-m-d',strtotime($dob));
@@ -488,6 +489,7 @@ class Students extends BaseController
                     'mother_annual_income' => $mother_annual_income,
                     'mother_mobile' => $mother_mobile,
                     'mother_email' => $mother_email,
+                    'primary_mobile' => $primary_mobile,
                     'route_id' => $route,
                     'updated_by'=>$this->staff_id, 
                     'updated_date_time'=>date('Y-m-d H:i:s'),
@@ -495,7 +497,7 @@ class Students extends BaseController
                 );
 
                     
-                     log_message('debug','as'.print_r($studentInfo,true));
+                     
                 $result = $this->student->updateStudentInfo($studentInfo,$row_id);
 
                 // if(!empty($imgdata)){

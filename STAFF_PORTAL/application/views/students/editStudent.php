@@ -262,6 +262,18 @@ if ($error) {
                                                                     </select>
                                                                 </div>
                                                             </th>
+
+
+                                                            <th class="tbl-head">Primary Mobile</th>
+                                                            <th>
+                                                            <div class="form-group mb-0">
+                                                                    <div class="form-group mb-0">
+                                                                        <input value="<?php echo $studentInfo->primary_mobile; ?>" type="text" 
+                                                                        class="form-control required" placeholder="Primary Mobile" 
+                                                                        id="primary_mobile" name="primary_mobile" maxlength="10" minlength="10" autocomplete="off">
+                                                                    </div>
+                                                                </div>
+                                                            </th>
                                                         </tr>
                                                     </table>
                                                 </div>
