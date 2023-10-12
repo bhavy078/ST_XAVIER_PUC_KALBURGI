@@ -820,8 +820,8 @@ if ($error) {
                             <select class=" form-control input-md" id="exam_type" name="exam_type">
                                 <option value="">Select Examination Name</option>
                                 <option value="I_UNIT_TEST" selected><strong>I UNIT TEST</strong></option>
-                                <!-- <option value="MID_TERM"><strong>MID TERM</strong></option>
-                                <option value="II_UNIT_TEST"><strong>II UNIT TEST</strong></option>
+                                <option value="MID_TERM_EXAM"><strong>MID TERM</strong></option>
+                                <!-- <option value="II_UNIT_TEST"><strong>II UNIT TEST</strong></option>
                                 <option value="I_PREPARATORY"><strong>PREPARATORY</strong></option> -->
                             </select>
                         </div>
@@ -1284,7 +1284,7 @@ jQuery(document).ready(function() {
                   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                 </div>`);
             return;
-        }else if(exam_type == "MID_TERM") {
+        }else if(exam_type == "MID_TERM_EXAM") {
           window.open('<?php echo base_url(); ?>generateMidTermExamReportCard?student_id='+btoa(students) + '&exam_type=' + exam_type);
          }else if(exam_type == "I_PREPARATORY") {
           window.open('<?php echo base_url(); ?>generatePreparatoryExamReportCard?student_id='+btoa(students) + '&exam_type=' + exam_type);
