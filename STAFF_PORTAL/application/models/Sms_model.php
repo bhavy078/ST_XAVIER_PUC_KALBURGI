@@ -73,7 +73,7 @@
     }
 
     public function getStudentInfoForSMS($term_name,$stream_name,$section_name){
-        $this->db->select(' std.father_mobile, std.mother_mobile,std.row_id,std.student_id,std.application_no,
+        $this->db->select('std.father_mobile, std.mother_mobile,std.row_id,std.student_id,std.application_no,std.primary_mobile,
         std.stream_name,std.student_name');
         $this->db->from('tbl_students_info as std');
        // $this->db->join('tbl_student_academic_info as acdmic', 'acdmic.application_no = std.application_no','left');
@@ -110,7 +110,7 @@
 
     public function getStudentListForSMS($student_id){
         $this->db->select('std.row_id,std.application_no,std.student_name,std.dob,std.term_name,std.student_id,
-        std.stream_name,std.section_name,std.caste,std.father_mobile,std.mother_mobile');
+        std.stream_name,std.section_name,std.caste,std.father_mobile,std.mother_mobile,std.primary_mobile');
         $this->db->from('tbl_students_info as std');
         $this->db->where_in('std.student_id', $student_id);
         $this->db->where('std.is_active', 1);

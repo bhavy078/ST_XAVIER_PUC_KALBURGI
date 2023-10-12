@@ -213,13 +213,14 @@ class SMS extends BaseController {
             $number = array();
             if(!empty($studentInfo)){
                 foreach($studentInfo as $std){
-                    $primary_contact = $std->father_mobile;
+                    // $primary_contact = $std->father_mobile;
 
-                    if(!empty($primary_contact)){
-                        $contactInfo = $std->father_mobile;
-                    } else {
-                        $contactInfo = $std->mother_mobile;
-                    }
+                    // if(!empty($primary_contact)){
+                    //     $contactInfo = $std->father_mobile;
+                    // } else {
+                    //     $contactInfo = $std->mother_mobile;
+                    // }
+                    $contactInfo = $std->primary_mobile;
                  
                 $results = $this->sendSMSBulkNumber($contactInfo,$smsDetails->message);
                 $parts = explode(' ', $results);
@@ -246,7 +247,7 @@ class SMS extends BaseController {
         if($this->input->server('REQUEST_METHOD') == "POST"){
             $smsDetails = json_decode($this->input->post('data'));
             $staffInfo = $this->sms->getAllStaffInfoForSMSByDepartment($smsDetails->department_id);
-            log_message('debug','staff'.print_r($staffInfo,true));
+            // log_message('debug','staff'.print_r($staffInfo,true));
             if(!empty($staffInfo)){
                 foreach($staffInfo as $staff){
                     if(strlen($staff->mobile) == 10){
@@ -603,7 +604,7 @@ class SMS extends BaseController {
                     $stdInfo = $this->sms->getStudentListForSMS($application);
                     
                     
-                        $contactInfo = $stdInfo->father_mobile;
+                        $contactInfo = $stdInfo->primary_mobile;
                         
                     
                     // $contactInfo = $this->sms->getParentContactInfo($stdInfo->application_no,$primary_contact);
@@ -626,7 +627,7 @@ class SMS extends BaseController {
                     if(!empty($application)){
                         
                         $stdInfo = $this->sms->getStudentListForSMS($application);
-                        $contactInfo = $stdInfo->father_mobile;
+                        $contactInfo = $stdInfo->primary_mobile;
                        
                         //$contactInfo = $this->sms->getParentContactInfo($stdInfo->application_no,$primary_contact);
                        
