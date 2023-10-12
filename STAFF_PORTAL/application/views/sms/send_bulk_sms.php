@@ -105,9 +105,9 @@ if ($error) {
                                                 <li class="nav-item" data-sms_option_type="sms_option_std_group">
                                                     <a class="nav-link" id="sms_option_std_group_tab" data-toggle="tab" href="#sms_option_std_group_tab_content" role="tab" aria-controls="std_group" aria-selected="false">Student</a>
                                                 </li>
-                                                <li class="nav-item" data-sms_option_type="sms_option_staff_group">
+                                                <!-- <li class="nav-item" data-sms_option_type="sms_option_staff_group">
                                                     <a class="nav-link" id="sms_option_staff_group_tab" data-toggle="tab" href="#sms_option_staff_group_tab_content" role="tab" aria-controls="staff_group" aria-selected="false">Staff</a>
-                                                </li>
+                                                </li> -->
                                                 <li class="nav-item" data-sms_option_type="sms_option_list">
                                                     <a class="nav-link" id="sms_option_list_tab" data-toggle="tab" href="#sms_option_list_tab_content" role="tab" aria-controls="list" aria-selected="false">List</a>
                                                 </li>
@@ -235,7 +235,7 @@ if ($error) {
                                                                 <i style="font-size: 30px" class="fas fa-info-circle"></i>
                                                             </div>
                                                             <p class="m-0">
-                                                                Copy and paste a list of mobile numbers in to the bo below. Ensure that you enter one number per line.
+                                                                Copy and paste a list of mobile numbers in to the box below. Ensure that you enter one number per line.
                                                                 (All duplicates will automatically be removed)
                                                             </p>
                                                         </div>

@@ -288,6 +288,7 @@ $route['deleteSection'] = "timetable/deleteSection";
 
 $route['get_sms_report'] = "SMS/get_sms_report";
 $route['openSMSSentReport'] = "SMS/openSMSSentReport";
+$route['openSMSSentReport/(:any)'] = "SMS/openSMSSentReport/$1";
 
 $route['viewSMSPortal'] = "SMS/viewSMSPortal";
 $route['sendBulkSMS'] = "SMS/sendBulkSMS";
