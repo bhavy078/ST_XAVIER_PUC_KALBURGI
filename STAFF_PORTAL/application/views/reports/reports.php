@@ -295,6 +295,41 @@
                 </div>
             </a>
         </div>
+
+
+        <div class="col-lg-3 col-6 mb-2 column_padding_card">
+            <a data-toggle="modal" data-target="#downloadStaffLeaveReport" class="more-info text-white dashboard_link" href="#">
+                <div class="card card-small dash-card" style="background: #3e50b3;">
+                    <div class="card-body pt-1 pb-1">
+                        <h6 class="stats-small__value text-uppercase text-white">Leave Report </h6>
+                        <div class="icon pull-right mt-4">
+                            <i class="fas fa-file dash-icons"></i></i>
+                        </div>
+                    </div>
+                    <div class="card-footer text-center dash-footer p-1">
+                        <div class="more-info text-white"></div>
+                        <span class="text-center">Download</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-lg-3 col-6 mb-2 column_padding_card">
+            <a data-toggle="modal" data-target="#downloadStaffLeavePendingReport" class="more-info text-white dashboard_link" href="#">
+                <div class="card card-small dash-card" style="background: #3e50b3;">
+                    <div class="card-body pt-1 pb-1">
+                        <h6 class="stats-small__value text-uppercase text-white">Leave Balance Report </h6>
+                        <div class="icon pull-right mt-4">
+                            <i class="fas fa-file dash-icons"></i></i>
+                        </div>
+                    </div>
+                    <div class="card-footer text-center dash-footer p-1">
+                        <div class="more-info text-white"></div>
+                        <span class="text-center">Download</span>
+                    </div>
+                </div>
+            </a>
+        </div>
         <?php }
          if($role == ROLE_ADMIN || $role == ROLE_PRIMARY_ADMINISTRATOR || $role == ROLE_PRINCIPAL){ ?>
         <!-- <div class="col-lg-3 col-6 mb-2 column_padding_card">
@@ -941,6 +976,179 @@
                     </div>
                 </form>
 
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- The leave report Modal -->
+<div class="modal" id="downloadStaffLeaveReport">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header ">
+                <h4 class="modal-title">Download Leave Report</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body" style="padding:0px;">
+                <div class="card-body contents-body">
+                <form action="<?php echo base_url() ?>downloadStaffLeaveReport" method="POST">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-12">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Date From</label>
+                                    <input type="text" class="form-control datepicker" name="from_date" id=""
+                                        value="" placeholder="Date From" required autocomplete="off">
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6 col-md-6 col-12">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Date To</label>
+                                    <input type="text" class="form-control datepicker" name="to_date" id=""
+                                        value="" placeholder="Date To" required autocomplete="off">
+                                </div>
+                            </div>
+                       
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-12">
+                                <div class="form-group ">
+                                <label for="leave_type_report">Leave Type</label>
+                                <select id="" name="leave_type" class="form-control"
+                                    id="exampleFormControlSelect1" required>
+                                    <option value="ALL">ALL</option>
+                                     <option value="CL">Casual Leave(CL)</option>
+                                     <option value="ML">Medical Leave(ML)</option>
+                                     <option value="PL">Paternity Leave(PL)</option>
+                                     <option value="MARL">Marriage Leave(MARL)</option>
+                                     <option value="MATL">Maternity Leave(MATL)</option>
+                                     <option value="LOP">Loss of Pay(LOP)</option>
+                                </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-12">
+                                <div class="form-group ">
+                                    <label for="team_id">By Staff</label>
+                                    <select class="form-control input-sm selectpicker" id="" multiple
+                                    name="applied_staff_id[]" data-live-search="true" required>
+                                    <option value="ALL">ALL</option>
+                                    <?php
+                                        if(!empty($staffInfo))
+                                        {
+                                            foreach ($staffInfo as $rl)
+                                            {
+                                                ?>
+                                                <option value="<?php echo $rl->staff_id ?>">
+                                                    <?php echo $rl->name ?></option>
+                                                <?php
+                                                }
+                                            }
+                                        ?>
+                                </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-lg-6 col-md-6 col-12">
+                                <div class="form-group ">
+                                <label for="leave_status_report">Leave Status</label>
+                                <select id="" name="leave_status" class="form-control"
+                                    id="exampleFormControlSelect1" required>
+                                    <option value="ALL">ALL</option>
+                                    <option value="PENDING">PENDING</option>
+                                     <option value="APPROVED">APPROVED</option>
+                                     <option value="REJECTED">REJECTED</option>
+                                   
+                                </select>
+                                </div>
+                            </div>
+                        </div>
+                       
+                        <hr class="mt-1 mb-1">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-12">
+                                <div id="loader"></div>
+                                <button type="submit" class="btn pull-right btn-primary text-white"
+                                     name="add">Download</button>
+                                <button type="button" class="btn btn-danger pull-left"
+                                    data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </form>
+                   
+                    <!-- Modal footer -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal" id="downloadStaffLeavePendingReport">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header ">
+                <h4 class="modal-title">Download Pending Leave Report</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body" style="padding:0px;">
+                <div class="card-body contents-body">
+                    <form data-download_form="true" action="<?php echo base_url() ?>downloadStaffLeavePendingReport" method="POST">
+                        <div class="row"> 
+                            <div class="col-lg-12 col-md-6 col-12">
+                                <div class="form-group ">
+                                    <label for="team_id">By Staff</label>
+                                    <select class="form-control input-sm selectpicker" id="applied_staff_id_report" multiple
+                                    name="applied_staff_id[]" data-live-search="true" required>
+                                    <option value="ALL">ALL</option>
+                                    <?php
+                                        if(!empty($staffInfo))
+                                        {
+                                            foreach ($staffInfo as $rl)
+                                            {
+                                                ?>
+                                                <option value="<?php echo $rl->staff_id ?>">
+                                                    <?php echo $rl->name ?></option>
+                                                <?php
+                                                }
+                                            }
+                                        ?>
+                                </select>
+                                </div>
+                            </div>
+                            <!-- <div class="col-lg-6 col-md-6 col-12">
+                                <div class="form-group ">
+                                <label for="leave_type">Year</label>
+                                <select id="year" name="year" class="form-control"
+                                    id="exampleFormControlSelect1">
+                                    <option value="2022-23">2022-23</option>
+                                     <option value="2021-22">2021-22</option>
+                                     <option value="2020-21">2020-21</option>
+                                     <option value="2019-20">2019-20</option>
+                                </select>
+                                </div>
+                            </div> -->
+                        </div>
+                        <hr class="mt-1 mb-1">
+                        <div class="modal-footer row">
+                            <div class="col-lg-12 col-md-12 col-12">
+                                <!-- <div id="loader"></div> -->
+                                <button type="submit" class="btn pull-right btn-primary text-white"
+                                    name="Download">Download</button>
+                                <button type="button" class="btn btn-danger pull-left"
+                                    data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- Modal footer -->
+                </div>
             </div>
         </div>
     </div>

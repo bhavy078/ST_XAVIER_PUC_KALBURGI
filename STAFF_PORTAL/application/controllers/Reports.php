@@ -28,6 +28,7 @@ class Reports extends BaseController
         $this->load->model('Mun_model', 'mun');
         $this->load->model('fee_model', 'fee');
         $this->load->model('transport_model','transport');
+        $this->load->model('leave_model', 'leave');
         $this->load->model('sms_model', 'sms');
         $this->load->library('excel');
         $this->load->library('pdf');
@@ -43,6 +44,7 @@ class Reports extends BaseController
             $data['departments'] = $this->staff->getStaffDepartment();
             $data['designation'] = $this->staff->getStaffRoles();
             $data['streamInfo'] = $this->student->getAllStreamName();
+            $data['staffInfo'] = $this->staff->getAllStaffInfo();
             $data['subjectInfo'] = $this->subject->getAllSubjectInfo();
             $data['routeInfo'] = $this->transport->getTransportNameInfo();
             $data['busNoInfo'] = $this->transport->getTransportBusNo();
@@ -5490,6 +5492,389 @@ public function downloadSMSReport()
         }
         }
     }
+
+
+    public function downloadStaffLeaveReport(){
+        if($this->isAdmin() == TRUE) {
+            $this->loadThis();
+            setcookie('isDownloading',0);
+        } else {
+            $date_from = $this->security->xss_clean($this->input->post('from_date'));
+            $date_to = $this->security->xss_clean($this->input->post('to_date'));
+            $leave_type = $this->security->xss_clean($this->input->post('leave_type'));
+            $applied_staff_id = $this->security->xss_clean($this->input->post('applied_staff_id'));
+            $leave_status = $this->security->xss_clean($this->input->post('leave_status'));
+            $file_format = $this->security->xss_clean($this->input->post('file_format'));
+            $sheet = 0;
+            
+            if($leave_type == 'CL'){
+                $leave_type_display = "CASUAL LEAVE";
+            } else if($leave_type== 'ML'){
+                $leave_type_display = 'MEDICAL LEAVE';
+            }else if($leave_type == 'MARL'){
+                $leave_type_display = 'MARRIAGE LEAVE';
+            }else if($leave_type == 'PL'){
+                $leave_type_display = 'MANAGEMENT LEAVE';
+            }else if($leave_type == 'MATL'){
+                $leave_type_display = 'MATERNITY LEAVE';
+            }else if($leave_type == 'LOP'){
+                $leave_type_display = 'LOSS OF PAY';
+            }else{
+                $leave_type_display = 'ALL';
+            }
+            if($file_format == 'PDF'){
+                
+                $data['date_from'] = date('d-m-Y',strtotime($date_from));
+                $data['date_to'] = date('d-m-Y',strtotime($date_to));
+                $data['leave_type_display'] = $leave_type;
+                $data['leave_status'] = $leave_status;
+                $start_date = date('Y-m-d',strtotime($date_from)); 
+                $end_date = date('Y-m-d',strtotime($date_to)); 
+                $data['staffInfo'] = $this->leave->getAllStaffLeaveInfoForReport($start_date, $end_date, $applied_staff_id, $leave_type, $leave_status);
+                
+                $mpdf = new \Mpdf\Mpdf(['tempDir' => sys_get_temp_dir().DIRECTORY_SEPARATOR.'mpdf','default_font' => 'helvetica','format' => 'A4-L',
+                'pagenumPrefix' => 'Page number ',]);
+                $mpdf->SetTitle('STAFF LEAVE INFORMATION'.$leave_status);
+                // $mpdf->SetHeader('ST. JOSEPH\'S BOYS\' HIGH SCHOOL');
+                $html = $this->load->view('reports/staffLeaveReport',$data,true);
+                $mpdf->setFooter('{PAGENO}');
+                $mpdf->AddPage('L','','','','',10,10,20,20,15,15);
+                $mpdf->WriteHTML($html);
+                setcookie('isDownloading',0);
+                $mpdf->Output('Leave.pdf', 'D');
+            }else{
+                // foreach($department_list as $dept){
+                    $this->excel->setActiveSheetIndex($sheet);
+                    //name the worksheet
+                    $this->excel->getActiveSheet()->setTitle('Leave');
+                    $this->excel->getActiveSheet()->getPageSetup()->setPrintArea('A1:G500');
+                    //set Title content with some text
+                    $this->excel->getActiveSheet()->setCellValue('A1', EXCEL_TITLE);
+                    $this->excel->getActiveSheet()->setCellValue('A2', "STAFF LEAVE INFORMATION - ".$leave_status);
+                    $this->excel->getActiveSheet()->getStyle('A1')->getFont()->setSize(18);
+                    $this->excel->getActiveSheet()->getStyle('A2')->getFont()->setSize(14);
+                    $this->excel->getActiveSheet()->mergeCells('A1:H1');
+                    $this->excel->getActiveSheet()->mergeCells('A2:H2');
+                    $this->excel->getActiveSheet()->getStyle('A1:A4')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $this->excel->getActiveSheet()->getStyle('A1:H1')->getFont()->setBold(true);
+            
+                    $this->excel->getActiveSheet()->getColumnDimension('A')->setWidth(8);
+                    $this->excel->getActiveSheet()->getColumnDimension('B')->setWidth(18);
+                    $this->excel->getActiveSheet()->getColumnDimension('C')->setWidth(18);
+                    $this->excel->getActiveSheet()->getColumnDimension('D')->setWidth(15);
+                    $this->excel->getActiveSheet()->getColumnDimension('E')->setWidth(35);
+                    $this->excel->getActiveSheet()->getColumnDimension('F')->setWidth(25);
+                    $this->excel->getActiveSheet()->getColumnDimension('G')->setWidth(28);
+                    $this->excel->getActiveSheet()->getColumnDimension('H')->setWidth(15);
+        
+                    $this->excel->getActiveSheet()->setCellValue('A3', "Date From: ".$date_from." Date To: ".$date_to);
+                    $this->excel->getActiveSheet()->mergeCells('A3:D3');
+                    $this->excel->getActiveSheet()->setCellValue('E3', "Leave Type: ".$leave_type);
+                    $this->excel->getActiveSheet()->mergeCells('E3:H3');
+                    $this->excel->getActiveSheet()->getStyle('E3:H3')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $this->excel->getActiveSheet()->getStyle('A3:H3')->getFont()->setBold(true);
+        
+        
+                    $this->excel->setActiveSheetIndex($sheet)->setCellValue('A4', 'SL. NO.');
+                    $this->excel->setActiveSheetIndex($sheet)->setCellValue('B4', 'Date From');
+                    $this->excel->setActiveSheetIndex($sheet)->setCellValue('C4', 'Date To');
+                    $this->excel->setActiveSheetIndex($sheet)->setCellValue('D4', 'Staff ID');
+                    $this->excel->setActiveSheetIndex($sheet)->setCellValue('E4', 'Name');
+                    $this->excel->setActiveSheetIndex($sheet)->setCellValue('F4', 'Leave Type');
+                    $this->excel->setActiveSheetIndex($sheet)->setCellValue('G4', 'Reason');
+                    $this->excel->setActiveSheetIndex($sheet)->setCellValue('H4', 'Total Days');
+                
+                    
+                    $this->excel->getActiveSheet()->getStyle('A4:H4')->getAlignment()->setWrapText(true); 
+                    $this->excel->getActiveSheet()->getStyle('A4:H4')->getFont()->setBold(true); 
+                    $this->excel->getActiveSheet()->getStyle('A4:H4')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $styleBorderArray = array('borders' => array('allborders' => array('style' => PHPExcel_Style_Border::BORDER_THIN)));
+                    $this->excel->getActiveSheet()->getStyle('A1:H4')->applyFromArray($styleBorderArray);
+                    $start_date = date('Y-m-d',strtotime($date_from)); 
+                    $end_date = date('Y-m-d',strtotime($date_to)); 
+                    $staffInfo = $this->leave->getAllStaffLeaveInfoForReportTwo($start_date, $end_date, $applied_staff_id, $leave_type, $leave_status);
+                    $j=1;
+                    $excel_row = 5;
+                    
+                    if(!empty($staffInfo)){
+                        foreach($staffInfo as $staff){
+                            $leave_type_text = "";
+                            if($staff->leave_type == 'CL'){
+                                $leave_type_text = "CASUAL LEAVE";
+                            } else if($staff->leave_type == 'ML'){
+                                $leave_type_text = 'MEDICAL LEAVE';
+                            }else if($staff->leave_type == 'MARL'){
+                                $leave_type_text = 'MARRIAGE LEAVE';
+                            }else if($staff->leave_type == 'PL'){
+                                $leave_type_text = 'PATERNITY LEAVE';
+                            }else if($staff->leave_type == 'MATL'){
+                                $leave_type_text = 'MATERNITY LEAVE';
+                            }else if($staff->leave_type == 'LOP'){
+                                $leave_type_text = 'LOSS OF PAY';
+                            }
+                            $this->excel->setActiveSheetIndex($sheet)->setCellValue('A'.$excel_row,$j++);
+                            $this->excel->setActiveSheetIndex($sheet)->setCellValue('B'.$excel_row,date('d-m-Y',strtotime($staff->date_from)));
+                            $this->excel->setActiveSheetIndex($sheet)->setCellValue('C'.$excel_row,date('d-m-Y',strtotime($staff->date_to)));
+                            $this->excel->setActiveSheetIndex($sheet)->setCellValue('D'.$excel_row,$staff->staff_id);
+                            $this->excel->setActiveSheetIndex($sheet)->setCellValue('E'.$excel_row,$staff->name);
+                            $this->excel->setActiveSheetIndex($sheet)->setCellValue('F'.$excel_row,$staff->leave_type);
+                            $this->excel->setActiveSheetIndex($sheet)->setCellValue('G'.$excel_row,$staff->leave_reason);
+                            $this->excel->setActiveSheetIndex($sheet)->setCellValue('H'.$excel_row,$staff->total_days_leave);
+                            $this->excel->getActiveSheet()->getStyle('A'.$excel_row.':H'.$excel_row)->applyFromArray($styleBorderArray);
+                            $this->excel->getActiveSheet()->getStyle('A'.$excel_row.':D'.$excel_row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                            $this->excel->getActiveSheet()->getStyle('H'.$excel_row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                            $excel_row++;
+                        }
+                    }
+                
+                    $this->excel->createSheet();
+              
+                    $filename ='Staff_Leave_Report_'.$report_date.'.xls'; //save our workbook as this file name
+                    header('Content-Type: application/vnd.ms-excel'); //mime type
+                    header('Content-Disposition: attachment;filename="'.$filename.'"'); //tell browser what's the file name
+                    header('Cache-Control: max-age=0'); //no cache
+                    $objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel5');  
+                    ob_start();
+                    setcookie('isDownLoaded',1);
+                    $objWriter->save("php://output");
+            }
+        }
+    }
+
+
+    // staff leave report
+ public function downloadStaffLeavePendingReport(){
+    if($this->isAdmin() == TRUE) {
+        $this->loadThis();
+        setcookie('isDownloading',0);
+    } else {
+        // $leave_type = $this->security->xss_clean($this->input->post('leave_type'));
+        $applied_staff_id = $this->security->xss_clean($this->input->post('applied_staff_id'));
+        $year = $this->security->xss_clean($this->input->post('year'));
+        $year = '2023-24';
+        $file_format = $this->security->xss_clean($this->input->post('file_format'));
+        $sheet = 0;
+        
+        // if($leave_type == 'CL'){
+        //     $leave_type_display = "CASUAL LEAVE";
+        // } else if($leave_type== 'ML'){
+        //     $leave_type_display = 'MEDICAL LEAVE';
+        // }else if($leave_type == 'MARL'){
+        //     $leave_type_display = 'MARRIAGE LEAVE';
+        // }else if($leave_type == 'PL'){
+        //     $leave_type_display = 'PATERNITY LEAVE';
+        // }else if($leave_type == 'MATL'){
+        //     $leave_type_display = 'MATERNITY LEAVE';
+        // }else if($leave_type == 'LOP'){
+        //     $leave_type_display = 'LOSS OF PAY';
+        // }else if($leave_type == 'WFH'){
+        //     $leave_type_display = 'WORK FROM HOME';
+        // }else{
+        //     $leave_type_display = 'ALL';
+        // }
+        // if($file_format == 'PDF'){
+            
+        //     $data['date_from'] = date('d-m-Y',strtotime($date_from));
+        //     $data['date_to'] = date('d-m-Y',strtotime($date_to));
+        //     $data['leave_type_display'] = $leave_type_display;
+        //     $data['leave_status'] = $leave_status;
+        //     $start_date = date('Y-m-d',strtotime($date_from)); 
+        //     $end_date = date('Y-m-d',strtotime($date_to)); 
+        //     $data['staffInfo'] = $this->leave->getAllStaffLeavePendingInfoForReport($applied_staff_id, $leave_type);
+            
+        //     $mpdf = new \Mpdf\Mpdf(['tempDir' => sys_get_temp_dir().DIRECTORY_SEPARATOR.'mpdf','default_font' => 'helvetica','format' => 'A4-L',
+        //     'pagenumPrefix' => 'Page number ',]);
+        //     $mpdf->SetTitle('STAFF LEAVE INFORMATION'.$leave_status);
+        //     // $mpdf->SetHeader('ST. JOSEPH\'S BOYS\' HIGH SCHOOL');
+        //     $html = $this->load->view('reports/staffLeaveReport',$data,true);
+        //     $mpdf->setFooter('{PAGENO}');
+        //     $mpdf->AddPage('L','','','','',10,10,20,20,15,15);
+        //     $mpdf->WriteHTML($html);
+        //     setcookie('isDownloading',0);
+        //     $mpdf->Output('Leave.pdf', 'D');
+        // }else{
+            // foreach($department_list as $dept){
+                $this->excel->setActiveSheetIndex($sheet);
+                //name the worksheet
+                $this->excel->getActiveSheet()->setTitle('Leave');
+                $this->excel->getActiveSheet()->getPageSetup()->setPrintArea('A1:G500');
+                //set Title content with some text
+                $this->excel->getActiveSheet()->setCellValue('A1', "ST XAVIER'S PRE–UNIVERSITY COLLEGE");
+                $this->excel->getActiveSheet()->setCellValue('A2', "STAFF LEAVE BALANCE INFORMATION - ".$year);
+                $this->excel->getActiveSheet()->getStyle('A1')->getFont()->setSize(18);
+                $this->excel->getActiveSheet()->getStyle('A2')->getFont()->setSize(14);
+                $this->excel->getActiveSheet()->mergeCells('A1:R1');
+                $this->excel->getActiveSheet()->mergeCells('A2:R2');
+                $this->excel->getActiveSheet()->getStyle('A1:A4')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $this->excel->getActiveSheet()->getStyle('A1:R1')->getFont()->setBold(true);
+        
+                $this->excel->getActiveSheet()->getColumnDimension('A')->setWidth(8);
+                $this->excel->getActiveSheet()->getColumnDimension('B')->setWidth(18);
+                $this->excel->getActiveSheet()->getColumnDimension('C')->setWidth(30);
+                $this->excel->getActiveSheet()->getColumnDimension('D')->setWidth(16);
+                $this->excel->getActiveSheet()->getColumnDimension('E')->setWidth(20);
+                $this->excel->getActiveSheet()->getColumnDimension('F')->setWidth(13);
+                $this->excel->getActiveSheet()->getColumnDimension('G')->setWidth(20);
+                $this->excel->getActiveSheet()->getColumnDimension('H')->setWidth(18);
+                $this->excel->getActiveSheet()->getColumnDimension('I')->setWidth(18);
+                $this->excel->getActiveSheet()->getColumnDimension('J')->setWidth(18);
+                $this->excel->getActiveSheet()->getColumnDimension('K')->setWidth(18);
+                $this->excel->getActiveSheet()->getColumnDimension('L')->setWidth(18);
+                $this->excel->getActiveSheet()->getColumnDimension('M')->setWidth(18);
+                $this->excel->getActiveSheet()->getColumnDimension('N')->setWidth(18);
+                $this->excel->getActiveSheet()->getColumnDimension('O')->setWidth(18);
+                $this->excel->getActiveSheet()->getColumnDimension('P')->setWidth(18);
+                $this->excel->getActiveSheet()->getColumnDimension('Q')->setWidth(18);
+                $this->excel->getActiveSheet()->getColumnDimension('R')->setWidth(18);
+
+                // $this->excel->getActiveSheet()->getColumnDimension('I')->setWidth(15);
+                // $this->excel->getActiveSheet()->getColumnDimension('J')->setWidth(13);
+                // $this->excel->getActiveSheet()->getColumnDimension('K')->setWidth(13);
+                // $this->excel->getActiveSheet()->getColumnDimension('L')->setWidth(13);
+                // $this->excel->getActiveSheet()->getColumnDimension('H')->setWidth(20);
+                // $this->excel->getActiveSheet()->getColumnDimension('I')->setWidth(20);
+                // $this->excel->getActiveSheet()->getColumnDimension('J')->setWidth(20);
+
+    
+                // $this->excel->getActiveSheet()->setCellValue('A3', "Date From: ".$date_from." Date To: ".$date_to);
+                $this->excel->getActiveSheet()->mergeCells('A3:R3');
+                // $this->excel->getActiveSheet()->setCellValue('E3', "Leave Type: ".$leave_type_display);
+                // $this->excel->getActiveSheet()->mergeCells('E3:H3');
+                $this->excel->getActiveSheet()->getStyle('A3:R3')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $this->excel->getActiveSheet()->getStyle('A3:R3')->getFont()->setBold(true);
+    
+    
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('A4', 'SL. NO.');
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('B4', 'Staff ID');
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('C4', 'Name');
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('D4', 'Casual Leave');
+                $this->excel->getActiveSheet()->mergeCells('D4:F4');
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('D5', 'Earned');
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('E5', 'Used');
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('F5', 'Pending');
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('G4', 'Medical Leave');
+                $this->excel->getActiveSheet()->mergeCells('G4:I4');
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('G5', 'Earned');
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('H5', 'Used');
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('I5', 'Pending');
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('J4', 'Paternity Leave');
+                $this->excel->getActiveSheet()->mergeCells('J4:L4');
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('J5', 'Earned');
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('K5', 'Used');
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('L5', 'Pending');
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('M4', 'Maternity Leave');
+                $this->excel->getActiveSheet()->mergeCells('M4:O4');
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('M5', 'Earned');
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('N5', 'Used');
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('O5', 'Pending');
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('P4', 'Marriage Leave');
+                $this->excel->getActiveSheet()->mergeCells('P4:R4');
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('P5', 'Earned');
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('Q5', 'Used');
+                $this->excel->setActiveSheetIndex($sheet)->setCellValue('R5', 'Pending');
+                // $this->excel->setActiveSheetIndex($sheet)->setCellValue('E4', 'Medical Leave');
+                // $this->excel->setActiveSheetIndex($sheet)->setCellValue('F4', 'Paternity Leave');
+                // $this->excel->setActiveSheetIndex($sheet)->setCellValue('G4', 'Maternity Leave');
+                // $this->excel->setActiveSheetIndex($sheet)->setCellValue('H4', 'Marriage Leave');
+
+
+                
+
+                // $this->excel->setActiveSheetIndex($sheet)->setCellValue('H4', 'Maternity Leave');
+                // $this->excel->setActiveSheetIndex($sheet)->setCellValue('I4', 'Loss Of Pay');
+                // $this->excel->setActiveSheetIndex($sheet)->setCellValue('J4', 'Work From Home');
+            
+                
+                $this->excel->getActiveSheet()->getStyle('A4:R5')->getAlignment()->setWrapText(true); 
+                $this->excel->getActiveSheet()->getStyle('A4:R5')->getFont()->setBold(true); 
+                $this->excel->getActiveSheet()->getStyle('A4:R5')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $styleBorderArray = array('borders' => array('allborders' => array('style' => PHPExcel_Style_Border::BORDER_THIN)));
+                $this->excel->getActiveSheet()->getStyle('A1:R5')->applyFromArray($styleBorderArray);
+                $staffInfo = $this->leave->getAllStaffLeavePendingInfoForReport2($applied_staff_id,$year);
+                $j=1;
+                $excel_row = 6;
+                
+                if(!empty($staffInfo)){
+                    foreach($staffInfo as $staff){
+                        // $leave_type_text = "";
+                        // if($staff->leave_type == 'CL'){
+                        //     $leave_type_text = "CASUAL LEAVE";
+                        // } else if($staff->leave_type == 'ML'){
+                        //     $leave_type_text = 'MEDICAL LEAVE';
+                        // }else if($staff->leave_type == 'MARL'){
+                        //     $leave_type_text = 'MARRIAGE LEAVE';
+                        // }else if($staff->leave_type == 'PL'){
+                        //     $leave_type_text = 'PATERNITY LEAVE';
+                        // }else if($staff->leave_type == 'MATL'){
+                        //     $leave_type_text = 'MATERNITY LEAVE';
+                        // }else if($staff->leave_type == 'LOP'){
+                        //     $leave_type_text = 'LOSS OF PAY';
+                        // }else if($staff->leave_type == 'WFH'){
+                        //     $leave_type_text = 'WORK FROM HOME';
+                        // }
+                        $this->excel->setActiveSheetIndex($sheet)->setCellValue('A'.$excel_row,$j++);
+                        $this->excel->setActiveSheetIndex($sheet)->setCellValue('B'.$excel_row,$staff->staff_id);
+                        $this->excel->setActiveSheetIndex($sheet)->setCellValue('C'.$excel_row,$staff->name);
+                        $this->excel->setActiveSheetIndex($sheet)->setCellValue('D'.$excel_row,$staff->casual_leave_earned);
+                        $this->excel->setActiveSheetIndex($sheet)->setCellValue('E'.$excel_row,$staff->casual_leave_used);
+                        $this->excel->setActiveSheetIndex($sheet)->setCellValue('F'.$excel_row,$staff->casual_leave_earned - $staff->casual_leave_used);
+                        $this->excel->setActiveSheetIndex($sheet)->setCellValue('G'.$excel_row,$staff->sick_leave_earned);
+                        $this->excel->setActiveSheetIndex($sheet)->setCellValue('H'.$excel_row,$staff->sick_leave_used);
+                        $this->excel->setActiveSheetIndex($sheet)->setCellValue('I'.$excel_row,$staff->sick_leave_earned - $staff->sick_leave_used);
+                        $this->excel->setActiveSheetIndex($sheet)->setCellValue('J'.$excel_row,$staff->paternity_leave_earned);
+                        $this->excel->setActiveSheetIndex($sheet)->setCellValue('K'.$excel_row,$staff->paternity_leave_used);
+                        $this->excel->setActiveSheetIndex($sheet)->setCellValue('L'.$excel_row,$staff->paternity_leave_earned - $staff->paternity_leave_used);
+                        $this->excel->setActiveSheetIndex($sheet)->setCellValue('M'.$excel_row,$staff->maternity_leave_earned);
+                        $this->excel->setActiveSheetIndex($sheet)->setCellValue('N'.$excel_row,$staff->maternity_leave_used);
+                        $this->excel->setActiveSheetIndex($sheet)->setCellValue('O'.$excel_row,$staff->maternity_leave_earned - $staff->maternity_leave_used);
+                        $this->excel->setActiveSheetIndex($sheet)->setCellValue('P'.$excel_row,$staff->marriage_leave_earned);
+                        $this->excel->setActiveSheetIndex($sheet)->setCellValue('Q'.$excel_row,$staff->marriage_leave_used);
+                        $this->excel->setActiveSheetIndex($sheet)->setCellValue('R'.$excel_row,$staff->marriage_leave_earned - $staff->marriage_leave_used);
+
+                        // $this->excel->setActiveSheetIndex($sheet)->setCellValue('E'.$excel_row,$staff->sick_leave_earned - $staff->sick_leave_used);
+                        // $this->excel->setActiveSheetIndex($sheet)->setCellValue('F'.$excel_row,$staff->paternity_leave_earned - $staff->paternity_leave_used);
+                        // $this->excel->setActiveSheetIndex($sheet)->setCellValue('G'.$excel_row,$staff->maternity_leave_earned - $staff->maternity_leave_used);
+                        // $this->excel->setActiveSheetIndex($sheet)->setCellValue('H'.$excel_row,$staff->marriage_leave_earned - $staff->marriage_leave_used);
+                        // $this->excel->setActiveSheetIndex($sheet)->setCellValue('J'.$excel_row,$staff->wfh_leave);
+                        $this->excel->getActiveSheet()->getStyle('A'.$excel_row.':R'.$excel_row)->applyFromArray($styleBorderArray);
+                        $this->excel->getActiveSheet()->getStyle('A'.$excel_row.':R'.$excel_row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                        $this->excel->getActiveSheet()->getStyle('C'.$excel_row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+                        $excel_row++;
+                    }
+                }
+            
+                $this->excel->createSheet();
+                //}
+                // $filename='just_some_random_name.xls'; //save our workbook as this file name
+                // header('Content-Type: application/vnd.ms-excel'); //mime type
+                // header('Content-Disposition: attachment;filename="'.$filename.'"'); //tell browser what's the file name
+                // header('Cache-Control: max-age=0'); //no cache
+                // $objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel5');  
+                // ob_end_clean();
+                // ob_start();
+                // $objWriter->save("php://output");
+                // $xlsData = ob_get_contents();
+                // ob_end_clean();
+    
+                // $response =  array(
+                //     'op' => 'ok',
+                //     'file' => "data:application/vnd.ms-excel;base64,".base64_encode($xlsData)
+                // );
+                // die(json_encode($response));
+                $filename =  'Leave_Pending_Report_file.xls'; //save our workbook as this file name
+                header('Content-Type: application/vnd.ms-excel'); //mime type
+                header('Content-Disposition: attachment; filename="'.$filename.'"'); //tell browser what's the file name
+                header('Cache-Control: max-age=0'); //no cache
+                            
+                //save it to Excel5 format (excel 2003 .XLS file), change this to 'Excel2007' (and adjust the filename extension, also the header mime type)
+                //if you want to save it as .XLSX Excel 2007 format
+                $objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel5'); 
+                ob_start();
+                setcookie('isDownloading',0);
+                $objWriter->save("php://output");
+        // }
+    }
+}
 
     public function getSubjectCodes($stream_name){
         //science

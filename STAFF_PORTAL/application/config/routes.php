@@ -1086,3 +1086,6 @@ $route['sendSMSToNumberList'] = "SMS/sendSMSToNumberList";
 $route['sendSMSByStudentList'] = "SMS/sendSMSByStudentList";
 $route['getSMSResponse'] = "SMS/getSMSResponse";
 $route['get_sms_response'] = "SMS/get_sms_response";
+
+$route['downloadStaffLeaveReport'] = "reports/downloadStaffLeaveReport";
+$route['downloadStaffLeavePendingReport'] = "reports/downloadStaffLeavePendingReport";
