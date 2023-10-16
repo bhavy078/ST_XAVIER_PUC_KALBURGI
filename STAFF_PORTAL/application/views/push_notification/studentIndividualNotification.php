@@ -175,7 +175,7 @@ $this->load->helper('form');
                                             </div>
                                             <div class="footer-container">
                                                 <span class="date"><?php 
-                                                    if(!empty($notification->active_date)) echo date('d-m-Y h:i:s A', strtotime($notification->active_date));
+                                                    if(!empty($notification->updated_date_time)) echo date('d-m-Y h:i:s A', strtotime($notification->updated_date_time));
                                                 ?></span>
                                                 <?php 
                                                     if(!empty($notification->filepath)){?>

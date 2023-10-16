@@ -75,7 +75,7 @@
                                 
                                     foreach($personal_notifications as $notification){ ?>
                                         <tr>
-                                            <td width="100"><?=date('d-m-Y',strtotime($notification->date_time))?></td>
+                                            <td width="100"><?=date('d-m-Y h:i:s A',strtotime($notification->date_time))?></td>
                                             <td><?=$notification->subject?></td>
                                             <td><?=$notification->message?></td>
                                              <td class="text-center">
@@ -113,7 +113,7 @@
                                 if(!empty($notifications)){
                                     foreach($notifications as $notification){ ?>
                                         <tr>
-                                            <td width="100"><?=date('d-m-Y',strtotime($notification->date_time))?></td>
+                                            <td width="100"><?=date('d-m-Y h:i:s A',strtotime($notification->date_time))?></td>
                                             <td><?=$notification->term_name?></td>
                                             <td><?=$notification->stream_name?></td>
                                             <td><?=$notification->section_name?></td>

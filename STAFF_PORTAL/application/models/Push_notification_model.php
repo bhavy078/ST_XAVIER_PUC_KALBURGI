@@ -278,13 +278,13 @@ class Push_notification_model extends CI_Model{
         $sent_by = $this->session->userdata('name');
         date_default_timezone_set('Asia/Kolkata');
         $format = "%Y-%m-%d %h:%i:%s";
-        $cdate = mdate($format);
+       // $cdate = mdate($format);
         $data = [
             'row_id' => null,
             'subject' => $title,
             'message' => $body,
             'sent_by'=> $sent_by,
-            'date_time' => $cdate,
+            'date_time' => date('Y-m-d H:i:s'),
             'filepath' => $uploadedFile
         ];
         $this->db->insert('tbl_staff_notifications', $data);
@@ -299,7 +299,7 @@ class Push_notification_model extends CI_Model{
         $sent_by = $this->session->userdata('name');
         date_default_timezone_set('Asia/Kolkata');
         $format = "%Y-%m-%d %h:%i:%s";
-        $cdate = mdate($format);
+       // $cdate = mdate($format);
         $data = [
             'row_id' => null,
             'term_name' => $term,
@@ -308,7 +308,7 @@ class Push_notification_model extends CI_Model{
             'subject' => $title,
             'message' => $body,
             'sent_by'=> $sent_by,
-            'date_time' => $cdate,
+            'date_time' => date('Y-m-d H:i:s'),
             'filepath' => $uploadedFile
         ];
         $this->db->insert('tbl_student_notifications', $data);
@@ -485,7 +485,7 @@ class Push_notification_model extends CI_Model{
     }
 
     public function getStudentIndividualNotifications($filter,$student){
-        $this->db->select('notification.row_id, notification.active_date, notification.message, notification.filepath,student.student_name,student.term_name,student.stream_name,student.section_name,notification.sent_by');
+        $this->db->select('notification.row_id, notification.active_date, notification.message, notification.filepath,student.student_name,student.term_name,student.stream_name,student.section_name,notification.sent_by,notification.updated_date_time');
         $this->db->from('tbl_student_bulk_notification as notification');
         $this->db->join('tbl_students_info as student', 'student.student_id = notification.userId');
         if(!empty($student)){
