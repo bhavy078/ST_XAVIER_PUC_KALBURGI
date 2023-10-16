@@ -338,7 +338,7 @@ class Push_Notification extends BaseController {
                                 'filepath' => $uploadedFilePath,
                                 'updated_by' => $sent_by_id,
                                 'sent_by'=>$sent_by,
-                                'updated_date_time' => date('Y-m-d H:m:s'));
+                                'updated_date_time' => date('Y-m-d H:i:s'));
                             $attachmentURL = "";
                             if($uploadedFilePath != ""){
                                 $attachmentURL = base_url().$uploadedFilePath;

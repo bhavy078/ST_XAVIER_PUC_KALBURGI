@@ -1861,7 +1861,7 @@ class Students extends BaseController
                     'description' => $description,
                     'remarks' => $remark,
                     'created_by' => $this->staff_id,
-                    'created_date_time' => date('Y-m-d h:i:s'));
+                    'created_date_time' => date('Y-m-d H:i:s'));
 
                 $return_id = $this->student->addRemarks($remarkInfo);
                     

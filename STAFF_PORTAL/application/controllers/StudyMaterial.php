@@ -126,7 +126,7 @@ class StudyMaterial extends BaseController
                         'description' => $description,
                         'name' => $upload_file,
                         'created_by' => $this->staff_id,
-                        'created_date_time' => date('Y-m-d h:i:s'));
+                        'created_date_time' => date('Y-m-d H:i:s'));
                     $return_id = $this->study->addNewStudyMaterials($metriInfo);
                 }
             
