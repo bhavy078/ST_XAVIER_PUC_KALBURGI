@@ -500,7 +500,7 @@ color: #000 !important;
                                                                 // }
                                                                 $absent_count_theory = getStudentAbsentCount($con,$subjects_code[$i],$student_id,$absent_date_from,$attendance_date_to,'THEORY');
                                                                 $absent_count += $absent_count_theory;
-                                                                $months = array('June','July','August');
+                                                                $months = array('June','July','August','September');
                                                                 $class_held_P =0;
                                                                   $class_attended_P =0;
                                                                 foreach($months as $mon){
