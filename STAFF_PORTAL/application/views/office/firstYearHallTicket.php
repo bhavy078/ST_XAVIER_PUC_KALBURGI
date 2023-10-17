@@ -25,7 +25,7 @@
         }
         @page {
             size: A4;
-            margin: 5px; 
+            /* margin: 5px;  */
         
         }
         .main-footer,.floating-button{
