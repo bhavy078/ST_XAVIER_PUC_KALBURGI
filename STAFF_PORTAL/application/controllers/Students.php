@@ -395,7 +395,7 @@ class Students extends BaseController
         } else {
             $this->load->library('form_validation');
             $this->form_validation->set_rules('student_name','Student Name','trim|required');
-            $this->form_validation->set_rules('dob','DOB','trim|required');
+            // $this->form_validation->set_rules('dob','DOB','trim|required');
             // $this->form_validation->set_rules('application_no','Application Number','trim|required');
             // $this->form_validation->set_rules('nationality','Nationality','trim|required');
             // $this->form_validation->set_rules('gender','Gender','trim|required');

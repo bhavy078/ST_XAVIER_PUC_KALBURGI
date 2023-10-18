@@ -284,7 +284,7 @@ class StudentAttendance extends BaseController
                             $parent_mobile = $mobileNo;
                         }
 
-                        $message = "Dear Parent, Your ward " .$student->student_name. " is Absent for the subject " . $subName->sub_name. " - Regards, Principal, St Xaviers's PU College Kalaburagi.";
+                        $message = "Dear Parent, Your ward " .$student->student_name. " is Absent for the subject " . $subName->sub_name. " - Regards, STXPUC.";
 
 
                         if(empty($isExistsAtt)){
