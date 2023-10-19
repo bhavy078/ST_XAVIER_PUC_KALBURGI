@@ -105,7 +105,7 @@ input[type=number]::-webkit-outer-spin-button {
                                                     <div class="col-lg-3 col-md-3 col-12">
                                                         <div class="form-group">
                                                             <label for="exampleInputEmail1">Leave Date From</label>
-                                                            <input type="text" class="ldatefrom form-control" readonly
+                                                            <input type="text" class="ldatefrom form-control"
                                                             autocomplete="off" name="fromDate" id="fromDate" placeholder="Date From"
                                                                 required autocomplete="off">
                                                         </div>
@@ -114,7 +114,7 @@ input[type=number]::-webkit-outer-spin-button {
                                                     <div class="col-lg-3 col-md-3 col-12">
                                                         <div class="form-group">
                                                             <label for="exampleInputEmail1">Leave Date To</label>
-                                                            <input type="text" class="ldateto form-control" readonly
+                                                            <input type="text" class="ldateto form-control"
                                                             autocomplete="off" name="toDate" id="toDate" placeholder="Date To"
                                                                 required autocomplete="off">
                                                         </div>
