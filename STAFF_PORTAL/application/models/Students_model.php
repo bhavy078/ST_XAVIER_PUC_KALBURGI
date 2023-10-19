@@ -1795,7 +1795,7 @@ class students_model extends CI_Model
         std.stream_name, std.section_name,
         std.student_id,
         std.student_name,log.date,
-        sub.name');
+        sub.name,std.application_no');
         $this->db->from('tbl_absent_sms_info as log');
         $this->db->join('tbl_students_info as std', 'std.row_id = log.student_id','left');
         $this->db->join('tbl_student_attendance_details as attendance', 'attendance.student_id = std.student_id','left');
