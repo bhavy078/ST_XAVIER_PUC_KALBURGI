@@ -360,10 +360,10 @@ color: #000 !important;
                                                                       $min_pass = 12;
                                                                   }else if($exam_type == 'MID_TERM_EXAM'){
                                                                     if($subjectCode == '12'){
-                                                                      $max_mark = 100;
-                                                                      $min_mark_pass = 35;
-                                                                      $min_pass = 24;
-                                                                      $minMark_pass_MID_Term = 24;
+                                                                      $max_mark = 80;
+                                                                      $min_mark_pass = 28;
+                                                                      $min_pass = 28;
+                                                                      $minMark_pass_MID_Term = 28;
                                                                     }else{
                                                                       $max_mark = 70;
                                                                       $min_mark_pass = 21;
@@ -374,8 +374,8 @@ color: #000 !important;
                                                                   $max_mark_I_TEST = 35;
                                                                   $min_mark_pass_I_TEST = 12;
                                                                   $minMark_pass_I_TEST = 12;
-                                                                  $max_mark_MID_Term = 80;
-                                                                  $min_mark_pass_MID_Term = 27;
+                                                                  // $max_mark_MID_Term = 80;
+                                                                  // $min_mark_pass_MID_Term = 28;
                                                                       $max_mark_MID_Term = 70;
                                                                       $min_mark_pass_MID_Term = 21;
                                                                   // }
@@ -386,14 +386,14 @@ color: #000 !important;
                                                                     $min_pass = 18;
                                                                   }else if($exam_type == 'MID_TERM_EXAM'){
                                                                     if($subjectCode == '12'){
-                                                                      $max_mark = 100;
-                                                                      $min_mark_pass = 35;
-                                                                      $min_pass = 24;
+                                                                      $max_mark = 80;
+                                                                      $min_mark_pass = 28;
+                                                                      $min_pass = 28;
                                                                     //  $minMark_pass_MID_Term = 24;
                                                                     }else{
                                                                       $max_mark = 80;
-                                                                      $min_mark_pass = 27;
-                                                                      $min_pass = 27;
+                                                                      $min_mark_pass = 28;
+                                                                      $min_pass = 28;
                                                                     //  $minMark_pass_MID_Term = 27;
                                                                     }
                                                                   }
@@ -401,7 +401,7 @@ color: #000 !important;
                                                                   $min_mark_pass_I_TEST = 18;
                                                                   $minMark_pass_I_TEST = 18;
                                                                   $max_mark_MID_Term = 80;
-                                                                  $min_mark_pass_MID_Term = 27;
+                                                                  $min_mark_pass_MID_Term = 28;
 
                                                                 }
                                                               //   $absent_count_theory_first= getStudentAbsentCount($con,$subjects_code[$i],$student_id,$absent_date_from,'THEORY');
