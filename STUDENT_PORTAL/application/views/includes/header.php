@@ -231,7 +231,7 @@
 
 
 
-                                <!-- <li class="nav-item">
+                                <li class="nav-item">
 
                                     <a class="nav-link " href="<?php echo base_url(); ?>examPerformance">
 
@@ -241,7 +241,7 @@
 
                                     </a>
 
-                                </li> -->
+                                </li>
 
                                 <?php if($term_name == 'II PUC'){  ?>
 

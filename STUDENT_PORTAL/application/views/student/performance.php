@@ -140,19 +140,23 @@
 
                                     </li>
 
-                                    <?php //} ?>
 
-                                    
 
-                                    <?php// if($term_name == 'II PUC'){ ?>
-
-                                        <!-- <li class="nav-item">
+                                    <li class="nav-item">
 
                                             <a class="nav-link" id="midTerm-tab" data-toggle="tab" href="#midTerm"
 
                                                 role="tab" aria-controls="family" aria-selected="true">Mid Term Exam</a>
 
                                         </li>
+
+                                    <?php //} ?>
+
+                                    
+
+                                    <?php// if($term_name == 'II PUC'){ ?>
+
+                                        <!--
 
                                          <li class="nav-item">
 
@@ -421,7 +425,7 @@
 
                                                     <tr>
 
-                                                        <th colspan="4" class="table_title text-center">MID TERM EXAM 2022</th>
+                                                        <th colspan="4" class="table_title text-center">MID TERM EXAM 2023</th>
 
                                                     </tr>
 
@@ -471,13 +475,13 @@
 
                                                             $max_mark = 70;
 
-                                                            $min_mark_pass = 24;
+                                                            $min_mark_pass = 21;
 
                                                         }else{
 
-                                                            $max_mark = 100;
+                                                            $max_mark = 80;
 
-                                                            $min_mark_pass = 35;
+                                                            $min_mark_pass = 28;
 
                                                         }
 
