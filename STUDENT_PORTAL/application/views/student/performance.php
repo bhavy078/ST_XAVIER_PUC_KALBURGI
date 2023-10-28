@@ -142,13 +142,13 @@
 
 
 
-                                    <li class="nav-item">
+                                    <!-- <li class="nav-item">
 
                                             <a class="nav-link" id="midTerm-tab" data-toggle="tab" href="#midTerm"
 
                                                 role="tab" aria-controls="family" aria-selected="true">Mid Term Exam</a>
 
-                                        </li>
+                                        </li> -->
 
                                     <?php //} ?>
 
