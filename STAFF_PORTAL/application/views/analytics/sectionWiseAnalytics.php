@@ -483,16 +483,15 @@ input[type=number]::-webkit-outer-spin-button {
 
                                             }
 
-                                            if((int) $mark_obt == $mark_obt){
+                                            if((float) $mark_obt == $mark_obt){
 
                                             $percentage_sub = round(($mark_obt / $max_mark) * 100,2);
 
-                                    
+                                    // log_message('debug','testing'.$percentage_sub);
 
                                             if($percentage_sub >= 85){
 
                                                 $subject_count[$sub->subject_code]["dist_count"] += 1;
-
                                             
 
                                             } else if($percentage_sub >= 60 && $percentage_sub <= 84){
@@ -623,6 +622,7 @@ input[type=number]::-webkit-outer-spin-button {
                                     <th class="text-center"><?php echo $subject_count[$sub->subject_code]["dist_count"]; ?></th>
                                     <th class="text-center"><?php echo $subject_count[$sub->subject_code]["first_count"]; ?></th>
                                     <th class="text-center"><?php echo $subject_count[$sub->subject_code]["second_count"]; ?></th>
+
                                 </tr>
                             <?php } ?>
                         </tbody>

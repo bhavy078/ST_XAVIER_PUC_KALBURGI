@@ -48,7 +48,7 @@ u {
     border-right: 1px solid transparent !important;
 }
 
-<?php if($exam_type =="MID_TERM"){
+<?php if($exam_type =="MID_TERM_EXAM"){
     $exam_name = "MID TERM";
 }else if($exam_type =="I_UNIT_TEST"){
     $exam_name = "I UNIT TEST";
@@ -218,7 +218,7 @@ u {
 
                             }
 
-                            if((int) $mark_obt == $mark_obt){
+                            if((float) $mark_obt == $mark_obt){
 
                             $percentage_sub = round(($mark_obt / $max_mark) * 100,2);
 
