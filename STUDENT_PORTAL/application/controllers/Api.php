@@ -1720,7 +1720,7 @@ public function collegeNotificationsApi(){
        
 
         $data->stdFeePaymentInfo = $this->student_model->getStudentOverallTransFeePaymentInfo($studentRowId,$year);
-        
+        $data->cancel_bus_status = $studentInfo->cancel_bus_status;
         $data->totalamount = $studentData->rate;
         $data->busNo = $studentData->bus_no;
         $data->buspickuppoint = $studentData->route_name;
